@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { loadBuildData } from '../../lib/data/build';
+import type { Place } from '../../lib/types';
+
+export async function getStaticPaths() {
+	const { places } = await loadBuildData();
+	return places.map((place) => ({ params: { id: place.id }, props: { place } }));
+}
+
+interface Props { place: Place }
+const { place } = Astro.props;
+const categoryNames = {
+	cafe: 'Café', restaurant: 'Restaurant', fast_food: 'Quick Bite', food_court: 'Food Court',
+	bakery_deli: 'Bakery & Sweets', kiosk_stall: 'Kiosk & Stall', other: 'Food Place',
+};
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}&travelmode=walking`;
+const sourceNames = [...new Set(place.sources.map((source) => source.source.toUpperCase()))];
+---
+
+<Layout title={`${place.name} — Kain Elbi`} description={`Open-data place details and route context for ${place.name} near UPLB.`}>
+	<main id="main-content" class="detail-page page-shell">
+		<nav aria-label="Breadcrumb"><a href="/">Discover</a><span aria-hidden="true">/</span><a href="/picks">Smart Picks</a><span aria-hidden="true">/</span><span>{place.name}</span></nav>
+		<section class="detail-hero">
+			<div class="route-art" aria-hidden="true"><span>A</span><i></i><b>Food</b><i></i><span>B</span></div>
+			<div class="title-block"><p>{categoryNames[place.category]}</p><h1>{place.name}</h1><span>Candidate place record · check details before leaving</span></div>
+		</section>
+
+		<div class="detail-grid">
+			<section aria-labelledby="know-title">
+				<p class="eyebrow">What We Know</p><h2 id="know-title">Useful details, without pretending.</h2>
+				<dl>
+					<div><dt>Category</dt><dd>{categoryNames[place.category]}</dd></div>
+					<div><dt>Hours</dt><dd>{place.openingHours ? 'Hours are listed in the source; confirm before going.' : 'Hours unavailable'}</dd></div>
+					{place.cuisine.length > 0 && <div><dt>Cuisine tags</dt><dd>{place.cuisine.join(', ')}</dd></div>}
+				</dl>
+			</section>
+			<aside class="confidence" aria-labelledby="confidence-title">
+				<p class="eyebrow">Data Confidence</p><h2 id="confidence-title">{place.confidenceLabel}</h2>
+				<p>{sourceNames.length ? `Found in ${sourceNames.join(' and ')}` : 'Limited source information'} · not field-verified.</p>
+				{place.sources.length > 0 && <details><summary>View source records</summary><ul>{place.sources.map((source) => <li><strong>{source.source}</strong><span>{source.sourceId}</span></li>)}</ul></details>}
+			</aside>
+		</div>
+
+		<div class="actions"><a class="primary" href={directionsUrl} target="_blank" rel="noreferrer">Open External Directions <span aria-hidden="true">↗</span></a><a href="/">Plan a Different Break</a></div>
+		<p class="external-note">Google Maps opens outside Kain Elbi. Exact GPS location is never stored here.</p>
+	</main>
+</Layout>
+
+<style>
+	.detail-page { padding-top: 1rem; padding-bottom: 4rem; }
+	nav { display: flex; gap: .55rem; overflow: hidden; color: var(--muted); font-size: .75rem; white-space: nowrap; }
+	nav a { text-underline-offset: .2em; } nav span:last-child { overflow: hidden; text-overflow: ellipsis; }
+	.detail-hero { position: relative; min-height: 24rem; margin-top: 1rem; overflow: hidden; border-radius: 1.75rem; color: white; background: var(--forest); }
+	.detail-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 75% 15%, hsl(44 96% 49% / .28), transparent 18rem); }
+	.route-art { position: absolute; z-index: 2; top: 3rem; left: max(1.25rem, 6vw); right: max(1.25rem, 6vw); display: flex; align-items: center; }
+	.route-art i { flex: 1; border-top: 2px dashed hsl(0 0% 100% / .5); }
+	.route-art span, .route-art b { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; color: var(--forest); background: white; font: 800 .75rem/1 var(--font-display); }
+	.route-art b { width: 4.5rem; height: 4.5rem; background: var(--sun); transform: rotate(-7deg); }
+	.title-block { position: absolute; z-index: 3; right: 1.25rem; bottom: 1.5rem; left: 1.25rem; }
+	.title-block p { margin: 0 0 .5rem; color: var(--sun); font: 750 .72rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
+	.title-block h1 { max-width: 16ch; margin: 0; font: 790 clamp(2.7rem, 12vw, 5.8rem)/.88 var(--font-display); }
+	.title-block span { display: block; margin-top: .8rem; color: hsl(0 0% 100% / .68); font-size: .8rem; }
+	.detail-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+	.detail-grid > * { padding: 1.3rem; border: 1px solid var(--line); border-radius: 1.35rem; background: var(--paper); }
+	.eyebrow { margin: 0; color: var(--leaf); font: 760 .7rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
+	h2 { max-width: 18ch; margin: .6rem 0 1.25rem; color: var(--forest); font: 760 clamp(1.65rem, 6vw, 2.5rem)/.98 var(--font-display); }
+	dl { margin: 0; } dl div { display: grid; grid-template-columns: 7rem 1fr; gap: .75rem; padding: .8rem 0; border-top: 1px solid var(--line); }
+	dt { color: var(--muted); font-size: .78rem; } dd { margin: 0; font-weight: 650; }
+	.confidence { color: white; background: var(--forest); } .confidence .eyebrow { color: var(--sun); } .confidence h2 { color: white; }
+	.confidence > p:last-of-type { color: hsl(0 0% 100% / .68); line-height: 1.5; }
+	details { margin-top: 1.25rem; border-top: 1px solid hsl(0 0% 100% / .2); } summary { min-height: 2.75rem; padding-top: .9rem; cursor: pointer; font-weight: 700; }
+	ul { padding-left: 1.1rem; } li { margin: .65rem 0; } li strong, li span { display: block; } li span { margin-top: .2rem; color: hsl(0 0% 100% / .6); font-size: .68rem; overflow-wrap: anywhere; }
+	.actions { display: grid; gap: .7rem; margin-top: 1rem; }
+	.actions a { display: grid; place-items: center; min-height: 3.5rem; padding: .5rem 1rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--forest); font-weight: 750; text-align: center; }
+	.actions .primary { border-color: var(--sun); background: var(--sun); text-decoration: none; }
+	.external-note { color: var(--muted); font-size: .75rem; text-align: center; }
+	@media (min-width: 800px) { .detail-hero { min-height: 34rem; } .detail-grid { grid-template-columns: 1.2fr .8fr; } .detail-grid > * { padding: 2rem; } .actions { grid-template-columns: 1fr 1fr; } }
+</style>

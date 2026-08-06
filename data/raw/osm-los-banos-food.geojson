@@ -1,0 +1,5484 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2435413,
+          14.1680796
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "name": "Zark's Burgers",
+        "osm_id": "node/253499588",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442872,
+          14.1696513
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Ankers",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "branch": "Los Baños Grove",
+        "name": "Serendipitea",
+        "opening_hours": "24/7",
+        "smoking": "no",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/382059223",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.243973,
+          14.1688759
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Chino's",
+        "smoking": "no",
+        "osm_id": "node/429492230",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2244898,
+          14.1825049
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Dalampasigan Restaurant",
+        "osm_id": "node/453007247",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436512,
+          14.16959
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "level": "3",
+        "name": "Sizzlers",
+        "osm_id": "node/484113864",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436377,
+          14.1697924
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "osm_id": "node/484114550",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442595,
+          14.1692847
+        ]
+      },
+      "properties": {
+        "access:covid19": "no",
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10467",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "delivery:covid19": "no",
+        "level": "0",
+        "name": "Jerico's Bakery",
+        "opening_hours:covid19": "Mo-Su 07:00-15:00",
+        "shop": "bakery",
+        "takeaway:covid19": "yes",
+        "osm_id": "node/484118506",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.24384,
+          14.1700249
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10442",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "alt_name": "Mer-Nel's Cakehouse & Variety Shop",
+        "level": "0",
+        "name": "Mer-Nel's",
+        "opening_hours": "Mo-Fr 07:30-19:00; Jan 1 off; Dec 25 off",
+        "opening_hours:covid19": "off",
+        "operator": "Merle Mendoza Balicao",
+        "ref:vatin": "PH18901953400000",
+        "shop": "bakery",
+        "osm_id": "node/484118722",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2427732,
+          14.1725294
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Montefiore Commercial Center",
+        "addr:postcode": "4031",
+        "addr:street": "Halcon Street",
+        "amenity": "restaurant",
+        "name": "Big Nico's",
+        "osm_id": "node/492082746",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436264,
+          14.170526
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "burger",
+        "delivery": "yes",
+        "level": "0",
+        "name": "Onyang's Street Wings",
+        "smoking": "no",
+        "start_date": "2015-02-07",
+        "osm_id": "node/492082906",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412576,
+          14.1683393
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Faustina's",
+        "opening_hours": "Mo-Su 11:00-20:30",
+        "smoking": "no",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/529880801",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2443473,
+          14.1688685
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "Daniela",
+        "smoking": "no",
+        "osm_id": "node/582442376",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2443152,
+          14.1688281
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "name": "Micha's",
+        "shop": "bakery",
+        "osm_id": "node/582442510",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2410936,
+          14.1690989
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Dhenzmer's Extension",
+        "osm_id": "node/582458308",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2414313,
+          14.1687729
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10329",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "fast_food",
+        "cuisine": "burger",
+        "internet_access": "no",
+        "name": "Uncle Jet's Burger Joint",
+        "website": "https://www.facebook.com/UncleJetsBurgerJoint",
+        "osm_id": "node/582458481",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2350804,
+          14.1520406
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Felix O. Chinte Sr.",
+        "amenity": "restaurant",
+        "name": "Sizzling & Combo Food Haus",
+        "smoking": "no",
+        "osm_id": "node/606538374",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436248,
+          14.1675784
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Centre",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "air_conditioning": "yes",
+        "amenity": "fast_food",
+        "branch": "UP Vega",
+        "brand": "McDonald's",
+        "brand:wikidata": "Q38076",
+        "brand:wikipedia": "en:McDonald's",
+        "check_date": "2026-02-14",
+        "cuisine": "burger",
+        "delivery": "yes",
+        "drinking_straw": "paper",
+        "drinking_straw:colour": "white",
+        "level": "0;1",
+        "name": "McDonald's",
+        "name:ar": "مكدونالدز",
+        "name:en": "McDonald's",
+        "name:es": "McDonald's",
+        "name:ko": "디몰 맥도날드",
+        "name:ru": "Макдональдс",
+        "opening_hours": "24/7",
+        "operator": "Golden Arches Development Corporation",
+        "payment:cash": "yes",
+        "payment:gcash": "yes",
+        "payment:maya": "yes",
+        "ref:branch": "125",
+        "ref:vatin": "PH00012124200839",
+        "takeaway": "yes",
+        "takeout": "yes",
+        "osm_id": "node/630120750",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2292049,
+          14.18145
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "1138",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Lety's Buko Pie",
+        "shop": "bakery",
+        "osm_id": "node/685089849",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438128,
+          14.1697035
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Vimarie Food House",
+        "osm_id": "node/760872675",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2435742,
+          14.1706356
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "delivery:covid19": "no",
+        "level": "0",
+        "name": "Ahl's Cakes",
+        "opening_hours:covid19": "Mo-Su 10:00-17:00",
+        "shop": "bakery",
+        "takeaway:covid19": "yes",
+        "osm_id": "node/760873222",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2518849,
+          14.1766693
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "cafe",
+        "internet_access": "wlan",
+        "name": "Cafe Antonio",
+        "opening_hours": "Mo-Tu 11:00-22:00; We off; Th-Sa 11:00-22:00; Su 13:00-22:00",
+        "smoking": "no",
+        "smoking:outdoors": "yes",
+        "website": "http://cafeantonioelbi.blogspot.com/",
+        "osm_id": "node/767038305",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244912,
+          14.169235
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Copacabana Resto Bar",
+        "smoking": "yes",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/767038308",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442307,
+          14.1687142
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Siomai Foodhaus",
+        "smoking": "no",
+        "osm_id": "node/767038322",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2448183,
+          14.1694073
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Cube's Sizzling Restobar",
+        "smoking": "yes",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/767038329",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244798,
+          14.1694818
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Mommy Ludy's Cuisine",
+        "osm_id": "node/767038331",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2446187,
+          14.1696359
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "LB Square",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "KumPARES",
+        "osm_id": "node/767038334",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431605,
+          14.1731622
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "name": "Jerico's Bakery",
+        "shop": "bakery",
+        "osm_id": "node/769900490",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2427076,
+          14.1759237
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "Herb Republic",
+        "opening_hours": "Tu-Su 11:00-21:00",
+        "osm_id": "node/790107089",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.243178,
+          14.1743592
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "osm_id": "node/790107619",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412135,
+          14.1684724
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "cuisine": "mediterranean",
+        "name": "Chubby Habbi's",
+        "opening_hours": "Mo-Sa 11:30-21:30; Su 16:00-21:30",
+        "phone": "+63 49 576 9345",
+        "osm_id": "node/790708768",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2433414,
+          14.1721378
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10399",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Mio Cantina",
+        "website": "https://www.facebook.com/miocantina",
+        "osm_id": "node/791218603",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431645,
+          14.1751094
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9411",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "air_conditioning": "yes",
+        "amenity": "fast_food",
+        "cuisine": "ice_cream",
+        "delivery": "yes",
+        "drive_through": "no",
+        "name": "Green Berry Soft Serve PH",
+        "opening_hours": "Mo-Su 11:30-21:00",
+        "operator": "Green Berry Soft Serve PH",
+        "payment:cash": "yes",
+        "payment:gcash": "yes",
+        "osm_id": "node/791218665",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2415258,
+          14.1680365
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "cuisine": "burger",
+        "level": "0",
+        "name": "Big Star",
+        "smoking": "no",
+        "website": "https://www.facebook.com/pages/Big-Star-Pizza-Burger-and-Fries/636427323152851",
+        "osm_id": "node/829759499",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440545,
+          14.168336
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "name": "Nang Bob's",
+        "shop": "bakery",
+        "osm_id": "node/839726978",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2433518,
+          14.1780874
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "brand": "Chooks to Go",
+        "brand:wikidata": "Q17065023",
+        "cuisine": "chicken",
+        "name": "Chooks to Go",
+        "takeaway": "only",
+        "osm_id": "node/892775246",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2547179,
+          14.1690353
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Harrar Hall",
+        "addr:postcode": "4031",
+        "addr:street": "Pili Drive",
+        "amenity": "cafe",
+        "level": "0",
+        "name": "Beanhub",
+        "opening_hours": "Mo-Su 07:00-17:30",
+        "smoking": "outside",
+        "osm_id": "node/995847420",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2549699,
+          14.1692902
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Harrar Hall",
+        "addr:postcode": "4031",
+        "addr:street": "Pili Drive",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "IRRI Cafeteria",
+        "opening_hours": "Mo-Fr 06:30-11:30,12:30-19:30; Sa,Su 06:30-19:30",
+        "smoking": "no",
+        "wheelchair": "yes",
+        "osm_id": "node/995847429",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2739591,
+          14.148891
+        ]
+      },
+      "properties": {
+        "shop": "bakery",
+        "osm_id": "node/1298210743",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2452149,
+          14.1691514
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "cuisine": "regional",
+        "microbrewery": "no",
+        "name": "Bahay Sisigan ni Apung Piping",
+        "wheelchair": "no",
+        "osm_id": "node/1323145448",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2312154,
+          14.1814425
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Orient The Original Buko Pie",
+        "shop": "bakery",
+        "source": "survey",
+        "osm_id": "node/1342892778",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2444689,
+          14.1685367
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10632",
+        "addr:postcode": "4031",
+        "addr:street": "Mint Street",
+        "amenity": "restaurant",
+        "name": "Klik SIlog",
+        "osm_id": "node/1426668925",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2445704,
+          14.1682826
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Cel's Fastfood",
+        "smoking": "no",
+        "osm_id": "node/1426668926",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438583,
+          14.1669597
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Victoria M. Ela Avenue",
+        "amenity": "restaurant",
+        "branch": "UPLB Gate",
+        "name": "Dalcielo",
+        "osm_id": "node/1426668933",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439934,
+          14.1688244
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "0",
+        "name": "But First, Coffee",
+        "opening_hours": "Mo-Su 08:00-23:00",
+        "smoking": "no",
+        "osm_id": "node/1426668938",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2486952,
+          14.1771158
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Jonas Bakery",
+        "shop": "bakery",
+        "osm_id": "node/1427972761",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438266,
+          14.1677971
+        ]
+      },
+      "properties": {
+        "access:covid19": "yes",
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Centre",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Chowking",
+        "brand:wikidata": "Q1076816",
+        "cuisine": "asian",
+        "delivery:covid19": "yes",
+        "level": "0",
+        "name": "Chowking",
+        "opening_hours": "24/7",
+        "phone": "+63 49 536 9999",
+        "takeaway": "yes",
+        "takeaway:covid19": "yes",
+        "osm_id": "node/1497254658",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2408212,
+          14.1702587
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "cafe",
+        "name": "Moonleaf",
+        "website": "https://moonleafteashop.com/",
+        "osm_id": "node/1548278880",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2392251,
+          14.1791454
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Olivarez Plaza",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "brand": "Jollibee",
+        "brand:wikidata": "Q37614",
+        "cuisine": "burger",
+        "level": "1",
+        "name": "Jollibee",
+        "operator": "Jollibee Foods Corporation",
+        "ref:vatin": "PH000388771089",
+        "takeaway": "yes",
+        "osm_id": "node/1637363252",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2390003,
+          14.1791742
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Olivarez Plaza",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "brand": "Pizza Hut",
+        "brand:wikidata": "Q191615",
+        "cuisine": "pizza",
+        "level": "1",
+        "name": "Pizza Hut",
+        "osm_id": "node/1637363253",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2428839,
+          14.1781993
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "name": "Twinkle Pop",
+        "osm_id": "node/1637363254",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412653,
+          14.1690583
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Purple Velvet Food House",
+        "osm_id": "node/1660351955",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2437474,
+          14.169679
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "cuisine": "vietnamese",
+        "name": "Phuong",
+        "osm_id": "node/1660351976",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439416,
+          14.169907
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Siomai Co.",
+        "osm_id": "node/1660351983",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2437834,
+          14.169691
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Carmensita's",
+        "opening_hours": "Mo-Sa 09:00-23:00",
+        "phone": "+63 49 576 2245",
+        "osm_id": "node/1660351987",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2411451,
+          14.1688706
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Tofi's Food Corner",
+        "osm_id": "node/1660351993",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2432862,
+          14.1696506
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Dhenzmer's",
+        "osm_id": "node/1666958654",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2516245,
+          14.17692
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Sheila's Buko Pie",
+        "shop": "bakery",
+        "source": "survey",
+        "osm_id": "node/1923606568",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2437653,
+          14.1702344
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "0",
+        "name": "Coffee Blends",
+        "smoking": "no",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/2039831714",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2446186,
+          14.165611
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "La Ville Canteen",
+        "osm_id": "node/2060899446",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2243877,
+          14.1815774
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "cuisine": "regional",
+        "name": "Tres Paquito's Lutong Bahay",
+        "osm_id": "node/2069394958",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2297446,
+          14.1814186
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Casio's Bibingka de Macapuno",
+        "shop": "bakery",
+        "source": "survey",
+        "osm_id": "node/2069449161",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2304614,
+          14.1814391
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Net's Cassava",
+        "shop": "bakery",
+        "source": "survey",
+        "osm_id": "node/2069449203",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2425138,
+          14.1682125
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Jose R. Velasco Avenue",
+        "amenity": "restaurant",
+        "check_date": "2024-04-06",
+        "name": "Big Belly's",
+        "opening_hours": "Mo-Su 12:00-21:00",
+        "osm_id": "node/2106614289",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2417218,
+          14.168883
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "fast_food",
+        "name": "Trese Siyete",
+        "website": "https://www.facebook.com/tresesiyeteUPLB",
+        "osm_id": "node/2108118050",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439105,
+          14.1706284
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Los Baños Centtro Mall",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "branch": "LB Centro",
+        "brand": "Bonchon Chicken",
+        "brand:wikidata": "Q4941248",
+        "check_date": "2025-04-09",
+        "cuisine": "chicken;korean;sushi",
+        "level": "1",
+        "name": "Bonchon Chicken",
+        "opening_hours": "24/7",
+        "opening_hours:covid19": "off",
+        "smoking": "no",
+        "takeaway": "yes",
+        "osm_id": "node/2127300003",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2413511,
+          14.1685032
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "La Niña Bea Canteen",
+        "osm_id": "node/2138694514",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412889,
+          14.1687153
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "fast_food",
+        "name": "Lord Rich Snack & Food Haus",
+        "osm_id": "node/2138694516",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2413832,
+          14.1684301
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Tess & Ylloy's Canteen",
+        "osm_id": "node/2138694521",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2441595,
+          14.169524
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "level": "0",
+        "name": "Minute Burger",
+        "osm_id": "node/2141102095",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438722,
+          14.1684148
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "ice_cream",
+        "level": "0",
+        "name": "Fiorgelato",
+        "osm_id": "node/2169969825",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244155,
+          14.1681975
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "name": "Bubble G Milk Tea",
+        "osm_id": "node/2169969828",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2435006,
+          14.1678799
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Arcade",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "brand": "Starbucks",
+        "brand:facebook": "https://www.facebook.com/StarbucksPhilippines",
+        "brand:website": "https://www.starbucks.ph/",
+        "brand:wikidata": "Q37158",
+        "brand:wikipedia": "en:Starbucks",
+        "cuisine": "coffee_shop",
+        "delivery": "yes",
+        "delivery:partner": "foodpanda",
+        "level": "0",
+        "name": "Starbucks",
+        "official_name": "Starbucks Coffee",
+        "opening_hours": "Mo-Su 06:30-23:00",
+        "operator": "Rustan Coffee Corporation",
+        "payment:alipay": "yes",
+        "payment:cash": "yes",
+        "payment:gcash": "yes",
+        "payment:grabpay": "yes",
+        "payment:mastercard": "yes",
+        "payment:mastercard_debit": "yes",
+        "payment:visa": "yes",
+        "payment:visa_debit": "yes",
+        "payment:wechat": "yes",
+        "ref:vatin": "PH005215077378",
+        "smoking": "no",
+        "start_date": "2018-03",
+        "takeaway": "yes",
+        "wheelchair": "yes",
+        "osm_id": "node/2169969846",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244126,
+          14.1688228
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "Sizzlers Take-Out Counter",
+        "osm_id": "node/2169969848",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442721,
+          14.1692342
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Aling Glo's Restaurant",
+        "opening_hours:covid19": "off",
+        "osm_id": "node/2199698807",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2444442,
+          14.1696679
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "LB Square",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Bugel's",
+        "osm_id": "node/2278066375",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2447168,
+          14.1696704
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "regional",
+        "name": "Tita Norms Special Bulalo",
+        "osm_id": "node/2278066394",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440733,
+          14.1684762
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "0",
+        "name": "Moonleaf",
+        "website": "https://moonleafteashop.com/",
+        "osm_id": "node/2349008544",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2433495,
+          14.1726804
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Angel's Burger",
+        "brand:wikidata": "Q62267228",
+        "check_date": "2025-04-09",
+        "cuisine": "burger",
+        "name": "Angel's Burger",
+        "takeaway": "yes",
+        "osm_id": "node/2380792660",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439647,
+          14.1726041
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Agapita Road",
+        "amenity": "restaurant",
+        "name": "Ferd's Grill",
+        "osm_id": "node/2380792661",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440773,
+          14.1738523
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Siving",
+        "amenity": "cafe",
+        "name": "Satya Graha Cafe",
+        "opening_hours": "Mo-Su 16:00-23:00",
+        "osm_id": "node/2380792666",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244,
+          14.1704759
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "check_date": "2025-04-09",
+        "level": "0",
+        "name": "Cafe Ella",
+        "opening_hours": "Mo 07:30-23:00; Tu-Sa 07:00-23:30; Su 06:30-23:00",
+        "smoking": "no",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/2385949407",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2443135,
+          14.1696822
+        ]
+      },
+      "properties": {
+        "access:covid19": "yes",
+        "addr:city": "Los Baños",
+        "addr:housename": "Ankers",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "delivery:covid19": "yes",
+        "name": "Eatsumo Teri Haus",
+        "smoking": "no",
+        "takeaway:covid19": "yes",
+        "osm_id": "node/2389538298",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2449775,
+          14.1693534
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Galuz Grill",
+        "smoking": "yes",
+        "smoking:outdoors": "yes",
+        "osm_id": "node/2389538301",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.243593,
+          14.1702187
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "breakfast",
+        "level": "0",
+        "name": "Go BALD",
+        "opening_hours:covid19": "off",
+        "smoking": "no",
+        "osm_id": "node/2389585479",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440831,
+          14.1696668
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Big Belly's Express",
+        "osm_id": "node/2391104907",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.242582,
+          14.1782388
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Big Smile Bread Station",
+        "shop": "bakery",
+        "osm_id": "node/2392814245",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2429653,
+          14.1752296
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "name": "Sean Nathan's Pastry Shop",
+        "opening_hours": "Mo-Sa 10:00-22:00; Su 15:00-22:00",
+        "shop": "bakery",
+        "website": "https://elbatacan.wix.com/seannathanpastryshop",
+        "osm_id": "node/2402477276",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2468013,
+          14.1776413
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Jonas Bakery",
+        "shop": "bakery",
+        "osm_id": "node/2405757708",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2397379,
+          14.1617113
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Juan V. Pancho",
+        "amenity": "restaurant",
+        "name": "Dalcielo",
+        "osm_id": "node/2421218080",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424864,
+          14.1769329
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "addr:street:corner": "El Danda Street",
+        "amenity": "restaurant",
+        "name": "Karnihan sa Kanto",
+        "osm_id": "node/2424963923",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436779,
+          14.1704446
+        ]
+      },
+      "properties": {
+        "access:covid19": "no",
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "delivery:covid19": "no",
+        "level": "0",
+        "name": "Selina's",
+        "opening_hours:covid19": "Mo-Su 09:00-18:00",
+        "smoking": "no",
+        "takeaway:covid19": "yes",
+        "osm_id": "node/2454093533",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2446844,
+          14.1686597
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Oregano Street",
+        "addr:street:corner": "Mint Street",
+        "amenity": "restaurant",
+        "level": "1",
+        "name": "Ellen's Fried Chicken",
+        "smoking": "no",
+        "osm_id": "node/2455301614",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2422671,
+          14.1778691
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9091",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "Ellen's Fried Chicken",
+        "smoking": "no",
+        "osm_id": "node/2455301615",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2391382,
+          14.1791521
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Olivarez Plaza",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "brand": "Greenwich",
+        "brand:wikidata": "Q2691308",
+        "cuisine": "pizza",
+        "level": "1",
+        "name": "Greenwich",
+        "operator": "Fresh n' Famous Foods Inc.",
+        "ref:vatin": "PH000333173170",
+        "takeaway": "yes",
+        "osm_id": "node/2457045305",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2428093,
+          14.1781822
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Golden Wheat",
+        "shop": "bakery",
+        "osm_id": "node/2462899361",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2430103,
+          14.175079
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9402",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "air_conditioning": "yes",
+        "amenity": "restaurant",
+        "cuisine": "chicken;wings;snack",
+        "delivery": "yes",
+        "name": "22 Wing Point",
+        "opening_hours": "Mo-Su 11:00-21:00",
+        "payment:cash": "yes",
+        "payment:gcash": "yes",
+        "osm_id": "node/2467238625",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442322,
+          14.1709346
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Los Baños Centtro Mall",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/2631942630",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.245174,
+          14.1688691
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Oregano Street",
+        "amenity": "restaurant",
+        "osm_id": "node/2846145171",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2314248,
+          14.1814414
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Lhez Pasalubong",
+        "shop": "bakery",
+        "osm_id": "node/2933800917",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2434188,
+          14.1723255
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Mio Cucina",
+        "osm_id": "node/2990655886",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2408959,
+          14.17193
+        ]
+      },
+      "properties": {
+        "addr:street": "Halcon Street",
+        "amenity": "restaurant",
+        "cuisine": "italian",
+        "name": "Candytuft",
+        "osm_id": "node/3001675547",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2441069,
+          14.1685237
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Hanarose Sizzlers",
+        "osm_id": "node/3057464923",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412464,
+          14.1689245
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Big D's",
+        "outdoor_seating": "yes",
+        "website": "https://www.facebook.com/BigDsRamen",
+        "osm_id": "node/3073349114",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2410016,
+          14.1693026
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Chicharap Food House",
+        "osm_id": "node/3151982032",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439639,
+          14.1689246
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "pizza",
+        "level": "0",
+        "name": "Cravery Pizza",
+        "opening_hours": "Mo-Fr 12:00-22:00; Su 16:00-22:00",
+        "smoking": "no",
+        "website": "https://www.facebook.com/CraveryPizza",
+        "osm_id": "node/3158988522",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439198,
+          14.1697391
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Doymeal's Eatshop",
+        "opening_hours": "Mo-Sa 11:00-14:00,16:00-22:00",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/3158988523",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438442,
+          14.1689321
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "osm_id": "node/3158988524",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438854,
+          14.1688419
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "cuisine": "donut",
+        "level": "0",
+        "name": "Lil' Orbits Mini Donuts",
+        "smoking": "no",
+        "osm_id": "node/3158988525",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439723,
+          14.1697588
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "ice_cream",
+        "name": "Mini Moo Ice Cream",
+        "opening_hours": "Mo-Su 11:00-22:00",
+        "osm_id": "node/3158988526",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438451,
+          14.1689047
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "osm_id": "node/3158988527",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439292,
+          14.1690169
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "internet_access": "no",
+        "level": "0",
+        "name": "Karne Frio",
+        "smoking": "no",
+        "website": "https://www.facebook.com/karnefrio",
+        "osm_id": "node/3174259153",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439381,
+          14.1687907
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "ES Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "internet_access": "no",
+        "level": "0",
+        "name": "Kaye's Gallery",
+        "smoking": "no",
+        "osm_id": "node/3174259154",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2417067,
+          14.163538
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Andres P. Aglibut Avenue",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "University Cafeteria",
+        "osm_id": "node/3345258485",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2421525,
+          14.1645485
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "delivery": "no",
+        "name": "Café Buchie",
+        "osm_id": "node/3411163656",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2437704,
+          14.1677544
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Centre",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "alt_name": "Dunkin' Donuts",
+        "amenity": "fast_food",
+        "brand": "Dunkin'",
+        "brand:wikidata": "Q847743",
+        "brand:wikipedia": "en:Dunkin' Donuts",
+        "cuisine": "donut;coffee_shop",
+        "level": "0",
+        "name": "Dunkin'",
+        "opening_hours:covid19": "off",
+        "payment:cash": "yes",
+        "takeaway": "only",
+        "osm_id": "node/3456843704",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442647,
+          14.1690373
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "cuisine": "burger",
+        "name": "Barangay Burger",
+        "payment:cash": "yes",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/3602476356",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440877,
+          14.1684994
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "cuisine": "pizza",
+        "level": "0",
+        "name": "Pizza Hut",
+        "payment:cash": "yes",
+        "takeout": "only",
+        "osm_id": "node/3602476362",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2445564,
+          14.1696058
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:place": "LB Square",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "name": "Tabemashou",
+        "outdoor_seating": "yes",
+        "wheelchair": "limited",
+        "osm_id": "node/3602476363",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2443441,
+          14.1697984
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "korean",
+        "level": "0",
+        "name": "Kim Bop",
+        "osm_id": "node/3617459910",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412511,
+          14.1688775
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Bogart's Bentelog",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "outdoor_seating": "yes",
+        "phone": "+63 906 9262647",
+        "ref:vatin": "PH446484540000",
+        "smoking": "no",
+        "website": "https://www.facebook.com/bogartsbentelog",
+        "osm_id": "node/3685624957",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2409806,
+          14.170516
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "name": "Rib Food & Grill Haus",
+        "osm_id": "node/3685624959",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2415507,
+          14.1679184
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Zoller Cuisine",
+        "osm_id": "node/3685624960",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431487,
+          14.1752522
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "name": "Dessert Box by: espressams",
+        "shop": "bakery",
+        "website": "https://www.facebook.com/espressam",
+        "osm_id": "node/3696242234",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442609,
+          14.169755
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "korean",
+        "level": "0",
+        "name": "Casa Bulgogi",
+        "osm_id": "node/3704002490",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2415367,
+          14.1680066
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Melville Canteen",
+        "osm_id": "node/3723279440",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2415369,
+          14.1688266
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Others",
+        "smoking": "outside",
+        "website": "https://www.facebook.com/OthersLB",
+        "osm_id": "node/3723279441",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2415411,
+          14.167956
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Tess & Ylloy's Canteen",
+        "osm_id": "node/3723279442",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439541,
+          14.1685455
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "pizza",
+        "level": "0",
+        "name": "Pizza Pop",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/3736841974",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2439286,
+          14.1676517
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Centre",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "0",
+        "name": "Entablado",
+        "opening_hours": "Mo-Sa 11:00-21:30",
+        "operator": "Batang Rural High Cafe and Food Corporation",
+        "phone": "+63 915 9253352",
+        "ref:vatin": "PH008956416000",
+        "smoking": "no",
+        "website": "https://www.facebook.com/entabladolosbanos",
+        "wheelchair": "limited",
+        "osm_id": "node/3777706877",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438478,
+          14.1684499
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "1",
+        "name": "High Ground",
+        "website": "https://www.facebook.com/High-Ground-Gourmet-Comfort-Food-460832087458844",
+        "wheelchair": "no",
+        "osm_id": "node/3777706878",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431958,
+          14.1694446
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "name": "Entom Food House",
+        "operator": "filipino",
+        "website": "https://www.facebook.com/Entom-Food-House-457708781070980",
+        "wheelchair": "yes",
+        "osm_id": "node/3781598857",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.243803,
+          14.168493
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "Nanot's",
+        "osm_id": "node/3838756027",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2393803,
+          14.1684064
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Cordillera Street",
+        "amenity": "cafe",
+        "name": "Holland Tulips Cafe",
+        "wheelchair": "limited",
+        "osm_id": "node/3872270742",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2441959,
+          14.1706229
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Los Baños Centtro Mall",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Potato Corner",
+        "brand:wikidata": "Q60741625",
+        "cuisine": "fries",
+        "level": "1",
+        "name": "Potato Corner",
+        "opening_hours:covid19": "off",
+        "takeaway": "yes",
+        "wheelchair": "yes",
+        "osm_id": "node/3877677203",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2432052,
+          14.1713051
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Anest Tower",
+        "addr:housenumber": "10411",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "level": "1",
+        "name": "Chelsea's Bowls & Beers",
+        "wheelchair": "limited",
+        "osm_id": "node/3925340142",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436239,
+          14.1705591
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "level": "0",
+        "name": "Lugaw Royal",
+        "opening_hours:covid19": "off",
+        "osm_id": "node/3925340143",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2429083,
+          14.1585082
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Department of Basic Veterinary Sciences",
+        "addr:postcode": "4031",
+        "addr:street": "Archibald R. Ward",
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "Sweet Cravings",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/4006910525",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2428738,
+          14.1762813
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "cuisine": "burger",
+        "name": "Burn Out Burger",
+        "opening_hours": "Mo-Su 10:00-22:00",
+        "smoking": "no",
+        "wheelchair": "limited",
+        "osm_id": "node/4043600957",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2428435,
+          14.1727628
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "cuisine": "regional",
+        "internet_access": "no",
+        "name": "Cafe Mirielle",
+        "opening_hours": "11:00-21:00",
+        "osm_id": "node/4189413098",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2400086,
+          14.1649426
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "SEARCA Canteen",
+        "osm_id": "node/4308325496",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.223822,
+          14.1785488
+        ]
+      },
+      "properties": {
+        "addr:barangay": "Timugan",
+        "addr:city": "Los Baños",
+        "addr:housenumber": "12",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "cuisine": "regional",
+        "name": "Timog Greens and Grill Family Restaurant",
+        "note:es": "Accept Major Credit Card",
+        "osm_id": "node/4312520446",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2445298,
+          14.168483
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Kinalas Garden",
+        "osm_id": "node/4414580200",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2421878,
+          14.1690337
+        ]
+      },
+      "properties": {
+        "addr:postcode": "4031",
+        "amenity": "restaurant",
+        "name": "infusion",
+        "opening_hours": "Mo-Fr 10:00-22:00",
+        "osm_id": "node/4444021489",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2405537,
+          14.180248
+        ]
+      },
+      "properties": {
+        "shop": "bakery",
+        "osm_id": "node/4559360891",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440891,
+          14.1696307
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Residencia Juannata",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "2",
+        "name": "Boards UP",
+        "opening_hours": "Mo-Sa 14:00-23:00",
+        "website": "https://www.facebook.com/BoardsUPcafe",
+        "osm_id": "node/4562953526",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440945,
+          14.1696098
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Residencia Juannata",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "1",
+        "name": "Productivity Café",
+        "opening_hours": "Mo 11:00-24:00; Tu-Fr 00:00-05:00,11:00-24:00; Sa,Su 10:00-22:00",
+        "website": "https://www.facebook.com/ProductivityCafePH",
+        "osm_id": "node/4562953527",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2448761,
+          14.1695296
+        ]
+      },
+      "properties": {
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "name": "7107 Bar &  Grill",
+        "name:en": "7107 Bar &  Grill",
+        "opening_hours": "Mo-Su 16:00-02:00",
+        "osm_id": "node/4613110090",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2390149,
+          14.1668625
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Jose R. Velasco Avenue",
+        "amenity": "restaurant",
+        "osm_id": "node/4678519278",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2411075,
+          14.1690714
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "name": "137 Burgers",
+        "name:en": "137 Burgers",
+        "osm_id": "node/4861251321",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2410006,
+          14.1693219
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Heneral Ulam",
+        "name:en": "Heneral Ulam",
+        "osm_id": "node/4861251521",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2438172,
+          14.1676585
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Vega Centre",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "cuisine": "kebab",
+        "name": "Turks",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "opening_hours:covid19": "off",
+        "takeaway": "yes",
+        "wheelchair": "yes",
+        "osm_id": "node/4885812253",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2316382,
+          14.1862808
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:place": "Malinta",
+        "addr:postcode": "4030",
+        "amenity": "restaurant",
+        "name": "Tito Boy / Tita Joy Silog Meals Atbp.",
+        "osm_id": "node/5060420008",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2531876,
+          14.1766455
+        ]
+      },
+      "properties": {
+        "shop": "bakery",
+        "osm_id": "node/5158186226",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2403471,
+          14.1760376
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "osm_id": "node/5158194132",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2417041,
+          14.1765418
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "Fud Ko Toh",
+        "name:en": "Fud Ko Toh",
+        "osm_id": "node/5158194133",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2429266,
+          14.1781953
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "osm_id": "node/5158194134",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2425431,
+          14.1768186
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "osm_id": "node/5158194223",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424858,
+          14.1699763
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9719",
+        "addr:postcode": "4030",
+        "addr:street": "Banahaw Street",
+        "addr:unit": "Batong Malaki",
+        "amenity": "restaurant",
+        "name": "Haraya",
+        "osm_id": "node/5312911520",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442527,
+          14.1687562
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "cuisine": "Rice_Meal;Chicken;Beef;Pork",
+        "delivery": "no",
+        "drive_through": "no",
+        "name": "Doymeals Eatshop",
+        "outdoor_seating": "no",
+        "takeaway": "yes",
+        "osm_id": "node/5436465141",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436562,
+          14.1726587
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "name": "Kappu Potet'o",
+        "osm_id": "node/5598350775",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2418365,
+          14.1786545
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "addr:town": "Los Baños",
+        "amenity": "fast_food",
+        "brand": "Goldilocks",
+        "brand:wikidata": "Q5580198",
+        "level": "0",
+        "name": "Goldilocks",
+        "shop": "bakery",
+        "osm_id": "node/5608181822",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2313172,
+          14.1814562
+        ]
+      },
+      "properties": {
+        "addr:street": "National Highway",
+        "name": "The Original Buko Pie",
+        "shop": "bakery",
+        "osm_id": "node/6194703885",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.237616,
+          14.1810026
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "8534",
+        "addr:postcode": "4030",
+        "addr:street": "Rockville Subd., Batong Malake",
+        "name": "Vicar Farm",
+        "shop": "confectionery",
+        "osm_id": "node/6699460887",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2437138,
+          14.1706889
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "name": "1954 Diner's Cafe",
+        "opening_hours:covid19": "off",
+        "osm_id": "node/7205711275",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2727909,
+          14.1773697
+        ]
+      },
+      "properties": {
+        "addr:city": "Bay",
+        "addr:postcode": "4033",
+        "addr:street": "National Highway",
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "name": "The Brewery Yard",
+        "website": "https://www.facebook.com/thebreweryyardbay",
+        "osm_id": "node/7329031417",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2675775,
+          14.1758994
+        ]
+      },
+      "properties": {
+        "addr:city": "Bay",
+        "addr:postcode": "4033",
+        "addr:street": "National Highway",
+        "addr:village": "Santo Domingo",
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "name": "Lola's Cafe",
+        "opening_hours:covid19": "8:00-14:00",
+        "website": "https://www.facebook.com/Lolas-CAFE-1879087408812194/",
+        "osm_id": "node/7518002098",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2309426,
+          14.1814873
+        ]
+      },
+      "properties": {
+        "name": "Lety's Buko Pie",
+        "shop": "bakery",
+        "osm_id": "node/7617951727",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2390393,
+          14.1792422
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "brand": "Max's Restaurant",
+        "brand:wikidata": "Q6794477",
+        "brand:wikipedia": "en:Max's Restaurant",
+        "cuisine": "asian",
+        "name": "Max's Restaurant",
+        "osm_id": "node/7686442759",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2394059,
+          14.1790227
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "brand": "Chooks to Go",
+        "brand:wikidata": "Q17065023",
+        "cuisine": "chicken",
+        "food": "roasted",
+        "name": "Chooks to Go",
+        "takeaway": "yes",
+        "osm_id": "node/7686442761",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2393866,
+          14.1790245
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "food": "roasted",
+        "name": "Uling Roasters",
+        "takeaway": "only",
+        "osm_id": "node/7686442762",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2400671,
+          14.1789561
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "Batangas Lomi",
+        "opening_hours:covid19": "off",
+        "osm_id": "node/7686442778",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2403877,
+          14.178902
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "Chef From Home",
+        "osm_id": "node/7686452798",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2441154,
+          14.1696049
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Residencia Juannata",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "cafe",
+        "level": "1",
+        "name": "Goldilock's Grove",
+        "osm_id": "node/8652913943",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2426108,
+          14.1785046
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:floor": "1",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "addr:street:corner": "Bangkal Road",
+        "air_conditioning": "yes",
+        "amenity": "fast_food",
+        "brand": "Domino's",
+        "brand:wikidata": "Q839466",
+        "brand:wikipedia": "en:Domino's Pizza",
+        "cuisine": "pizza",
+        "delivery": "yes",
+        "drive_through": "no",
+        "internet_access": "no",
+        "level": "0",
+        "name": "Domino's",
+        "operator": "DPP Retail, Inc.",
+        "outdoor_seating": "no",
+        "payment:cash": "yes",
+        "payment:mastercard": "yes",
+        "payment:pluxee": "yes",
+        "payment:visa": "yes",
+        "phone": "+63 49 808 3030",
+        "ref:vatin": "PH762603616003",
+        "smoking": "no",
+        "takeaway": "yes",
+        "osm_id": "node/9031272518",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412801,
+          14.1633913
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Mariano M. Mondoñedo Avenue",
+        "air_conditioning": "no",
+        "alt_name": "SU Canteen;UPLB Canteen;UPLB SU Canteen;",
+        "amenity": "fast_food",
+        "cuisine": "asian",
+        "drive_through": "no",
+        "fast_food": "cafeteria",
+        "internet_access": "wlan",
+        "name": "Student Union Canteen",
+        "opening_hours": "Mo-Fr 07:00-20:00",
+        "wheelchair": "limited",
+        "osm_id": "node/10218006805",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2740445,
+          14.1620625
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "check_date": "2023-03-19",
+        "internet_access": "no",
+        "name": "Cafeishaano",
+        "opening_hours": "Mo-Sa 10:00-24:00",
+        "payment:cards": "no",
+        "payment:credit_cards": "no",
+        "payment:debit_cards": "no",
+        "osm_id": "node/10744763657",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.242409,
+          14.1774435
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Lots'a Pizza",
+        "brand:wikidata": "Q121090232",
+        "cuisine": "pizza",
+        "name": "Lots'a Pizza",
+        "takeaway": "yes",
+        "osm_id": "node/10839865487",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2423791,
+          14.1774158
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "cuisine": "kebab",
+        "name": "Turk's",
+        "osm_id": "node/10839865488",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2425635,
+          14.177584
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "name": "Eloise Hotfood",
+        "osm_id": "node/10839865495",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2425996,
+          14.1773196
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Chooks to Go",
+        "brand:wikidata": "Q17065023",
+        "cuisine": "chicken",
+        "name": "Chooks to Go",
+        "takeaway": "yes",
+        "osm_id": "node/10839939992",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2426695,
+          14.1770296
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "name": "Ompoy Malunggay Pandesal",
+        "shop": "bakery",
+        "osm_id": "node/10839939997",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2401292,
+          14.1787689
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "VJ's Batangas Lomi",
+        "osm_id": "node/10839940004",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2395876,
+          14.1785383
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "osm_id": "node/10839994325",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2393641,
+          14.1790265
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "Hei Hei",
+        "osm_id": "node/10839994347",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2406176,
+          14.1788358
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "cuisine": "potato",
+        "name": "Kappu Potet'o",
+        "osm_id": "node/10839994382",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2407209,
+          14.1788042
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "cuisine": "pizza",
+        "osm_id": "node/10839994384",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2396657,
+          14.1772682
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "osm_id": "node/10866681134",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2406471,
+          14.1792568
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "name": "Patty's",
+        "shop": "bakery",
+        "osm_id": "node/10905852322",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2419761,
+          14.1792912
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "J. Aquino Street",
+        "amenity": "fast_food",
+        "cuisine": "pares",
+        "name": "Pares-Pares",
+        "osm_id": "node/10908641811",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2414741,
+          14.1809089
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "J. Aquino Street",
+        "amenity": "fast_food",
+        "cuisine": "filipino",
+        "name": "Cooking Ng Ina Mo",
+        "osm_id": "node/10910516425",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.241971,
+          14.1798025
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "J. Aquino Street",
+        "amenity": "fast_food",
+        "brand": "Angel's Burger",
+        "brand:wikidata": "Q62267228",
+        "cuisine": "burger",
+        "name": "Angel's Burger",
+        "takeaway": "yes",
+        "osm_id": "node/10910516565",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.241239,
+          14.1787195
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "Jackit Potato",
+        "osm_id": "node/10910536343",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2428614,
+          14.1784355
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "name": "Toyang's",
+        "osm_id": "node/10915508829",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424707,
+          14.1797394
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "cuisine": "pares",
+        "name": "The Hidden Spot Kainian",
+        "osm_id": "node/10915525021",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2432143,
+          14.1783429
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "name": "Mr. Liempo",
+        "osm_id": "node/10915562997",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.24322,
+          14.1781106
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "Yigo's Malunggay Pandesal",
+        "shop": "bakery",
+        "osm_id": "node/10923331204",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2434187,
+          14.1780798
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "name": "MiRose Bakery",
+        "shop": "bakery",
+        "osm_id": "node/10923332620",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2434472,
+          14.1780738
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "cuisine": "chicken;pork",
+        "name": "Lembest Lechon",
+        "takeaway": "only",
+        "osm_id": "node/10923332621",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2434759,
+          14.1780693
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "cuisine": "chicken;pork",
+        "name": "Baliwag",
+        "osm_id": "node/10923332622",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244096,
+          14.1779218
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "brand": "Andok's",
+        "brand:wikidata": "Q62267166",
+        "cuisine": "chicken",
+        "name": "Andok's",
+        "takeaway": "yes",
+        "osm_id": "node/10923332675",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2709519,
+          14.1769243
+        ]
+      },
+      "properties": {
+        "amenity": "fast_food",
+        "name": "Jhonsy's Goto-Bulalo",
+        "osm_id": "node/11049340805",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2435607,
+          14.1680985
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "internet_access": "yes",
+        "name": "Elbi Commons",
+        "osm_id": "node/11197408563",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2417337,
+          14.1678855
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:province": "Laguna",
+        "addr:unit": "Marketplace Haven UPLB",
+        "amenity": "restaurant",
+        "cuisine": "breakfast;filipino",
+        "name": "Wok to Box UPLB",
+        "phone": "0928 392 7808",
+        "website": "https://www.facebook.com/profile.php?id=100095255104414",
+        "osm_id": "node/11199180664",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2434835,
+          14.1681033
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "name": "Infinitea Vega Arcade - UPLB",
+        "osm_id": "node/11199228064",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2418315,
+          14.1679237
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "cuisine": "breakfast",
+        "name": "We Deliver",
+        "phone": "0917 462 6170",
+        "website": "https://www.facebook.com/Wedeliveralldaybreakfast",
+        "osm_id": "node/11199235768",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.241263,
+          14.168352
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:province": "Laguna",
+        "addr:street": "Ruby Street",
+        "amenity": "cafe",
+        "name": "DRIP KOFI Los Baños",
+        "phone": "0977 285 1636",
+        "website": "dripkofi.lb",
+        "osm_id": "node/11199274628",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2412253,
+          14.1684507
+        ]
+      },
+      "properties": {
+        "addr:province": "Laguna",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "cuisine": "asian",
+        "name": "Tropic Bowls",
+        "phone": "0916 436 8080",
+        "website": "https://instagram.com/tropicbowlsph",
+        "osm_id": "node/11199284280",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2541612,
+          14.1524922
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "2383",
+        "addr:province": "Laguna",
+        "addr:street": "Dapdap Street",
+        "amenity": "ice_cream",
+        "name": "Ice Cream ni Tita Lucy",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "outdoor_seating": "no",
+        "osm_id": "node/11393288500",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436254,
+          14.1675787
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "check_date": "2024-03-04",
+        "level": "2",
+        "name": "Black And Brew Cafe",
+        "osm_id": "node/11688947827",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2452282,
+          14.1705001
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "name": "Siento",
+        "opening_hours": "Mo-Fr 10:00-21:00; Sa, Su 07:00-21:00",
+        "osm_id": "node/12243050695",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2411353,
+          14.1557945
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:province": "Laguna",
+        "addr:street": "Getulio B. Viado",
+        "amenity": "restaurant",
+        "contact:facebook": "https://web.facebook.com/CadelsLugawan",
+        "cuisine": "filipino",
+        "diet:meat": "yes",
+        "name": "Cadel's Lugawan",
+        "phone": "+639604008835",
+        "osm_id": "node/12343791885",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2416911,
+          14.1594303
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "cuisine": "filipino",
+        "internet_access": "wlan",
+        "name": "Cecilia's Kitchen",
+        "opening_hours": "Mo-Sa 07:00-20:00",
+        "outdoor_seating": "no",
+        "osm_id": "node/12609855134",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2735909,
+          14.1777033
+        ]
+      },
+      "properties": {
+        "addr:street": "National Highway",
+        "addr:town": "Bay",
+        "alt_name": "Kentucky Fried Chicken",
+        "amenity": "fast_food",
+        "brand": "KFC",
+        "brand:wikidata": "Q524757",
+        "cuisine": "chicken",
+        "name": "KFC",
+        "opening_hours": "24/7",
+        "takeaway": "yes",
+        "osm_id": "node/12707248539",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.239229,
+          14.1615917
+        ]
+      },
+      "properties": {
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "name": "Likha",
+        "osm_id": "node/12922352330",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2294464,
+          14.1812405
+        ]
+      },
+      "properties": {
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "brand": "Angel's Burger",
+        "brand:wikidata": "Q62267228",
+        "cuisine": "burger",
+        "name": "Angel's Burger",
+        "takeaway": "only",
+        "osm_id": "node/13526781453",
+        "osm_type": "node"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2454108,
+          14.1615318
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "osm_id": "way/64056173",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2587088,
+          14.1759225
+        ]
+      },
+      "properties": {
+        "addr:city": "Maahas",
+        "addr:postcode": "4030",
+        "air_conditioning": "yes",
+        "amenity": "restaurant",
+        "brand": "Shakey's",
+        "brand:wikidata": "Q6134929",
+        "brand:wikipedia": "en:Shakey's Pizza",
+        "building": "yes",
+        "cuisine": "pizza;burger;chicken;american;italian;ice_cream",
+        "delivery": "yes",
+        "diet:meat": "yes",
+        "name": "Shakey's",
+        "reservation": "yes",
+        "takeaway": "yes",
+        "wheelchair": "yes",
+        "osm_id": "way/102814197",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424835,
+          14.1781694
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "brand": "Jollibee",
+        "brand:wikidata": "Q37614",
+        "brand:wikipedia": "Jollibee",
+        "building": "yes",
+        "cuisine": "burger",
+        "material": "concrete",
+        "name": "Jollibee",
+        "name:en": "Jollibee",
+        "opening_hours": "24/7",
+        "payment:cash": "yes",
+        "previously": "node:28997010",
+        "smoking": "no",
+        "takeaway": "yes",
+        "osm_id": "way/108713570",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431689,
+          14.1700684
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "Vat Cave",
+        "previously": "node:696431428",
+        "source": "Bing",
+        "osm_id": "way/113695603",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2442915,
+          14.169878
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "cuisine": "regional",
+        "name": "Mizpeh",
+        "previously": "node:428744646",
+        "smoking": "no",
+        "osm_id": "way/119412451",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2431517,
+          14.1736046
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "building": "yes",
+        "name": "Dalcielo",
+        "opening_hours": "Mo-Sa 10:00-21:00",
+        "shop": "bakery",
+        "source": "Bing",
+        "osm_id": "way/119896462",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2450525,
+          14.1688356
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "name": "10664",
+        "name:en": "10664",
+        "source": "Bing",
+        "osm_id": "way/126773299",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2448127,
+          14.1687694
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "RAV Sizzlers",
+        "source": "randyvidal",
+        "osm_id": "way/129274417",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2440208,
+          14.1676609
+        ]
+      },
+      "properties": {
+        "access:covid19": "no",
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "building": "yes",
+        "building:levels": "1",
+        "delivery:covid19": "no",
+        "name": "Yigo's Dough Box",
+        "shop": "bakery",
+        "takeaway:covid19": "yes",
+        "osm_id": "way/130922862",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2452001,
+          14.169176
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "material": "concrete",
+        "source": "Bing",
+        "osm_id": "way/136494893",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2435213,
+          14.1712866
+        ]
+      },
+      "properties": {
+        "access:covid19": "yes",
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "cuisine": "italian",
+        "delivery:covid19": "no",
+        "name": "La Gondola VenezianA",
+        "takeaway:covid19": "yes",
+        "website": "https://www.facebook.com/Venice-Italian-Restaurant-316963098427345/",
+        "osm_id": "way/138060288",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2444561,
+          14.1689596
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Oregano Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Bonitos",
+        "opening_hours": "Mo-Su 10:00-22:00",
+        "opening_hours:covid19": "off",
+        "previously": "node:473493864",
+        "smoking": "no",
+        "source": "Bing",
+        "osm_id": "way/139043551",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2444925,
+          14.1687408
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Oregano Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "check_date": "2025-04-09",
+        "name": "Ken's",
+        "smoking": "no",
+        "source": "Bing",
+        "osm_id": "way/141451834",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2414124,
+          14.1689085
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Francisco O. Santos Street",
+        "amenity": "restaurant",
+        "landuse": "retail",
+        "name": "Nicdao Grill & Restobar",
+        "osm_id": "way/154101853",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2416741,
+          14.1690764
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10343",
+        "addr:postcode": "4031",
+        "addr:street": "Pearl Street",
+        "addr:street:corner": "Francisco O. Santos",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "cuisine": "korean",
+        "name": "Seoul Kitchen",
+        "opening_hours": "Mo-Sa 11:00-21:00",
+        "previously": "node:582443128",
+        "smoking": "no",
+        "source": "Bing",
+        "osm_id": "way/154101859",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2222603,
+          14.1787891
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "329",
+        "addr:postcode": "4030",
+        "addr:street": "M. Palis Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "name": "F & M Restobar",
+        "source": "Bing",
+        "osm_id": "way/196633042",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2217328,
+          14.1795853
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "Jose Rizal Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "regional",
+        "name": "Gotoyan ni Mayeth",
+        "osm_id": "way/196633043",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2295061,
+          14.181517
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "1134",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "building": "yes",
+        "name": "Elvie's Buko Pie",
+        "shop": "bakery",
+        "source": "Bing",
+        "osm_id": "way/196636233",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.242935,
+          14.1699196
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9711",
+        "addr:postcode": "4031",
+        "addr:street": "Banahaw Street",
+        "amenity": "restaurant",
+        "internet_access": "wlan",
+        "name": "Tresto",
+        "opening_hours": "Mo-Su 00:00-01:00,10:00-24:00",
+        "smoking": "yes",
+        "osm_id": "way/200756261",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424268,
+          14.172632
+        ]
+      },
+      "properties": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "cuisine": "regional",
+        "name": "Bahay Kubo",
+        "osm_id": "way/202764282",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2446459,
+          14.1689426
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10631",
+        "addr:postcode": "4031",
+        "addr:street": "Oregano Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "cuisine": "thai",
+        "name": "Baan Thai",
+        "previously": "node:769875573",
+        "osm_id": "way/211108411",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2446153,
+          14.1697322
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:place": "LB Square",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "2",
+        "cuisine": "burger",
+        "name": "Stable",
+        "website": "https://www.facebook.com/stablewagyuwings",
+        "osm_id": "way/217720421",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2436448,
+          14.1704687
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Gastronomeats",
+        "smoking": "outside",
+        "source": "Bing",
+        "osm_id": "way/225086896",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2420829,
+          14.1781517
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "Lopez Avenue",
+        "amenity": "food_court",
+        "building": "yes",
+        "material": "concrete",
+        "name": "Kalye Ekis",
+        "osm_id": "way/229032046",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2427745,
+          14.1754686
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9389",
+        "addr:postcode": "4030",
+        "addr:street": "Lopez Avenue",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "tex-mex;mexican",
+        "end_date": "2015-10",
+        "previously": "node:790107102",
+        "osm_id": "way/231923771",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2424631,
+          14.1700621
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "9719",
+        "addr:postcode": "4030",
+        "addr:street": "Banahaw Street",
+        "addr:unit": "Batong Malaki",
+        "amenity": "restaurant",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Haraya",
+        "opening_hours": "Mo-Su 11:00-20:00",
+        "osm_id": "way/236240416",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2110652,
+          14.1735546
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "korean",
+        "name": "Blue Garden",
+        "name:en": "Blue Garden",
+        "name:ko": "블루 가든레스토랑",
+        "osm_id": "way/253794929",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2411263,
+          14.1686891
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housenumber": "10275",
+        "addr:postcode": "4031",
+        "addr:street": "Ruby Street",
+        "amenity": "restaurant",
+        "building": "yes",
+        "name": "R. M. Cadapan's Canteen",
+        "osm_id": "way/303040678",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2432051,
+          14.1598557
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Alumni Plaza",
+        "addr:postcode": "4031",
+        "addr:street": "Manuel L. Roxas",
+        "alt_name": "Ginhawa Art Café",
+        "amenity": "cafe",
+        "building": "yes",
+        "building:levels": "1",
+        "contact:email": "vrajacuisine@gmail.com",
+        "contact:facebook": "https://www.facebook.com/vrajacuisine",
+        "diet:vegan": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Vraja Cuisine - Vegetarian and Vegan Cafe",
+        "opening_hours": "Mo-Sa 11:00-17:00",
+        "outdoor_seating": "yes",
+        "phone": "+63 919 589 0198",
+        "smoking": "no",
+        "takeaway": "yes",
+        "osm_id": "way/397914525",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.244046,
+          14.1680706
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "branch": "Lopez Avenue",
+        "brand": "Jollibee",
+        "brand:wikidata": "Q37614",
+        "brand:wikipedia": "Jollibee",
+        "cuisine": "burger",
+        "landuse": "retail",
+        "name": "Jollibee",
+        "name:en": "Jollibee",
+        "operator": "Jollibee Foods Corporation",
+        "payment:cash": "yes",
+        "ref:vatin": "PH000388771488",
+        "smoking": "no",
+        "takeaway": "yes",
+        "osm_id": "way/453893103",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2465167,
+          14.1709917
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4031",
+        "addr:street": "Bangkal Road",
+        "amenity": "restaurant",
+        "name": "One Bonitos Place",
+        "website": "https://www.facebook.com/One-Bonitos-Place-1802828456629705",
+        "osm_id": "way/466369508",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2465842,
+          14.1710025
+        ]
+      },
+      "properties": {
+        "air_conditioning": "yes",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "buffet",
+        "name": "One Place Bonito's",
+        "osm_id": "way/466369510",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2398135,
+          14.1789753
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Baliwag",
+        "osm_id": "way/538955002",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2326043,
+          14.1812171
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:housename": "Coffee Delfi",
+        "addr:housenumber": "2700",
+        "addr:postcode": "4030",
+        "addr:province": "Laguna",
+        "addr:quarter": "Anos",
+        "addr:street": "National Highway",
+        "amenity": "cafe",
+        "building": "house",
+        "name": "Coffee Delfi",
+        "shop": "convenience",
+        "osm_id": "way/542701532",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.273373,
+          14.1775533
+        ]
+      },
+      "properties": {
+        "addr:city": "Bay",
+        "addr:postcode": "4033",
+        "addr:street": "National Highway",
+        "amenity": "restaurant",
+        "landuse": "retail",
+        "name": "Lucidel's Restaurant + Events Venue",
+        "website": "https://www.facebook.com/LucidelsRestaurant",
+        "osm_id": "way/784522760",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2667548,
+          14.1761446
+        ]
+      },
+      "properties": {
+        "addr:city": "Bay",
+        "addr:postcode": "4033",
+        "addr:street": "National Highway",
+        "addr:village": "Santo Domingo",
+        "amenity": "fast_food",
+        "building": "yes",
+        "cuisine": "chicken",
+        "name": "Fae-Fae",
+        "osm_id": "way/804561261",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2666575,
+          14.1761452
+        ]
+      },
+      "properties": {
+        "addr:city": "Bay",
+        "addr:postcode": "4033",
+        "addr:street": "National Highway",
+        "addr:village": "Santo Domingo",
+        "amenity": "fast_food",
+        "building": "yes",
+        "name": "Donato's Filipino Comfort Foods",
+        "osm_id": "way/804561869",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2421468,
+          14.1782994
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "Lopez Avenue",
+        "amenity": "fast_food",
+        "brand": "Mister Donut",
+        "brand:en": "Mister Donut",
+        "brand:wikidata": "Q1065819",
+        "building": "yes",
+        "cuisine": "donut",
+        "name": "Mister Donut",
+        "name:en": "Mister Donut",
+        "takeaway": "yes",
+        "osm_id": "way/1165413769",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2392825,
+          14.1788191
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Dimsum Panda",
+        "osm_id": "way/1165426906",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2393276,
+          14.1788152
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:street": "National Highway",
+        "amenity": "fast_food",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Franks N' Burgers",
+        "osm_id": "way/1165426907",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2419752,
+          14.1791196
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:street": "J. Aquino Street",
+        "amenity": "fast_food",
+        "brand": "Minute Burger",
+        "brand:wikidata": "Q62273503",
+        "building": "yes",
+        "cuisine": "burger",
+        "name": "Minute Burger",
+        "takeaway": "yes",
+        "osm_id": "way/1174009319",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2331186,
+          14.186313
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:province": "Laguna",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "filipino",
+        "diet:meat": "yes",
+        "name": "Tarah SISIG",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "phone": "09952669629",
+        "osm_id": "way/1268576639",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2327092,
+          14.1874179
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:province": "Laguna",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "beef",
+        "diet:beef": "yes",
+        "name": "The Beefery PH",
+        "opening_hours": "08:00-05:00",
+        "osm_id": "way/1268577359",
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2335814,
+          14.1858268
+        ]
+      },
+      "properties": {
+        "addr:city": "Los Baños",
+        "addr:postcode": "4030",
+        "addr:province": "Laguna",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "burger;sisig;filipino",
+        "diet:meat": "yes",
+        "name": "Chatabs",
+        "opening_hours": "Mo-Sun 09:00-21:00",
+        "phone": "0951 978 9297",
+        "osm_id": "way/1268578214",
+        "osm_type": "way"
+      }
+    }
+  ]
+}

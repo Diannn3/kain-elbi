@@ -1,0 +1,14 @@
+{
+  "last_release": "2026-07-22.0",
+  "last_run": "2026-08-06T18:07:09.109131+00:00",
+  "theme": "places",
+  "type": "place",
+  "bbox": {
+    "xmin": 121.21,
+    "ymin": 14.13,
+    "xmax": 121.28,
+    "ymax": 14.19
+  },
+  "backend": "geojson",
+  "output": "C:\\Users\\Dian\\Documents\\Vaults\\Fensalir\\businesses\\kain_elbi\\data\\raw\\overture-los-banos-food.geojson"
+}

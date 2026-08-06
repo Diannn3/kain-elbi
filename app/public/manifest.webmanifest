@@ -1,0 +1,10 @@
+{
+	"name": "Kain Elbi",
+	"short_name": "Kain Elbi",
+	"description": "Route-aware food discovery for UPLB students.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#f7f4ea",
+	"theme_color": "#083b2b",
+	"icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

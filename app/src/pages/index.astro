@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RoutePlanner from '../components/forms/RoutePlanner.svelte';
+import ElbiClassics from '../components/cards/ElbiClassics.astro';
+import { loadBuildData } from '../lib/data/build';
+
+const { matrix, collections } = await loadBuildData();
+const anchors = Object.values(matrix.anchors);
+---
+
+<Layout>
+	<main id="main-content">
+		<section class="hero page-shell" aria-labelledby="home-heading">
+			<div class="hero-copy">
+				<p class="kicker">UPLB · Between Classes</p>
+				<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
+				<p class="lede">Route-aware picks around UPLB—built from walking estimates, open candidate data, and the time you actually have.</p>
+			</div>
+			<div class="planner-wrap">
+				<RoutePlanner {anchors} client:load />
+			</div>
+		</section>
+
+		<ElbiClassics {collections} />
+
+		<section class="how-it-works page-shell" aria-labelledby="how-heading">
+			<div>
+				<p class="eyebrow-global">How Kain Elbi Thinks</p>
+				<h2 id="how-heading">A fit check, not a popularity contest.</h2>
+			</div>
+			<ol>
+				<li><span>01</span><strong>Map the break</strong><p>Your origin, next class, and safety buffer define the real travel budget.</p></li>
+				<li><span>02</span><strong>Remove impossible stops</strong><p>Places without the required route legs or enough time are filtered out first.</p></li>
+				<li><span>03</span><strong>Explain every pick</strong><p>You see the walk, detour, and minutes left—not a mysterious rating.</p></li>
+			</ol>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.hero { position: relative; display: grid; gap: 2rem; padding-top: clamp(2.25rem, 8vw, 6rem); overflow: clip; }
+	.hero::before { content: ''; position: absolute; z-index: -1; top: 4rem; right: -8rem; width: 22rem; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 1rem, hsl(154 76% 13% / 0.045) 1.05rem 1.1rem); }
+	.hero-copy { max-width: 48rem; }
+	.kicker { margin: 0 0 1.25rem; color: var(--leaf); font: 760 0.75rem/1 var(--font-display); letter-spacing: 0.16em; text-transform: uppercase; }
+	h1 { margin: 0; color: var(--forest); font: 820 clamp(3.35rem, 14vw, 7.75rem)/0.82 var(--font-display); letter-spacing: -0.065em; }
+	h1 span { color: var(--sun); }
+	.lede { max-width: 39rem; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1.55; text-wrap: pretty; }
+	.planner-wrap { width: min(100%, 48rem); }
+	.how-it-works { display: grid; gap: 2rem; margin-top: clamp(4rem, 10vw, 8rem); padding: clamp(1.5rem, 5vw, 3rem); border-radius: 2rem; background: var(--forest); color: white; }
+	.how-it-works h2 { max-width: 13ch; margin: 0.5rem 0 0; font: 780 clamp(2rem, 6vw, 4rem)/0.96 var(--font-display); }
+	.how-it-works .eyebrow-global { color: var(--sun); }
+	ol { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; counter-reset: steps; }
+	li { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 0.8rem; padding-top: 1rem; border-top: 1px solid hsl(0 0% 100% / 0.18); }
+	li > span { grid-row: 1 / 3; color: var(--sun); font: 760 0.8rem/1 var(--font-display); }
+	li strong { font: 720 1.05rem/1.1 var(--font-display); }
+	li p { margin: 0; color: hsl(0 0% 100% / 0.68); line-height: 1.45; }
+	@media (min-width: 900px) {
+		.hero { grid-template-columns: minmax(0, 0.88fr) minmax(28rem, 0.72fr); align-items: center; gap: 4rem; }
+		.hero-copy { padding-bottom: 5rem; }
+		.how-it-works { grid-template-columns: 0.8fr 1.2fr; }
+	}
+</style>

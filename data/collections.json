@@ -1,0 +1,58 @@
+[
+  {
+    "id": "raymundo-essentials",
+    "title": "Raymundo Essentials",
+    "description": "The reliable staples along Raymundo Gate. Quick, student-friendly, and always open when you need them.",
+    "research_date": "2026-08-01",
+    "evidence_count": 5,
+    "source_urls": [
+      "https://uplb.edu.ph"
+    ],
+    "cover_metadata": {
+      "theme": "leaf"
+    },
+    "place_ids": [
+      "85aa5332-d7bd-446a-b0ef-94a0718430bc",
+      "f3944ecd-196b-4e08-8dd8-92b9a821eea1",
+      "d65c4040-0413-4315-a794-c00294690e22",
+      "f2134222-8f97-4593-9fa4-c03115b0f491",
+      "1b68eca5-ec9f-45f3-bccc-0c8453df66ca"
+    ]
+  },
+  {
+    "id": "freshie-starter-pack",
+    "title": "Freshie Starter Pack",
+    "description": "Welcome to Elbi! Here are the legendary spots every freshie needs to try in their first semester.",
+    "research_date": "2026-08-01",
+    "evidence_count": 8,
+    "source_urls": [],
+    "cover_metadata": {
+      "theme": "sun"
+    },
+    "place_ids": [
+      "88dc952f-f590-4f24-92d7-559733db7911",
+      "b1a5769b-7518-4f3e-bf29-b9365a156114",
+      "427d047f-ecf8-4436-9b15-04e338021998",
+      "f23e3130-29d3-44f5-a25f-50eac8f357f5",
+      "277442e0-f26f-4af0-ae25-cb0eda4134d2"
+    ]
+  },
+  {
+    "id": "cafe-and-chills",
+    "title": "Caf\u00e9 & Chills",
+    "description": "Need to study or just want some aircon? The best cafes around campus with decent coffee.",
+    "research_date": "2026-08-02",
+    "evidence_count": 10,
+    "source_urls": [],
+    "cover_metadata": {
+      "theme": "forest"
+    },
+    "place_ids": [
+      "92115f39-a732-45a4-ad97-5480d00726d5",
+      "cc37cb1e-14b2-4a57-8106-ca83dcd1b426",
+      "838852ac-4382-46db-896e-754ae5c09a59",
+      "5d83cc0b-d961-4df4-8c45-43d1ad86adb6",
+      "fca4663e-0c34-4cee-975e-81468ffda9d0"
+    ]
+  }
+]

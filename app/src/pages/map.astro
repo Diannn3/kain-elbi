@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MapExperience from '../components/map/MapExperience.svelte';
+---
+
+<Layout title="Route Map — Kain Elbi" hideHeader={true}>
+	<MapExperience client:only="svelte" />
+	<noscript><main id="main-content" class="noscript"><h1>The Map Needs JavaScript</h1><p>Your route is calculated privately in the browser. Return to Smart Picks after enabling JavaScript.</p><a href="/picks">Smart Picks</a></main></noscript>
+</Layout>
+
+<style>
+	.noscript { width: min(100% - 2rem, 42rem); margin: 4rem auto; }
+	.noscript h1 { color: var(--forest); font: 780 2.5rem/1 var(--font-display); }
+</style>

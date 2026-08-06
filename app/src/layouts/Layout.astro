@@ -1,0 +1,56 @@
+---
+import '@fontsource-variable/bricolage-grotesque/wght.css';
+import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+import '../styles/global.css';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import BottomNav from '../components/layout/BottomNav.astro';
+import OfflineStatus from '../components/layout/OfflineStatus.svelte';
+
+interface Props {
+	title?: string;
+	description?: string;
+	hideHeader?: boolean;
+	hideNav?: boolean;
+	pageClass?: string;
+}
+
+const {
+	title = 'Kain Elbi — Food That Fits Your Break',
+	description = 'Route-aware food discovery for UPLB students, built with open data and privacy in mind.',
+	hideHeader = false,
+	hideNav = false,
+	pageClass = '',
+} = Astro.props;
+const serviceWorkerEnabled = import.meta.env.PROD;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#f7f4ea" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<title>{title}</title>
+	</head>
+	<body class={pageClass}>
+		<a class="skip-link" href="#main-content">Skip to Main Content</a>
+		{!hideHeader && <SiteHeader />}
+		<OfflineStatus client:idle />
+		<slot />
+		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}
+		<footer class="site-footer">
+			<p>Kain Elbi uses candidate place records from open datasets.</p>
+			<p>© OpenStreetMap contributors · Overture Maps</p>
+		</footer>
+		<script define:vars={{ serviceWorkerEnabled }}>
+			if (serviceWorkerEnabled && 'serviceWorker' in navigator) {
+				window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+			}
+		</script>
+	</body>
+</html>

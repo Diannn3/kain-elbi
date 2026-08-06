@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Builds
+dist/
+build/
+.astro/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Antigravity Scratch
+scratch/
+.system_generated/
+*.pmtiles
+
+# OS
+.DS_Store
+Thumbs.db
