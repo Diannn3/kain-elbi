@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { loadAppData } from '../../lib/data/loaders';
+	import { createPlaceSheetController, type PlaceSheetController } from '../../lib/place-sheet-controller';
 	import { parseSearchParams } from '../../lib/search-state';
 	import { rankSmartPicks } from '../../lib/smart-picks';
 	import type { Anchor, SearchContext, SmartPick } from '../../lib/types';
@@ -14,34 +15,39 @@
 	let origin = $state<Anchor>();
 	let destination = $state<Anchor>();
 	let picks = $state<SmartPick[]>([]);
-	let selected = $state<SmartPick>();
-	let trigger: HTMLElement | null = null;
+	let focusedPickId = $state<string>();
+	let sheetPick = $state<SmartPick>();
+	let contentRoot: HTMLElement;
+	let mapStage: HTMLElement;
+	let sheetController: PlaceSheetController<SmartPick> | undefined;
 
-	function selectPick(pick: SmartPick) {
-		trigger = document.activeElement as HTMLElement | null;
-		selected = pick;
-		const url = new URL(window.location.href);
-		url.searchParams.set('place', pick.place.id);
-		window.history.pushState({}, '', url);
-		document.querySelector<HTMLElement>('#map-shell')?.setAttribute('inert', '');
+	function focusPick(pick: SmartPick) {
+		focusedPickId = pick.place.id;
+		if (!window.matchMedia('(max-width: 899px)').matches) return;
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		requestAnimationFrame(() => mapStage?.scrollIntoView({ block: 'start', behavior: reducedMotion ? 'auto' : 'smooth' }));
+	}
+
+	function openDetails(pick: SmartPick, trigger: HTMLElement) {
+		focusedPickId = pick.place.id;
+		sheetController?.open(pick, trigger);
 	}
 
 	function closeSheet() {
-		selected = undefined;
-		const url = new URL(window.location.href);
-		url.searchParams.delete('place');
-		window.history.pushState({}, '', url);
-		document.querySelector<HTMLElement>('#map-shell')?.removeAttribute('inert');
-		queueMicrotask(() => trigger?.focus());
+		sheetController?.close();
 	}
 
 	onMount(() => {
 		let active = true;
-		const handlePop = () => {
-			const id = new URLSearchParams(window.location.search).get('place');
-			selected = picks.find((pick) => pick.place.id === id);
-		};
-		window.addEventListener('popstate', handlePop);
+		sheetController = createPlaceSheetController({
+			contentRoot,
+			resolveById: (id) => picks.find((pick) => pick.place.id === id),
+			getId: (pick) => pick.place.id,
+			setSelected: (pick) => {
+				sheetPick = pick;
+				if (pick) focusedPickId = pick.place.id;
+			},
+		});
 		loadAppData()
 			.then((data) => {
 				if (!active) return;
@@ -49,26 +55,26 @@
 				origin = data.matrix.anchors[context.originId];
 				destination = context.destinationId ? data.matrix.anchors[context.destinationId] : undefined;
 				picks = rankSmartPicks(data.places, data.matrix, context);
-				handlePop();
+				sheetController?.syncFromUrl({ restoreFocus: false });
 			})
 			.catch((cause) => { error = cause instanceof Error ? cause.message : 'The map data could not load.'; })
 			.finally(() => { loading = false; });
 		return () => {
 			active = false;
-			window.removeEventListener('popstate', handlePop);
+			sheetController?.destroy();
 		};
 	});
 </script>
 
 <main id="main-content" class="map-page">
-	<section id="map-shell" class="map-shell" aria-busy={loading}>
+	<section id="map-shell" class="map-shell" aria-busy={loading} bind:this={contentRoot}>
 		<header class="map-bar">
 			<a href={`/picks${typeof window === 'undefined' ? '' : window.location.search}`} aria-label="Back to Smart Picks">←</a>
 			<div><strong>Route Map</strong><span>{picks.length} {picks.length === 1 ? 'pick' : 'picks'}</span></div>
 			<a href={`/picks${typeof window === 'undefined' ? '' : window.location.search}`}>List</a>
 		</header>
 
-		<div class="map-stage">
+		<div class="map-stage" bind:this={mapStage}>
 			{#if loading}
 				<div class="map-status" role="status">Loading route context…</div>
 			{:else if error || !origin}
@@ -79,7 +85,7 @@
 					<p>WebGL is unavailable. This is route context, not walking directions.</p>
 				</div>
 			{:else}
-				<MapCanvas {origin} {destination} {picks} selectedId={selected?.place.id} onSelect={selectPick} onUnavailable={() => fallback = true} />
+				<MapCanvas {origin} {destination} {picks} selectedId={focusedPickId} onSelect={focusPick} onUnavailable={() => fallback = true} />
 			{/if}
 		</div>
 
@@ -94,19 +100,29 @@
 			{/if}
 			<div class="compact-list">
 				{#each picks as pick, index}
-					<button type="button" class:selected={selected?.place.id === pick.place.id} onclick={() => selectPick(pick)}>
-						<span class="number">{index + 1}</span>
-						<span><strong>{pick.place.name}</strong><small>{pick.explanation}</small></span>
-						<b>{Math.round(pick.timeRemainingSeconds / 60)} min</b>
-					</button>
+					<div class:selected={focusedPickId === pick.place.id} class="compact-item">
+						<button
+							type="button"
+							class="place-focus"
+							data-place-id={pick.place.id}
+							aria-pressed={focusedPickId === pick.place.id}
+							aria-label={`Focus ${pick.place.name} on the map`}
+							onclick={() => focusPick(pick)}
+						>
+							<span class="number">{index + 1}</span>
+							<span><strong>{pick.place.name}</strong><small>{pick.explanation}</small></span>
+							<b>{Math.round(pick.timeRemainingSeconds / 60)} min</b>
+						</button>
+						<button type="button" class="place-details" onclick={(event) => openDetails(pick, event.currentTarget)}>Details</button>
+					</div>
 				{/each}
 			</div>
 		</section>
 	</section>
 </main>
 
-{#if selected}
-	<PlaceSheet place={selected.place} pick={selected} open={true} onClose={closeSheet} />
+{#if sheetPick}
+	<PlaceSheet place={sheetPick.place} pick={sheetPick} open={true} onClose={closeSheet} />
 {/if}
 
 <style>
@@ -135,8 +151,13 @@
 	.map-list-heading > span { display: none; color: var(--muted); font-size: .75rem; }
 	.connectivity-note { margin-top: .9rem; padding: .7rem .8rem; border-radius: .75rem; color: var(--muted); background: var(--mist); font-size: .72rem; }
 	.compact-list { display: grid; }
-	.compact-list button { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) auto; align-items: center; gap: .75rem; min-height: 5rem; padding: .75rem 0; border: 0; border-top: 1px solid var(--line); color: var(--ink); background: transparent; text-align: left; }
-	.compact-list button:hover, .compact-list button.selected { color: var(--forest); background: hsl(44 96% 49% / .1); }
+	.compact-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-width: 0; border-top: 1px solid var(--line); transition: background-color 180ms ease, box-shadow 180ms ease; }
+	.compact-item:hover, .compact-item.selected { color: var(--forest); background: hsl(44 96% 49% / .1); }
+	.compact-item.selected { box-shadow: inset 3px 0 var(--sun); }
+	.place-focus { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) auto; align-items: center; gap: .75rem; min-width: 0; min-height: 5rem; padding: .75rem; border: 0; color: inherit; background: transparent; text-align: left; }
+	.place-focus > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+	.place-details { min-width: 4.75rem; min-height: 2.75rem; margin-right: .5rem; padding: .55rem .75rem; border: 1px solid var(--line); border-radius: 999px; color: var(--forest); background: var(--cream); font: 730 .75rem/1 var(--font-display); }
+	.place-details:hover { border-color: var(--leaf); background: var(--mist); }
 	.compact-list .number { display: grid; place-items: center; width: 2.35rem; height: 2.35rem; border-radius: 50%; background: var(--sun); font-weight: 800; }
 	.compact-list strong, .compact-list small { display: block; }
 	.compact-list strong { font: 730 1rem/1.1 var(--font-display); }
@@ -151,5 +172,10 @@
 		.map-stage { min-height: 0; }
 		.map-list { min-height: 0; margin: 0; overflow-y: auto; border-radius: 0; }
 		.map-list-heading > span { display: block; max-width: 12rem; text-align: right; }
+	}
+	@media (max-width: 430px) {
+		.place-focus { grid-template-columns: 2.5rem minmax(0, 1fr); }
+		.place-focus b { grid-column: 2; }
+		.place-details { min-width: 4.25rem; padding-inline: .6rem; }
 	}
 </style>

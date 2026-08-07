@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto';
 import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
-import { join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 
-const dist = resolve(process.cwd(), 'dist');
+export const SERVICE_WORKER_SCHEMA_VERSION = 'release-gate-v1';
 
 async function walk(directory) {
 	const paths = [];
@@ -11,29 +12,115 @@ async function walk(directory) {
 		if (entry.isDirectory()) paths.push(...await walk(path));
 		else paths.push(path);
 	}
-	return paths;
+	return paths.sort((a, b) => a.localeCompare(b));
 }
 
-const files = (await walk(dist)).filter((path) => !path.endsWith('sw.js'));
-const cacheable = files
-	.filter((path) => /\.(?:html|js|css|woff2|svg|png|webmanifest|json)$/.test(path))
-	.filter((path) => !path.includes(`${sep}data${sep}`))
-	.map((path) => `/${relative(dist, path).split(sep).join('/')}`)
-	.sort();
-const digest = createHash('sha256');
-for (const path of files) {
-	const info = await stat(path);
-	digest.update(relative(dist, path)).update(String(info.size));
+function toUrl(distDir, path) {
+	return `/${relative(distDir, path).split(sep).join('/')}`;
 }
-const version = digest.digest('hex').slice(0, 12);
 
-const source = `const VERSION = ${JSON.stringify(version)};
+function toPath(distDir, url) {
+	return join(distDir, ...url.replace(/^\//, '').split('/'));
+}
+
+function htmlAssetReferences(html) {
+	return Array.from(html.matchAll(/(?:href|src|component-url|renderer-url|before-hydration-url)=["'](\/[^"'#?]+)["']/g), (match) => match[1])
+		.filter((url) => url.startsWith('/_astro/'));
+}
+
+function staticImportReferences(source, importerUrl) {
+	const references = [];
+	const pattern = /(?:import|export)(?!\s*\()\s*(?:[^'";]*?\bfrom\s*)?["'](\.[^"']+)["']/g;
+	for (const match of source.matchAll(pattern)) references.push(new URL(match[1], `https://kain-elbi.local${importerUrl}`).pathname);
+	return references;
+}
+
+function isForbidden(url) {
+	return url.startsWith('/place/')
+		|| url.startsWith('/data/')
+		|| /(?:maplibre-gl|opening_hours|MapExperience|PlaceSheet)/i.test(url)
+		|| /latin-ext|vietnamese/i.test(url)
+		|| url.endsWith('.map');
+}
+
+export async function buildPrecacheManifest(distDir) {
+	const fixed = [
+		'/index.html',
+		'/offline/index.html',
+		'/manifest.webmanifest',
+		'/favicon.svg',
+		'/favicon.ico',
+		'/icons/kain-elbi-192.png',
+		'/icons/kain-elbi-512.png',
+		'/icons/kain-elbi-maskable-512.png',
+	];
+	const allFiles = await walk(distDir);
+	const allUrls = new Set(allFiles.map((path) => toUrl(distDir, path)));
+	for (const url of fixed) {
+		if (!allUrls.has(url)) throw new Error(`Required precache asset is missing: ${url}`);
+	}
+
+	const manifest = new Set(fixed);
+	for (const htmlUrl of ['/index.html', '/offline/index.html']) {
+		const html = await readFile(toPath(distDir, htmlUrl), 'utf8');
+		for (const reference of htmlAssetReferences(html)) manifest.add(reference);
+	}
+
+	const queue = Array.from(manifest).filter((url) => url.endsWith('.js'));
+	const scanned = new Set();
+	while (queue.length) {
+		const url = queue.shift();
+		if (!url || scanned.has(url) || !allUrls.has(url) || isForbidden(url)) continue;
+		scanned.add(url);
+		const source = await readFile(toPath(distDir, url), 'utf8');
+		for (const reference of staticImportReferences(source, url)) {
+			if (!allUrls.has(reference) || isForbidden(reference)) continue;
+			if (!manifest.has(reference)) {
+				manifest.add(reference);
+				if (reference.endsWith('.js')) queue.push(reference);
+			}
+		}
+	}
+
+	for (const url of allUrls) {
+		if (/(?:bricolage-grotesque|atkinson-hyperlegible-next)-latin-wght-normal\.[^/]+\.woff2$/i.test(url)) manifest.add(url);
+	}
+
+	const result = Array.from(manifest).filter((url) => allUrls.has(url) && !isForbidden(url)).sort();
+	if (result.some(isForbidden)) throw new Error('Forbidden lazy asset entered the precache manifest.');
+	return result;
+}
+
+export async function hashDistContents(distDir, schemaVersion = SERVICE_WORKER_SCHEMA_VERSION) {
+	const digest = createHash('sha256');
+	digest.update(schemaVersion).update('\0');
+	for (const path of await walk(distDir)) {
+		if (path.endsWith(`${sep}sw.js`) || path === join(distDir, 'sw.js')) continue;
+		digest.update(toUrl(distDir, path)).update('\0');
+		digest.update(await readFile(path)).update('\0');
+	}
+	return digest.digest('hex').slice(0, 12);
+}
+
+export async function generateServiceWorker(distDir = resolve(process.cwd(), 'dist')) {
+	const cacheable = await buildPrecacheManifest(distDir);
+	const version = await hashDistContents(distDir);
+	const source = `const VERSION = ${JSON.stringify(version)};
 const STATIC_CACHE = 'kain-elbi-static-' + VERSION;
 const DATA_CACHE = 'kain-elbi-data-' + VERSION;
 const PRECACHE = ${JSON.stringify(cacheable)};
 
+async function precacheShell() {
+  const cache = await caches.open(STATIC_CACHE);
+  await Promise.all(PRECACHE.map(async (url) => {
+    const response = await fetch(url, { cache: 'reload' });
+    if (!response.ok) throw new Error('Precache failed for ' + url + ': ' + response.status);
+    await cache.put(url, response);
+  }));
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE)));
+  event.waitUntil(precacheShell());
 });
 
 self.addEventListener('activate', (event) => {
@@ -78,5 +165,11 @@ self.addEventListener('message', (event) => {
 });
 `;
 
-await writeFile(join(dist, 'sw.js'), source, 'utf8');
-console.log(`Generated service worker ${version} with ${cacheable.length} precache entries.`);
+	await writeFile(join(distDir, 'sw.js'), source, 'utf8');
+	const bytes = await Promise.all(cacheable.map(async (url) => (await stat(toPath(distDir, url))).size));
+	const totalBytes = bytes.reduce((sum, size) => sum + size, 0);
+	console.log(`Generated service worker ${version} with ${cacheable.length} precache entries (${totalBytes} bytes).`);
+}
+
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : '';
+if (invokedPath === fileURLToPath(import.meta.url)) await generateServiceWorker();

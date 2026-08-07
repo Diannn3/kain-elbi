@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { loadAppData } from '../../lib/data/loaders';
+	import { createPlaceSheetController, type PlaceSheetController } from '../../lib/place-sheet-controller';
 	import { parseSearchParams } from '../../lib/search-state';
 	import { rankSmartPicks } from '../../lib/smart-picks';
 	import type { RouteMatrixV1, SearchContext, SmartPick } from '../../lib/types';
@@ -13,7 +14,8 @@
 	let context = $state<SearchContext>();
 	let matrix = $state<RouteMatrixV1>();
 	let selected = $state<SmartPick>();
-	let trigger: HTMLElement | null = null;
+	let contentRoot: HTMLElement;
+	let sheetController: PlaceSheetController<SmartPick> | undefined;
 
 	const originName = $derived(context && matrix ? matrix.anchors[context.originId]?.name ?? 'Selected origin' : 'Selected origin');
 	const destinationName = $derived(context?.destinationId && matrix ? matrix.anchors[context.destinationId]?.name : 'One-way nearby');
@@ -25,37 +27,27 @@
 	}
 
 	function openDetails(pick: SmartPick, event?: Event) {
-		trigger = event?.currentTarget as HTMLElement | null;
-		selected = pick;
-		const url = new URL(window.location.href);
-		url.searchParams.set('place', pick.place.id);
-		window.history.pushState({}, '', url);
-		document.querySelector<HTMLElement>('#picks-content')?.setAttribute('inert', '');
+		sheetController?.open(pick, event?.currentTarget as HTMLElement | null);
 	}
 
 	function closeDetails() {
-		selected = undefined;
-		const url = new URL(window.location.href);
-		url.searchParams.delete('place');
-		window.history.pushState({}, '', url);
-		document.querySelector<HTMLElement>('#picks-content')?.removeAttribute('inert');
-		queueMicrotask(() => trigger?.focus());
+		sheetController?.close();
 	}
 
 	onMount(() => {
 		let active = true;
-		const handlePop = () => {
-			const id = new URLSearchParams(window.location.search).get('place');
-			selected = picks.find((pick) => pick.place.id === id);
-		};
+		sheetController = createPlaceSheetController({
+			contentRoot,
+			resolveById: (id) => picks.find((pick) => pick.place.id === id),
+			getId: (pick) => pick.place.id,
+			setSelected: (pick) => { selected = pick; },
+		});
 		loadAppData().then((data) => {
 			if (!active) return;
 			matrix = data.matrix;
 			context = parseSearchParams(new URLSearchParams(window.location.search));
 			picks = rankSmartPicks(data.places, data.matrix, context);
-			const selectedId = new URLSearchParams(window.location.search).get('place');
-			selected = picks.find((pick) => pick.place.id === selectedId);
-			window.addEventListener('popstate', handlePop);
+			sheetController?.syncFromUrl({ restoreFocus: false });
 		}).catch((cause) => {
 			error = cause instanceof Error ? cause.message : 'Smart Picks could not load. Refresh when you are online.';
 		}).finally(() => {
@@ -63,12 +55,12 @@
 		});
 		return () => {
 			active = false;
-			window.removeEventListener('popstate', handlePop);
+			sheetController?.destroy();
 		};
 	});
 </script>
 
-<section id="picks-content" class="picks-layout" aria-busy={loading}>
+<section id="picks-content" class="picks-layout" aria-busy={loading} bind:this={contentRoot}>
 	<div class="route-preview" aria-label="Route context diagram">
 		<div class="route-summary">
 			<a href="/" aria-label="Change route">←</a>

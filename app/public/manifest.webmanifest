@@ -2,9 +2,16 @@
 	"name": "Kain Elbi",
 	"short_name": "Kain Elbi",
 	"description": "Route-aware food discovery for UPLB students.",
+	"id": "/",
+	"scope": "/",
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#f7f4ea",
 	"theme_color": "#083b2b",
-	"icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+	"icons": [
+		{ "src": "/icons/kain-elbi-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+		{ "src": "/icons/kain-elbi-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+		{ "src": "/icons/kain-elbi-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+		{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+	]
 }

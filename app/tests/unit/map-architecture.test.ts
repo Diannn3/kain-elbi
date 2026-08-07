@@ -22,6 +22,9 @@ describe('online MapTiler architecture', () => {
 		const experience = read('src/components/map/MapExperience.svelte');
 
 		expect(canvas).toContain('import.meta.env.PUBLIC_MAPTILER_KEY');
+		expect(canvas).toContain("const maplibre = await import('maplibre-gl')");
+		expect(canvas).not.toMatch(/\{\s*default:\s*\w+\s*\}\s*=\s*await import\('maplibre-gl'\)/);
+		expect(canvas).toContain('data-map-state={mapState}');
 		expect(canvas).toContain('https://api.maptiler.com/maps/streets-v2/style.json?key=');
 		expect(canvas).not.toMatch(/pmtiles|addProtocol|removeProtocol/i);
 		expect(experience).not.toMatch(/CACHE_OFFLINE_MAP|OFFLINE_MAP_|uplb\.pmtiles|kain-elbi-map/);
