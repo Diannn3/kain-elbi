@@ -42,6 +42,19 @@ describe('normalizePlaces', () => {
 
 		expect(place.sources).toHaveLength(2);
 		expect(place.recordStatus).toBe('candidate');
+		expect(place.independentSourceCount).toBe(2);
 		expect(place.confidenceLabel).toBe('Multiple sources agree');
+	});
+
+	it('does not treat two OSM records as independent sources', () => {
+		const [place] = normalizePlaces([{
+			...base,
+			sources: [
+				{ source: 'osm', source_id: 'node/1' },
+				{ source: 'osm', source_id: 'way/2' },
+			],
+		}]);
+		expect(place.independentSourceCount).toBe(1);
+		expect(place.confidenceLabel).not.toBe('Multiple sources agree');
 	});
 });

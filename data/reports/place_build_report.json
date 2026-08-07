@@ -1,0 +1,405 @@
+{
+  "summary": {
+    "raw_osm": 259,
+    "raw_overture": 2664,
+    "relevant_osm": 259,
+    "relevant_overture": 553,
+    "candidate_count": 812,
+    "canonical_places": 769,
+    "named_places": 757,
+    "bootstrapped_registry_places": 0,
+    "reused_stable_ids": 769,
+    "new_stable_ids": 0,
+    "auto_merge_operations": 34,
+    "stable_id_conflicts_blocked": 0,
+    "review_candidates": 21,
+    "source_mix": {
+      "osm": 221,
+      "osm+overture": 28,
+      "overture": 520
+    }
+  },
+  "review": [
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/253499588",
+        "name": "Zark's Burgers"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "ebc31dca-644b-463e-b681-83529a5e2b09",
+        "name": "Zark’s Burger"
+      },
+      "score": 0.6863,
+      "distance_m": 14.5,
+      "reasons": [
+        "name=0.96",
+        "distance=14.5m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/382059223",
+        "name": "Serendipitea"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "5c61aa15-9ad2-4788-9a6c-8c2c9b609de6",
+        "name": "Serendipity Tea Bar"
+      },
+      "score": 0.6787,
+      "distance_m": 2.7,
+      "reasons": [
+        "category",
+        "distance=2.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/484113864",
+        "name": "Sizzlers"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "9358773a-5ccf-4422-a88b-47660c4e2b1c",
+        "name": "Sizzlers"
+      },
+      "score": 0.7406,
+      "distance_m": 3.0,
+      "reasons": [
+        "name=1.00",
+        "distance=3.0m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/892775246",
+        "name": "Chooks to Go"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "10c0636f-bf79-43be-b9bf-44bb2eb6b85c",
+        "name": "Chooks-to-Go"
+      },
+      "score": 0.7222,
+      "distance_m": 8.9,
+      "reasons": [
+        "name=1.00",
+        "distance=8.9m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/1342892778",
+        "name": "Orient The Original Buko Pie"
+      },
+      "candidate_b": {
+        "source": "osm",
+        "source_id": "node/6194703885",
+        "name": "The Original Buko Pie"
+      },
+      "score": 0.6939,
+      "distance_m": 11.1,
+      "reasons": [
+        "name=0.86",
+        "category",
+        "distance=11.1m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/1342892778",
+        "name": "Orient The Original Buko Pie"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "9617185f-ef45-4a13-b6ca-86e8e761e1fd",
+        "name": "Orient - The Original Buko Pie Bakeshop"
+      },
+      "score": 0.6781,
+      "distance_m": 16.9,
+      "reasons": [
+        "name=0.86",
+        "category",
+        "distance=16.9m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/2141102095",
+        "name": "Minute Burger"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "e5c1775a-9fcf-4cf4-8842-3615fd6556e5",
+        "name": "Minute Burger"
+      },
+      "score": 0.7241,
+      "distance_m": 8.3,
+      "reasons": [
+        "name=1.00",
+        "distance=8.3m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/2380792660",
+        "name": "Angel's Burger"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "410f5f71-732c-412e-84d9-9e415bb6a12f",
+        "name": "Angel's Hamburger"
+      },
+      "score": 0.6868,
+      "distance_m": 4.7,
+      "reasons": [
+        "name=0.90",
+        "distance=4.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/3723279440",
+        "name": "Melville Canteen"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "bf43b1a2-4205-427b-92e7-273b0f4ef252",
+        "name": "Melville Eatery"
+      },
+      "score": 0.6715,
+      "distance_m": 5.0,
+      "reasons": [
+        "category",
+        "distance=5.0m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/3877677203",
+        "name": "Potato Corner"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "e11f1f26-67fb-4889-b147-7cf20a36c6f4",
+        "name": "Potato Corner"
+      },
+      "score": 0.6666,
+      "distance_m": 26.7,
+      "reasons": [
+        "name=1.00",
+        "distance=26.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/4885812253",
+        "name": "Turks"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "50a42e5e-dbc1-4dc4-aad6-76ecb96a09ce",
+        "name": "Turks"
+      },
+      "score": 0.7102,
+      "distance_m": 12.7,
+      "reasons": [
+        "name=1.00",
+        "distance=12.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/7518002098",
+        "name": "Lola's Cafe"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "a2d48eb9-9dcf-40c9-8a55-dcc0f70d2bba",
+        "name": "Lola's CAFE"
+      },
+      "score": 0.7356,
+      "distance_m": 4.6,
+      "reasons": [
+        "name=1.00",
+        "distance=4.6m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/7686442761",
+        "name": "Chooks to Go"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "11d58fdf-afc8-48a6-8fe8-7ca8cd0d0bfa",
+        "name": "Chooks-to-Go"
+      },
+      "score": 0.7305,
+      "distance_m": 6.3,
+      "reasons": [
+        "name=1.00",
+        "distance=6.3m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/7686442778",
+        "name": "Batangas Lomi"
+      },
+      "candidate_b": {
+        "source": "osm",
+        "source_id": "node/10839940004",
+        "name": "VJ's Batangas Lomi"
+      },
+      "score": 0.651,
+      "distance_m": 21.9,
+      "reasons": [
+        "name=0.84",
+        "category",
+        "distance=21.9m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/10839865487",
+        "name": "Lots'a Pizza"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "c9f72640-8e7b-44de-9639-513558aa5c41",
+        "name": "Lots A Pizza"
+      },
+      "score": 0.7329,
+      "distance_m": 5.5,
+      "reasons": [
+        "name=1.00",
+        "distance=5.5m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/10839865495",
+        "name": "Eloise Hotfood"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "21aab2a9-a5ca-4283-961d-a81836ff90de",
+        "name": "Eloise Hot Food Booth"
+      },
+      "score": 0.6352,
+      "distance_m": 4.7,
+      "reasons": [
+        "distance=4.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/13526781453",
+        "name": "Angel's Burger"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "09016c5a-83ee-4ec3-ad7c-cb8d6e3971dd",
+        "name": "Angel's Burger"
+      },
+      "score": 0.73,
+      "distance_m": 6.4,
+      "reasons": [
+        "name=1.00",
+        "distance=6.4m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "way/119896462",
+        "name": "Dalcielo"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "ba04c4ec-14ca-44e0-9c97-60388ffa1415",
+        "name": "Dalcielo"
+      },
+      "score": 0.7186,
+      "distance_m": 10.1,
+      "reasons": [
+        "name=1.00",
+        "distance=10.1m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "way/196633042",
+        "name": "F & M Restobar"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "44742a3d-7863-4443-b58e-dc219b7f9c72",
+        "name": "F and M Restaurant"
+      },
+      "score": 0.6905,
+      "distance_m": 6.8,
+      "reasons": [
+        "name=0.82",
+        "category",
+        "distance=6.8m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "way/466369508",
+        "name": "One Bonitos Place"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "1ee6cc37-4cac-4fce-a10e-dba0c5fbd2cf",
+        "name": "One Bonitos"
+      },
+      "score": 0.6567,
+      "distance_m": 11.6,
+      "reasons": [
+        "category",
+        "distance=11.6m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "way/466369510",
+        "name": "One Place Bonito's"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "1ee6cc37-4cac-4fce-a10e-dba0c5fbd2cf",
+        "name": "One Bonitos"
+      },
+      "score": 0.6239,
+      "distance_m": 17.7,
+      "reasons": [
+        "category",
+        "distance=17.7m"
+      ]
+    }
+  ]
+}

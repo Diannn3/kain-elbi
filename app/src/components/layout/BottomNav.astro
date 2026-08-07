@@ -1,11 +1,12 @@
 ---
 interface Props { currentPath: string }
 const { currentPath } = Astro.props;
+const isHome = currentPath === '/';
 const isMap = currentPath.startsWith('/map');
 ---
 
 <nav class="bottom-nav" aria-label="Mobile navigation">
-	<a href="/" aria-current={!isMap ? 'page' : undefined}>
+	<a href="/" aria-current={isHome ? 'page' : undefined}>
 		<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm3-13-2 5-5 3 2-5 5-3Z" /></svg>
 		<span>Discover</span>
 	</a>
@@ -16,8 +17,8 @@ const isMap = currentPath.startsWith('/map');
 </nav>
 
 <style>
-	.bottom-nav { position: fixed; z-index: 50; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); left: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; min-height: 4.2rem; padding: 0.35rem; border: 1px solid hsl(0 0% 100% / 0.75); border-radius: 1.35rem; background: hsl(45 44% 99% / 0.88); box-shadow: 0 1rem 2.5rem hsl(154 40% 8% / 0.18); backdrop-filter: blur(18px); }
-	a { display: grid; grid-template-columns: auto auto; place-content: center; align-items: center; gap: 0.45rem; border-radius: 1rem; color: var(--muted); font: 730 0.78rem/1 var(--font-display); text-decoration: none; }
+	.bottom-nav { position: fixed; z-index: 50; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); left: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; min-height: 4.2rem; padding: 0.35rem; border: 1px solid hsl(0 0% 100% / 0.75); border-radius: 1.35rem; background: hsl(45 44% 99% / 0.9); box-shadow: 0 1rem 2.5rem hsl(154 40% 8% / 0.18); backdrop-filter: blur(18px); }
+	a { min-height: var(--tap-target); display: grid; grid-template-columns: auto auto; place-content: center; align-items: center; gap: 0.45rem; border-radius: 1rem; color: var(--text-secondary); font: 730 0.78rem/1 var(--font-display); text-decoration: none; }
 	a[aria-current='page'] { background: var(--forest); color: white; }
 	svg { width: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.8; }
 	@media (min-width: 760px) { .bottom-nav { display: none; } }

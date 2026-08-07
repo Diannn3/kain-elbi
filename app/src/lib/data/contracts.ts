@@ -1,4 +1,4 @@
-import type { Collection, RouteMatrixV1 } from '../types';
+import type { Collection, RouteMatrix } from '../types';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
 	return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -11,22 +11,24 @@ function requireKey(record: Record<string, unknown>, key: string, filename: stri
 	return record[key];
 }
 
-export function validateRouteMatrix(value: unknown): RouteMatrixV1 {
+export function validateRouteMatrix(value: unknown): RouteMatrix {
 	if (!isRecord(value)) throw new Error('route_matrix.json must contain an object');
-	if (value.schema_version !== 1) throw new Error('route_matrix.json must use schema_version 1');
+	const schema = value.schema_version;
+	if (schema !== 1 && schema !== 2) throw new Error('route_matrix.json must use schema_version 1 or 2');
 	requireKey(value, 'generated_at', 'route_matrix.json');
 	requireKey(value, 'walking_speed_mps', 'route_matrix.json');
-	for (const key of [
-		'anchors',
-		'anchor_to_place_seconds',
-		'place_to_anchor_seconds',
-		'anchor_to_anchor_seconds',
-	]) {
+	const keys = schema === 2
+		? ['anchors', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']
+		: ['anchors', 'anchor_to_place_seconds', 'place_to_anchor_seconds', 'anchor_to_anchor_seconds'];
+	for (const key of keys) {
 		if (!isRecord(requireKey(value, key, 'route_matrix.json'))) {
 			throw new Error(`route_matrix.json ${key} must contain an object`);
 		}
 	}
-	return value as unknown as RouteMatrixV1;
+	if (schema === 2 && !isRecord(requireKey(value, 'routing', 'route_matrix.json'))) {
+		throw new Error('route_matrix.json routing must contain an object');
+	}
+	return value as unknown as RouteMatrix;
 }
 
 export function validateCollections(value: unknown): Collection[] {

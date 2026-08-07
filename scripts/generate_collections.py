@@ -1,74 +1,110 @@
+from __future__ import annotations
+
+import argparse
 import json
 from pathlib import Path
-import datetime
-import random
-import sys
+from typing import Any
 
-# Windows Unicode output fix
-sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
+from lib.paths import COLLECTIONS_FILE, DATA_DIR, EDITORIAL_DIR, PLACES_FILE
 
-def main():
-    base_dir = Path(r"C:\Users\Dian\Documents\Vaults\Fensalir\businesses\kain_elbi")
-    data_dir = base_dir / "data"
-    places_file = data_dir / "places.json"
-    out_collections_file = data_dir / "collections.json"
-    
-    with open(places_file, 'r', encoding='utf-8') as f:
-        places_data = json.load(f)
-        
-    valid_places = [p for p in places_data if p.get("id")]
-    
-    # Shuffle for randomness in MVP
-    random.seed(42)
-    random.shuffle(valid_places)
-    
-    raymundo_places = [p["id"] for p in valid_places[:5]]
-    freshie_places = [p["id"] for p in valid_places[5:10]]
-    hidden_gems = [p["id"] for p in valid_places[10:15]]
+ALLOWED_THEMES = {'sun', 'leaf', 'forest'}
 
-    collections = [
-        {
-            "id": "raymundo-essentials",
-            "title": "Raymundo Essentials",
-            "description": "The reliable staples along Raymundo Gate. Quick, student-friendly, and always open when you need them.",
-            "research_date": "2026-08-01",
-            "evidence_count": 5,
-            "source_urls": ["https://uplb.edu.ph"],
-            "cover_metadata": {
-                "theme": "leaf"
-            },
-            "place_ids": raymundo_places
-        },
-        {
-            "id": "freshie-starter-pack",
-            "title": "Freshie Starter Pack",
-            "description": "Welcome to Elbi! Here are the legendary spots every freshie needs to try in their first semester.",
-            "research_date": "2026-08-01",
-            "evidence_count": 8,
-            "source_urls": [],
-            "cover_metadata": {
-                "theme": "sun"
-            },
-            "place_ids": freshie_places
-        },
-        {
-            "id": "cafe-and-chills",
-            "title": "Café & Chills",
-            "description": "Need to study or just want some aircon? The best cafes around campus with decent coffee.",
-            "research_date": "2026-08-02",
-            "evidence_count": 10,
-            "source_urls": [],
-            "cover_metadata": {
-                "theme": "forest"
-            },
-            "place_ids": hidden_gems
-        }
-    ]
-    
-    with open(out_collections_file, 'w', encoding='utf-8') as f:
-        json.dump(collections, f, indent=2)
-        
-    print(f"Successfully wrote {out_collections_file}")
+
+def _load(path: Path, default: Any):
+    if not path.exists():
+        return default
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def build_collections(
+    *,
+    source_file: Path = EDITORIAL_DIR / 'collections.json',
+    sources_file: Path = EDITORIAL_DIR / 'sources.json',
+    places_file: Path = PLACES_FILE,
+    output_file: Path = COLLECTIONS_FILE,
+) -> list[dict[str, Any]]:
+    """Validate author-maintained editorial collections and publish frontend JSON.
+
+    No place is selected or described algorithmically here. Empty editorial input
+    intentionally produces an empty published collection list, which keeps the
+    homepage from making unsupported claims until research-backed entries exist.
+    """
+    raw = _load(source_file, [])
+    sources = _load(sources_file, {})
+    places = _load(places_file, [])
+    if not isinstance(raw, list):
+        raise ValueError(f'{source_file} must contain an array')
+    if not isinstance(sources, dict):
+        raise ValueError(f'{sources_file} must contain an object')
+
+    place_by_id = {str(place.get('id')): place for place in places if place.get('id')}
+    published: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            raise ValueError(f'Collection {index} must be an object')
+        collection_id = str(item.get('id') or '').strip()
+        title = str(item.get('title') or '').strip()
+        description = str(item.get('description') or '').strip()
+        research_date = str(item.get('research_date') or item.get('researchDate') or '').strip()
+        place_ids = [str(value) for value in item.get('place_ids', item.get('placeIds', []))]
+        source_ids = [str(value) for value in item.get('source_ids', item.get('sourceIds', []))]
+        theme = str((item.get('cover_metadata') or {}).get('theme') or item.get('coverVariant') or 'leaf')
+
+        if not collection_id or not title or not description or not research_date:
+            raise ValueError(f'Collection {index} is missing id/title/description/research_date')
+        if collection_id in seen_ids:
+            raise ValueError(f'Duplicate collection id: {collection_id}')
+        seen_ids.add(collection_id)
+        if theme not in ALLOWED_THEMES:
+            raise ValueError(f'Collection {collection_id} has invalid cover theme {theme!r}')
+        if len(place_ids) != len(set(place_ids)):
+            raise ValueError(f'Collection {collection_id} contains duplicate place ids')
+        if not place_ids:
+            raise ValueError(f'Collection {collection_id} must reference at least one place')
+        missing = [pid for pid in place_ids if pid not in place_by_id]
+        if missing:
+            raise ValueError(f'Collection {collection_id} references missing place ids: {missing[:5]}')
+        closed = [pid for pid in place_ids if place_by_id[pid].get('status') == 'closed']
+        if closed:
+            raise ValueError(f'Collection {collection_id} references closed places: {closed[:5]}')
+        if not source_ids:
+            raise ValueError(f'Collection {collection_id} must cite at least one editorial source')
+        unknown_sources = [sid for sid in source_ids if sid not in sources]
+        if unknown_sources:
+            raise ValueError(f'Collection {collection_id} references unknown sources: {unknown_sources}')
+
+        source_urls = sorted({str(sources[sid].get('url') or '').strip() for sid in source_ids if sources[sid].get('url')})
+        if not source_urls:
+            raise ValueError(f'Collection {collection_id} has no usable source URLs')
+
+        published.append({
+            'id': collection_id,
+            'title': title,
+            'description': description,
+            'research_date': research_date,
+            'evidence_count': int(item.get('evidence_count') or item.get('evidenceCount') or len(source_ids)),
+            'source_urls': source_urls,
+            'cover_metadata': {'theme': theme},
+            'place_ids': place_ids,
+        })
+
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    output_file.write_text(json.dumps(published, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    return published
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description='Publish deterministic, research-backed editorial collections.')
+    parser.add_argument('--source', type=Path, default=EDITORIAL_DIR / 'collections.json')
+    parser.add_argument('--sources', type=Path, default=EDITORIAL_DIR / 'sources.json')
+    parser.add_argument('--places', type=Path, default=PLACES_FILE)
+    parser.add_argument('--output', type=Path, default=COLLECTIONS_FILE)
+    args = parser.parse_args()
+    collections = build_collections(source_file=args.source, sources_file=args.sources, places_file=args.places, output_file=args.output)
+    print(f'Published {len(collections)} editorial collections to {args.output}')
+
 
 if __name__ == '__main__':
     main()

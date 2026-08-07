@@ -1,0 +1,24 @@
+{
+  "places": 769,
+  "named_places": 757,
+  "unique_ids": 769,
+  "duplicate_ids": 0,
+  "source_mix": {
+    "osm": 221,
+    "osm+overture": 28,
+    "overture": 520
+  },
+  "independent_sources_2_plus": 28,
+  "with_hours": 48,
+  "with_website": 134,
+  "route_schema": 1,
+  "routable_places": 249,
+  "routing_source": "legacy-estimate",
+  "snap_records": 0,
+  "snap_status": {},
+  "unclassified_route_places": 769,
+  "release_ready": false,
+  "release_failures": [
+    "route matrix is not schema v2 / Room TBA graph based"
+  ]
+}

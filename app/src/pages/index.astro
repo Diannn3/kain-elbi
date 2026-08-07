@@ -14,7 +14,7 @@ const anchors = Object.values(matrix.anchors);
 			<div class="hero-copy">
 				<p class="kicker">UPLB · Between Classes</p>
 				<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
-				<p class="lede">Route-aware picks around UPLB—built from walking estimates, open candidate data, and the time you actually have.</p>
+				<p class="lede">Tell us where you are, where you need to be, and how much time you have. Kain Elbi filters out stops that do not fit your break.</p>
 			</div>
 			<div class="planner-wrap">
 				<RoutePlanner {anchors} client:load />
@@ -38,14 +38,14 @@ const anchors = Object.values(matrix.anchors);
 </Layout>
 
 <style>
-	.hero { position: relative; display: grid; gap: 2rem; padding-top: clamp(2.25rem, 8vw, 6rem); overflow: clip; }
+	.hero { position: relative; display: grid; gap: 2rem; padding-top: clamp(1.75rem, 6vw, 4.5rem); overflow: clip; }
 	.hero::before { content: ''; position: absolute; z-index: -1; top: 4rem; right: -8rem; width: 22rem; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 1rem, hsl(154 76% 13% / 0.045) 1.05rem 1.1rem); }
 	.hero-copy { max-width: 48rem; }
-	.kicker { margin: 0 0 1.25rem; color: var(--leaf); font: 760 0.75rem/1 var(--font-display); letter-spacing: 0.16em; text-transform: uppercase; }
-	h1 { margin: 0; color: var(--forest); font: 820 clamp(3.35rem, 14vw, 7.75rem)/0.82 var(--font-display); letter-spacing: -0.065em; }
+	.kicker { margin: 0 0 1.25rem; color: var(--text-accent); font: 760 0.75rem/1 var(--font-display); letter-spacing: 0.16em; text-transform: uppercase; }
+	h1 { margin: 0; color: var(--forest); font: 820 clamp(3rem, 12vw, 6.6rem)/0.84 var(--font-display); letter-spacing: -0.065em; }
 	h1 span { color: var(--sun); }
 	.lede { max-width: 39rem; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1.55; text-wrap: pretty; }
-	.planner-wrap { width: min(100%, 48rem); }
+	.planner-wrap { width: min(100%, 50rem); }
 	.how-it-works { display: grid; gap: 2rem; margin-top: clamp(4rem, 10vw, 8rem); padding: clamp(1.5rem, 5vw, 3rem); border-radius: 2rem; background: var(--forest); color: white; }
 	.how-it-works h2 { max-width: 13ch; margin: 0.5rem 0 0; font: 780 clamp(2rem, 6vw, 4rem)/0.96 var(--font-display); }
 	.how-it-works .eyebrow-global { color: var(--sun); }
@@ -55,8 +55,8 @@ const anchors = Object.values(matrix.anchors);
 	li strong { font: 720 1.05rem/1.1 var(--font-display); }
 	li p { margin: 0; color: hsl(0 0% 100% / 0.68); line-height: 1.45; }
 	@media (min-width: 900px) {
-		.hero { grid-template-columns: minmax(0, 0.88fr) minmax(28rem, 0.72fr); align-items: center; gap: 4rem; }
-		.hero-copy { padding-bottom: 5rem; }
+		.hero { grid-template-columns: minmax(0, 0.72fr) minmax(30rem, 1fr); align-items: center; gap: 4rem; }
+		.hero-copy { padding-bottom: 2rem; }
 		.how-it-works { grid-template-columns: 0.8fr 1.2fr; }
 	}
 </style>

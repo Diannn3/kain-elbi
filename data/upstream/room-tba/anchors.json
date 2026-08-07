@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "source": "kain-existing-anchors",
+  "anchors": {
+    "agricultural-and-biological-chemistry-building": {
+      "id": "agricultural-and-biological-chemistry-building",
+      "name": "Agricultural and Biological Chemistry Building",
+      "lat": 14.160037897818123,
+      "lon": 121.24452978338535,
+      "legacy_id": "Agricultural and Biological Chemistry Building"
+    },
+    "afbed-building": {
+      "id": "afbed-building",
+      "name": "AFBED Building",
+      "lat": 14.1625,
+      "lon": 121.248,
+      "legacy_id": "AFBED Building"
+    },
+    "agricultural-systems-institute-building": {
+      "id": "agricultural-systems-institute-building",
+      "name": "Agricultural Systems Institute Building",
+      "lat": 14.15908083331246,
+      "lon": 121.24371439189271,
+      "legacy_id": "Agricultural Systems Institute Building"
+    },
+    "biological-sciences-building": {
+      "id": "biological-sciences-building",
+      "name": "Biological Sciences Building",
+      "lat": 14.16573858977826,
+      "lon": 121.24045282592225,
+      "legacy_id": "Biological Sciences Building"
+    },
+    "cafs-building": {
+      "id": "cafs-building",
+      "name": "CAFS Building",
+      "lat": 14.160329177519289,
+      "lon": 121.24508768282763,
+      "legacy_id": "CAFS Building"
+    },
+    "cas-main-building": {
+      "id": "cas-main-building",
+      "name": "CAS Main Building",
+      "lat": 14.164912488568103,
+      "lon": 121.24116485649184,
+      "legacy_id": "CAS Main Building"
+    },
+    "cas-annex-1": {
+      "id": "cas-annex-1",
+      "name": "CAS Annex 1",
+      "lat": 14.165447317040943,
+      "lon": 121.24109655582862,
+      "legacy_id": "CAS Annex 1"
+    },
+    "cas-annex-2": {
+      "id": "cas-annex-2",
+      "name": "CAS Annex 2",
+      "lat": 14.165488927458338,
+      "lon": 121.24174028595435,
+      "legacy_id": "CAS Annex 2"
+    },
+    "cdc-building": {
+      "id": "cdc-building",
+      "name": "CDC Building",
+      "lat": 14.167,
+      "lon": 121.2426,
+      "legacy_id": "CDC Building"
+    },
+    "civil-engineering-building": {
+      "id": "civil-engineering-building",
+      "name": "Civil Engineering Building",
+      "lat": 14.1618,
+      "lon": 121.246,
+      "legacy_id": "Civil Engineering Building"
+    },
+    "ceat-building": {
+      "id": "ceat-building",
+      "name": "CEAT Building",
+      "lat": 14.1613,
+      "lon": 121.2454,
+      "legacy_id": "CEAT Building"
+    },
+    "cem-building": {
+      "id": "cem-building",
+      "name": "CEM Building",
+      "lat": 14.166660123648663,
+      "lon": 121.24090736444153,
+      "legacy_id": "CEM Building"
+    },
+    "cfnr-building": {
+      "id": "cfnr-building",
+      "name": "CFNR Building",
+      "lat": 14.1543,
+      "lon": 121.2353,
+      "legacy_id": "CFNR Building"
+    },
+    "che-building": {
+      "id": "che-building",
+      "name": "CHE Building",
+      "lat": 14.164995709591306,
+      "lon": 121.241894417301,
+      "legacy_id": "CHE Building"
+    },
+    "chemical-engineering-building": {
+      "id": "chemical-engineering-building",
+      "name": "Chemical Engineering Building",
+      "lat": 14.1608,
+      "lon": 121.245,
+      "legacy_id": "Chemical Engineering Building"
+    },
+    "cvm-building": {
+      "id": "cvm-building",
+      "name": "CVM Building",
+      "lat": 14.15892049473242,
+      "lon": 121.24313896221082,
+      "legacy_id": "CVM Building"
+    },
+    "daae-building": {
+      "id": "daae-building",
+      "name": "DAAE Building",
+      "lat": 14.167117835374897,
+      "lon": 121.24073570307466,
+      "legacy_id": "DAAE Building"
+    },
+    "electrical-engineering-building": {
+      "id": "electrical-engineering-building",
+      "name": "Electrical Engineering Building",
+      "lat": 14.161580616694565,
+      "lon": 121.24783967751902,
+      "legacy_id": "Electrical Engineering Building"
+    },
+    "forestry-biological-sciences-building": {
+      "id": "forestry-biological-sciences-building",
+      "name": "Forestry Biological Sciences Building",
+      "lat": 14.1548,
+      "lon": 121.2358,
+      "legacy_id": "Forestry Biological Sciences Building"
+    },
+    "graduate-school-building": {
+      "id": "graduate-school-building",
+      "name": "Graduate School Building",
+      "lat": 14.1638,
+      "lon": 121.239,
+      "legacy_id": "Graduate School Building"
+    },
+    "hydrology-building": {
+      "id": "hydrology-building",
+      "name": "Hydrology Building",
+      "lat": 14.162790342169593,
+      "lon": 121.24949043285048,
+      "legacy_id": "Hydrology Building"
+    },
+    "iabe-building": {
+      "id": "iabe-building",
+      "name": "IABE Building",
+      "lat": 14.162,
+      "lon": 121.2475,
+      "legacy_id": "IABE Building"
+    },
+    "icoped-building": {
+      "id": "icoped-building",
+      "name": "ICOPED Building",
+      "lat": 14.167409105993643,
+      "lon": 121.24232357078375,
+      "legacy_id": "ICOPED Building"
+    },
+    "icrops-building": {
+      "id": "icrops-building",
+      "name": "ICropS Building",
+      "lat": 14.160418508015592,
+      "lon": 121.24579971346282,
+      "legacy_id": "ICropS Building"
+    },
+    "industrial-engineering-building": {
+      "id": "industrial-engineering-building",
+      "name": "Industrial Engineering Building",
+      "lat": 14.162249399713152,
+      "lon": 121.24760215793597,
+      "legacy_id": "Industrial Engineering Building"
+    },
+    "ifst-building": {
+      "id": "ifst-building",
+      "name": "IFST Building",
+      "lat": 14.160501730685995,
+      "lon": 121.24442642252787,
+      "legacy_id": "IFST Building"
+    },
+    "ihnf-building": {
+      "id": "ihnf-building",
+      "name": "IHNF Building",
+      "lat": 14.164995709592109,
+      "lon": 121.2427098088592,
+      "legacy_id": "IHNF Building"
+    },
+    "irnr-building": {
+      "id": "irnr-building",
+      "name": "IRNR Building",
+      "lat": 14.1538,
+      "lon": 121.2348,
+      "legacy_id": "IRNR Building"
+    },
+    "iwep-building": {
+      "id": "iwep-building",
+      "name": "IWEP Building",
+      "lat": 14.165827918146277,
+      "lon": 121.2406498724568,
+      "legacy_id": "IWEP Building"
+    },
+    "lhkcb-building": {
+      "id": "lhkcb-building",
+      "name": "LHKCB Building",
+      "lat": 14.160501730680284,
+      "lon": 121.24438350730719,
+      "legacy_id": "LHKCB Building"
+    },
+    "math-building": {
+      "id": "math-building",
+      "name": "Math Building",
+      "lat": 14.165411814244841,
+      "lon": 121.24361103115628,
+      "legacy_id": "Math Building"
+    },
+    "copeland-gymnasium": {
+      "id": "copeland-gymnasium",
+      "name": "Copeland Gymnasium",
+      "lat": 14.157297635860596,
+      "lon": 121.2427098088592,
+      "legacy_id": "Copeland Gymnasium"
+    },
+    "baker-hall-pool": {
+      "id": "baker-hall-pool",
+      "name": "Baker Hall Pool",
+      "lat": 14.162253497902821,
+      "lon": 121.24266929817223,
+      "legacy_id": "Baker Hall Pool"
+    },
+    "phtrc-building": {
+      "id": "phtrc-building",
+      "name": "PHTRC Building",
+      "lat": 14.161542011486866,
+      "lon": 121.24429767662376,
+      "legacy_id": "PHTRC Building"
+    },
+    "physical-sciences-building": {
+      "id": "physical-sciences-building",
+      "name": "Physical Sciences Building",
+      "lat": 14.16449638298952,
+      "lon": 121.24167984077903,
+      "legacy_id": "Physical Sciences Building"
+    },
+    "ptcf-building": {
+      "id": "ptcf-building",
+      "name": "PTCF Building",
+      "lat": 14.156,
+      "lon": 121.241,
+      "legacy_id": "PTCF Building"
+    },
+    "tcc-building": {
+      "id": "tcc-building",
+      "name": "TCC Building",
+      "lat": 14.16574893221993,
+      "lon": 121.24288733602698,
+      "legacy_id": "TCC Building"
+    },
+    "main-library": {
+      "id": "main-library",
+      "name": "Main Library",
+      "lat": 14.165370203813325,
+      "lon": 121.23919075095945,
+      "legacy_id": "Main Library"
+    },
+    "uprhs-building": {
+      "id": "uprhs-building",
+      "name": "UPRHS Building",
+      "lat": 14.15151290659347,
+      "lon": 121.27134891640044,
+      "legacy_id": "UPRHS Building"
+    }
+  }
+}

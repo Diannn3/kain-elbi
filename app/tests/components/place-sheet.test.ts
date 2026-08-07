@@ -16,17 +16,21 @@ const place = {
 	openingHours: null,
 	recordStatus: 'candidate' as const,
 	sources: [{ source: 'osm', sourceId: 'node/1' }],
+	independentSourceCount: 1,
+	overtureConfidence: null,
+	operatingStatus: null,
 	confidenceLabel: 'Limited place information' as const,
 	hasParseableHours: false,
 };
 
 describe('PlaceSheet', () => {
-	it('renders as a dialog and closes with Escape', async () => {
+	it('uses the native dialog primitive and closes on cancel', async () => {
 		const onClose = vi.fn();
 		render(PlaceSheet, { place, open: true, onClose });
 
-		expect(screen.getByRole('dialog', { name: 'Campus Café details' })).toBeInTheDocument();
-		await fireEvent.keyDown(document, { key: 'Escape' });
+		const dialog = screen.getByRole('dialog', { name: 'Campus Café details' });
+		expect(dialog.tagName).toBe('DIALOG');
+		await fireEvent(dialog, new Event('cancel', { bubbles: false, cancelable: true }));
 		expect(onClose).toHaveBeenCalledOnce();
 	});
 

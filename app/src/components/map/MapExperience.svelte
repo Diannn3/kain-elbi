@@ -4,6 +4,7 @@
 	import { createPlaceSheetController, type PlaceSheetController } from '../../lib/place-sheet-controller';
 	import { parseSearchParams } from '../../lib/search-state';
 	import { rankSmartPicks } from '../../lib/smart-picks';
+	import { resolveSearchContext } from '../../lib/routing';
 	import type { Anchor, SearchContext, SmartPick } from '../../lib/types';
 	import PlaceSheet from '../place/PlaceSheet.svelte';
 	import MapCanvas from './MapCanvas.svelte';
@@ -51,7 +52,7 @@
 		loadAppData()
 			.then((data) => {
 				if (!active) return;
-				context = parseSearchParams(new URLSearchParams(window.location.search));
+				context = resolveSearchContext(data.matrix, parseSearchParams(new URLSearchParams(window.location.search)));
 				origin = data.matrix.anchors[context.originId];
 				destination = context.destinationId ? data.matrix.anchors[context.destinationId] : undefined;
 				picks = rankSmartPicks(data.places, data.matrix, context);
@@ -121,9 +122,7 @@
 	</section>
 </main>
 
-{#if sheetPick}
-	<PlaceSheet place={sheetPick.place} pick={sheetPick} open={true} onClose={closeSheet} />
-{/if}
+<PlaceSheet place={sheetPick?.place} pick={sheetPick} open={!!sheetPick} onClose={closeSheet} />
 
 <style>
 	.map-page { min-height: calc(100dvh - 4rem); padding-bottom: 5rem; background: var(--cream); }
@@ -146,7 +145,7 @@
 	.diagram-fallback p { grid-column: 1 / -1; max-width: 28rem; color: var(--muted); }
 	.map-list { position: relative; z-index: 3; margin-top: -1.5rem; padding: 1.5rem 1rem 2rem; border-radius: 1.75rem 1.75rem 0 0; background: var(--cream); }
 	.map-list-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
-	.map-list-heading p { margin: 0 0 .4rem; color: var(--leaf); font: 750 .68rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
+	.map-list-heading p { margin: 0 0 .4rem; color: var(--text-accent); font: 750 .68rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
 	.map-list-heading h1 { margin: 0; color: var(--forest); font: 780 clamp(1.75rem, 7vw, 2.75rem)/.95 var(--font-display); }
 	.map-list-heading > span { display: none; color: var(--muted); font-size: .75rem; }
 	.connectivity-note { margin-top: .9rem; padding: .7rem .8rem; border-radius: .75rem; color: var(--muted); background: var(--mist); font-size: .72rem; }
@@ -162,7 +161,7 @@
 	.compact-list strong, .compact-list small { display: block; }
 	.compact-list strong { font: 730 1rem/1.1 var(--font-display); }
 	.compact-list small { margin-top: .3rem; color: var(--muted); line-height: 1.3; }
-	.compact-list b { color: var(--leaf); font-size: .8rem; white-space: nowrap; }
+	.compact-list b { color: var(--text-accent); font-size: .8rem; white-space: nowrap; }
 	.empty { display: grid; gap: .35rem; padding: 2rem 0; color: var(--muted); }
 	.empty strong { color: var(--forest); font: 750 1.3rem/1 var(--font-display); }
 	@media (min-width: 900px) {

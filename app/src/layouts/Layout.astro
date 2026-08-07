@@ -39,7 +39,7 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 	</head>
 	<body class={pageClass}>
 		<a class="skip-link" href="#main-content">Skip to Main Content</a>
-		{!hideHeader && <SiteHeader />}
+		{!hideHeader && <SiteHeader currentPath={Astro.url.pathname} />}
 		<OfflineStatus client:idle />
 		<slot />
 		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}

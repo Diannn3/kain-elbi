@@ -20,6 +20,13 @@ describe('search state', () => {
 		expect(params.toString()).toBe('origin=math&originMode=building&break=45');
 	});
 
+	it('preserves the Room TBA handoff protocol without adding personal schedule data', () => {
+		const parsed = parseSearchParams(new URLSearchParams('src=room-tba&v=1&origin=math-building&destination=physical-sciences-building&break=55'));
+		expect(parsed.sourceApp).toBe('room-tba');
+		expect(parsed.protocolVersion).toBe(1);
+		expect(serializeSearchParams(parsed).get('src')).toBe('room-tba');
+	});
+
 	it('preserves a coarse GPS approach duration without storing coordinates', () => {
 		const parsed = parseSearchParams(
 			new URLSearchParams('origin=math&originMode=nearby&approach=83&break=45'),

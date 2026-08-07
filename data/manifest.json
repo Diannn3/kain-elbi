@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "dataset_version": "2026.08.07",
+  "generated_at": "2026-08-07T08:06:34.564806+00:00",
+  "places": {
+    "raw_osm": 259,
+    "raw_overture": 2664,
+    "relevant_osm": 259,
+    "relevant_overture": 553,
+    "candidate_count": 812,
+    "canonical_places": 769,
+    "named_places": 757,
+    "bootstrapped_registry_places": 0,
+    "reused_stable_ids": 769,
+    "new_stable_ids": 0,
+    "auto_merge_operations": 34,
+    "stable_id_conflicts_blocked": 0,
+    "review_candidates": 21,
+    "source_mix": {
+      "osm": 221,
+      "osm+overture": 28,
+      "overture": 520
+    }
+  },
+  "collections": {
+    "published": 0
+  },
+  "routing": {
+    "status": "legacy-estimate",
+    "schema_version": 1,
+    "generated_at": "2026-08-06T18:46:13.397776+00:00",
+    "warning": "Legacy Haversine estimate retained. Fetch Room TBA graph and rebuild before release.",
+    "canonical_places": 769,
+    "routable_places": 249,
+    "routing_gap": 520,
+    "unclassified_places": 769
+  },
+  "inputs": {
+    "osm_snapshot": "data/raw/osm-los-banos-food.geojson",
+    "overture_snapshot": "data/raw/overture-los-banos-food.geojson"
+  }
+}

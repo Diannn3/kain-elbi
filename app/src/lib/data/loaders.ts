@@ -1,10 +1,10 @@
 import { validateCollections, validateRouteMatrix } from './contracts';
 import { normalizePlaces } from './normalize';
-import type { Collection, Place, RouteMatrixV1 } from '../types';
+import type { Collection, Place, RouteMatrix } from '../types';
 
 export interface AppData {
 	places: Place[];
-	matrix: RouteMatrixV1;
+	matrix: RouteMatrix;
 	collections: Collection[];
 }
 

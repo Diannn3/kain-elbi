@@ -10,18 +10,23 @@ const anchors = [
 ];
 
 describe('RoutePlanner', () => {
-	it('provides labeled controls and keeps break time within the product control', async () => {
+	it('makes current location first-class and provides searchable building fields', () => {
 		render(RoutePlanner, { anchors });
 
-		expect(screen.getByLabelText('Starting point')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /use my current location/i })).toHaveAttribute('aria-pressed', 'true');
+		expect(screen.getByLabelText('Starting building')).toBeInTheDocument();
 		expect(screen.getByLabelText('Next class building')).toBeInTheDocument();
-		expect(screen.getByLabelText('Break time in minutes')).toHaveValue(45);
+	});
 
-		await fireEvent.click(screen.getByRole('button', { name: 'Add 5 minutes' }));
-		expect(screen.getByLabelText('Break time in minutes')).toHaveValue(50);
+	it('uses presets first and progressively reveals a custom break control', async () => {
+		render(RoutePlanner, { anchors });
 
 		await fireEvent.click(screen.getByRole('button', { name: 'Set break to 30 minutes' }));
+		await fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
 		expect(screen.getByLabelText('Break time in minutes')).toHaveValue(30);
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Add 5 minutes' }));
+		expect(screen.getByLabelText('Break time in minutes')).toHaveValue(35);
 	});
 
 	it('explains one-way mode before submission', () => {

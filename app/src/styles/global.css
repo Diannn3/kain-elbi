@@ -1,4 +1,5 @@
 :root {
+	/* Brand palette */
 	--forest: hsl(154 76% 13%);
 	--forest-deep: hsl(154 78% 9%);
 	--leaf: hsl(138 48% 38%);
@@ -9,18 +10,43 @@
 	--mist: hsl(145 20% 93%);
 	--muted: hsl(150 10% 39%);
 	--line: hsl(154 20% 25% / 0.14);
+
+	/* Semantic roles. Keep brand colors expressive; keep small text AA-safe. */
+	--text-primary: var(--ink);
+	--text-secondary: var(--muted);
+	--text-accent: hsl(138 48% 30%);
+	--surface-page: var(--cream);
+	--surface-raised: var(--paper);
+	--surface-subtle: var(--mist);
+	--border-subtle: var(--line);
+	--focus-ring: var(--sun);
+
+	/* 4pt/8pt rhythm and shared component geometry. */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+	--space-12: 3rem;
+	--radius-sm: 0.75rem;
+	--radius-md: 1rem;
+	--radius-lg: 1.5rem;
+	--radius-xl: 2rem;
+	--tap-target: 3rem;
+
 	--font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
 	--font-body: 'Atkinson Hyperlegible Next Variable', 'Trebuchet MS', sans-serif;
 	--page: min(100% - 2rem, 74rem);
 	font-family: var(--font-body);
-	color: var(--ink);
-	background: var(--cream);
+	color: var(--text-primary);
+	background: var(--surface-page);
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 }
 
 * { box-sizing: border-box; }
-html { min-width: 320px; scroll-behavior: smooth; background: var(--cream); }
+html { min-width: 320px; scroll-behavior: smooth; background: var(--surface-page); }
 body {
 	min-width: 320px;
 	min-height: 100vh;
@@ -29,7 +55,7 @@ body {
 	background:
 		radial-gradient(circle at 82% 8%, hsl(44 96% 49% / 0.13), transparent 24rem),
 		radial-gradient(circle at 6% 35%, hsl(138 48% 38% / 0.09), transparent 22rem),
-		var(--cream);
+		var(--surface-page);
 	-webkit-tap-highlight-color: hsl(44 96% 49% / 0.24);
 }
 button, input, select, textarea { font: inherit; }
@@ -37,7 +63,7 @@ button, select, a { touch-action: manipulation; }
 button { cursor: pointer; }
 img, svg { display: block; }
 a { color: inherit; }
-h1, h2, h3, p { overflow-wrap: anywhere; }
+h1, h2, h3, p { overflow-wrap: break-word; }
 h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
 .page-shell { width: var(--page); margin-inline: auto; }
 .skip-link {
@@ -46,23 +72,23 @@ h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
 	top: 0.5rem;
 	left: 0.5rem;
 	padding: 0.75rem 1rem;
-	border-radius: 0.7rem;
+	border-radius: 0.75rem;
 	background: var(--forest);
 	color: white;
 	transform: translateY(-150%);
 	transition: transform 150ms ease;
 }
 .skip-link:focus { transform: translateY(0); }
-:where(a, button, input, select, [tabindex]):focus-visible {
-	outline: 3px solid var(--sun);
+:where(a, button, input, select, summary, [tabindex]):focus-visible {
+	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
 .site-footer {
 	width: var(--page);
 	margin: 4rem auto 5.5rem;
 	padding-top: 1.5rem;
-	border-top: 1px solid var(--line);
-	color: var(--muted);
+	border-top: 1px solid var(--border-subtle);
+	color: var(--text-secondary);
 	font-size: 0.75rem;
 	line-height: 1.5;
 }

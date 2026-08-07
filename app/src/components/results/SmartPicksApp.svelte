@@ -2,9 +2,10 @@
 	import { onMount } from 'svelte';
 	import { loadAppData } from '../../lib/data/loaders';
 	import { createPlaceSheetController, type PlaceSheetController } from '../../lib/place-sheet-controller';
-	import { parseSearchParams } from '../../lib/search-state';
+	import { parseSearchParams, serializeSearchParams } from '../../lib/search-state';
 	import { rankSmartPicks } from '../../lib/smart-picks';
-	import type { RouteMatrixV1, SearchContext, SmartPick } from '../../lib/types';
+	import { resolveSearchContext } from '../../lib/routing';
+	import type { Category, RouteMatrix, SearchContext, SmartPick } from '../../lib/types';
 	import PlaceCard from '../cards/PlaceCard.svelte';
 	import PlaceSheet from '../place/PlaceSheet.svelte';
 
@@ -12,16 +13,33 @@
 	let error = $state('');
 	let picks = $state<SmartPick[]>([]);
 	let context = $state<SearchContext>();
-	let matrix = $state<RouteMatrixV1>();
+	let matrix = $state<RouteMatrix>();
 	let selected = $state<SmartPick>();
 	let contentRoot: HTMLElement;
 	let sheetController: PlaceSheetController<SmartPick> | undefined;
 
-	const originName = $derived(context && matrix ? matrix.anchors[context.originId]?.name ?? 'Selected origin' : 'Selected origin');
-	const destinationName = $derived(context?.destinationId && matrix ? matrix.anchors[context.destinationId]?.name : 'One-way nearby');
+	const categoryOptions: { value?: Category; label: string }[] = [
+		{ label: 'Any food' },
+		{ value: 'restaurant', label: 'Rice & meals' },
+		{ value: 'cafe', label: 'Café' },
+		{ value: 'fast_food', label: 'Quick bites' },
+		{ value: 'bakery_deli', label: 'Bakery' },
+	];
+	const breakOptions = [20, 30, 45, 60, 90];
+
+	const originName = $derived(context && matrix ? matrix.anchors[context.originId]?.name ?? 'Selected origin' : 'Loading route…');
+	const destinationName = $derived(context?.destinationId && matrix ? matrix.anchors[context.destinationId]?.name : 'No next class');
+	const categoryLabel = $derived(categoryOptions.find((option) => option.value === context?.preferredCategory)?.label ?? 'Any food');
+
+	function hrefFor(overrides: Partial<SearchContext> = {}) {
+		if (!context) return '/picks';
+		const next = { ...context, ...overrides };
+		return `/picks?${serializeSearchParams(next).toString()}`;
+	}
 
 	function mapHref(pick?: SmartPick) {
-		const params = new URLSearchParams(window.location.search);
+		if (!context) return '/map';
+		const params = serializeSearchParams(context);
 		if (pick) params.set('place', pick.place.id);
 		return `/map?${params.toString()}`;
 	}
@@ -45,7 +63,7 @@
 		loadAppData().then((data) => {
 			if (!active) return;
 			matrix = data.matrix;
-			context = parseSearchParams(new URLSearchParams(window.location.search));
+			context = resolveSearchContext(data.matrix, parseSearchParams(new URLSearchParams(window.location.search)));
 			picks = rankSmartPicks(data.places, data.matrix, context);
 			sheetController?.syncFromUrl({ restoreFocus: false });
 		}).catch((cause) => {
@@ -61,33 +79,75 @@
 </script>
 
 <section id="picks-content" class="picks-layout" aria-busy={loading} bind:this={contentRoot}>
-	<div class="route-preview" aria-label="Route context diagram">
-		<div class="route-summary">
-			<a href="/" aria-label="Change route">←</a>
-			<div><span>{originName}</span><small>{destinationName}</small></div>
-			<a href={loading ? '/map' : mapHref()}>Map</a>
+	<header class="context-bar">
+		<div class="route-lineup">
+			<a class="back-link" href="/" aria-label="Edit route">←</a>
+			<div class="route-copy">
+				<p><strong>{originName}</strong><span aria-hidden="true">→</span><strong>{destinationName}</strong></p>
+				<small>{context?.breakMinutes ?? 45} min break · {categoryLabel}{context?.sourceApp === 'room-tba' ? ' · From Room TBA' : ''}</small>
+			</div>
+			<a class="edit-link" href="/">Edit</a>
 		</div>
-		<div class="diagram" aria-hidden="true">
-			<span class="point">A</span><i></i><span class="food">Food</span><i></i><span class="point point--end">B</span>
+
+		<div class="context-actions">
+			<nav class="view-switch" aria-label="Results view">
+				<span aria-current="page">List</span>
+				<a href={mapHref()}>Map</a>
+			</nav>
+
+			<div class="refinements" aria-label="Refine Smart Picks">
+				<details>
+					<summary>{context?.breakMinutes ?? 45} min</summary>
+					<div class="refine-menu">
+						<p>Break time</p>
+						{#each breakOptions as minutes}
+							<a class:active={context?.breakMinutes === minutes} href={hrefFor({ breakMinutes: minutes })}>{minutes} min</a>
+						{/each}
+					</div>
+				</details>
+				<details>
+					<summary>{categoryLabel}</summary>
+					<div class="refine-menu refine-menu--wide">
+						<p>Food preference</p>
+						{#each categoryOptions as option}
+							<a class:active={context?.preferredCategory === option.value} href={hrefFor({ preferredCategory: option.value })}>{option.label}</a>
+						{/each}
+					</div>
+				</details>
+			</div>
 		</div>
-		<p>Feasibility context only · not turn-by-turn directions</p>
-	</div>
+	</header>
 
 	<div class="results-sheet">
 		{#if loading}
 			<div class="loading" role="status" aria-live="polite">
-				<span></span><span></span><span></span>
-				<p>Checking route feasibility…</p>
+				<p class="eyebrow">Checking Your Route</p>
+				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
+				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
 			</div>
 		{:else if error}
-			<div class="empty" role="alert"><p class="eyebrow">Data Unavailable</p><h1>Smart Picks could not load.</h1><p>{error}</p><a href="/">Return to Route Planner</a></div>
+			<div class="empty" role="alert">
+				<p class="eyebrow">Data Unavailable</p>
+				<h1>Smart Picks could not load.</h1>
+				<p>{error}</p>
+				<div class="recovery-actions"><button type="button" onclick={() => window.location.reload()}>Try Again</button><a href="/">Route Planner</a></div>
+			</div>
 		{:else if picks.length === 0}
-			<div class="empty"><p class="eyebrow">No Feasible Stops</p><h1>Your route is too tight right now.</h1><p>Increase your break, remove the craving filter, or choose a closer next class building.</p><a href="/">Change Your Route</a></div>
+			<div class="empty">
+				<p class="eyebrow">No Feasible Stops</p>
+				<h1>No places fit this route yet.</h1>
+				<p>{context?.preferredCategory ? `No ${categoryLabel.toLocaleLowerCase()} options passed the current time and route checks.` : 'The current break is too tight for the available route data.'}</p>
+				<div class="recovery-actions">
+					{#if context?.preferredCategory}<a class="primary" href={hrefFor({ preferredCategory: undefined })}>Show All Food</a>{/if}
+					{#if (context?.breakMinutes ?? 45) < 180}<a class:primary={!context?.preferredCategory} href={hrefFor({ breakMinutes: Math.min(180, (context?.breakMinutes ?? 45) + 15) })}>Add 15 Minutes</a>{/if}
+					<a href="/">Change Route</a>
+				</div>
+			</div>
 		{:else}
 			<header class="results-header">
 				<p class="eyebrow">Smart Picks</p>
-				<h1>{picks.length} {picks.length === 1 ? 'Place Fits' : 'Places Fit'} Your {context?.breakMinutes}-Minute Break</h1>
-				<p>Every result passed the time and route checks before it was ranked.</p>
+				<h1>{picks.length} {picks.length === 1 ? 'place fits' : 'places fit'} your {context?.breakMinutes}-minute break.</h1>
+				<p>Impossible stops are removed first. The rest are ranked by route fit, time available, preference, and data confidence.</p>
 			</header>
 			<div class="result-list" aria-live="polite">
 				{#each picks as pick, index}
@@ -98,43 +158,85 @@
 	</div>
 </section>
 
-{#if selected}
-	<PlaceSheet place={selected.place} pick={selected} open={true} onClose={closeDetails} />
-{/if}
+<PlaceSheet place={selected?.place} pick={selected} open={!!selected} onClose={closeDetails} />
 
 <style>
-	.picks-layout { min-height: calc(100dvh - 4.5rem); }
-	.route-preview { position: relative; min-height: 38dvh; padding: 1rem max(1rem, calc((100vw - 74rem) / 2)); background: var(--forest); color: white; overflow: hidden; }
-	.route-preview::after { content: ''; position: absolute; inset: 0; opacity: 0.15; background-image: radial-gradient(circle, var(--sun) 1px, transparent 1px); background-size: 18px 18px; }
-	.route-summary { position: relative; z-index: 2; display: grid; grid-template-columns: 2.75rem 1fr 2.75rem; align-items: center; gap: 0.7rem; }
-	.route-summary > a { display: grid; place-items: center; min-height: 2.75rem; border: 1px solid hsl(0 0% 100% / 0.25); border-radius: 50%; text-decoration: none; }
-	.route-summary > a:last-child { border-radius: 999px; font-size: 0.75rem; }
-	.route-summary div { min-width: 0; text-align: center; }
-	.route-summary span, .route-summary small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.route-summary span { font: 720 0.95rem/1.2 var(--font-display); }
-	.route-summary small { margin-top: 0.2rem; color: hsl(0 0% 100% / 0.62); }
-	.diagram { position: relative; z-index: 2; display: flex; align-items: center; width: min(100%, 36rem); margin: clamp(3rem, 8vh, 5rem) auto 0; }
-	.diagram i { flex: 1; height: 2px; border-top: 2px dashed hsl(0 0% 100% / 0.5); }
-	.point, .food { display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--forest); background: white; font: 780 0.75rem/1 var(--font-display); }
-	.point { width: 2.5rem; height: 2.5rem; }
-	.point--end { background: var(--leaf); color: white; }
-	.food { width: 4.25rem; height: 4.25rem; background: var(--sun); transform: rotate(-7deg); }
-	.route-preview > p { position: relative; z-index: 2; margin: 1.25rem auto 0; color: hsl(0 0% 100% / 0.58); font-size: 0.7rem; text-align: center; }
-	.results-sheet { position: relative; z-index: 3; width: min(100%, 52rem); min-height: 62dvh; margin: -1.5rem auto 0; padding: 1.5rem 1rem 4rem; border-radius: 1.75rem 1.75rem 0 0; background: var(--cream); }
-	.results-header .eyebrow, .empty .eyebrow { margin: 0; color: var(--leaf); font: 750 0.72rem/1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; }
-	.results-header h1, .empty h1 { max-width: 18ch; margin: 0.55rem 0 0; color: var(--forest); font: 790 clamp(2rem, 8vw, 3.8rem)/0.94 var(--font-display); }
-	.results-header > p:last-child, .empty > p { color: var(--muted); line-height: 1.5; }
-	.loading { min-height: 20rem; display: grid; place-content: center; justify-items: center; color: var(--muted); }
-	.loading > span { width: min(80vw, 30rem); height: 1rem; margin: 0.4rem; border-radius: 1rem; background: hsl(145 20% 88%); animation: pulse 1.4s ease-in-out infinite alternate; }
-	.loading > span:nth-child(2) { width: min(65vw, 24rem); }
-	.loading > span:nth-child(3) { width: min(72vw, 27rem); }
-	.empty { min-height: 25rem; display: grid; align-content: center; justify-items: start; }
-	.empty a { display: grid; place-items: center; min-height: 3.25rem; margin-top: 0.75rem; padding: 0 1rem; border-radius: 0.9rem; background: var(--forest); color: white; font-weight: 720; text-decoration: none; }
-	@keyframes pulse { to { opacity: 0.42; } }
-	@media (min-width: 900px) {
-		.picks-layout { display: grid; grid-template-columns: minmax(24rem, 5fr) minmax(32rem, 7fr); width: min(100% - 4rem, 74rem); margin: 2rem auto 0; gap: 2rem; }
-		.route-preview { position: sticky; top: 1rem; min-height: calc(100dvh - 3rem); border-radius: 2rem; padding: 1.25rem; }
-		.results-sheet { width: 100%; margin: 0; padding: 1.25rem 0 4rem; border-radius: 0; background: transparent; }
+	.picks-layout { width: min(100% - 2rem, 52rem); min-height: calc(100dvh - 4.5rem); margin: 1rem auto 0; }
+	.context-bar {
+		position: sticky;
+		z-index: 20;
+		top: 0.75rem;
+		padding: 0.75rem;
+		border: 1px solid hsl(0 0% 100% / 0.8);
+		border-radius: 1.25rem;
+		background: hsl(45 50% 98% / 0.92);
+		box-shadow: 0 0.8rem 2rem hsl(154 40% 10% / 0.12);
+		backdrop-filter: blur(18px);
 	}
-	@media (prefers-reduced-motion: reduce) { .loading > span { animation: none; } }
+	.route-lineup { display: grid; grid-template-columns: var(--tap-target) minmax(0, 1fr) auto; align-items: center; gap: 0.65rem; }
+	.back-link,
+	.edit-link { min-height: var(--tap-target); display: grid; place-items: center; color: var(--forest); font-weight: 740; text-decoration: none; }
+	.back-link { width: var(--tap-target); border: 1px solid var(--border-subtle); border-radius: 50%; background: var(--surface-raised); }
+	.edit-link { padding: 0 0.6rem; }
+	.route-copy { min-width: 0; }
+	.route-copy p { display: flex; align-items: center; gap: 0.4rem; min-width: 0; margin: 0; color: var(--forest); }
+	.route-copy strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 720 0.9rem/1.2 var(--font-display); }
+	.route-copy span { flex: none; color: var(--text-secondary); }
+	.route-copy small { display: block; margin-top: 0.25rem; overflow: hidden; color: var(--text-secondary); font-size: 0.72rem; text-overflow: ellipsis; white-space: nowrap; }
+	.context-actions { display: flex; align-items: center; justify-content: space-between; gap: 0.65rem; margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid var(--border-subtle); }
+	.view-switch { display: grid; grid-template-columns: 1fr 1fr; min-width: 8.5rem; padding: 0.25rem; border-radius: 0.85rem; background: var(--mist); }
+	.view-switch span,
+	.view-switch a { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 0.75rem; border-radius: 0.65rem; font: 720 0.78rem/1 var(--font-display); text-decoration: none; }
+	.view-switch span[aria-current='page'] { background: var(--forest); color: white; }
+	.view-switch a { color: var(--forest); }
+	.refinements { display: flex; min-width: 0; gap: 0.45rem; }
+	.refinements details { position: relative; }
+	.refinements summary { display: grid; place-items: center; min-height: var(--tap-target); max-width: 9rem; padding: 0 0.75rem; border: 1px solid var(--border-subtle); border-radius: 999px; background: var(--surface-raised); color: var(--forest); font-size: 0.75rem; font-weight: 720; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.refinements summary { list-style: none; }
+	.refinements summary::-webkit-details-marker { display: none; }
+	.refinements summary::after { content: '⌄'; margin-left: 0.3rem; }
+	.refine-menu { position: absolute; z-index: 40; top: calc(100% + 0.45rem); right: 0; width: 10rem; padding: 0.5rem; border: 1px solid var(--border-subtle); border-radius: 1rem; background: var(--surface-raised); box-shadow: 0 1rem 2.5rem hsl(154 40% 8% / 0.18); }
+	.refine-menu--wide { width: 12rem; }
+	.refine-menu p { margin: 0.3rem 0.4rem 0.45rem; color: var(--text-secondary); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+	.refine-menu a { display: flex; align-items: center; min-height: var(--tap-target); padding: 0 0.65rem; border-radius: 0.7rem; color: var(--forest); font-weight: 680; text-decoration: none; }
+	.refine-menu a:hover,
+	.refine-menu a.active { background: var(--mist); }
+	.refine-menu a.active::after { content: '✓'; margin-left: auto; }
+	.results-sheet { padding: 1.5rem 0 4rem; }
+	.results-header { padding: 0.5rem 0 1.25rem; }
+	.results-header .eyebrow,
+	.empty .eyebrow,
+	.loading .eyebrow { margin: 0; color: var(--text-accent); font: 760 0.72rem/1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; }
+	.results-header h1,
+	.empty h1 { max-width: 22ch; margin: 0.55rem 0 0; color: var(--forest); font: 790 clamp(1.9rem, 7vw, 3rem)/0.96 var(--font-display); }
+	.results-header > p:last-child,
+	.empty > p { max-width: 43rem; color: var(--text-secondary); line-height: 1.5; }
+	.result-list { display: grid; gap: 0.85rem; }
+	.loading { display: grid; gap: 0.85rem; padding-top: 1rem; }
+	.skeleton-card { min-height: 15rem; padding: 1.25rem; border: 1px solid var(--border-subtle); border-radius: 1.35rem; background: var(--surface-raised); }
+	.skeleton-card span { display: block; width: 100%; height: 1rem; margin: 0.75rem 0; border-radius: 1rem; background: hsl(145 20% 88%); animation: pulse 1.4s ease-in-out infinite alternate; }
+	.skeleton-card span:first-child { width: 35%; }
+	.skeleton-card span:nth-child(2) { width: 72%; height: 1.8rem; }
+	.skeleton-card span:nth-child(4) { width: 60%; }
+	.empty { min-height: 26rem; display: grid; align-content: center; justify-items: start; }
+	.recovery-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.85rem; }
+	.recovery-actions a,
+	.recovery-actions button { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 1rem; border: 1px solid var(--border-subtle); border-radius: 0.9rem; background: var(--surface-raised); color: var(--forest); font-weight: 720; text-decoration: none; }
+	.recovery-actions .primary,
+	.recovery-actions button { border-color: var(--forest); background: var(--forest); color: white; }
+	@keyframes pulse { to { opacity: 0.42; } }
+	@media (min-width: 760px) {
+		.picks-layout { margin-top: 1.5rem; }
+		.context-bar { padding: 0.9rem 1rem; }
+		.route-copy strong { font-size: 1rem; }
+		.results-sheet { padding-top: 2rem; }
+	}
+	@media (max-width: 440px) {
+		.context-actions { align-items: stretch; }
+		.view-switch { min-width: 7.5rem; }
+		.refinements { flex: 1; justify-content: flex-end; }
+		.refinements summary { max-width: 7rem; padding-inline: 0.6rem; }
+		.route-copy strong { font-size: 0.82rem; }
+	}
+	@media (prefers-reduced-motion: reduce) { .skeleton-card span { animation: none; } }
 </style>

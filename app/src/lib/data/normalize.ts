@@ -18,6 +18,9 @@ interface RawPlace {
 	opening_hours?: unknown;
 	status?: unknown;
 	sources?: unknown;
+	independent_source_count?: unknown;
+	overture_confidence?: unknown;
+	operating_status?: unknown;
 }
 
 const CATEGORY_MAP: Record<string, Category> = {
@@ -65,7 +68,7 @@ export function hasParseableOpeningHours(value: string | null): boolean {
 }
 
 function confidenceLabel(sources: PlaceSource[], openingHours: string | null): ConfidenceLabel {
-	if (sources.length > 1) return 'Multiple sources agree';
+	if (new Set(sources.map((source) => source.source.toLowerCase())).size > 1) return 'Multiple sources agree';
 	if (openingHours) return 'Hours listed';
 	return 'Limited place information';
 }
@@ -88,6 +91,12 @@ export function normalizePlaces(input: unknown[]): Place[] {
 		const categoryKey = asNullableString(raw.category)?.toLowerCase() ?? '';
 		const openingHours = asNullableString(raw.opening_hours);
 		const sources = normalizeSources(raw.sources);
+		const independentSourceCount = typeof raw.independent_source_count === 'number'
+			? Math.max(0, Math.floor(raw.independent_source_count))
+			: new Set(sources.map((source) => source.source.toLowerCase())).size;
+		const overtureConfidence = typeof raw.overture_confidence === 'number' && Number.isFinite(raw.overture_confidence)
+			? raw.overture_confidence
+			: null;
 
 		return [
 			{
@@ -102,6 +111,9 @@ export function normalizePlaces(input: unknown[]): Place[] {
 				openingHours,
 				recordStatus,
 				sources,
+				independentSourceCount,
+				overtureConfidence,
+				operatingStatus: asNullableString(raw.operating_status),
 				confidenceLabel: confidenceLabel(sources, openingHours),
 				hasParseableHours: hasParseableOpeningHours(openingHours),
 			},

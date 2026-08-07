@@ -29,39 +29,51 @@ async function syncRequired(filename, validate, transform) {
 	process.stdout.write(`synced canonical ${filename}\n`);
 }
 
+async function syncOptional(filename) {
+	const source = resolve(sourceRoot, filename);
+	if (!existsSync(source)) return;
+	await parseJson(source, filename);
+	await copyFile(source, resolve(outputRoot, filename));
+	process.stdout.write(`synced optional ${filename}\n`);
+}
+
 await syncRequired('places.json', (value) => {
 	if (!Array.isArray(value) || value.length === 0) throw new Error('places.json must contain records');
 });
 
 await syncRequired('route_matrix.json', (value) => {
-	for (const key of [
-		'schema_version',
-		'generated_at',
-		'anchors',
-		'anchor_to_place_seconds',
-		'place_to_anchor_seconds',
-		'anchor_to_anchor_seconds',
-	]) {
-		if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
+	if (value.schema_version === 1) {
+		for (const key of ['generated_at', 'anchors', 'anchor_to_place_seconds', 'place_to_anchor_seconds', 'anchor_to_anchor_seconds']) {
+			if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
+		}
+		return;
 	}
+	if (value.schema_version === 2) {
+		for (const key of ['generated_at', 'anchors', 'routing', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']) {
+			if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
+		}
+		return;
+	}
+	throw new Error('route_matrix.json must use schema_version 1 or 2');
 });
 
 await syncRequired('collections.json', (value) => {
 	if (!Array.isArray(value)) throw new Error('collections.json must contain an array');
 	for (const [index, item] of value.entries()) {
 		if (!item.researchDate) throw new Error(`collections.json item ${index} is missing researchDate`);
-		if (!Array.isArray(item.sourceUrls)) {
-			throw new Error(`collections.json item ${index} is missing sourceUrls`);
-		}
+		if (!Array.isArray(item.sourceUrls)) throw new Error(`collections.json item ${index} is missing sourceUrls`);
 	}
 }, (value) => value.map((item) => ({
 	id: item.id,
 	slug: item.slug ?? item.id,
 	title: item.title,
-	description: item.description?.replace(/\bthe best cafes\b/i, 'cafes'),
+	description: item.description,
 	researchDate: item.researchDate ?? item.research_date,
 	evidenceCount: item.evidenceCount ?? item.evidence_count ?? 0,
 	sourceUrls: item.sourceUrls ?? item.source_urls ?? [],
 	coverVariant: item.coverVariant ?? item.cover_metadata?.theme ?? 'forest',
 	placeIds: item.placeIds ?? item.place_ids ?? [],
 })));
+
+await syncOptional('manifest.json');
+await syncOptional('anchor_aliases.json');

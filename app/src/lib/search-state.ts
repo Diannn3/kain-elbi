@@ -25,6 +25,8 @@ function clampApproach(value: string | null): number {
 export function parseSearchParams(params: URLSearchParams): SearchContext {
 	const category = params.get('category') as Category | null;
 	const destinationId = params.get('destination')?.trim() || undefined;
+	const fromRoomTba = params.get('src') === 'room-tba';
+	const protocolVersion = Number.parseInt(params.get('v') ?? '', 10);
 	return {
 		originId: params.get('origin')?.trim() || 'math_bldg',
 		originMode: params.get('originMode') === 'nearby' ? 'nearby' : 'building',
@@ -32,6 +34,8 @@ export function parseSearchParams(params: URLSearchParams): SearchContext {
 		destinationId,
 		breakMinutes: clampBreak(params.get('break')),
 		preferredCategory: category && CATEGORIES.has(category) ? category : undefined,
+		sourceApp: fromRoomTba ? 'room-tba' : undefined,
+		protocolVersion: fromRoomTba && protocolVersion === 1 ? 1 : undefined,
 	};
 }
 
@@ -43,5 +47,9 @@ export function serializeSearchParams(context: SearchContext): URLSearchParams {
 	if (context.approachSeconds > 0) params.set('approach', String(context.approachSeconds));
 	if (context.destinationId) params.set('destination', context.destinationId);
 	if (context.preferredCategory) params.set('category', context.preferredCategory);
+	if (context.sourceApp === 'room-tba') {
+		params.set('src', 'room-tba');
+		params.set('v', String(context.protocolVersion ?? 1));
+	}
 	return params;
 }
