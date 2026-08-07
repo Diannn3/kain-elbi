@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "dataset_version": "2026.08.07",
-  "generated_at": "2026-08-07T08:06:34.564806+00:00",
+  "generated_at": "2026-08-07T09:29:05.937568+00:00",
   "places": {
     "raw_osm": 259,
     "raw_overture": 2664,
@@ -26,17 +26,36 @@
     "published": 0
   },
   "routing": {
-    "status": "legacy-estimate",
-    "schema_version": 1,
-    "generated_at": "2026-08-06T18:46:13.397776+00:00",
-    "warning": "Legacy Haversine estimate retained. Fetch Room TBA graph and rebuild before release.",
+    "status": "room-tba-graph",
+    "schema_version": 2,
+    "generated_at": "2026-08-07T09:29:05.882183+00:00",
+    "routing": {
+      "source": "room-tba-walk-graph",
+      "repository": "uplbtools/room-tba",
+      "ref": "feb008212af6b54d3344f44c4a33672b50983fcc",
+      "graph_sha256": "b8c57e6d04276ca55d5ba8a93d7ef0d5f99c9d83c7d783e4e0f4487a18127b5e",
+      "graph_meta": {
+        "source": "UPLB-simplified-lcc-2026-03-30-windows.gml",
+        "generated": "2026-08-02",
+        "license": "Path network derived from OpenStreetMap data, © OpenStreetMap contributors, ODbL",
+        "nodeCount": 1014,
+        "edgeCount": 1468,
+        "sourceDirectedEdges": 2936,
+        "onewayCount": 0,
+        "coordScale": 1000000
+      },
+      "weight": "edge_length_meters",
+      "note": "Walking seconds are derived from Room TBA pedestrian graph distance using Kain Elbi walking_speed_mps."
+    },
     "canonical_places": 769,
-    "routable_places": 249,
-    "routing_gap": 520,
-    "unclassified_places": 769
+    "routable_places": 757,
+    "snap_records": 769,
+    "unsupported_places": 12,
+    "review_places": 678,
+    "unclassified_places": 0
   },
   "inputs": {
-    "osm_snapshot": "data/raw/osm-los-banos-food.geojson",
-    "overture_snapshot": "data/raw/overture-los-banos-food.geojson"
+    "osm_snapshot": "data\\raw\\osm-los-banos-food.geojson",
+    "overture_snapshot": "data\\raw\\overture-los-banos-food.geojson"
   }
 }

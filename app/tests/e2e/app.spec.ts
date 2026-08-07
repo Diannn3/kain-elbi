@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=90';
+const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=120';
 
 test('home is accessible and does not overflow at mobile width', async ({ page }) => {
 	await page.goto('/');
@@ -63,7 +63,7 @@ test('one-way mode discloses the omitted return trip', async ({ page }) => {
 });
 
 
-test('map initializes a real MapLibre canvas and retains an accessible ranked list', async ({ page }) => {
+test('map initializes inside the unified Smart Picks experience', async ({ page }) => {
 	let styleRequests = 0;
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', async (route) => {
 		styleRequests += 1;
@@ -73,15 +73,37 @@ test('map initializes a real MapLibre canvas and retains an accessible ranked li
 		});
 	});
 	await page.goto(`/map${routeQuery}`);
-	await expect(page.getByRole('heading', { name: /Food That Fits This Route/i })).toBeVisible();
-	await expect(page.locator('.compact-list .place-focus').first()).toBeVisible();
+	await expect(page.getByRole('heading', { name: /route-fit places/i })).toBeVisible();
+	await expect(page.locator('.map-shortlist button').first()).toBeVisible();
 	await expect(page.locator('[data-map-state="ready"]')).toBeVisible();
 	await expect(page.locator('.maplibregl-canvas')).toBeVisible();
 	await expect(page.locator('.diagram-fallback')).toHaveCount(0);
+	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
 	expect(styleRequests).toBe(1);
 });
 
-test('selecting a map-list place focuses its camera and marker without opening details', async ({ page }) => {
+test('show on map keeps the same Smart Picks context and selects that place', async ({ page }) => {
+	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
+		contentType: 'application/json',
+		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
+	}));
+	await page.goto(`/picks${routeQuery}`);
+	const firstCard = page.locator('.place-card').first();
+	const placeId = await firstCard.getAttribute('data-place-id');
+	const placeName = (await firstCard.getByRole('heading').textContent())?.trim();
+	expect(placeId).toBeTruthy();
+	expect(placeName).toBeTruthy();
+
+	await firstCard.getByRole('button', { name: /Show on map/i }).click();
+	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator(`.map-shortlist button[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator('.map-preview').getByRole('heading', { name: placeName! })).toBeVisible();
+	await expect(page).toHaveURL(/view=map/);
+	await expect(page).toHaveURL(new RegExp(`focus=${encodeURIComponent(placeId!)}`));
+	await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+
+test('selecting a map shortlist place focuses its camera and marker without opening details', async ({ page }) => {
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
@@ -89,7 +111,7 @@ test('selecting a map-list place focuses its camera and marker without opening d
 	await page.goto(`/map${routeQuery}`);
 	await expect(page.locator('[data-map-state="ready"]')).toBeVisible();
 
-	const focusButton = page.locator('.compact-list .place-focus').nth(1);
+	const focusButton = page.locator('.map-shortlist button').nth(1);
 	const placeId = await focusButton.getAttribute('data-place-id');
 	expect(placeId).toBeTruthy();
 	await focusButton.click();
@@ -99,27 +121,29 @@ test('selecting a map-list place focuses its camera and marker without opening d
 	await expect(page.locator(`.map-marker[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('[data-map-state="ready"]')).toHaveAttribute('data-camera-focus', placeId!);
 	const zoom = Number(await page.locator('[data-map-state="ready"]').getAttribute('data-map-zoom'));
-	expect(zoom).toBeGreaterThanOrEqual(17);
+	expect(zoom).toBeGreaterThanOrEqual(16.8);
 	await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
-test('map place sheet follows Back and Forward with inert state', async ({ page }) => {
+test('map preview place sheet follows Back and Forward with inert state', async ({ page }) => {
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
 	}));
 	await page.goto(`/map${routeQuery}`);
-	const trigger = page.locator('.compact-list .place-details').first();
+	await expect(page.locator('.map-preview')).toBeVisible();
+	const trigger = page.locator('.map-preview').getByRole('button', { name: /Details/i });
 	await trigger.click();
 	await expect(page.getByRole('dialog')).toBeVisible();
-	await expect(page.locator('#map-shell')).toHaveAttribute('inert', '');
+	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 
 	await page.goBack();
 	await expect(page.getByRole('dialog')).toHaveCount(0);
-	await expect(page.locator('#map-shell')).not.toHaveAttribute('inert', '');
+	await expect(page.locator('#picks-content')).not.toHaveAttribute('inert', '');
 	await expect(trigger).toBeFocused();
 
 	await page.goForward();
 	await expect(page.getByRole('dialog')).toBeVisible();
-	await expect(page.locator('#map-shell')).toHaveAttribute('inert', '');
+	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 });
+

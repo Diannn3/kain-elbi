@@ -1,14 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import MapExperience from '../components/map/MapExperience.svelte';
 ---
 
-<Layout title="Route Map — Kain Elbi" hideHeader={true}>
-	<MapExperience client:only="svelte" />
-	<noscript><main id="main-content" class="noscript"><h1>The Map Needs JavaScript</h1><p>Your route is calculated privately in the browser. Return to Smart Picks after enabling JavaScript.</p><a href="/picks">Smart Picks</a></main></noscript>
+<Layout title="Opening Route Map — Kain Elbi" hideHeader={true} hideNav={true}>
+	<main id="main-content" class="legacy-map-redirect">
+		<p class="eyebrow-global">Kain Elbi</p>
+		<h1>Opening the unified route map…</h1>
+		<p>List and Map now share one Smart Picks experience.</p>
+		<a id="map-fallback-link" href="/picks?view=map">Open Smart Picks Map</a>
+	</main>
+	<script is:inline>
+		const target = new URL(window.location.href);
+		target.pathname = '/picks';
+		target.searchParams.set('view', 'map');
+		window.location.replace(`${target.pathname}${target.search}${target.hash}`);
+	</script>
+	<noscript><p class="noscript">JavaScript is needed for the interactive map. <a href="/picks">Open Smart Picks</a>.</p></noscript>
 </Layout>
 
 <style>
-	.noscript { width: min(100% - 2rem, 42rem); margin: 4rem auto; }
-	.noscript h1 { color: var(--forest); font: 780 2.5rem/1 var(--font-display); }
+	.legacy-map-redirect { width: min(100% - 2rem, 34rem); margin: 15dvh auto 4rem; padding: 1.5rem; border: 1px solid var(--border-subtle); border-radius: 1.5rem; background: var(--surface-raised); }
+	.legacy-map-redirect h1 { margin: 0.5rem 0 0; color: var(--forest); font: 780 clamp(2rem, 8vw, 3rem)/0.95 var(--font-display); }
+	.legacy-map-redirect p:not(.eyebrow-global) { color: var(--text-secondary); line-height: 1.5; }
+	.legacy-map-redirect a { display: inline-grid; place-items: center; min-height: var(--tap-target); margin-top: 0.75rem; padding: 0 1rem; border-radius: 0.85rem; background: var(--forest); color: white; font-weight: 740; text-decoration: none; }
+	.noscript { width: min(100% - 2rem, 34rem); margin: 1rem auto; color: var(--text-secondary); }
 </style>

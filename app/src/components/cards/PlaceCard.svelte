@@ -2,7 +2,17 @@
 	import { availabilityLabel } from '../../lib/place-availability';
 	import type { SmartPick } from '../../lib/types';
 
-	let { pick, rank, onDetails, mapHref }: { pick: SmartPick; rank: number; onDetails: (event: MouseEvent) => void; mapHref: string } = $props();
+	let {
+		pick,
+		rank,
+		onDetails,
+		onMap,
+	}: {
+		pick: SmartPick;
+		rank: number;
+		onDetails: (event: MouseEvent) => void;
+		onMap: (event: MouseEvent) => void;
+	} = $props();
 
 	const categoryNames: Record<string, string> = {
 		cafe: 'Café',
@@ -24,7 +34,7 @@
 	);
 </script>
 
-<article class="place-card">
+<article class="place-card" data-place-id={pick.place.id}>
 	<div class="card-topline">
 		<span class="fit-label">{routeFitLabel}</span>
 		<span class="category">{categoryNames[pick.place.category]}</span>
@@ -48,8 +58,8 @@
 	</div>
 
 	<div class="actions">
-		<button type="button" onclick={onDetails}>Details</button>
-		<a href={mapHref}>Map <span aria-hidden="true">→</span></a>
+		<button type="button" class="details" onclick={onDetails}>Details</button>
+		<button type="button" class="map-action" onclick={onMap}>Show on map <span aria-hidden="true">→</span></button>
 	</div>
 </article>
 
@@ -65,11 +75,7 @@
 	}
 	.card-topline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
 	.fit-label,
-	.category {
-		font: 760 0.7rem/1 var(--font-display);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
+	.category { font: 760 0.7rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
 	.fit-label { padding: 0.42rem 0.62rem; border-radius: 999px; background: var(--sun); color: var(--forest); }
 	.category { color: var(--text-accent); }
 	h2 { max-width: 22ch; margin: 0.8rem 0 0; color: var(--forest); font: 770 clamp(1.55rem, 6vw, 2rem)/0.98 var(--font-display); }
@@ -87,12 +93,11 @@
 	.explanation-block { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); }
 	.explanation-block strong { color: var(--forest); font: 730 0.8rem/1 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; }
 	.explanation-block p { margin: 0.45rem 0 0; color: var(--text-primary); font-weight: 620; line-height: 1.48; }
-	.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: 1rem; }
-	.actions button,
-	.actions a { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 0.9rem; border-radius: 0.9rem; font-weight: 740; }
-	.actions button { border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--forest); }
-	.actions a { border: 1px solid var(--forest); background: var(--forest); color: white; text-decoration: none; }
-	.actions button:hover { background: var(--surface-subtle); }
-	.actions a:hover { background: var(--forest-deep); }
+	.actions { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 0.65rem; margin-top: 1rem; }
+	.actions button { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 0.9rem; border-radius: 0.9rem; font-weight: 740; }
+	.details { border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--forest); }
+	.map-action { border: 1px solid var(--forest); background: var(--forest); color: white; }
+	.details:hover { background: var(--surface-subtle); }
+	.map-action:hover { background: var(--forest-deep); }
 	@media (min-width: 760px) { .place-card { padding: 1.5rem; } }
 </style>

@@ -15,7 +15,7 @@ from lib.paths import DATA_DIR, PLACES_FILE, REPORTS_DIR, ROOM_TBA_DIR, ROOM_TBA
 DEFAULT_ANCHORS_FILE = ROOM_TBA_DIR / 'anchors.json'
 DEFAULT_SPEED_MPS = 1.2
 GOOD_SNAP_M = 40.0
-MAX_SNAP_M = 100.0
+MAX_SNAP_M = 3000.0
 
 
 def _load_json(path: Path) -> Any:

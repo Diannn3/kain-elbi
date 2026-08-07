@@ -11,14 +11,16 @@
   "independent_sources_2_plus": 28,
   "with_hours": 48,
   "with_website": 134,
-  "route_schema": 1,
-  "routable_places": 249,
-  "routing_source": "legacy-estimate",
-  "snap_records": 0,
-  "snap_status": {},
-  "unclassified_route_places": 769,
-  "release_ready": false,
-  "release_failures": [
-    "route matrix is not schema v2 / Room TBA graph based"
-  ]
+  "route_schema": 2,
+  "routable_places": 757,
+  "routing_source": "room-tba-walk-graph",
+  "snap_records": 769,
+  "snap_status": {
+    "good": 79,
+    "review": 678,
+    "unsupported": 12
+  },
+  "unclassified_route_places": 0,
+  "release_ready": true,
+  "release_failures": []
 }

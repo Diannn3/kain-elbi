@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 
 const appRoot = process.cwd();
 const sourceRoot = resolve(appRoot, '..', 'data');
+const roomTbaRoot = resolve(sourceRoot, 'upstream', 'room-tba');
 const outputRoot = resolve(appRoot, 'public', 'data');
 
 await mkdir(outputRoot, { recursive: true });
@@ -29,8 +30,8 @@ async function syncRequired(filename, validate, transform) {
 	process.stdout.write(`synced canonical ${filename}\n`);
 }
 
-async function syncOptional(filename) {
-	const source = resolve(sourceRoot, filename);
+async function syncOptional(filename, root = sourceRoot) {
+	const source = resolve(root, filename);
 	if (!existsSync(source)) return;
 	await parseJson(source, filename);
 	await copyFile(source, resolve(outputRoot, filename));
@@ -77,3 +78,4 @@ await syncRequired('collections.json', (value) => {
 
 await syncOptional('manifest.json');
 await syncOptional('anchor_aliases.json');
+await syncOptional('walk-graph.json', roomTbaRoot);
