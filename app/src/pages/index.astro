@@ -8,36 +8,370 @@ const anchors = Object.values(matrix.anchors);
 const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 ---
 
-<Layout>
+<Layout pageClass="home-page">
 	<main id="main-content">
-		<section class="hero page-shell" aria-labelledby="home-heading">
-			<div class="hero-copy">
-				<p class="kicker">Find · Between Classes</p>
-				<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
-				<p class="lede">Tell us where you are, where you need to be, and how much time you have. Kain filters out stops that do not fit your supported campus route.</p>
+		<section class="hero" aria-labelledby="home-heading">
+			<div class="hero-inner page-shell">
+				<div class="hero-copy">
+					<p class="kicker">Find · Between Classes</p>
+					<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
+					<p class="lede">Tell us where you are, where you need to be, and how much time you have. UPPETITE filters out stops that do not fit your supported campus route.</p>
+				</div>
+
+				<div class="hero-mark" aria-hidden="true">
+					<img src="/brand/uppetite-mark.png" alt="" loading="eager" decoding="async" />
+				</div>
 			</div>
-			<div class="planner-wrap"><RoutePlanner {anchors} client:load /></div>
 		</section>
 
+		<div class="planner-stage page-shell">
+			<div class="planner-wrap"><RoutePlanner {anchors} client:load /></div>
+		</div>
+
 		<section class="modes page-shell" aria-labelledby="modes-heading">
-			<div class="section-heading"><div><p class="eyebrow-global">More Ways to Use Kain</p><h2 id="modes-heading">Not between classes?</h2></div></div>
+			<div class="section-heading">
+				<div>
+					<p class="eyebrow-global">More Ways to Use UPPETITE</p>
+					<h2 id="modes-heading">Not between classes?</h2>
+				</div>
+			</div>
+
 			<div class="mode-grid">
-				<a class="mode-card explore" href="/explore"><span>Explore</span><strong>See what’s around Elbi.</strong><p>Search the full {places.length}-place open-data catalog by area or food type, with List and Map views.</p><b>{namedZones.length} named food zones →</b></a>
-				<a class="mode-card freshie" href="/freshie"><span>Freshie 🌱</span><strong>Learn how Elbi eats.</strong><p>A beginner-friendly guide to food zones and a non-ranked starter pack backed by recent public discussions.</p><b>{freshie.mentions.length} evidence records →</b></a>
+				<a class="mode-card explore" href="/explore">
+					<span>Explore</span>
+					<strong>See what’s around Elbi.</strong>
+					<p>Search the full {places.length}-place open-data catalog by area or food type, with List and Map views.</p>
+					<b>{namedZones.length} named food zones →</b>
+				</a>
+
+				<a class="mode-card freshie" href="/freshie">
+					<span>Freshie</span>
+					<strong>Learn how Elbi eats.</strong>
+					<p>A beginner-friendly guide to food zones and a non-ranked starter pack backed by recent public discussions.</p>
+					<b>{freshie.mentions.length} evidence records →</b>
+				</a>
 			</div>
 		</section>
 
 		<section class="principle page-shell" aria-labelledby="principle-heading">
-			<div><p class="eyebrow-global">What Kain Is For</p><h2 id="principle-heading">Three questions. Three modes.</h2></div>
+			<div>
+				<p class="eyebrow-global">What UPPETITE Is For</p>
+				<h2 id="principle-heading">Three questions. Three modes.</h2>
+			</div>
+
 			<div class="principle-grid">
-				<article><span>Find</span><strong>Can I eat there and still make class?</strong><p>Uses supported Room TBA walking routes and your time budget.</p></article>
-				<article><span>Explore</span><strong>What food exists around Elbi?</strong><p>Geographic discovery across the larger catalog, without fake route-fit numbers.</p></article>
-				<article><span>Freshie</span><strong>Where do I even start?</strong><p>Teaches the food areas and surfaces recent public community mentions without turning them into ratings.</p></article>
+				<article>
+					<span>Find</span>
+					<strong>Can I eat there and still make class?</strong>
+					<p>Uses supported Room TBA walking routes and your time budget.</p>
+				</article>
+				<article>
+					<span>Explore</span>
+					<strong>What food exists around Elbi?</strong>
+					<p>Geographic discovery across the larger catalog, without fake route-fit numbers.</p>
+				</article>
+				<article>
+					<span>Freshie</span>
+					<strong>Where do I even start?</strong>
+					<p>Teaches the food areas and surfaces recent public community mentions without turning them into ratings.</p>
+				</article>
 			</div>
 		</section>
 	</main>
 </Layout>
 
 <style>
-	.hero{position:relative;display:grid;gap:2rem;padding-top:clamp(1.75rem,6vw,4.5rem);overflow:clip}.hero::before{content:'';position:absolute;z-index:-1;top:4rem;right:-8rem;width:22rem;aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 1rem,hsl(154 76% 13%/.045) 1.05rem 1.1rem)}.hero-copy{max-width:48rem}.kicker{margin:0 0 1.25rem;color:var(--text-accent);font:760 .75rem/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase}h1{margin:0;color:var(--forest);font:820 clamp(3rem,12vw,6.6rem)/.84 var(--font-display);letter-spacing:-.065em}h1 span{color:var(--sun)}.lede{max-width:39rem;margin:1.5rem 0 0;color:var(--muted);font-size:clamp(1rem,3vw,1.25rem);line-height:1.55;text-wrap:pretty}.planner-wrap{width:min(100%,50rem)}.modes,.principle{margin-top:clamp(4rem,10vw,7rem)}.mode-grid{display:grid;gap:1rem}.mode-card{min-height:17rem;display:flex;flex-direction:column;padding:1.4rem;border-radius:1.7rem;text-decoration:none;overflow:hidden}.mode-card>span{font:760 .72rem/1 var(--font-display);letter-spacing:.1em;text-transform:uppercase}.mode-card strong{max-width:12ch;margin:.8rem 0 0;font:790 clamp(2rem,7vw,3.2rem)/.92 var(--font-display)}.mode-card p{max-width:35rem;margin:.9rem 0 0;line-height:1.48}.mode-card b{margin-top:auto;padding-top:1.3rem;font-size:.9rem}.mode-card.explore{background:var(--forest);color:white}.mode-card.explore>span,.mode-card.explore b{color:var(--sun)}.mode-card.explore p{color:hsl(0 0% 100%/.72)}.mode-card.freshie{border:1px solid var(--border-subtle);background:var(--sun);color:var(--forest)}.mode-card.freshie p{color:var(--forest)}.principle{padding:clamp(1.5rem,5vw,3rem);border-radius:2rem;background:var(--surface-raised);border:1px solid var(--border-subtle)}.principle h2{max-width:14ch;margin:.5rem 0 0;color:var(--forest);font:780 clamp(2rem,6vw,4rem)/.96 var(--font-display)}.principle-grid{display:grid;gap:1rem;margin-top:2rem}.principle-grid article{padding-top:1rem;border-top:1px solid var(--border-subtle)}.principle-grid span{color:var(--text-accent);font:760 .72rem/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase}.principle-grid strong{display:block;margin:.5rem 0 0;color:var(--forest);font:730 1.15rem/1.1 var(--font-display)}.principle-grid p{margin:.5rem 0 0;color:var(--text-secondary);line-height:1.45}@media(min-width:900px){.hero{grid-template-columns:minmax(0,.72fr) minmax(30rem,1fr);align-items:center;gap:4rem}.hero-copy{padding-bottom:2rem}.mode-grid{grid-template-columns:1fr 1fr}.principle-grid{grid-template-columns:repeat(3,1fr)}}
+	.hero {
+		position: relative;
+		min-height: clamp(36rem, 66svh, 48rem);
+		overflow: clip;
+		isolation: isolate;
+		color: var(--brand-cream);
+		background:
+			radial-gradient(circle at 82% 18%, rgb(230 106 25 / 0.16), transparent 22rem),
+			radial-gradient(circle at 12% 88%, rgb(24 2 5 / 0.3), transparent 28rem),
+			var(--brand-gradient);
+	}
+
+	.hero::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(115deg, rgb(255 249 241 / 0.025), transparent 35%, rgb(255 249 241 / 0.035));
+	}
+
+	.hero-inner {
+		position: relative;
+		min-height: inherit;
+		display: grid;
+		align-items: center;
+		padding-top: clamp(7rem, 14vh, 10rem);
+		padding-bottom: clamp(10rem, 16vh, 13rem);
+	}
+
+	.hero-copy {
+		position: relative;
+		z-index: 2;
+		max-width: 48rem;
+	}
+
+	.kicker {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1.35rem;
+		color: var(--brand-cream);
+		font: 760 0.76rem / 1 var(--font-display);
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.kicker::before {
+		content: '';
+		width: 2.4rem;
+		height: 0.22rem;
+		flex: none;
+		border-radius: 999px;
+		background: var(--brand-orange);
+	}
+
+	h1 {
+		max-width: 10ch;
+		margin: 0;
+		color: var(--brand-cream);
+		font: 820 clamp(3.2rem, 11vw, 6.8rem) / 0.86 var(--font-display);
+		letter-spacing: -0.06em;
+	}
+
+	h1 span {
+		color: var(--brand-orange);
+	}
+
+	.lede {
+		max-width: 40rem;
+		margin: 1.65rem 0 0;
+		color: var(--brand-sand);
+		font-size: clamp(1rem, 2.3vw, 1.22rem);
+		line-height: 1.58;
+		text-wrap: pretty;
+	}
+
+	.hero-mark {
+		position: absolute;
+		right: -1.5rem;
+		bottom: 6rem;
+		width: min(44vw, 22rem);
+		opacity: 0.24;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.hero-mark img {
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+		filter: drop-shadow(0 1.2rem 2.8rem rgb(36 3 7 / 0.2));
+	}
+
+	.planner-stage {
+		position: relative;
+		z-index: 10;
+		margin-top: clamp(-8rem, -10vw, -5rem);
+	}
+
+	.planner-wrap {
+		width: min(100%, 56rem);
+		margin-inline: auto;
+	}
+
+	.modes,
+	.principle {
+		margin-top: clamp(4rem, 10vw, 7rem);
+	}
+
+	.mode-grid {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.mode-card {
+		position: relative;
+		min-height: 17rem;
+		display: flex;
+		flex-direction: column;
+		padding: clamp(1.4rem, 4vw, 2rem);
+		border-radius: 1.7rem;
+		text-decoration: none;
+		overflow: hidden;
+		transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+	}
+
+	.mode-card:hover {
+		transform: translateY(-2px);
+	}
+
+	.mode-card > span {
+		font: 760 0.72rem / 1 var(--font-display);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.mode-card strong {
+		max-width: 12ch;
+		margin: 0.8rem 0 0;
+		font: 790 clamp(2rem, 7vw, 3.2rem) / 0.92 var(--font-display);
+		letter-spacing: -0.04em;
+	}
+
+	.mode-card p {
+		max-width: 35rem;
+		margin: 0.9rem 0 0;
+		line-height: 1.48;
+	}
+
+	.mode-card b {
+		margin-top: auto;
+		padding-top: 1.3rem;
+		font-size: 0.9rem;
+	}
+
+	.mode-card.explore {
+		background: var(--brand-maroon-deep);
+		color: var(--brand-cream);
+		box-shadow: 0 1rem 2.5rem rgb(92 16 22 / 0.14);
+	}
+
+	.mode-card.explore > span,
+	.mode-card.explore b {
+		color: var(--color-accent-on-dark);
+	}
+
+	.mode-card.explore p {
+		color: var(--brand-sand);
+	}
+
+	.mode-card.freshie {
+		border: 1px solid var(--color-border);
+		background: var(--brand-sand);
+		color: var(--brand-charcoal);
+	}
+
+	.mode-card.freshie > span,
+	.mode-card.freshie b,
+	.mode-card.freshie strong {
+		color: var(--brand-maroon-deep);
+	}
+
+	.mode-card.freshie::after {
+		content: '';
+		position: absolute;
+		right: -3rem;
+		bottom: -3rem;
+		width: 9rem;
+		aspect-ratio: 1;
+		border: 1.4rem solid rgb(102 101 31 / 0.1);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+
+	.principle {
+		padding: clamp(1.5rem, 5vw, 3rem);
+		border: 1px solid var(--color-border);
+		border-radius: 2rem;
+		background: var(--color-surface-raised);
+		box-shadow: 0 1rem 3rem rgb(92 16 22 / 0.05);
+	}
+
+	.principle h2 {
+		max-width: 14ch;
+		margin: 0.5rem 0 0;
+		color: var(--color-primary);
+		font: 780 clamp(2rem, 6vw, 4rem) / 0.96 var(--font-display);
+		letter-spacing: -0.045em;
+	}
+
+	.principle-grid {
+		display: grid;
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+
+	.principle-grid article {
+		padding-top: 1rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.principle-grid span {
+		color: var(--color-text-accent);
+		font: 760 0.72rem / 1 var(--font-display);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.principle-grid strong {
+		display: block;
+		margin: 0.5rem 0 0;
+		color: var(--color-primary);
+		font: 730 1.15rem / 1.1 var(--font-display);
+	}
+
+	.principle-grid p {
+		margin: 0.5rem 0 0;
+		color: var(--color-text-muted);
+		line-height: 1.45;
+	}
+
+	@media (min-width: 900px) {
+		.hero-inner {
+			grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 0.45fr);
+			gap: 4rem;
+		}
+
+		.hero-mark {
+			position: relative;
+			right: auto;
+			bottom: auto;
+			justify-self: end;
+			width: min(32vw, 25rem);
+			opacity: 0.92;
+		}
+
+		.mode-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.principle-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (max-width: 620px) {
+		.hero {
+			min-height: 39rem;
+		}
+
+		.hero-inner {
+			padding-top: 7rem;
+			padding-bottom: 11rem;
+		}
+
+		.hero-mark {
+			right: -2.4rem;
+			bottom: 7rem;
+			width: 12.5rem;
+			opacity: 0.16;
+		}
+
+		.planner-stage {
+			margin-top: -6.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mode-card {
+			transition: none;
+		}
+	}
 </style>

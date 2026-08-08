@@ -1,27 +1,79 @@
 :root {
-	/* Brand palette */
-	--forest: hsl(154 76% 13%);
-	--forest-deep: hsl(154 78% 9%);
-	--leaf: hsl(138 48% 38%);
-	--sun: hsl(44 96% 49%);
-	--cream: hsl(45 44% 95%);
-	--paper: hsl(45 50% 98%);
-	--ink: hsl(153 25% 11%);
-	--mist: hsl(145 20% 93%);
-	--muted: hsl(150 10% 39%);
-	--line: hsl(154 20% 25% / 0.14);
+	/* =========================================================
+	   UPPETITE — BRAND PRIMITIVES
+	   ========================================================= */
+	--brand-maroon-deep: #5c1016;
+	--brand-maroon: #9b111e;
+	--brand-maroon-ink: #470c11;
+	--brand-orange: #e66a19;
+	--brand-cream: #fff9f1;
+	--brand-sand: #f2e8dc;
+	--brand-white: #ffffff;
+	--brand-charcoal: #292725;
+	--brand-muted: #625b56;
+	--brand-olive: #66651f;
+	--brand-gradient:
+		linear-gradient(
+			135deg,
+			var(--brand-maroon-deep) 0%,
+			#741018 52%,
+			var(--brand-maroon) 100%
+		);
 
-	/* Semantic roles. Keep brand colors expressive; keep small text AA-safe. */
-	--text-primary: var(--ink);
-	--text-secondary: var(--muted);
-	--text-accent: hsl(138 48% 30%);
-	--surface-page: var(--cream);
-	--surface-raised: var(--paper);
-	--surface-subtle: var(--mist);
-	--border-subtle: var(--line);
-	--focus-ring: var(--sun);
+	/* =========================================================
+	   SEMANTIC COLOR TOKENS
+	   ========================================================= */
+	--color-page: var(--brand-cream);
+	--color-surface: var(--brand-cream);
+	--color-surface-raised: var(--brand-white);
+	--color-surface-muted: var(--brand-sand);
+	--color-text: var(--brand-charcoal);
+	--color-text-muted: var(--brand-muted);
+	--color-text-accent: var(--brand-maroon-deep);
+	--color-primary: var(--brand-maroon-deep);
+	--color-primary-hover: var(--brand-maroon-ink);
+	--color-on-primary: var(--brand-cream);
+	--color-accent: var(--brand-orange);
+	--color-accent-text: #9a3700;
+	--color-accent-on-dark: #f28c28;
+	--color-border: rgb(92 16 22 / 0.16);
+	--color-border-strong: rgb(92 16 22 / 0.28);
+	--color-focus: #d95f00;
 
-	/* 4pt/8pt rhythm and shared component geometry. */
+	/* =========================================================
+	   TEMPORARY COMPATIBILITY ALIASES
+	   Keep these until every component has been migrated.
+
+	   `--sun` intentionally points to an AA-safe amber-orange
+	   rather than the exact brand orange because legacy screens
+	   use it for small text on dark surfaces and as a surface
+	   behind dark text. New UPPETITE work should use
+	   `--brand-orange` for large/decorative accents and the
+	   semantic accent tokens above for text.
+	   ========================================================= */
+	--forest: var(--color-primary);
+	--forest-deep: var(--color-primary-hover);
+	--leaf: var(--brand-olive);
+	--sun: var(--color-accent-on-dark);
+	--cream: var(--color-page);
+	--paper: var(--color-surface-raised);
+	--ink: var(--color-text);
+	--mist: var(--color-surface-muted);
+	--muted: var(--color-text-muted);
+	--line: var(--color-border);
+	--text-primary: var(--color-text);
+	--text-secondary: var(--color-text-muted);
+	--text-accent: var(--color-text-accent);
+	--surface-page: var(--color-page);
+	--surface-raised: var(--color-surface-raised);
+	--surface-subtle: var(--color-surface-muted);
+	--border-subtle: var(--color-border);
+	--focus-ring: var(--color-focus);
+
+	/* =========================================================
+	   SPACING + GEOMETRY
+	   Existing rhythm and tap-target sizing are preserved.
+	   ========================================================= */
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
@@ -35,37 +87,99 @@
 	--radius-xl: 2rem;
 	--tap-target: 3rem;
 
-	--font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
-	--font-body: 'Atkinson Hyperlegible Next Variable', 'Trebuchet MS', sans-serif;
+	/* =========================================================
+	   TYPOGRAPHY
+	   ========================================================= */
+	--font-display: 'Sora Variable', 'Sora', Arial, sans-serif;
+	--font-body: 'Inter Variable', 'Inter', Arial, sans-serif;
 	--page: min(100% - 2rem, 74rem);
 	font-family: var(--font-body);
-	color: var(--text-primary);
-	background: var(--surface-page);
+	color: var(--color-text);
+	background: var(--color-page);
+	color-scheme: light;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 }
 
-* { box-sizing: border-box; }
-html { min-width: 320px; scroll-behavior: smooth; background: var(--surface-page); }
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	min-width: 320px;
+	scroll-behavior: smooth;
+	background: var(--color-page);
+}
+
 body {
 	min-width: 320px;
 	min-height: 100vh;
 	margin: 0;
 	overflow-x: hidden;
+	color: var(--color-text);
 	background:
-		radial-gradient(circle at 82% 8%, hsl(44 96% 49% / 0.13), transparent 24rem),
-		radial-gradient(circle at 6% 35%, hsl(138 48% 38% / 0.09), transparent 22rem),
-		var(--surface-page);
-	-webkit-tap-highlight-color: hsl(44 96% 49% / 0.24);
+		radial-gradient(circle at 92% 0%, rgb(155 17 30 / 0.055), transparent 24rem),
+		radial-gradient(circle at 0% 42%, rgb(230 106 25 / 0.035), transparent 20rem),
+		var(--color-page);
+	-webkit-tap-highlight-color: rgb(230 106 25 / 0.2);
 }
-button, input, select, textarea { font: inherit; }
-button, select, a { touch-action: manipulation; }
-button { cursor: pointer; }
-img, svg { display: block; }
-a { color: inherit; }
-h1, h2, h3, p { overflow-wrap: break-word; }
-h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
-.page-shell { width: var(--page); margin-inline: auto; }
+
+::selection {
+	background: var(--brand-maroon-deep);
+	color: var(--brand-cream);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button,
+select,
+a {
+	touch-action: manipulation;
+}
+
+button {
+	cursor: pointer;
+}
+
+img,
+svg {
+	display: block;
+}
+
+img {
+	max-width: 100%;
+}
+
+a {
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+	overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+	text-wrap: balance;
+	scroll-margin-top: 5rem;
+}
+
+.page-shell {
+	width: var(--page);
+	margin-inline: auto;
+}
+
 .skip-link {
 	position: fixed;
 	z-index: 999;
@@ -73,33 +187,46 @@ h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
 	left: 0.5rem;
 	padding: 0.75rem 1rem;
 	border-radius: 0.75rem;
-	background: var(--forest);
-	color: white;
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	font-weight: 700;
+	text-decoration: none;
 	transform: translateY(-150%);
 	transition: transform 150ms ease;
 }
-.skip-link:focus { transform: translateY(0); }
-:where(a, button, input, select, summary, [tabindex]):focus-visible {
-	outline: 3px solid var(--focus-ring);
-	outline-offset: 3px;
+
+.skip-link:focus {
+	transform: translateY(0);
 }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 2px var(--brand-cream);
+}
+
 .site-footer {
 	width: var(--page);
 	margin: 4rem auto 5.5rem;
 	padding-top: 1.5rem;
-	border-top: 1px solid var(--border-subtle);
-	color: var(--text-secondary);
+	border-top: 1px solid var(--color-border);
+	color: var(--color-text-muted);
 	font-size: 0.75rem;
 	line-height: 1.5;
 }
-.site-footer p { margin: 0.2rem 0; }
+
+.site-footer p {
+	margin: 0.2rem 0;
+}
+
 .eyebrow-global {
 	margin: 0;
-	color: var(--forest);
-	font: 760 0.76rem/1 var(--font-display);
+	color: var(--color-text-accent);
+	font: 760 0.76rem / 1 var(--font-display);
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }
+
 .section-heading {
 	display: flex;
 	align-items: end;
@@ -107,12 +234,21 @@ h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
 	gap: 1rem;
 	margin-bottom: 1.25rem;
 }
+
 .section-heading h2 {
 	margin: 0.25rem 0 0;
-	color: var(--forest);
-	font: 780 clamp(1.8rem, 6vw, 3rem)/0.95 var(--font-display);
+	color: var(--color-primary);
+	font: 780 clamp(1.8rem, 6vw, 3rem) / 0.95 var(--font-display);
+	letter-spacing: -0.035em;
 }
-.section-heading a { color: var(--forest); font-weight: 700; text-decoration-thickness: 0.08em; text-underline-offset: 0.2em; }
+
+.section-heading a {
+	color: var(--color-primary);
+	font-weight: 700;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.2em;
+}
+
 .sr-only {
 	position: absolute;
 	width: 1px;
@@ -124,11 +260,28 @@ h1, h2, h3 { text-wrap: balance; scroll-margin-top: 5rem; }
 	white-space: nowrap;
 	border: 0;
 }
+
 @media (min-width: 760px) {
-	:root { --page: min(100% - 4rem, 74rem); }
-	.site-footer { margin-bottom: 2.5rem; }
+	:root {
+		--page: min(100% - 4rem, 74rem);
+	}
+
+	.site-footer {
+		margin-bottom: 2.5rem;
+	}
 }
+
 @media (prefers-reduced-motion: reduce) {
-	html { scroll-behavior: auto; }
-	*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }

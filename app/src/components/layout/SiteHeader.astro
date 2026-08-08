@@ -4,10 +4,17 @@ const { currentPath } = Astro.props;
 const isFind = currentPath === '/' || currentPath.startsWith('/picks');
 const isExplore = currentPath.startsWith('/explore');
 const isFreshie = currentPath.startsWith('/freshie');
+const isHome = currentPath === '/';
+const lockupSrc = isHome
+	? '/brand/uppetite-lockup-light.png'
+	: '/brand/uppetite-lockup-dark.png';
 ---
-<header class="site-header">
+
+<header class:list={['site-header', { 'site-header--home': isHome }]}>
 	<div class="header-inner">
-		<a class="wordmark" href="/" translate="no">Kain Elbi<span aria-hidden="true">.</span></a>
+		<a class="brand" href="/" aria-label="UPPETITE home">
+			<img src={lockupSrc} alt="UPPETITE" loading="eager" decoding="async" />
+		</a>
 		<nav aria-label="Primary navigation">
 			<a href="/" aria-current={isFind ? 'page' : undefined}>Find</a>
 			<a href="/explore" aria-current={isExplore ? 'page' : undefined}>Explore</a>
@@ -15,6 +22,106 @@ const isFreshie = currentPath.startsWith('/freshie');
 		</nav>
 	</div>
 </header>
+
 <style>
-	.site-header{position:relative;z-index:20;border-bottom:1px solid var(--border-subtle)}.header-inner{width:var(--page);min-height:4.5rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}.wordmark{min-height:var(--tap-target);display:flex;align-items:center;color:var(--forest);font:820 1.3rem/1 var(--font-display);letter-spacing:.07em;text-decoration:none;text-transform:uppercase}.wordmark span{color:var(--sun)}nav{display:flex;align-items:center;gap:.25rem}nav a{min-height:var(--tap-target);display:grid;place-items:center;padding:0 .7rem;border-radius:.75rem;color:var(--forest);font-weight:720;text-decoration:none}nav a:hover{background:var(--surface-subtle)}nav a[aria-current='page']{background:var(--forest);color:white}@media(max-width:759px){nav{display:none}}
+	.site-header {
+		position: relative;
+		z-index: 40;
+		border-bottom: 1px solid var(--color-border);
+		background: rgb(255 249 241 / 0.92);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+	}
+
+	.header-inner {
+		width: var(--page);
+		min-height: 4.5rem;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.brand {
+		min-width: 0;
+		min-height: var(--tap-target);
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	.brand img {
+		width: auto;
+		height: 2.15rem;
+		max-width: min(12rem, 42vw);
+		object-fit: contain;
+		object-position: left center;
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	nav a {
+		min-height: var(--tap-target);
+		display: grid;
+		place-items: center;
+		padding: 0 0.8rem;
+		border-radius: 0.8rem;
+		color: var(--color-primary);
+		font-weight: 720;
+		font-size: 0.9rem;
+		text-decoration: none;
+		transition: background-color 150ms ease, color 150ms ease;
+	}
+
+	nav a:hover {
+		background: var(--color-surface-muted);
+	}
+
+	nav a[aria-current='page'] {
+		background: var(--color-primary);
+		color: var(--color-on-primary);
+	}
+
+	.site-header--home {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		border-bottom-color: rgb(255 249 241 / 0.16);
+		background: linear-gradient(to bottom, rgb(35 4 8 / 0.34), rgb(35 4 8 / 0));
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
+	}
+
+	.site-header--home nav a {
+		color: var(--brand-cream);
+	}
+
+	.site-header--home nav a:hover {
+		background: rgb(255 249 241 / 0.11);
+	}
+
+	.site-header--home nav a[aria-current='page'] {
+		background: var(--brand-cream);
+		color: var(--brand-maroon-deep);
+	}
+
+	@media (max-width: 759px) {
+		.header-inner {
+			min-height: 4.25rem;
+		}
+
+		.brand img {
+			height: 1.95rem;
+		}
+
+		nav {
+			display: none;
+		}
+	}
 </style>
