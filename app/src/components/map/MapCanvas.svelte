@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { brand } from '../../lib/brand';
 	import type { Anchor, SmartPick } from '../../lib/types';
 
 	let {
@@ -45,11 +46,17 @@
 		) {
 			const element = document.createElement(action ? 'button' : 'div');
 			element.className = `map-marker map-marker--${kind}`;
+
 			const badge = document.createElement('span');
 			badge.className = 'map-marker__badge';
-			badge.textContent = label;
-			badge.setAttribute('aria-hidden', 'true');
+
+			const markerLabel = document.createElement('span');
+			markerLabel.className = 'map-marker__label';
+			markerLabel.textContent = label;
+			markerLabel.setAttribute('aria-hidden', 'true');
+			badge.append(markerLabel);
 			element.append(badge);
+
 			if (element instanceof HTMLButtonElement) element.type = 'button';
 			if (options?.id) element.dataset.placeId = options.id;
 			element.classList.toggle('is-selected', options?.selected === true);
@@ -57,10 +64,15 @@
 				'aria-label',
 				kind === 'place'
 					? `Route fit #${label}: ${options?.name ?? 'food place'}${options?.selected ? ', selected' : ''}`
-					: label === 'A' ? `Origin: ${origin.name}` : destination ? `Next class: ${destination.name}` : label,
+					: label === 'A'
+						? `Origin: ${origin.name}`
+						: destination
+							? `Next class: ${destination.name}`
+							: label,
 			);
 			if (kind === 'place') element.setAttribute('aria-pressed', String(options?.selected === true));
 			if (action) element.addEventListener('click', action);
+
 			const marker = new maplibreModule.Marker({ element }).setLngLat([lon, lat]).addTo(map);
 			activeMarkers.push(marker);
 		}
@@ -68,6 +80,8 @@
 		addMarker('A', origin.lon, origin.lat, 'origin');
 		if (destination) addMarker('B', destination.lon, destination.lat, 'destination');
 
+		/* Preserve the existing marker-performance contract: render the top 15 DOM
+		   candidates, plus the selected candidate if it falls outside that group. */
 		const topLimit = 15;
 		const renderPicks = new Set<string>();
 		picks.slice(0, topLimit).forEach((pick) => renderPicks.add(pick.place.id));
@@ -193,13 +207,17 @@
 					attributionControl: false,
 				});
 				map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
-				map.addControl(new maplibre.AttributionControl({ compact: true, customAttribution: '© MapTiler · © OpenStreetMap contributors · Overture Maps' }));
+				map.addControl(new maplibre.AttributionControl({
+					compact: true,
+					customAttribution: '© MapTiler · © OpenStreetMap contributors · Overture Maps',
+				}));
 
 				resizeObserver = new ResizeObserver(() => map?.resize());
 				resizeObserver.observe(mapElement);
 
 				map.on('load', () => {
 					if (!map) return;
+
 					map.addSource('route-context', {
 						type: 'geojson',
 						data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } },
@@ -208,7 +226,12 @@
 						id: 'route-context-line',
 						type: 'line',
 						source: 'route-context',
-						paint: { 'line-color': '#176b3a', 'line-width': 3, 'line-opacity': 0.72, 'line-dasharray': [2, 2] },
+						paint: {
+							'line-color': brand.orange,
+							'line-width': 3,
+							'line-opacity': 0.72,
+							'line-dasharray': [2, 2],
+						},
 					});
 
 					map.addSource('route-actual', {
@@ -220,9 +243,9 @@
 						type: 'line',
 						source: 'route-actual',
 						paint: {
-							'line-color': '#0f5c33',
+							'line-color': brand.orange,
 							'line-width': 5,
-							'line-opacity': 0.9,
+							'line-opacity': 0.94,
 						},
 					});
 
@@ -235,39 +258,57 @@
 						type: 'circle',
 						source: 'other-picks',
 						paint: {
-							'circle-radius': 6,
-							'circle-color': '#eab308',
+							'circle-radius': 6.5,
+							'circle-color': brand.cream,
 							'circle-stroke-width': 2,
-							'circle-stroke-color': '#ffffff',
+							'circle-stroke-color': brand.maroonDeep,
 						},
 					});
+
 					// The visible dot stays compact while this nearly-transparent layer gives
 					// touch users a forgiving ~40px hit area.
 					map.addLayer({
 						id: 'other-picks-hit',
 						type: 'circle',
 						source: 'other-picks',
-						paint: { 'circle-radius': 20, 'circle-color': '#000000', 'circle-opacity': 0.01 },
+						paint: {
+							'circle-radius': 20,
+							'circle-color': brand.charcoal,
+							'circle-opacity': 0.01,
+						},
 					});
 
-					const selectBackgroundPick = (event: import('maplibre-gl').MapMouseEvent & { features?: import('maplibre-gl').MapGeoJSONFeature[] }) => {
+					const selectBackgroundPick = (
+						event: import('maplibre-gl').MapMouseEvent & {
+							features?: import('maplibre-gl').MapGeoJSONFeature[];
+						},
+					) => {
 						const id = event.features?.[0]?.properties?.id;
 						if (!id) return;
 						const pick = picks.find((candidate) => candidate.place.id === String(id));
 						if (pick) onSelect(pick);
 					};
 					map.on('click', 'other-picks-hit', selectBackgroundPick);
-					map.on('mouseenter', 'other-picks-hit', () => { if (map) map.getCanvas().style.cursor = 'pointer'; });
-					map.on('mouseleave', 'other-picks-hit', () => { if (map) map.getCanvas().style.cursor = ''; });
+					map.on('mouseenter', 'other-picks-hit', () => {
+						if (map) map.getCanvas().style.cursor = 'pointer';
+					});
+					map.on('mouseleave', 'other-picks-hit', () => {
+						if (map) map.getCanvas().style.cursor = '';
+					});
 
 					const bounds = new maplibre.LngLatBounds();
 					const visibleContext = [[origin.lon, origin.lat] as [number, number]];
 					if (destination) visibleContext.push([destination.lon, destination.lat]);
 					picks.slice(0, 30).forEach((pick) => visibleContext.push([pick.place.lon, pick.place.lat]));
 					visibleContext.forEach((point) => bounds.extend(point));
-					map.fitBounds(bounds, { padding: { top: 64, right: 48, bottom: 190, left: 48 }, maxZoom: 16, duration: 0 });
+					map.fitBounds(bounds, {
+						padding: { top: 64, right: 48, bottom: 190, left: 48 },
+						maxZoom: 16,
+						duration: 0,
+					});
 					mapState = 'ready';
 				});
+
 				map.on('error', (event) => {
 					if (/401|403|style/i.test(event.error?.message ?? '')) unavailable();
 				});
@@ -295,17 +336,125 @@
 ></div>
 
 <style>
-	.map-canvas { position: absolute; inset: 0; background: var(--mist); }
-	:global(.map-marker) { display: grid; place-items: center; width: var(--tap-target); height: var(--tap-target); padding: 0; border: 0; color: white; background: transparent; font: 800 0.82rem/1 var(--font-display); }
-	:global(.map-marker__badge) { display: grid; place-items: center; width: 2.55rem; height: 2.55rem; border: 3px solid white; border-radius: 50%; box-shadow: 0 5px 16px hsl(154 76% 8% / 0.25); background: var(--forest); transition: transform 180ms ease, box-shadow 180ms ease; }
-	:global(button.map-marker) { cursor: pointer; }
-	:global(button.map-marker:focus-visible .map-marker__badge) { outline: 3px solid var(--sun); outline-offset: 3px; }
-	:global(.map-marker--place) { color: var(--forest); }
-	:global(.map-marker--place .map-marker__badge) { background: var(--sun); }
-	:global(.map-marker--destination .map-marker__badge) { background: var(--leaf); }
-	:global(.map-marker.is-selected) { z-index: 4; }
-	:global(.map-marker.is-selected .map-marker__badge) { transform: scale(1.18); box-shadow: 0 0 0 5px hsl(44 96% 49% / 0.3), 0 9px 24px hsl(154 76% 8% / 0.4); }
-	:global(.maplibregl-ctrl-top-right) { top: 0.6rem; right: 0.6rem; }
-	:global(.maplibregl-ctrl-attrib) { font-family: var(--font-body); }
-	@media (prefers-reduced-motion: reduce) { :global(.map-marker__badge) { transition: none; } }
+	.map-canvas {
+		position: absolute;
+		inset: 0;
+		background: var(--brand-sand);
+	}
+
+	:global(.map-marker) {
+		display: grid;
+		place-items: center;
+		width: var(--tap-target);
+		height: var(--tap-target);
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--brand-maroon-deep);
+		font: 800 0.82rem / 1 var(--font-display);
+	}
+
+	:global(.map-marker__badge) {
+		display: grid;
+		place-items: center;
+		width: 2.55rem;
+		height: 2.55rem;
+		border: 2px solid var(--brand-maroon-deep);
+		border-radius: 50%;
+		background: var(--brand-cream);
+		box-shadow: 0 5px 16px rgb(92 16 22 / 0.24);
+		transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+	}
+
+	:global(.map-marker__label) {
+		display: grid;
+		place-items: center;
+	}
+
+	:global(button.map-marker) {
+		cursor: pointer;
+	}
+
+	:global(button.map-marker:focus-visible) {
+		outline: none;
+	}
+
+	:global(button.map-marker:focus-visible .map-marker__badge) {
+		outline: 3px solid var(--brand-orange);
+		outline-offset: 3px;
+		box-shadow: 0 0 0 2px var(--brand-cream), 0 7px 18px rgb(92 16 22 / 0.28);
+	}
+
+	/* Origin — olive waypoint ring. */
+	:global(.map-marker--origin) {
+		color: var(--brand-olive);
+	}
+
+	:global(.map-marker--origin .map-marker__badge) {
+		border: 4px solid var(--brand-olive);
+		background: var(--brand-cream);
+		color: var(--brand-olive);
+	}
+
+	/* Candidates — cream circle with maroon rank. */
+	:global(.map-marker--place) {
+		color: var(--brand-maroon-deep);
+	}
+
+	:global(.map-marker--place .map-marker__badge) {
+		border-color: var(--brand-maroon-deep);
+		background: var(--brand-cream);
+		color: var(--brand-maroon-deep);
+	}
+
+	/* Selected candidate — orange fill, charcoal rank, cream halo. */
+	:global(.map-marker.is-selected) {
+		z-index: 4;
+		color: var(--brand-charcoal);
+	}
+
+	:global(.map-marker.is-selected .map-marker__badge) {
+		border: 3px solid var(--brand-cream);
+		background: var(--brand-orange);
+		color: var(--brand-charcoal);
+		transform: scale(1.18);
+		box-shadow:
+			0 0 0 5px rgb(255 249 241 / 0.72),
+			0 9px 24px rgb(92 16 22 / 0.34);
+	}
+
+	/* Destination — cream map pin with a maroon outline. */
+	:global(.map-marker--destination) {
+		color: var(--brand-maroon-deep);
+	}
+
+	:global(.map-marker--destination .map-marker__badge) {
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 3px solid var(--brand-maroon-deep);
+		border-radius: 50% 50% 50% 0;
+		background: var(--brand-cream);
+		color: var(--brand-maroon-deep);
+		transform: rotate(-45deg);
+		box-shadow: 0 6px 18px rgb(92 16 22 / 0.26);
+	}
+
+	:global(.map-marker--destination .map-marker__label) {
+		transform: rotate(45deg);
+	}
+
+	:global(.maplibregl-ctrl-top-right) {
+		top: 0.6rem;
+		right: 0.6rem;
+	}
+
+	:global(.maplibregl-ctrl-attrib) {
+		font-family: var(--font-body);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.map-marker__badge) {
+			transition: none;
+		}
+	}
 </style>
