@@ -132,7 +132,7 @@
 	<header class="planner-heading">
 		<p class="eyebrow">Plan Your Break</p>
 		<h2>Where are you headed?</h2>
-		<p>Give UPetite Elbi the route context. The recommendation check stays on your device.</p>
+		<p>Give Kain Elbi the route context. The recommendation check stays on your device.</p>
 	</header>
 
 	<div class="planner-fields">
