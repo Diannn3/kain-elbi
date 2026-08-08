@@ -1,1 +1,78 @@
-[]
+[
+  {
+    "id": "freshie-starter",
+    "slug": "freshie-starter",
+    "title": "Freshie Starter Pack",
+    "description": "A non-ranked set of Elbi places that recur in recent public student and community food discussions.",
+    "research_date": "2026-08-07",
+    "evidence_count": 5,
+    "source_urls": [
+      "https://www.reddit.com/r/laguna/comments/1lrb7rs/places_to_eat_at_in_los_banos/",
+      "https://www.reddit.com/r/laguna/comments/1s55c3p/places_to_eat_in_los_ba%C3%B1os/",
+      "https://www.reddit.com/r/laguna/comments/1uckbe4/places_to_eat_around_lb/",
+      "https://www.reddit.com/r/laguna/comments/1uuz76z/staying_in_losba%C3%B1os_for_a_month_as_a_student/",
+      "https://www.reddit.com/r/uplb/comments/1uu8kfh/pagkainan_sa_raymundo/"
+    ],
+    "cover_metadata": {
+      "theme": "sun"
+    },
+    "place_ids": [
+      "7aad170a-eb6f-4ba8-bca7-b382362f9277",
+      "dc5980d7-98f2-5577-b66c-10e321886e9f",
+      "365992d2-98dc-562a-b0ed-884198abd918",
+      "2c31da7e-5d9b-5eac-8ba3-ff7ec3009677",
+      "f5d93078-f58c-5cf4-9749-4ff13f9d5a97",
+      "d1c28b23-4acd-4392-a027-99fb6efd9450",
+      "64efa94e-1679-573d-82f6-693905878d9d",
+      "d1c26a3b-f9f2-48d7-ae3d-403be5fe3544",
+      "76a4c88e-904d-56dd-aa76-56b022f41cff",
+      "40f79c68-be45-46db-a749-1626ae3cc935",
+      "cc2799e1-8e78-420d-b1d6-7eff82390ded",
+      "220b6b22-50f7-440c-8e4e-fca6ce69586e"
+    ]
+  },
+  {
+    "id": "raymundo-recent-mentions",
+    "slug": "raymundo-recent-mentions",
+    "title": "Raymundo: Recent Student Mentions",
+    "description": "Places around Raymundo that appeared in public student discussions in July 2026.",
+    "research_date": "2026-08-07",
+    "evidence_count": 2,
+    "source_urls": [
+      "https://www.reddit.com/r/laguna/comments/1uuz76z/staying_in_losba%C3%B1os_for_a_month_as_a_student/",
+      "https://www.reddit.com/r/uplb/comments/1uu8kfh/pagkainan_sa_raymundo/"
+    ],
+    "cover_metadata": {
+      "theme": "leaf"
+    },
+    "place_ids": [
+      "7aad170a-eb6f-4ba8-bca7-b382362f9277",
+      "dc5980d7-98f2-5577-b66c-10e321886e9f",
+      "f6f9b441-f4d4-58e8-bcf8-bfcc17a99674",
+      "2c31da7e-5d9b-5eac-8ba3-ff7ec3009677"
+    ]
+  },
+  {
+    "id": "group-meal-mentions",
+    "slug": "group-meal-mentions",
+    "title": "Community Mentions for Group Meals",
+    "description": "A non-ranked browse list pulled from recent public Los Baños restaurant discussions.",
+    "research_date": "2026-08-07",
+    "evidence_count": 2,
+    "source_urls": [
+      "https://www.reddit.com/r/laguna/comments/1s55c3p/places_to_eat_in_los_ba%C3%B1os/",
+      "https://www.reddit.com/r/laguna/comments/1uckbe4/places_to_eat_around_lb/"
+    ],
+    "cover_metadata": {
+      "theme": "forest"
+    },
+    "place_ids": [
+      "d1c28b23-4acd-4392-a027-99fb6efd9450",
+      "64efa94e-1679-573d-82f6-693905878d9d",
+      "d1c26a3b-f9f2-48d7-ae3d-403be5fe3544",
+      "76a4c88e-904d-56dd-aa76-56b022f41cff",
+      "40f79c68-be45-46db-a749-1626ae3cc935",
+      "220b6b22-50f7-440c-8e4e-fca6ce69586e"
+    ]
+  }
+]

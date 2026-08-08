@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { loadBuildData } from '../lib/data/build';
+
+const { places, zones, collections, freshie } = await loadBuildData();
+const placeById = new Map(places.map((place) => [place.id, place]));
+const zoneByPlace = new Map<string, (typeof zones)[number]>();
+for (const zone of zones) for (const id of zone.placeIds) zoneByPlace.set(id, zone);
+const starter = collections.find((item) => item.id === freshie.starterCollectionId);
+const starterPlaces = (starter?.placeIds ?? []).map((id) => placeById.get(id)).filter(Boolean);
+const mentionsByPlace = new Map<string, typeof freshie.mentions>();
+for (const mention of freshie.mentions) mentionsByPlace.set(mention.placeId, [...(mentionsByPlace.get(mention.placeId) ?? []), mention]);
+const starterItems = starterPlaces.filter((place): place is NonNullable<typeof place> => Boolean(place)).map((place) => ({
+	place,
+	zone: zoneByPlace.get(place.id),
+	mentions: mentionsByPlace.get(place.id) ?? [],
+}));
+const sourceEntries = Object.entries(freshie.sources).filter(([, source]) => source.url);
+const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<Layout title="Freshie Mode — Kain Elbi" description="A beginner-friendly guide to Elbi food zones and recent public student/community food mentions.">
+	<main id="main-content" class="page-shell freshie-page">
+		<section class="freshie-hero">
+			<div><p class="eyebrow-global">Freshie Mode 🌱</p><h1>Learn how Elbi eats<span aria-hidden="true">.</span></h1><p>{freshie.intro}</p></div>
+			<div class="research-card"><strong>Research snapshot</strong><span>{formatter.format(new Date(freshie.researchDate))}</span><p>{freshie.sourceNote}</p></div>
+		</section>
+
+		<section class="start" aria-labelledby="start-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">Start Here</p><h2 id="start-heading">Pick the situation you’re in.</h2></div></div>
+			<div class="situation-grid">
+				{freshie.situations.map((situation, index) => (
+					<a href={`/explore${situation.explore_query ? `?${situation.explore_query}` : ''}`}>
+						<span>{String(index + 1).padStart(2, '0')}</span><strong>{situation.title}</strong><p>{situation.description}</p><b>Explore →</b>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="zones" aria-labelledby="freshie-zones-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">Know Your Food Zones</p><h2 id="freshie-zones-heading">The map makes more sense once you know the names.</h2></div></div>
+			<div class="zone-rail">
+				{zones.filter((zone) => zone.id !== 'elsewhere-lb').map((zone) => (
+					<a href={`/explore?zone=${zone.id}`}><span>{zone.placeCount} catalog places</span><strong>{zone.name}</strong><p>{zone.description}</p></a>
+				))}
+			</div>
+			<p class="fineprint">Zone names and boundaries are Kain Elbi discovery labels. They are not official administrative boundaries.</p>
+		</section>
+
+		{starter && starterPlaces.length > 0 && (
+			<section class="starter" aria-labelledby="starter-heading">
+				<div class="section-heading"><div><p class="eyebrow-global">Freshie Starter Pack</p><h2 id="starter-heading">Places that keep showing up in recent public discussions.</h2></div></div>
+				<p class="starter-note">Non-ranked. Inclusion means we found recent public student/community evidence for the place and matched it to Kain’s open-data catalog; it does not mean “best restaurant.”</p>
+				<div class="starter-grid">
+					{starterItems.map(({ place, zone, mentions }) => (
+						<article>
+							<p class="place-meta">{zone?.shortName ?? 'Los Baños'} · {place.category.replace('_',' ')}</p>
+							<h3><a href={`/place/${place.id}`}>{place.name}</a></h3>
+							{mentions[0] && <p class="why">{mentions[0].summary}</p>}
+							<small>{mentions.length} public evidence record{mentions.length === 1 ? '' : 's'}</small>
+						</article>
+					))}
+				</div>
+			</section>
+		)}
+
+		<section class="glossary" aria-labelledby="glossary-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">Elbi Food Glossary</p><h2 id="glossary-heading">Terms Kain uses.</h2></div></div>
+			<dl>{freshie.glossary.map((item) => <div><dt>{item.term}</dt><dd>{item.definition}</dd></div>)}</dl>
+		</section>
+
+		<section class="sources" aria-labelledby="sources-heading">
+			<details>
+				<summary id="sources-heading">Sources reviewed for Freshie Mode</summary>
+				<p>These links support the editorial layer only. Kain’s place coordinates/categories still come from the open-data catalog.</p>
+				<ul>{sourceEntries.map(([, source]) => <li><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>{source.publishedAt && <span> · {source.publishedAt}</span>}</li>)}</ul>
+			</details>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.freshie-page{padding-top:clamp(2rem,6vw,4.5rem)}.freshie-hero{display:grid;gap:1.25rem}.freshie-hero h1{max-width:11ch;margin:.6rem 0 0;color:var(--forest);font:820 clamp(3rem,11vw,6.3rem)/.87 var(--font-display);letter-spacing:-.06em}.freshie-hero h1 span{color:var(--sun)}.freshie-hero>div>p:last-child{max-width:43rem;margin:1.25rem 0 0;color:var(--text-secondary);font-size:1.05rem;line-height:1.55}.research-card{align-self:end;padding:1.1rem;border-radius:1.3rem;background:var(--forest);color:white}.research-card strong,.research-card span{display:block}.research-card span{margin:.3rem 0;color:var(--sun);font-weight:760}.research-card p{margin:.6rem 0 0;color:hsl(0 0% 100%/.75);font-size:.85rem;line-height:1.45}.start,.zones,.starter,.glossary,.sources{margin-top:clamp(3.5rem,9vw,6rem)}.situation-grid{display:grid;gap:.75rem}.situation-grid a{display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;padding:1.1rem;border:1px solid var(--border-subtle);border-radius:1.2rem;background:var(--surface-raised);text-decoration:none}.situation-grid span{grid-row:1/4;color:var(--sun);font:800 .8rem/1 var(--font-display)}.situation-grid strong{color:var(--forest);font:760 1.15rem/1.05 var(--font-display)}.situation-grid p{margin:0;color:var(--text-secondary);font-size:.86rem;line-height:1.4}.situation-grid b{color:var(--forest);font-size:.82rem}.zone-rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(80vw,20rem);gap:.75rem;overflow-x:auto;padding:.15rem 0 1rem;scroll-snap-type:x mandatory}.zone-rail a{min-height:11rem;padding:1rem;border-radius:1.25rem;background:var(--forest);color:white;text-decoration:none;scroll-snap-align:start}.zone-rail span{color:var(--sun);font:720 .68rem/1 var(--font-display);letter-spacing:.06em;text-transform:uppercase}.zone-rail strong{display:block;margin:.7rem 0 0;font:760 1.45rem/1 var(--font-display)}.zone-rail p{margin:.6rem 0 0;color:hsl(0 0% 100%/.72);line-height:1.4}.fineprint,.starter-note{max-width:48rem;color:var(--text-secondary);font-size:.82rem;line-height:1.45}.starter-grid{display:grid;gap:.75rem}.starter-grid article{padding:1.05rem;border:1px solid var(--border-subtle);border-radius:1.2rem;background:var(--surface-raised)}.place-meta{margin:0;color:var(--text-accent);font:740 .68rem/1 var(--font-display);letter-spacing:.06em;text-transform:uppercase}.starter-grid h3{margin:.55rem 0 0;color:var(--forest);font:760 1.35rem/1 var(--font-display)}.starter-grid h3 a{text-decoration:none}.why{margin:.55rem 0 0;color:var(--text-secondary);line-height:1.45}.starter-grid small{display:block;margin:.7rem 0 0;color:var(--muted)}.glossary dl{display:grid;gap:.6rem}.glossary dl div{padding:1rem;border-top:1px solid var(--border-subtle)}.glossary dt{color:var(--forest);font:760 1rem/1 var(--font-display)}.glossary dd{margin:.45rem 0 0;color:var(--text-secondary);line-height:1.5}.sources details{padding:1rem;border:1px solid var(--border-subtle);border-radius:1.2rem;background:var(--surface-raised)}.sources summary{min-height:var(--tap-target);display:flex;align-items:center;color:var(--forest);font-weight:760;cursor:pointer}.sources p,.sources li{color:var(--text-secondary);line-height:1.5}.sources a{color:var(--forest);font-weight:700}@media(min-width:800px){.freshie-hero{grid-template-columns:1fr 20rem;align-items:end}.situation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.starter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.zone-rail{grid-auto-columns:min(30vw,20rem)}}
+</style>

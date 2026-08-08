@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=120';
+const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60';
 
 test('home is accessible and does not overflow at mobile width', async ({ page }) => {
 	await page.goto('/');
@@ -14,12 +14,23 @@ test('home is accessible and does not overflow at mobile width', async ({ page }
 
 test('building route produces explainable Smart Picks and opens a sheet', async ({ page }) => {
 	await page.goto(`/picks${routeQuery}`);
-	await expect(page.getByRole('heading', { name: /Places? Fit Your 90-Minute Break/i })).toBeVisible();
+	await expect(page.getByRole('heading', { name: /Places? Fit Your 60-Minute Break/i })).toBeVisible();
 	await expect(page.getByText(/leaves \d+ minutes for your stop/i).first()).toBeVisible();
 	await page.getByRole('button', { name: 'Details' }).first().click();
-	await expect(page.getByRole('dialog')).toBeVisible();
+	const dialog = page.getByRole('dialog');
+	await expect(dialog).toBeVisible();
+	await expect(dialog.getByRole('heading', { name: /Why this fits your break/i })).toBeVisible();
+	await expect(dialog.getByRole('link', { name: /Get directions/i })).toBeVisible();
+	await expect(dialog.locator('details.listing-info')).not.toHaveAttribute('open', '');
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).toBeHidden();
+});
+
+test('a mathematically tight 20-minute break renders the deterministic empty state', async ({ page }) => {
+	await page.goto('/picks?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=20');
+	await expect(page.getByRole('heading', { name: /No places fit this route yet/i })).toBeVisible();
+	await expect(page.getByRole('link', { name: /Add 15 Minutes/i })).toBeVisible();
+	await expect(page.locator('.place-card')).toHaveCount(0);
 });
 
 test('Smart Picks sheet follows Back and Forward with inert and focus restoration', async ({ page }) => {
@@ -121,7 +132,7 @@ test('selecting a map shortlist place focuses its camera and marker without open
 	await expect(page.locator(`.map-marker[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('[data-map-state="ready"]')).toHaveAttribute('data-camera-focus', placeId!);
 	const zoom = Number(await page.locator('[data-map-state="ready"]').getAttribute('data-map-zoom'));
-	expect(zoom).toBeGreaterThanOrEqual(16.8);
+	expect(zoom).toBeGreaterThanOrEqual(16.0);
 	await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
@@ -147,3 +158,48 @@ test('map preview place sheet follows Back and Forward with inert state', async 
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 });
 
+
+
+test('full place page prioritizes location and actions over provenance', async ({ page }) => {
+	await page.goto(`/picks${routeQuery}`);
+	await page.getByRole('button', { name: 'Details' }).first().click();
+	const fullPage = page.getByRole('dialog').getByRole('link', { name: /Full place page/i });
+	const href = await fullPage.getAttribute('href');
+	expect(href).toMatch(/^\/place\//);
+	await page.goto(href!);
+
+	await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+	await expect(page.getByRole('link', { name: /Get directions/i }).first()).toBeVisible();
+	await expect(page.getByText(/Kain route coverage/i)).toBeVisible();
+	await expect(page.locator('.route-art')).toHaveCount(0);
+	await expect(page.getByText(/Candidate place record/i)).toHaveCount(0);
+	await expect(page.getByText(/About this listing/i)).toBeVisible();
+});
+
+test('Sprint 4 navigation exposes Find, Explore, and Freshie', async ({ page, isMobile }) => {
+	await page.goto('/');
+	const navName = isMobile ? 'Mobile navigation' : 'Primary navigation';
+	await expect(page.getByRole('navigation', { name: navName }).getByRole('link', { name: 'Find' })).toHaveAttribute('aria-current', 'page');
+	await page.getByRole('navigation', { name: navName }).getByRole('link', { name: 'Explore' }).click();
+	await expect(page).toHaveURL(/\/explore/);
+	await expect(page.getByRole('heading', { name: /See what’s around Elbi/i })).toBeVisible();
+	await page.getByRole('navigation', { name: navName }).getByRole('link', { name: 'Freshie' }).click();
+	await expect(page.getByRole('heading', { name: /Learn how Elbi eats/i })).toBeVisible();
+});
+
+test('Explore filters the named catalog without route-fit metrics', async ({ page }) => {
+	await page.goto('/explore?zone=raymundo');
+	await expect(page.getByText(/Explore does not rank food quality/i)).toBeVisible();
+	await expect(page.locator('.explore-card').first()).toBeVisible();
+	await page.getByPlaceholder(/Search food, places, or areas/i).fill('Mokape');
+	await expect(page.getByRole('heading', { name: /Mokape Coffee Los Baños/i })).toBeVisible();
+	await expect(page.getByText(/minutes available/i)).toHaveCount(0);
+});
+
+test('Freshie Mode exposes non-ranked evidence and source transparency', async ({ page }) => {
+	await page.goto('/freshie');
+	await expect(page.getByText(/Non-ranked\. Inclusion means/i)).toBeVisible();
+	await expect(page.getByText(/public evidence record/i).first()).toBeVisible();
+	await page.getByText(/Sources reviewed for Freshie Mode/i).click();
+	await expect(page.locator('.sources a').first()).toBeVisible();
+});

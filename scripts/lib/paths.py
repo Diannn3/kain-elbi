@@ -13,6 +13,8 @@ REGISTRY_FILE = DATA_DIR / "place_identity_registry.json"
 MANIFEST_FILE = DATA_DIR / "manifest.json"
 ROUTE_MATRIX_FILE = DATA_DIR / "route_matrix.json"
 COLLECTIONS_FILE = DATA_DIR / "collections.json"
+ZONES_FILE = DATA_DIR / "zones.json"
+FRESHIE_FILE = DATA_DIR / "freshie.json"
 
 OSM_RAW_FILE = RAW_DIR / "osm-los-banos-food.geojson"
 OVERTURE_RAW_FILE = RAW_DIR / "overture-los-banos-food.geojson"

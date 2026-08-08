@@ -44,7 +44,7 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 		<slot />
 		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}
 		<footer class="site-footer">
-			<p>Kain Elbi uses candidate place records from open datasets.</p>
+			<p>Kain Elbi uses open-data place records; availability, hours, and business status can change.</p>
 			<p>© OpenStreetMap contributors · Overture Maps</p>
 		</footer>
 		<script define:vars={{ serviceWorkerEnabled }}>

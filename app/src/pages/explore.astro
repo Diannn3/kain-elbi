@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExploreApp from '../components/explore/ExploreApp.svelte';
+import { loadBuildData } from '../lib/data/build';
+
+const { places, zones, collections, matrix } = await loadBuildData();
+const routablePlaceIds = matrix.schema_version === 2
+	? Object.keys(matrix.place_to_anchor)
+	: Object.keys(matrix.place_to_anchor_seconds);
+const initialQuery = Astro.url.searchParams.get('q') ?? '';
+const initialZone = Astro.url.searchParams.get('zone') ?? '';
+const initialCategory = Astro.url.searchParams.get('category') ?? '';
+const initialCollection = Astro.url.searchParams.get('collection') ?? '';
+const featuredZones = zones.filter((zone) => zone.id !== 'elsewhere-lb').slice(0, 6);
+---
+
+<Layout title="Explore Elbi — Kain Elbi" description="Browse food places around UPLB and Los Baños by area, category, list, or map.">
+	<main id="main-content" class="page-shell explore-page">
+		<header class="page-head">
+			<p class="eyebrow-global">Explore</p>
+			<h1>See what’s around Elbi<span aria-hidden="true">.</span></h1>
+			<p>Browse the full open-data catalog without pretending every place has a supported campus route. Search first, then decide where you want to go.</p>
+		</header>
+
+		<section class="zone-section" aria-labelledby="zone-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
+			<div class="zone-grid">
+				{featuredZones.map((zone) => (
+					<a class="zone-card" href={`/explore?zone=${zone.id}`}>
+						<span>{zone.placeCount} catalog places</span>
+						<strong>{zone.name}</strong>
+						<p>{zone.description}</p>
+					</a>
+				))}
+			</div>
+			<p class="zone-note">These are Kain Elbi geographic labels for discovery, not official UPLB or municipal district boundaries.</p>
+		</section>
+
+		<section class="collection-section" aria-labelledby="collection-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">Research-Backed Browse Lists</p><h2 id="collection-heading">Community mentions, without fake rankings.</h2></div></div>
+			<div class="collection-grid">{collections.map((collection) => <a href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} sources reviewed</span><strong>{collection.title}</strong><p>{collection.description}</p></a>)}</div>
+		</section>
+
+		<ExploreApp {places} {zones} {collections} {routablePlaceIds} {initialQuery} {initialZone} {initialCategory} {initialCollection} client:load />
+	</main>
+</Layout>
+
+<style>
+	.explore-page{padding-top:clamp(2rem,6vw,4.5rem)}.page-head{max-width:48rem}.page-head h1{max-width:12ch;margin:.6rem 0 0;color:var(--forest);font:820 clamp(3rem,10vw,6rem)/.88 var(--font-display);letter-spacing:-.055em}.page-head h1 span{color:var(--sun)}.page-head>p:last-child{max-width:42rem;margin:1.25rem 0 0;color:var(--text-secondary);font-size:1.05rem;line-height:1.55}.zone-section{margin:clamp(3rem,8vw,5rem) 0 2rem}.zone-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.zone-card{min-height:10rem;padding:1rem;border:1px solid var(--border-subtle);border-radius:1.3rem;background:var(--surface-raised);text-decoration:none}.zone-card span{color:var(--text-accent);font:740 .68rem/1 var(--font-display);letter-spacing:.07em;text-transform:uppercase}.zone-card strong{display:block;margin:.65rem 0 0;color:var(--forest);font:770 1.35rem/1 var(--font-display)}.zone-card p{margin:.5rem 0 0;color:var(--text-secondary);font-size:.86rem;line-height:1.4}.zone-card:hover{border-color:hsl(154 50% 20%/.35);box-shadow:0 .6rem 1.5rem hsl(154 50% 15%/.06)}.zone-note{margin:.8rem 0 0;color:var(--text-secondary);font-size:.78rem}.collection-section{margin:2.5rem 0 1.5rem}.collection-grid{display:grid;gap:.75rem}.collection-grid a{padding:1rem;border:1px solid var(--border-subtle);border-radius:1.2rem;background:var(--surface-raised);text-decoration:none}.collection-grid span{color:var(--text-accent);font:740 .68rem/1 var(--font-display);letter-spacing:.06em;text-transform:uppercase}.collection-grid strong{display:block;margin:.55rem 0 0;color:var(--forest);font:760 1.2rem/1.05 var(--font-display)}.collection-grid p{margin:.5rem 0 0;color:var(--text-secondary);font-size:.85rem;line-height:1.4}.explore-page :global(.explore-shell){margin-top:1.5rem}@media(min-width:760px){.zone-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>

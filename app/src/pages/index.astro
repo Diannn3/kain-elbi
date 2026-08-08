@@ -1,62 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import RoutePlanner from '../components/forms/RoutePlanner.svelte';
-import ElbiClassics from '../components/cards/ElbiClassics.astro';
 import { loadBuildData } from '../lib/data/build';
 
-const { matrix, collections } = await loadBuildData();
+const { matrix, places, zones, freshie } = await loadBuildData();
 const anchors = Object.values(matrix.anchors);
+const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 ---
 
 <Layout>
 	<main id="main-content">
 		<section class="hero page-shell" aria-labelledby="home-heading">
 			<div class="hero-copy">
-				<p class="kicker">UPLB · Between Classes</p>
+				<p class="kicker">Find · Between Classes</p>
 				<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
-				<p class="lede">Tell us where you are, where you need to be, and how much time you have. Kain Elbi filters out stops that do not fit your break.</p>
+				<p class="lede">Tell us where you are, where you need to be, and how much time you have. Kain filters out stops that do not fit your supported campus route.</p>
 			</div>
-			<div class="planner-wrap">
-				<RoutePlanner {anchors} client:load />
+			<div class="planner-wrap"><RoutePlanner {anchors} client:load /></div>
+		</section>
+
+		<section class="modes page-shell" aria-labelledby="modes-heading">
+			<div class="section-heading"><div><p class="eyebrow-global">More Ways to Use Kain</p><h2 id="modes-heading">Not between classes?</h2></div></div>
+			<div class="mode-grid">
+				<a class="mode-card explore" href="/explore"><span>Explore</span><strong>See what’s around Elbi.</strong><p>Search the full {places.length}-place open-data catalog by area or food type, with List and Map views.</p><b>{namedZones.length} named food zones →</b></a>
+				<a class="mode-card freshie" href="/freshie"><span>Freshie 🌱</span><strong>Learn how Elbi eats.</strong><p>A beginner-friendly guide to food zones and a non-ranked starter pack backed by recent public discussions.</p><b>{freshie.mentions.length} evidence records →</b></a>
 			</div>
 		</section>
 
-		<ElbiClassics {collections} />
-
-		<section class="how-it-works page-shell" aria-labelledby="how-heading">
-			<div>
-				<p class="eyebrow-global">How Kain Elbi Thinks</p>
-				<h2 id="how-heading">A fit check, not a popularity contest.</h2>
+		<section class="principle page-shell" aria-labelledby="principle-heading">
+			<div><p class="eyebrow-global">What Kain Is For</p><h2 id="principle-heading">Three questions. Three modes.</h2></div>
+			<div class="principle-grid">
+				<article><span>Find</span><strong>Can I eat there and still make class?</strong><p>Uses supported Room TBA walking routes and your time budget.</p></article>
+				<article><span>Explore</span><strong>What food exists around Elbi?</strong><p>Geographic discovery across the larger catalog, without fake route-fit numbers.</p></article>
+				<article><span>Freshie</span><strong>Where do I even start?</strong><p>Teaches the food areas and surfaces recent public community mentions without turning them into ratings.</p></article>
 			</div>
-			<ol>
-				<li><span>01</span><strong>Map the break</strong><p>Your origin, next class, and safety buffer define the real travel budget.</p></li>
-				<li><span>02</span><strong>Remove impossible stops</strong><p>Places without the required route legs or enough time are filtered out first.</p></li>
-				<li><span>03</span><strong>Explain every pick</strong><p>You see the walk, detour, and minutes left—not a mysterious rating.</p></li>
-			</ol>
 		</section>
 	</main>
 </Layout>
 
 <style>
-	.hero { position: relative; display: grid; gap: 2rem; padding-top: clamp(1.75rem, 6vw, 4.5rem); overflow: clip; }
-	.hero::before { content: ''; position: absolute; z-index: -1; top: 4rem; right: -8rem; width: 22rem; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 1rem, hsl(154 76% 13% / 0.045) 1.05rem 1.1rem); }
-	.hero-copy { max-width: 48rem; }
-	.kicker { margin: 0 0 1.25rem; color: var(--text-accent); font: 760 0.75rem/1 var(--font-display); letter-spacing: 0.16em; text-transform: uppercase; }
-	h1 { margin: 0; color: var(--forest); font: 820 clamp(3rem, 12vw, 6.6rem)/0.84 var(--font-display); letter-spacing: -0.065em; }
-	h1 span { color: var(--sun); }
-	.lede { max-width: 39rem; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1.55; text-wrap: pretty; }
-	.planner-wrap { width: min(100%, 50rem); }
-	.how-it-works { display: grid; gap: 2rem; margin-top: clamp(4rem, 10vw, 8rem); padding: clamp(1.5rem, 5vw, 3rem); border-radius: 2rem; background: var(--forest); color: white; }
-	.how-it-works h2 { max-width: 13ch; margin: 0.5rem 0 0; font: 780 clamp(2rem, 6vw, 4rem)/0.96 var(--font-display); }
-	.how-it-works .eyebrow-global { color: var(--sun); }
-	ol { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; counter-reset: steps; }
-	li { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 0.8rem; padding-top: 1rem; border-top: 1px solid hsl(0 0% 100% / 0.18); }
-	li > span { grid-row: 1 / 3; color: var(--sun); font: 760 0.8rem/1 var(--font-display); }
-	li strong { font: 720 1.05rem/1.1 var(--font-display); }
-	li p { margin: 0; color: hsl(0 0% 100% / 0.68); line-height: 1.45; }
-	@media (min-width: 900px) {
-		.hero { grid-template-columns: minmax(0, 0.72fr) minmax(30rem, 1fr); align-items: center; gap: 4rem; }
-		.hero-copy { padding-bottom: 2rem; }
-		.how-it-works { grid-template-columns: 0.8fr 1.2fr; }
-	}
+	.hero{position:relative;display:grid;gap:2rem;padding-top:clamp(1.75rem,6vw,4.5rem);overflow:clip}.hero::before{content:'';position:absolute;z-index:-1;top:4rem;right:-8rem;width:22rem;aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 1rem,hsl(154 76% 13%/.045) 1.05rem 1.1rem)}.hero-copy{max-width:48rem}.kicker{margin:0 0 1.25rem;color:var(--text-accent);font:760 .75rem/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase}h1{margin:0;color:var(--forest);font:820 clamp(3rem,12vw,6.6rem)/.84 var(--font-display);letter-spacing:-.065em}h1 span{color:var(--sun)}.lede{max-width:39rem;margin:1.5rem 0 0;color:var(--muted);font-size:clamp(1rem,3vw,1.25rem);line-height:1.55;text-wrap:pretty}.planner-wrap{width:min(100%,50rem)}.modes,.principle{margin-top:clamp(4rem,10vw,7rem)}.mode-grid{display:grid;gap:1rem}.mode-card{min-height:17rem;display:flex;flex-direction:column;padding:1.4rem;border-radius:1.7rem;text-decoration:none;overflow:hidden}.mode-card>span{font:760 .72rem/1 var(--font-display);letter-spacing:.1em;text-transform:uppercase}.mode-card strong{max-width:12ch;margin:.8rem 0 0;font:790 clamp(2rem,7vw,3.2rem)/.92 var(--font-display)}.mode-card p{max-width:35rem;margin:.9rem 0 0;line-height:1.48}.mode-card b{margin-top:auto;padding-top:1.3rem;font-size:.9rem}.mode-card.explore{background:var(--forest);color:white}.mode-card.explore>span,.mode-card.explore b{color:var(--sun)}.mode-card.explore p{color:hsl(0 0% 100%/.72)}.mode-card.freshie{border:1px solid var(--border-subtle);background:var(--sun);color:var(--forest)}.mode-card.freshie p{color:var(--forest)}.principle{padding:clamp(1.5rem,5vw,3rem);border-radius:2rem;background:var(--surface-raised);border:1px solid var(--border-subtle)}.principle h2{max-width:14ch;margin:.5rem 0 0;color:var(--forest);font:780 clamp(2rem,6vw,4rem)/.96 var(--font-display)}.principle-grid{display:grid;gap:1rem;margin-top:2rem}.principle-grid article{padding-top:1rem;border-top:1px solid var(--border-subtle)}.principle-grid span{color:var(--text-accent);font:760 .72rem/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase}.principle-grid strong{display:block;margin:.5rem 0 0;color:var(--forest);font:730 1.15rem/1.1 var(--font-display)}.principle-grid p{margin:.5rem 0 0;color:var(--text-secondary);line-height:1.45}@media(min-width:900px){.hero{grid-template-columns:minmax(0,.72fr) minmax(30rem,1fr);align-items:center;gap:4rem}.hero-copy{padding-bottom:2rem}.mode-grid{grid-template-columns:1fr 1fr}.principle-grid{grid-template-columns:repeat(3,1fr)}}
 </style>

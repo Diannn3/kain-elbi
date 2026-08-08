@@ -12,14 +12,28 @@
   "with_hours": 48,
   "with_website": 134,
   "route_schema": 2,
-  "routable_places": 757,
+  "routable_places": 134,
   "routing_source": "room-tba-walk-graph",
   "snap_records": 769,
   "snap_status": {
     "good": 79,
-    "review": 678,
-    "unsupported": 12
+    "review": 55,
+    "unsupported": 635
   },
+  "snap_thresholds_m": {
+    "good": 40.0,
+    "place_max": 100.0,
+    "anchor_max": 100.0
+  },
+  "max_routed_place_snap_m": 99.92,
+  "max_supported_anchor_snap_m": 64.8,
+  "unsupported_places_with_routes": 0,
+  "snap_classification_violations": 0,
+  "supported_anchors_over_limit": 0,
+  "unsupported_anchor_ids": [
+    "uprhs-building"
+  ],
+  "unsupported_anchor_route_refs": 0,
   "unclassified_route_places": 0,
   "release_ready": true,
   "release_failures": []

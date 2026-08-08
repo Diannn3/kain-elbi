@@ -1,0 +1,50 @@
+[
+  {
+    "id": "inside-uplb",
+    "name": "Inside UPLB",
+    "short_name": "Campus",
+    "description": "Food points inside the main UPLB campus area.",
+    "priority": 10,
+    "bounds": {"min_lat": 14.1540, "max_lat": 14.1675, "min_lon": 121.2320, "max_lon": 121.2490}
+  },
+  {
+    "id": "raymundo",
+    "name": "Raymundo",
+    "short_name": "Raymundo",
+    "description": "The dense student-food strip around Raymundo Gate and nearby side streets.",
+    "priority": 20,
+    "bounds": {"min_lat": 14.1674, "max_lat": 14.1715, "min_lon": 121.2395, "max_lon": 121.2424}
+  },
+  {
+    "id": "grove-vega",
+    "name": "Grove & Vega",
+    "short_name": "Grove / Vega",
+    "description": "The Grove and Vega Arcade cluster just outside campus.",
+    "priority": 30,
+    "bounds": {"min_lat": 14.1673, "max_lat": 14.1715, "min_lon": 121.2424, "max_lon": 121.2466}
+  },
+  {
+    "id": "lopez-demarses",
+    "name": "Lopez & Demarses",
+    "short_name": "Lopez / Demarses",
+    "description": "Restaurants and cafés farther north along the Lopez–Demarses side of College.",
+    "priority": 40,
+    "bounds": {"min_lat": 14.1715, "max_lat": 14.1776, "min_lon": 121.2385, "max_lon": 121.2466}
+  },
+  {
+    "id": "junction-olivarez",
+    "name": "Junction & Olivarez",
+    "short_name": "Junction",
+    "description": "Food around the highway junction and Olivarez commercial area.",
+    "priority": 50,
+    "bounds": {"min_lat": 14.1776, "max_lat": 14.1830, "min_lon": 121.2375, "max_lon": 121.2470}
+  },
+  {
+    "id": "maahas-east",
+    "name": "Maahas & East LB",
+    "short_name": "Maahas / East",
+    "description": "Places east of the main campus-and-Grove cluster, including the IRRI side.",
+    "priority": 60,
+    "bounds": {"min_lat": 14.1600, "max_lat": 14.1820, "min_lon": 121.2466, "max_lon": 121.2630}
+  }
+]

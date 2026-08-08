@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "dataset_version": "2026.08.07",
-  "generated_at": "2026-08-07T09:29:05.937568+00:00",
+  "generated_at": "2026-08-07T18:29:54.131748+00:00",
   "places": {
     "raw_osm": 259,
     "raw_overture": 2664,
@@ -23,12 +23,18 @@
     }
   },
   "collections": {
-    "published": 0
+    "published": 3
+  },
+  "explore": {
+    "zones": 7
+  },
+  "freshie": {
+    "evidence_records": 22
   },
   "routing": {
     "status": "room-tba-graph",
     "schema_version": 2,
-    "generated_at": "2026-08-07T09:29:05.882183+00:00",
+    "generated_at": "2026-08-07T18:29:54.100504+00:00",
     "routing": {
       "source": "room-tba-walk-graph",
       "repository": "uplbtools/room-tba",
@@ -45,14 +51,24 @@
         "coordScale": 1000000
       },
       "weight": "edge_length_meters",
-      "note": "Walking seconds are derived from Room TBA pedestrian graph distance using Kain Elbi walking_speed_mps."
+      "snap_thresholds_m": {
+        "good": 40.0,
+        "place_max": 100.0,
+        "anchor_max": 100.0
+      },
+      "note": "Walking metrics use Room TBA pedestrian graph distance plus short straight access connectors between supported anchors/places and their snapped graph nodes. Places or anchors beyond the configured max snap threshold are never routed."
     },
     "canonical_places": 769,
-    "routable_places": 757,
+    "routable_places": 134,
     "snap_records": 769,
-    "unsupported_places": 12,
-    "review_places": 678,
-    "unclassified_places": 0
+    "unsupported_places": 635,
+    "review_places": 55,
+    "unclassified_places": 0,
+    "supported_anchors": 38,
+    "unsupported_anchors": 1,
+    "unsupported_anchor_ids": [
+      "uprhs-building"
+    ]
   },
   "inputs": {
     "osm_snapshot": "data\\raw\\osm-los-banos-food.geojson",

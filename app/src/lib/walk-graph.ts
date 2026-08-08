@@ -143,9 +143,19 @@ export async function buildRouteGeometry(
 ): Promise<Array<[number, number]> | undefined> {
 	const graph = await loadWalkGraph();
 	if (!graph) return undefined;
-	const originNode = matrix.anchors[origin.id]?.graph_node_index;
-	const placeNode = matrix.place_snaps?.[place.id]?.graph_node_index;
-	const destinationNode = destination ? matrix.anchors[destination.id]?.graph_node_index : undefined;
+	const originAnchor = matrix.anchors[origin.id];
+	const placeSnap = matrix.place_snaps?.[place.id];
+	const destinationAnchor = destination ? matrix.anchors[destination.id] : undefined;
+	const maxPlaceSnap = Math.min(matrix.routing.snap_thresholds_m?.place_max ?? 100, 100);
+	const maxAnchorSnap = Math.min(matrix.routing.snap_thresholds_m?.anchor_max ?? 100, 100);
+
+	if (!originAnchor || originAnchor.snap_status === 'unsupported' || (originAnchor.snap_distance_m ?? 0) > maxAnchorSnap) return undefined;
+	if (!placeSnap || placeSnap.status === 'unsupported' || placeSnap.snap_distance_m > maxPlaceSnap) return undefined;
+	if (destination && (!destinationAnchor || destinationAnchor.snap_status === 'unsupported' || (destinationAnchor.snap_distance_m ?? 0) > maxAnchorSnap)) return undefined;
+
+	const originNode = originAnchor.graph_node_index;
+	const placeNode = placeSnap.graph_node_index;
+	const destinationNode = destinationAnchor?.graph_node_index;
 	if (typeof originNode !== 'number' || !Number.isInteger(originNode) || typeof placeNode !== 'number' || !Number.isInteger(placeNode)) return undefined;
 
 	const outbound = shortestPath(graph, originNode, placeNode);

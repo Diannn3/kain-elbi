@@ -1,124 +1,568 @@
 {
   "summary": {
     "graph_nodes": 1014,
-    "graph_edges": 1467,
-    "anchors": 39,
+    "graph_edges": 1468,
+    "anchors_total": 39,
+    "anchors_supported": 38,
+    "anchors_good_le_40m": 36,
+    "anchors_review_40_to_100m": 2,
+    "anchors_unsupported_gt_100m": 1,
+    "unsupported_anchor_ids": [
+      "uprhs-building"
+    ],
     "places_total": 769,
     "places_good_le_40m": 79,
-    "places_review_40_to_100m": 678,
-    "places_unsupported_gt_100m": 12,
-    "routable_places": 757,
-    "max_snap_m": 3000.0,
+    "places_review_40_to_100m": 55,
+    "places_unsupported_gt_100m": 635,
+    "routable_places": 134,
+    "good_snap_m": 40.0,
+    "max_place_snap_m": 100.0,
+    "max_anchor_snap_m": 100.0,
+    "max_routed_place_snap_m": 99.92,
+    "max_supported_anchor_snap_m": 64.8,
     "walking_speed_mps": 1.2
+  },
+  "anchors": {
+    "agricultural-and-biological-chemistry-building": {
+      "id": "agricultural-and-biological-chemistry-building",
+      "name": "Agricultural and Biological Chemistry Building",
+      "lat": 14.160037897818123,
+      "lon": 121.24452978338535,
+      "legacy_id": "Agricultural and Biological Chemistry Building",
+      "graph_node_index": 394,
+      "graph_node_osm_id": 696425324,
+      "snap_distance_m": 20.3,
+      "snap_status": "good"
+    },
+    "afbed-building": {
+      "id": "afbed-building",
+      "name": "AFBED Building",
+      "lat": 14.1625,
+      "lon": 121.248,
+      "legacy_id": "AFBED Building",
+      "graph_node_index": 166,
+      "graph_node_osm_id": 453000231,
+      "snap_distance_m": 35.84,
+      "snap_status": "good"
+    },
+    "agricultural-systems-institute-building": {
+      "id": "agricultural-systems-institute-building",
+      "name": "Agricultural Systems Institute Building",
+      "lat": 14.15908083331246,
+      "lon": 121.24371439189271,
+      "legacy_id": "Agricultural Systems Institute Building",
+      "graph_node_index": 210,
+      "graph_node_osm_id": 527828318,
+      "snap_distance_m": 3.96,
+      "snap_status": "good"
+    },
+    "biological-sciences-building": {
+      "id": "biological-sciences-building",
+      "name": "Biological Sciences Building",
+      "lat": 14.16573858977826,
+      "lon": 121.24045282592225,
+      "legacy_id": "Biological Sciences Building",
+      "graph_node_index": 601,
+      "graph_node_osm_id": 1288947708,
+      "snap_distance_m": 8.8,
+      "snap_status": "good"
+    },
+    "cafs-building": {
+      "id": "cafs-building",
+      "name": "CAFS Building",
+      "lat": 14.160329177519289,
+      "lon": 121.24508768282763,
+      "legacy_id": "CAFS Building",
+      "graph_node_index": 665,
+      "graph_node_osm_id": 1532125246,
+      "snap_distance_m": 25.85,
+      "snap_status": "good"
+    },
+    "cas-main-building": {
+      "id": "cas-main-building",
+      "name": "CAS Main Building",
+      "lat": 14.164912488568103,
+      "lon": 121.24116485649184,
+      "legacy_id": "CAS Main Building",
+      "graph_node_index": 629,
+      "graph_node_osm_id": 1430814644,
+      "snap_distance_m": 15.51,
+      "snap_status": "good"
+    },
+    "cas-annex-1": {
+      "id": "cas-annex-1",
+      "name": "CAS Annex 1",
+      "lat": 14.165447317040943,
+      "lon": 121.24109655582862,
+      "legacy_id": "CAS Annex 1",
+      "graph_node_index": 497,
+      "graph_node_osm_id": 816645088,
+      "snap_distance_m": 5.5,
+      "snap_status": "good"
+    },
+    "cas-annex-2": {
+      "id": "cas-annex-2",
+      "name": "CAS Annex 2",
+      "lat": 14.165488927458338,
+      "lon": 121.24174028595435,
+      "legacy_id": "CAS Annex 2",
+      "graph_node_index": 840,
+      "graph_node_osm_id": 4792449605,
+      "snap_distance_m": 13.63,
+      "snap_status": "good"
+    },
+    "cdc-building": {
+      "id": "cdc-building",
+      "name": "CDC Building",
+      "lat": 14.167,
+      "lon": 121.2426,
+      "legacy_id": "CDC Building",
+      "graph_node_index": 487,
+      "graph_node_osm_id": 813055876,
+      "snap_distance_m": 5.51,
+      "snap_status": "good"
+    },
+    "civil-engineering-building": {
+      "id": "civil-engineering-building",
+      "name": "Civil Engineering Building",
+      "lat": 14.1618,
+      "lon": 121.246,
+      "legacy_id": "Civil Engineering Building",
+      "graph_node_index": 456,
+      "graph_node_osm_id": 790108791,
+      "snap_distance_m": 11.58,
+      "snap_status": "good"
+    },
+    "ceat-building": {
+      "id": "ceat-building",
+      "name": "CEAT Building",
+      "lat": 14.1613,
+      "lon": 121.2454,
+      "legacy_id": "CEAT Building",
+      "graph_node_index": 440,
+      "graph_node_osm_id": 790108391,
+      "snap_distance_m": 13.92,
+      "snap_status": "good"
+    },
+    "cem-building": {
+      "id": "cem-building",
+      "name": "CEM Building",
+      "lat": 14.166660123648663,
+      "lon": 121.24090736444153,
+      "legacy_id": "CEM Building",
+      "graph_node_index": 343,
+      "graph_node_osm_id": 606307311,
+      "snap_distance_m": 19.63,
+      "snap_status": "good"
+    },
+    "cfnr-building": {
+      "id": "cfnr-building",
+      "name": "CFNR Building",
+      "lat": 14.1543,
+      "lon": 121.2353,
+      "legacy_id": "CFNR Building",
+      "graph_node_index": 680,
+      "graph_node_osm_id": 1579271899,
+      "snap_distance_m": 35.18,
+      "snap_status": "good"
+    },
+    "che-building": {
+      "id": "che-building",
+      "name": "CHE Building",
+      "lat": 14.164995709591306,
+      "lon": 121.241894417301,
+      "legacy_id": "CHE Building",
+      "graph_node_index": 219,
+      "graph_node_osm_id": 529867705,
+      "snap_distance_m": 14.08,
+      "snap_status": "good"
+    },
+    "chemical-engineering-building": {
+      "id": "chemical-engineering-building",
+      "name": "Chemical Engineering Building",
+      "lat": 14.1608,
+      "lon": 121.245,
+      "legacy_id": "Chemical Engineering Building",
+      "graph_node_index": 198,
+      "graph_node_osm_id": 497687339,
+      "snap_distance_m": 8.61,
+      "snap_status": "good"
+    },
+    "cvm-building": {
+      "id": "cvm-building",
+      "name": "CVM Building",
+      "lat": 14.15892049473242,
+      "lon": 121.24313896221082,
+      "legacy_id": "CVM Building",
+      "graph_node_index": 209,
+      "graph_node_osm_id": 527827815,
+      "snap_distance_m": 22.07,
+      "snap_status": "good"
+    },
+    "daae-building": {
+      "id": "daae-building",
+      "name": "DAAE Building",
+      "lat": 14.167117835374897,
+      "lon": 121.24073570307466,
+      "legacy_id": "DAAE Building",
+      "graph_node_index": 112,
+      "graph_node_osm_id": 436205061,
+      "snap_distance_m": 13.09,
+      "snap_status": "good"
+    },
+    "electrical-engineering-building": {
+      "id": "electrical-engineering-building",
+      "name": "Electrical Engineering Building",
+      "lat": 14.161580616694565,
+      "lon": 121.24783967751902,
+      "legacy_id": "Electrical Engineering Building",
+      "graph_node_index": 909,
+      "graph_node_osm_id": 5507328938,
+      "snap_distance_m": 4.86,
+      "snap_status": "good"
+    },
+    "forestry-biological-sciences-building": {
+      "id": "forestry-biological-sciences-building",
+      "name": "Forestry Biological Sciences Building",
+      "lat": 14.1548,
+      "lon": 121.2358,
+      "legacy_id": "Forestry Biological Sciences Building",
+      "graph_node_index": 186,
+      "graph_node_osm_id": 454087327,
+      "snap_distance_m": 19.57,
+      "snap_status": "good"
+    },
+    "graduate-school-building": {
+      "id": "graduate-school-building",
+      "name": "Graduate School Building",
+      "lat": 14.1638,
+      "lon": 121.239,
+      "legacy_id": "Graduate School Building",
+      "graph_node_index": 562,
+      "graph_node_osm_id": 1126043001,
+      "snap_distance_m": 30.08,
+      "snap_status": "good"
+    },
+    "hydrology-building": {
+      "id": "hydrology-building",
+      "name": "Hydrology Building",
+      "lat": 14.162790342169593,
+      "lon": 121.24949043285048,
+      "legacy_id": "Hydrology Building",
+      "graph_node_index": 962,
+      "graph_node_osm_id": 6372174204,
+      "snap_distance_m": 25.37,
+      "snap_status": "good"
+    },
+    "iabe-building": {
+      "id": "iabe-building",
+      "name": "IABE Building",
+      "lat": 14.162,
+      "lon": 121.2475,
+      "legacy_id": "IABE Building",
+      "graph_node_index": 571,
+      "graph_node_osm_id": 1187299512,
+      "snap_distance_m": 35.21,
+      "snap_status": "good"
+    },
+    "icoped-building": {
+      "id": "icoped-building",
+      "name": "ICOPED Building",
+      "lat": 14.167409105993643,
+      "lon": 121.24232357078375,
+      "legacy_id": "ICOPED Building",
+      "graph_node_index": 986,
+      "graph_node_osm_id": 8336844878,
+      "snap_distance_m": 11.74,
+      "snap_status": "good"
+    },
+    "icrops-building": {
+      "id": "icrops-building",
+      "name": "ICropS Building",
+      "lat": 14.160418508015592,
+      "lon": 121.24579971346282,
+      "legacy_id": "ICropS Building",
+      "graph_node_index": 433,
+      "graph_node_osm_id": 790108209,
+      "snap_distance_m": 4.97,
+      "snap_status": "good"
+    },
+    "industrial-engineering-building": {
+      "id": "industrial-engineering-building",
+      "name": "Industrial Engineering Building",
+      "lat": 14.162249399713152,
+      "lon": 121.24760215793597,
+      "legacy_id": "Industrial Engineering Building",
+      "graph_node_index": 571,
+      "graph_node_osm_id": 1187299512,
+      "snap_distance_m": 55.26,
+      "snap_status": "review"
+    },
+    "ifst-building": {
+      "id": "ifst-building",
+      "name": "IFST Building",
+      "lat": 14.160501730685995,
+      "lon": 121.24442642252787,
+      "legacy_id": "IFST Building",
+      "graph_node_index": 765,
+      "graph_node_osm_id": 3136212246,
+      "snap_distance_m": 13.18,
+      "snap_status": "good"
+    },
+    "ihnf-building": {
+      "id": "ihnf-building",
+      "name": "IHNF Building",
+      "lat": 14.164995709592109,
+      "lon": 121.2427098088592,
+      "legacy_id": "IHNF Building",
+      "graph_node_index": 541,
+      "graph_node_osm_id": 983332941,
+      "snap_distance_m": 21.52,
+      "snap_status": "good"
+    },
+    "irnr-building": {
+      "id": "irnr-building",
+      "name": "IRNR Building",
+      "lat": 14.1538,
+      "lon": 121.2348,
+      "legacy_id": "IRNR Building",
+      "graph_node_index": 193,
+      "graph_node_osm_id": 454087640,
+      "snap_distance_m": 64.8,
+      "snap_status": "review"
+    },
+    "iwep-building": {
+      "id": "iwep-building",
+      "name": "IWEP Building",
+      "lat": 14.165827918146277,
+      "lon": 121.2406498724568,
+      "legacy_id": "IWEP Building",
+      "graph_node_index": 499,
+      "graph_node_osm_id": 816645189,
+      "snap_distance_m": 11.61,
+      "snap_status": "good"
+    },
+    "lhkcb-building": {
+      "id": "lhkcb-building",
+      "name": "LHKCB Building",
+      "lat": 14.160501730680284,
+      "lon": 121.24438350730719,
+      "legacy_id": "LHKCB Building",
+      "graph_node_index": 765,
+      "graph_node_osm_id": 3136212246,
+      "snap_distance_m": 15.09,
+      "snap_status": "good"
+    },
+    "math-building": {
+      "id": "math-building",
+      "name": "Math Building",
+      "lat": 14.165411814244841,
+      "lon": 121.24361103115628,
+      "legacy_id": "Math Building",
+      "graph_node_index": 542,
+      "graph_node_osm_id": 983332943,
+      "snap_distance_m": 30.1,
+      "snap_status": "good"
+    },
+    "copeland-gymnasium": {
+      "id": "copeland-gymnasium",
+      "name": "Copeland Gymnasium",
+      "lat": 14.157297635860596,
+      "lon": 121.2427098088592,
+      "legacy_id": "Copeland Gymnasium",
+      "graph_node_index": 372,
+      "graph_node_osm_id": 687390066,
+      "snap_distance_m": 8.06,
+      "snap_status": "good"
+    },
+    "baker-hall-pool": {
+      "id": "baker-hall-pool",
+      "name": "Baker Hall Pool",
+      "lat": 14.162253497902821,
+      "lon": 121.24266929817223,
+      "legacy_id": "Baker Hall Pool",
+      "graph_node_index": 579,
+      "graph_node_osm_id": 1244163608,
+      "snap_distance_m": 7.23,
+      "snap_status": "good"
+    },
+    "phtrc-building": {
+      "id": "phtrc-building",
+      "name": "PHTRC Building",
+      "lat": 14.161542011486866,
+      "lon": 121.24429767662376,
+      "legacy_id": "PHTRC Building",
+      "graph_node_index": 936,
+      "graph_node_osm_id": 6361461440,
+      "snap_distance_m": 31.18,
+      "snap_status": "good"
+    },
+    "physical-sciences-building": {
+      "id": "physical-sciences-building",
+      "name": "Physical Sciences Building",
+      "lat": 14.16449638298952,
+      "lon": 121.24167984077903,
+      "legacy_id": "Physical Sciences Building",
+      "graph_node_index": 465,
+      "graph_node_osm_id": 790709129,
+      "snap_distance_m": 1.66,
+      "snap_status": "good"
+    },
+    "ptcf-building": {
+      "id": "ptcf-building",
+      "name": "PTCF Building",
+      "lat": 14.156,
+      "lon": 121.241,
+      "legacy_id": "PTCF Building",
+      "graph_node_index": 159,
+      "graph_node_osm_id": 452997605,
+      "snap_distance_m": 23.89,
+      "snap_status": "good"
+    },
+    "tcc-building": {
+      "id": "tcc-building",
+      "name": "TCC Building",
+      "lat": 14.16574893221993,
+      "lon": 121.24288733602698,
+      "legacy_id": "TCC Building",
+      "graph_node_index": 808,
+      "graph_node_osm_id": 4791056633,
+      "snap_distance_m": 28.57,
+      "snap_status": "good"
+    },
+    "main-library": {
+      "id": "main-library",
+      "name": "Main Library",
+      "lat": 14.165370203813325,
+      "lon": 121.23919075095945,
+      "legacy_id": "Main Library",
+      "graph_node_index": 280,
+      "graph_node_osm_id": 573285860,
+      "snap_distance_m": 13.19,
+      "snap_status": "good"
+    }
+  },
+  "unsupported_anchors": {
+    "uprhs-building": {
+      "id": "uprhs-building",
+      "name": "UPRHS Building",
+      "lat": 14.15151290659347,
+      "lon": 121.27134891640044,
+      "legacy_id": "UPRHS Building",
+      "graph_node_index": 992,
+      "graph_node_osm_id": 9031117674,
+      "snap_distance_m": 2557.22,
+      "snap_status": "unsupported"
+    }
   },
   "places": {
     "35324a3d-d490-53f1-b3e1-eb112720761d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 116.07,
-      "status": "review"
+      "status": "unsupported"
     },
     "80495a86-0fbc-4b37-b77a-4fdc95b4d8ee": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 201.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "97ef42f5-7171-4770-b759-31c11f2722e2": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 101.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "fd757c26-022a-4194-930e-cdb6fe698db3": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 276.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "adca8d26-ca42-5ed7-99df-4dad3dafe02d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 285.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "56ffd756-9504-4fdb-a186-d28ed2ab18d8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 736.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "c71581a9-b1dc-53f8-b3e2-35cd49088615": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1136.99,
-      "status": "review"
+      "status": "unsupported"
     },
     "5799acd0-a2e5-4917-a1f0-b56f0dd16e89": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 243.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "96fbabc5-d2e7-598c-b6bc-b8d72d6897b3": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "f70989ac-0d85-4e8d-bda3-0609c8e2bf83": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 265.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "80b31eaf-3b4b-5b75-baa6-331eab7a161f": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1186.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "8853f054-ab97-5dbb-97eb-65e2826d5eb5": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2815.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "eb8bbeca-b2eb-5a21-93ae-47b276b9d0c3": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 969.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "838852ac-4382-46db-896e-754ae5c09a59": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 171.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "45c41a4a-cb62-53b7-85cb-79606b4413db": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 918.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "fd4d807a-11ba-52e8-8c15-7ccf360155ba": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "32f5995e-641a-51a4-987a-2d2756240443": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 126.68,
-      "status": "review"
+      "status": "unsupported"
     },
     "dcc8a0b3-acaf-506c-a3e2-e2b444efe201": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 461.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "475ec7ff-46c5-516b-ad6b-b479ca0a44ad": {
       "graph_node_index": 230,
@@ -130,115 +574,115 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 138.38,
-      "status": "review"
+      "status": "unsupported"
     },
     "d825cf9b-df61-499d-a459-2085665fa2e7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1063.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "25276791-0a38-565d-96fa-7977f36a18bd": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1125.0,
-      "status": "review"
+      "status": "unsupported"
     },
     "a60b349d-16a2-43a5-a6fa-736739ef3e6a": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 475.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "aff6f6e1-1295-43a1-bcaa-a5358626e5a4": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1885.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "e470b3b0-f0b4-4d9d-954d-8c13af8f3192": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1260.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "f188898e-11d6-5d64-a3c8-65f6e007e6c7": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1891.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "fc3827d7-35ce-5e39-a470-0b5b7d2d8e2b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1190.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "1104f848-cc97-5264-9628-9847bdde5d13": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 478.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "9f6362ae-ad6f-588e-83a0-8afcdfdc44f6": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 304.23,
-      "status": "review"
+      "status": "unsupported"
     },
     "480d39f9-44b0-5ac6-9cb0-9460655ea44e": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1678.65,
-      "status": "review"
+      "status": "unsupported"
     },
     "57b6b570-ce25-51f4-8b41-52d62dfa550c": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1332.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "a1aa589e-d6f4-57c5-b136-e77d07103652": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "0484bba5-f0d7-58c9-adfb-a917bd31ac5e": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1877.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "7cf45710-551d-59bf-bd67-208c50704461": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1042.23,
-      "status": "review"
+      "status": "unsupported"
     },
     "071745cd-a800-5809-8f88-a303ff2fae8e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 856.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "786c046a-a9c4-580f-ba2a-9248b43a6f49": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 691.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "af6a5dfb-c222-5d0a-a300-f47d55a5645e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1858.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "6638fef8-872e-51ed-ae57-a178c6921a16": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 198.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "05000abd-8ef7-5d73-846b-fa8f781b0d31": {
       "graph_node_index": 83,
@@ -250,7 +694,7 @@
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 209.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "cf452364-895e-5406-8009-837c4b10e4bd": {
       "graph_node_index": 215,
@@ -262,13 +706,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1381.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "202d563d-d6ed-450e-9961-7130f44cab0b": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 178.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "b754c56d-f197-5495-aa98-3c34747dae43": {
       "graph_node_index": 3,
@@ -280,25 +724,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 462.12,
-      "status": "review"
+      "status": "unsupported"
     },
     "bfe0fce9-14b7-4539-9ba2-bd452d02d346": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 229.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "7ab0b9ae-ad44-49d7-8ac7-8b38b9df5374": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1071.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "7c6038a8-d797-4d16-80da-bdcdabb586de": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1203.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "64898bac-8c82-5f78-82a5-202922580c6e": {
       "graph_node_index": 992,
@@ -310,43 +754,43 @@
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 204.77,
-      "status": "review"
+      "status": "unsupported"
     },
     "254d98a1-1d41-4702-af98-677eb3f86aee": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 158.83,
-      "status": "review"
+      "status": "unsupported"
     },
     "6b7e912e-5fd7-5f15-8dd5-42f27b219dd0": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 914.0,
-      "status": "review"
+      "status": "unsupported"
     },
     "fcc26afd-300a-5797-9710-624aaa97c776": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 321.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "4c297aaa-1028-53bf-ba2a-a7ed9fe86918": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 204.05,
-      "status": "review"
+      "status": "unsupported"
     },
     "a82ceb3e-8161-4b35-9a17-2bcc99f5ecc3": {
       "graph_node_index": 991,
       "graph_node_osm_id": 9031117673,
       "snap_distance_m": 196.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "480d7af6-6e71-5eab-ac2c-e947f553b6dc": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 579.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "bd846696-aa1b-59a6-8c07-a0eaca6fc0c5": {
       "graph_node_index": 783,
@@ -370,13 +814,13 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 191.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "6bb1eb61-f970-56af-8d61-c0c95f205c81": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1827.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "ba32267a-06cd-43f9-86b3-d93b45d9c354": {
       "graph_node_index": 239,
@@ -388,13 +832,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 451.44,
-      "status": "review"
+      "status": "unsupported"
     },
     "d60fefa0-cf15-4091-9577-d4fe81f11b33": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1085.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "aebe1b7b-157a-46b6-a413-336de0c5b060": {
       "graph_node_index": 239,
@@ -406,19 +850,19 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2364.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "232724ab-3ffe-514c-af8c-a52c317c1aff": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2204.38,
-      "status": "review"
+      "status": "unsupported"
     },
     "2442d9ab-6c21-566f-a005-7bf2b0333938": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 178.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "508e855a-97af-4a11-b97a-4f498a5d1583": {
       "graph_node_index": 6,
@@ -436,25 +880,25 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2167.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "ca86720b-0804-5432-a39a-d7f132a781ac": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1809.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "cb091937-f481-46b1-bea7-616410dad96d": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2922.33,
-      "status": "review"
+      "status": "unsupported"
     },
     "06dbaa5f-2785-4c51-ab76-3960abdcf0be": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 188.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "cdaed42f-a0d2-423c-a015-68b7c2db64b5": {
       "graph_node_index": 239,
@@ -466,67 +910,67 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2087.58,
-      "status": "review"
+      "status": "unsupported"
     },
     "44d6cdb6-e24d-506d-a126-6a2c81ecb097": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1934.44,
-      "status": "review"
+      "status": "unsupported"
     },
     "9e11c6b5-f897-5c9d-8222-0bc1034e5c52": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 263.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "57d8ac3c-6b19-4bfc-b61a-2c7bb46ff8ec": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 276.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "2c16a88e-48b3-592c-bb20-fb53cf226e9f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 277.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "d1c26a3b-f9f2-48d7-ae3d-403be5fe3544": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 171.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "647f2672-1e0c-5f76-af3d-374d5dc92a01": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1436.65,
-      "status": "review"
+      "status": "unsupported"
     },
     "443db7fd-ae12-55b3-97e6-8342e0135e71": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2264.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "ab0acb17-8278-5c7b-a582-7af682213d0b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 689.65,
-      "status": "review"
+      "status": "unsupported"
     },
     "26722e15-861d-54ab-b896-61b5afd8e197": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 986.33,
-      "status": "review"
+      "status": "unsupported"
     },
     "50ca3a7c-d290-55fb-a673-47e4fa94503d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2159.02,
-      "status": "review"
+      "status": "unsupported"
     },
     "8c27bb70-c27c-43e6-b12e-ee421a52df7c": {
       "graph_node_index": 224,
@@ -538,13 +982,13 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 217.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "15fd4f06-4861-5202-8340-ffbe03d93e04": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1314.27,
-      "status": "review"
+      "status": "unsupported"
     },
     "3ca308f8-19ae-5551-a686-09db6b0efc7b": {
       "graph_node_index": 3,
@@ -556,43 +1000,43 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1175.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "8a580394-31bf-5ad4-bfd4-d3804fbe9599": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 238.79,
-      "status": "review"
+      "status": "unsupported"
     },
     "8ed0024a-fa5d-5deb-83d9-c42be628c06d": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "547ed594-f8f9-4584-9c9c-86f8a9fe5358": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 868.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "ae7b5dcc-9fbe-414a-af34-32ab5271338a": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 121.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "4c46f665-b706-5f15-aa5e-145e41cd5b10": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 969.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "b8c6f98b-49f2-55ef-989a-40f8bb6b0139": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2319.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "cf46f889-4dba-4eb9-80a0-d9eccf36cd03": {
       "graph_node_index": 359,
@@ -610,25 +1054,25 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1984.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "62781bbc-5705-42a2-ae25-76e081f6f112": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 807.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "dbaf86b0-b26d-516e-a7f5-be0729a303d7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 263.45,
-      "status": "review"
+      "status": "unsupported"
     },
     "51ff1878-0dcb-498e-88f8-935eaf8ce5ae": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 264.69,
-      "status": "review"
+      "status": "unsupported"
     },
     "91ab22be-689b-5e18-a08a-8658b7d15b16": {
       "graph_node_index": 312,
@@ -640,25 +1084,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1100.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "56e3b299-3b26-484b-abee-296d9a09b184": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 477.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "cb99b21e-70fd-554e-a0eb-bcb265df7a8f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 355.0,
-      "status": "review"
+      "status": "unsupported"
     },
     "da88aaa3-c79e-4b3c-8fb8-9973925471c8": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2227.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "5bd2c498-6a7a-5076-909e-6dd899160e51": {
       "graph_node_index": 408,
@@ -676,61 +1120,61 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 548.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "4e77782c-bb3c-5513-82de-1f4b29f7975e": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2888.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "c21cfcd9-6786-5882-b1b0-2680101d2e08": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 564.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "35913540-17a1-45c0-9057-d394b3df0c81": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 418.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "903af916-dda9-53ef-a9b8-635cd8fea49c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 581.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "8a172330-4c22-4392-9de9-30946856c6bc": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 176.02,
-      "status": "review"
+      "status": "unsupported"
     },
     "b20858b9-f921-55e6-94dc-ab5005b6d35e": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 1889.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "43a6b8ed-217e-494c-be8f-8acacd41dbdb": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 211.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "46a8fff2-a001-52d0-a61e-3510c99c8874": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 125.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "036ea5eb-f86b-433b-bb77-393611d90633": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1884.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "a0ad1c08-a9d3-4898-98cc-10e3e0860220": {
       "graph_node_index": 138,
@@ -742,13 +1186,13 @@
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 110.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "bfb70460-b8ed-57df-9e69-261d3b46b332": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 121.83,
-      "status": "review"
+      "status": "unsupported"
     },
     "2fa06979-160f-541e-b1ca-d078ca7468dc": {
       "graph_node_index": 652,
@@ -760,37 +1204,37 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 276.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "9d1bf806-6544-54be-971e-96f7953cb394": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 230.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "8c2cb7a6-b999-4325-92f5-e8ee96e3e0e3": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2133.12,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc040636-d8ec-4886-8056-c2c676c6ca5d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1181.77,
-      "status": "review"
+      "status": "unsupported"
     },
     "9c0d8d32-fadd-5525-b045-5e6c86b77fdb": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1501.11,
-      "status": "review"
+      "status": "unsupported"
     },
     "a16d1bdd-72ed-5b24-adc3-7ae47cba8099": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1167.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "d8b4ca9b-e735-5cf3-9c5a-07c03e053acc": {
       "graph_node_index": 239,
@@ -802,25 +1246,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 323.04,
-      "status": "review"
+      "status": "unsupported"
     },
     "427d047f-ecf8-4436-9b15-04e338021998": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 129.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "94c99418-1f1c-5b8c-9db5-4dbc298fd5b0": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2886.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "411824db-994b-5216-a090-c2c9abaddfd8": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "e664a395-4879-5293-88ca-8fe7077182f9": {
       "graph_node_index": 239,
@@ -832,55 +1276,55 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 823.05,
-      "status": "review"
+      "status": "unsupported"
     },
     "93a40f7a-0c85-4aa3-b7ba-2b1cb359334c": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 112.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "7055c26d-5bda-4532-8137-3dc481cdeb14": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1072.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "967efb72-d694-437d-ac5c-b69a1d0e1e2b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1219.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "f319b56b-8ae1-4ebf-85ca-1549a0b3541e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 983.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "284ccd07-b1e8-579b-9ddd-5169116ebfec": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1225.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "4a31b668-ae6e-5b47-9ec9-1fa7eee455ca": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1081.15,
-      "status": "review"
+      "status": "unsupported"
     },
     "768bfbc5-bdf3-5411-af49-7287ea0e9278": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2190.44,
-      "status": "review"
+      "status": "unsupported"
     },
     "e4a8cdb3-0946-5e60-a901-9d3adbef5322": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1141.99,
-      "status": "review"
+      "status": "unsupported"
     },
     "eac9bea6-d28d-4e24-8454-d060d12d7d27": {
       "graph_node_index": 3,
@@ -904,61 +1348,61 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 100.79,
-      "status": "review"
+      "status": "unsupported"
     },
     "6903893b-99b7-5531-aef6-904aea26fefb": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "637f7a8d-a298-5d09-a280-a4e17fe26a97": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2187.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "35a189a5-c1ef-5cea-a990-4df85caac412": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2614.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "84f3511c-4722-5dcb-ba63-adda25b633ee": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1733.99,
-      "status": "review"
+      "status": "unsupported"
     },
     "586fd8f7-45a6-4d9f-aa98-753de920c77a": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 230.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "bb56a28c-6070-5be1-a706-6b189d902e25": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 232.3,
-      "status": "review"
+      "status": "unsupported"
     },
     "d65c4040-0413-4315-a794-c00294690e22": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1713.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "edd3d285-a5a9-5eea-ad45-8b7c806df99c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 548.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "d5949ef5-3a08-5e11-8cfe-f71938d2b971": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 458.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "4908ef4d-7d97-570f-bc6b-bad3c6d1232d": {
       "graph_node_index": 239,
@@ -970,55 +1414,55 @@
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 761.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "2ce47b2d-85d8-43e1-99ab-02288e932abb": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1386.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "f418991a-f283-4311-b012-c12861629b62": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 220.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "1a1ed7fc-08fc-59a8-8210-12c8410df86f": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2120.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "d8b7cf1c-4175-4eec-be13-2afd13240d92": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 124.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "89d3b939-776f-548a-b60a-e37093cb5012": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 457.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "7b51e327-0faa-4978-a84d-f5b60733364f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 231.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "bf91b0d8-3f0a-5870-b0b9-a3c0f7e933b8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2159.21,
-      "status": "review"
+      "status": "unsupported"
     },
     "8ff5d2d0-5b2d-5f8d-ab54-efb7aab3a522": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1404.12,
-      "status": "review"
+      "status": "unsupported"
     },
     "c784c6e2-aa89-5583-ac83-470282c19ba0": {
       "graph_node_index": 460,
@@ -1036,37 +1480,37 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 273.51,
-      "status": "review"
+      "status": "unsupported"
     },
     "c23f90fa-3ef8-54f5-a9a2-eab06a2407fa": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 133.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "3866fd86-6b36-5c2d-8272-efe88999ce09": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2284.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "fe531205-165c-5925-a8e4-2aa018830556": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2113.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "92115f39-a732-45a4-ad97-5480d00726d5": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2316.93,
-      "status": "review"
+      "status": "unsupported"
     },
     "071fb499-2070-4759-a21b-6a243f94f7ff": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 574.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "591995e5-a878-45a4-8ba7-a87ac36ea466": {
       "graph_node_index": 471,
@@ -1078,7 +1522,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 584.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "e7291f4c-b507-4d65-b48e-fedb06d6687a": {
       "graph_node_index": 98,
@@ -1096,25 +1540,25 @@
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 156.16,
-      "status": "review"
+      "status": "unsupported"
     },
     "e8c84b92-58d4-5b28-b10e-3f0ddfb19edc": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 188.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "484ec415-893a-5c25-9661-4a1393c61213": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 529.24,
-      "status": "review"
+      "status": "unsupported"
     },
     "9292a2f0-26fe-5635-abf2-c8d89a8c3448": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 883.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "53b37f43-2d99-535d-9096-4b1f6a039dce": {
       "graph_node_index": 3,
@@ -1126,49 +1570,49 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 291.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "f81031fb-d803-5083-8144-4998c51cad39": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1337.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "1b68eca5-ec9f-45f3-bccc-0c8453df66ca": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 756.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "7ea77661-3755-4a97-9d17-ba7c1abffb79": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 153.17,
-      "status": "review"
+      "status": "unsupported"
     },
     "22a68947-8e3e-4829-9d96-0efcaa545171": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 104.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "4c8609f4-8121-5717-b9cd-dec40f3bf4a6": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2275.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "df82062d-52ac-5c09-8146-4bfaffcab7ec": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2170.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "986cd69e-0fc8-42a0-9853-f7d003d2b1a7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1201.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "fb0b6d27-32ee-5424-b8f5-de0aae6e02c1": {
       "graph_node_index": 460,
@@ -1180,7 +1624,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1115.06,
-      "status": "review"
+      "status": "unsupported"
     },
     "678b0e7c-dc78-58ab-a0cd-cdcb1c16dd5b": {
       "graph_node_index": 3,
@@ -1192,31 +1636,31 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 280.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "6b62c98d-dcf5-43e9-bb32-c1ddfbc359f8": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1674.0,
-      "status": "review"
+      "status": "unsupported"
     },
     "2d912e32-a362-5d56-8289-0d63dfdbc547": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 991.58,
-      "status": "review"
+      "status": "unsupported"
     },
     "48357fc9-de99-47c5-adec-fd925c3c918c": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 188.03,
-      "status": "review"
+      "status": "unsupported"
     },
     "0c8d3f7d-138b-47d1-95a4-faca401cc558": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 140.1,
-      "status": "review"
+      "status": "unsupported"
     },
     "24afbda9-bf49-5fc3-9c81-7c890bc4374c": {
       "graph_node_index": 3,
@@ -1228,7 +1672,7 @@
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2534.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "da299999-3286-5abb-862f-1ebff5caf36d": {
       "graph_node_index": 460,
@@ -1240,7 +1684,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1196.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "bd54e57c-e3af-50cc-ac2d-3b9306815045": {
       "graph_node_index": 239,
@@ -1258,7 +1702,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 326.13,
-      "status": "review"
+      "status": "unsupported"
     },
     "277442e0-f26f-4af0-ae25-cb0eda4134d2": {
       "graph_node_index": 3,
@@ -1270,31 +1714,31 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2092.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "eaac730a-fc70-5134-a025-b8b9da6aec74": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1264.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "77ef185c-83b1-4f5b-a293-ab2212529712": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 208.74,
-      "status": "review"
+      "status": "unsupported"
     },
     "ec0dd52e-7b6b-5369-9f22-582ad0802203": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 829.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "03bea211-2fd3-5088-b18c-36c20cc6e44f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 156.27,
-      "status": "review"
+      "status": "unsupported"
     },
     "1967dd4f-e8c3-407a-a86a-dd0984be6989": {
       "graph_node_index": 3,
@@ -1306,67 +1750,67 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 440.33,
-      "status": "review"
+      "status": "unsupported"
     },
     "cd4a893f-7bd6-5e64-a8fa-992712c72cd4": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 155.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "d553ab47-b838-4f3e-af00-a72f4c122725": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1044.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "dfedc174-cba9-4524-9e02-2c6ff4a4f658": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 152.49,
-      "status": "review"
+      "status": "unsupported"
     },
     "2bcb85ec-4a26-50f9-b887-8907da125d5f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1014.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc8ef969-fa77-422d-82ba-dfd880e0c687": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1012.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "0d477629-c05d-44c7-aa9c-8796bdb953cb": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1907.44,
-      "status": "review"
+      "status": "unsupported"
     },
     "73222914-f26e-5542-b710-b98a9c841749": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1896.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "07e3bd68-0ec9-5396-95ae-01b7b74ab241": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2055.47,
-      "status": "review"
+      "status": "unsupported"
     },
     "2c419a45-d33d-5ce8-9d3e-91b103e16b4f": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2344.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "30d11328-9e00-5638-a8f2-6320f401dc34": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 129.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "e2c961fe-ee14-4d55-88a9-6a6bf484b837": {
       "graph_node_index": 224,
@@ -1378,55 +1822,55 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 128.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "d0135732-271f-55ca-afe1-d8dce14b2dd9": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 620.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "3450695d-0520-55cc-8117-f0c89c2f5b17": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 123.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "4fa5ffe9-a7c8-42db-93e8-e629127ce721": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2161.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "2726ce8c-cf15-554e-9396-86cc50605221": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2167.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "2b888100-756e-4b34-a642-261376cd31d1": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1682.45,
-      "status": "review"
+      "status": "unsupported"
     },
     "61fb1820-81f1-54e8-b67b-88e9755cdfc5": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 706.51,
-      "status": "review"
+      "status": "unsupported"
     },
     "929c9508-6f62-5143-bbc0-e9dca63168fa": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 635.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "f4f00668-cf9e-5924-9433-3903349201ba": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1175.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "3d43687b-1d9b-4517-8b8d-bac405f0eb9b": {
       "graph_node_index": 239,
@@ -1438,37 +1882,37 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 314.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "e1e441cf-40a5-511e-ac92-795662975c1f": {
       "graph_node_index": 845,
       "graph_node_osm_id": 4793258728,
       "snap_distance_m": 727.21,
-      "status": "review"
+      "status": "unsupported"
     },
     "11f77c31-e577-55a4-a8c7-f3d17a2588b4": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 539.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "eb6e8fe8-0b6f-43ae-bb8f-ae2ea5c888c0": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 484.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "dd29247e-8739-51ed-abb0-0e0fe14e2921": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 198.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "a313bf3d-b3ef-5ea0-a759-c3d5ae6b5b5a": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 2286.54,
-      "status": "review"
+      "status": "unsupported"
     },
     "900dc55f-6099-4dc7-8c9d-0a220fcc2bf2": {
       "graph_node_index": 3,
@@ -1480,19 +1924,19 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2925.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "9ac14646-f091-5b7c-a65e-1dc236143c1b": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1882.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "d8a22e08-b2ef-5ed6-a228-df366f3234b7": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 287.77,
-      "status": "review"
+      "status": "unsupported"
     },
     "ec79da2f-c37c-59a9-830e-2c24f8c3aa41": {
       "graph_node_index": 312,
@@ -1504,73 +1948,73 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2025.93,
-      "status": "review"
+      "status": "unsupported"
     },
     "eb28f91f-d445-5cea-a487-311d0a6d6841": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 814.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "b0f3e505-db27-5e86-973c-4a5692f55db7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 635.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "1b7d77ee-0708-56d7-b4d9-78e12f5480b8": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2882.7,
-      "status": "review"
+      "status": "unsupported"
     },
     "a379da39-0af5-5916-b870-64cf7cf81160": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 130.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "5c002f4b-e19e-521b-b909-fb8884bb05f7": {
       "graph_node_index": 337,
       "graph_node_osm_id": 585913605,
       "snap_distance_m": 1004.68,
-      "status": "review"
+      "status": "unsupported"
     },
     "89f47460-0694-45be-b1f4-c7b36d07f633": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1199.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "1313283d-6187-5fa6-b182-8065692dd905": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2141.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "1ee1f6c5-b765-40ac-90af-a418cb3803fc": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 901.06,
-      "status": "review"
+      "status": "unsupported"
     },
     "b61ffb4a-62d7-59db-ad91-bdbef2cc1b5a": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2172.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "2b2b11d1-d53e-5699-8a71-e835ba3cb2bd": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 864.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "1e1ad651-a63d-4151-b8a9-8d1c9098d35b": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 235.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "1935dd83-8f5f-5129-96f4-02c87ad6c76c": {
       "graph_node_index": 992,
@@ -1582,73 +2026,73 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 384.02,
-      "status": "review"
+      "status": "unsupported"
     },
     "f9198c91-2e0e-4832-a2d6-b42745fdd522": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 250.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "96f545cc-cc69-5d81-8c2e-39037bbbff0f": {
       "graph_node_index": 968,
       "graph_node_osm_id": 6372174249,
       "snap_distance_m": 684.35,
-      "status": "review"
+      "status": "unsupported"
     },
     "0118f543-b414-57f4-9e7a-3ceccb46dad4": {
       "graph_node_index": 845,
       "graph_node_osm_id": 4793258728,
       "snap_distance_m": 856.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "6ef3c893-0298-5cf0-9fa9-ca2f6516e78a": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2898.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "3e6b7b7b-6bb5-4d24-94c5-74bad02cdf7d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 222.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "a00c1445-598a-58b7-aa31-85d2fc29d840": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 122.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "e4b35e84-8d85-4d74-9498-4f6793a5a91d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1079.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "c3e8874d-abf9-493c-9eef-a9e2d0391aa9": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 188.21,
-      "status": "review"
+      "status": "unsupported"
     },
     "025da825-c080-49d7-951d-08f29b8d15c4": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1134.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "ab58aa78-a283-5cfe-887d-9aea2a606b06": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 287.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "dc38637a-4834-5d45-b973-05ae0c5adac8": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "6bdb38f5-7d45-56a9-b132-bc32168ce49c": {
       "graph_node_index": 98,
@@ -1660,49 +2104,49 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2263.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "75f6d55c-2739-50a1-8868-c332e60e79e7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 423.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "4a7aea3f-1f4e-4b39-a23e-fb3d7cc27422": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 740.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "a2ee80a9-9a47-4f22-b1e6-60d1225aa17b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1241.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "27e6bacb-5c04-57fb-b54c-0926666136b9": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2491.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "e87a3821-08a7-5259-8dbf-f919493c0a82": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 436.52,
-      "status": "review"
+      "status": "unsupported"
     },
     "7203c567-b1d6-5d89-ac46-b2d9958d3eb9": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 375.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "d5ede5a6-122d-5661-83a4-50850ea1c510": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 943.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "8badc2e2-a56c-501e-97f9-fbd489c7fb38": {
       "graph_node_index": 239,
@@ -1714,25 +2158,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2221.28,
-      "status": "review"
+      "status": "unsupported"
     },
     "3d36b908-f307-409c-ab96-16fe32b9c916": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 109.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "3ed91ed4-6c67-511b-b815-c55f78c9aabb": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1642.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "08ac9aad-ba70-5dd4-8ea5-db9b480cb5c5": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 898.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "ef43c9a1-45f3-56dc-9826-5e402ec3281f": {
       "graph_node_index": 3,
@@ -1750,61 +2194,61 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 166.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "d5910751-2cb3-5723-aba9-d462fea3fbec": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 169.16,
-      "status": "review"
+      "status": "unsupported"
     },
     "96223b37-649f-5ce4-aa5b-724e86c52218": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 901.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "90b534c7-fcc4-5bba-8e61-ab4be773294d": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2910.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc56b6b3-0ebd-57ff-8f6e-e6feb3942d99": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2187.11,
-      "status": "review"
+      "status": "unsupported"
     },
     "9b407b5b-55a9-420b-b887-469f6e2eafee": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1221.38,
-      "status": "review"
+      "status": "unsupported"
     },
     "4ea8bc8c-6537-4fdc-bbe6-2f5cae7a85aa": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 131.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "e8ca565a-e3b7-5701-81cf-535dd2675d4e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1149.51,
-      "status": "review"
+      "status": "unsupported"
     },
     "ad9b6a37-7af9-41bd-aad3-dccb1d610779": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 828.28,
-      "status": "review"
+      "status": "unsupported"
     },
     "cccee7e6-7a83-54b3-ab20-01d1e12b5752": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1130.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "ba392764-8363-4e29-b832-26fd9885e186": {
       "graph_node_index": 3,
@@ -1816,37 +2260,37 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1951.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "2cb3523f-9324-4805-a594-3b6e9b5d1dcf": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 125.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "53b020f3-1785-5891-b96b-83984620ee74": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "a7c75314-b889-5147-b606-e6f19c4a79b2": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1071.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "21f052bf-029f-5686-8f21-11f03db1bfa6": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 618.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "24160bde-154f-4aa8-a8c7-6db881369fee": {
       "graph_node_index": 845,
       "graph_node_osm_id": 4793258728,
       "snap_distance_m": 1092.12,
-      "status": "review"
+      "status": "unsupported"
     },
     "5b013ec7-95f4-5e76-bbee-696ccaf21903": {
       "graph_node_index": 239,
@@ -1858,43 +2302,43 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 345.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "39b152ab-8c66-5059-bb80-a8250a86b9c1": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 1450.9,
-      "status": "review"
+      "status": "unsupported"
     },
     "dc507c0f-3a12-5ac1-b5e3-d93de2e9e604": {
       "graph_node_index": 968,
       "graph_node_osm_id": 6372174249,
       "snap_distance_m": 636.05,
-      "status": "review"
+      "status": "unsupported"
     },
     "bf2b0845-de52-5432-8270-90eb7ff17150": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 100.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "c29ef337-7f2c-54ee-ab17-b49ace265516": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2482.63,
-      "status": "review"
+      "status": "unsupported"
     },
     "d86434ea-c031-5338-81dd-0faa2237f3f8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1108.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "0907f710-ccf9-52b8-b75d-a37d80961277": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2081.74,
-      "status": "review"
+      "status": "unsupported"
     },
     "483329ac-0875-568d-b7ca-ea3594fc15cb": {
       "graph_node_index": 3,
@@ -1918,7 +2362,7 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2273.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "6980b030-9417-58d8-bebb-beae4d01d34a": {
       "graph_node_index": 215,
@@ -1930,55 +2374,55 @@
       "graph_node_index": 991,
       "graph_node_osm_id": 9031117673,
       "snap_distance_m": 203.03,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc2799e1-8e78-420d-b1d6-7eff82390ded": {
       "graph_node_index": 991,
       "graph_node_osm_id": 9031117673,
       "snap_distance_m": 234.1,
-      "status": "review"
+      "status": "unsupported"
     },
     "87cb7194-dfe4-5c73-9f68-410999b70af1": {
       "graph_node_index": 991,
       "graph_node_osm_id": 9031117673,
       "snap_distance_m": 213.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "cd40e439-349a-56e0-a8d8-04b1699877f2": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2215.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "0bc382e2-32a6-5efc-ad76-d4ff4057126b": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1486.1,
-      "status": "review"
+      "status": "unsupported"
     },
     "24b8b17a-91cc-5264-ba2a-36cc2bdc856a": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1187.03,
-      "status": "review"
+      "status": "unsupported"
     },
     "0b375ca7-21df-5a42-bd88-9cf27213bbd2": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 901.16,
-      "status": "review"
+      "status": "unsupported"
     },
     "fadae737-ca2c-5952-80f6-3bb597faf156": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2298.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "c7ac0ebf-665f-5d94-a10b-fb2776fde07b": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2139.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "64efa94e-1679-573d-82f6-693905878d9d": {
       "graph_node_index": 239,
@@ -1990,97 +2434,97 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 184.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "1bb374ad-fdec-4f60-b340-d248afcee986": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1147.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "6eaa298e-91d7-5b8f-8620-a6c8726bd374": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 778.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "cb1649b5-4ca0-53a3-9b2f-fa2bdd95e89e": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.7,
-      "status": "review"
+      "status": "unsupported"
     },
     "89e6154e-b2e9-528b-80e9-e433cebced9c": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2221.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "e1bd3909-4c3c-5b3a-84ae-963ac78301f7": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 818.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "5281f5f5-c62b-5b49-8407-405786f15bea": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2118.02,
-      "status": "review"
+      "status": "unsupported"
     },
     "ae7d9102-34ad-5a7d-8059-df1485444f03": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1085.74,
-      "status": "review"
+      "status": "unsupported"
     },
     "abe9e4f6-5acb-4410-9d9f-388d96a418c6": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 174.17,
-      "status": "review"
+      "status": "unsupported"
     },
     "b774e878-2b27-4ee6-8db7-451d9939dd18": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 525.53,
-      "status": "review"
+      "status": "unsupported"
     },
     "57c6b6be-226c-5a5a-bf7a-4e1231a24770": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 512.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "a93b85e1-2f27-4714-92fc-a139e650a3a1": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2109.16,
-      "status": "review"
+      "status": "unsupported"
     },
     "c459a869-67a8-56a8-974d-06e2631a6404": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2118.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "5f94450c-9e2b-523e-83f6-9ca04c6e9a54": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 239.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "5d83cc0b-d961-4df4-8c45-43d1ad86adb6": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1077.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "affafacd-8ff0-4b11-829e-ff05a3f2f4ba": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1238.3,
-      "status": "review"
+      "status": "unsupported"
     },
     "e92e0a3d-5cfe-47eb-927c-e758c59e13fa": {
       "graph_node_index": 224,
@@ -2092,7 +2536,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1084.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "ee09619f-6181-5891-ad86-a21ce3703b9e": {
       "graph_node_index": 3,
@@ -2104,37 +2548,37 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1102.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "85aa5332-d7bd-446a-b0ef-94a0718430bc": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 949.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "ad8a3b44-0816-5f88-bc72-eda742cf6585": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1929.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "09f50bab-35f2-552b-a6b7-f30529b18159": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1930.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "a8e9fbb3-9ed4-5c86-83ac-ca6debf6f694": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 268.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "a3e69e02-2722-58fd-9183-315423dad323": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2164.69,
-      "status": "review"
+      "status": "unsupported"
     },
     "f92fe092-571c-5792-92a0-256586600310": {
       "graph_node_index": 239,
@@ -2146,7 +2590,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 615.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "6a3038a5-d033-5c10-9bc1-76a0e51f2313": {
       "graph_node_index": 992,
@@ -2158,7 +2602,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2412.21,
-      "status": "review"
+      "status": "unsupported"
     },
     "a614d441-c666-5b2c-b487-7808e69576c9": {
       "graph_node_index": 460,
@@ -2170,85 +2614,85 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 198.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "b9eebf15-f129-4355-8476-8ae1b8ea9512": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1076.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "9fc0ac26-28b7-58f5-95fa-dbbdad51f4dc": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2442.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "03e6fcc6-70ce-57be-a2b4-a7e33e7ac74e": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2386.68,
-      "status": "review"
+      "status": "unsupported"
     },
     "209188ce-9527-5426-823a-ef3d8cedf527": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 459.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "59aa4ce0-cc7e-5bc1-9c5f-492fe742a2bf": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 828.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "f956c0f4-cc0a-5687-9635-b29708dbd559": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2344.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "fcdff82d-1f7c-51f1-b7f3-206040d9b107": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "3d83b15a-4376-4145-9cc5-7ff8d81330c4": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 480.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "e62b7a3a-ff5b-43c8-825b-d2fa213f5fb6": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1169.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "c8a00c84-52bb-4e2c-87cc-6001591d50e0": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 127.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "70d078f4-dd39-46a7-9299-69b308b07e09": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 940.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "ec0a6bf2-68c1-4af5-8ab8-dddb116da76b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 114.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "31c504cf-2aab-4a2d-bbcf-a985060a9a10": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 151.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "6ecc6daa-99c0-5eda-8898-89a4f462e8da": {
       "graph_node_index": 843,
@@ -2260,7 +2704,7 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2399.27,
-      "status": "review"
+      "status": "unsupported"
     },
     "958d54a5-bc31-5bbd-9a65-5493c341d82f": {
       "graph_node_index": 3,
@@ -2272,31 +2716,31 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2010.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "ec2cba22-1c90-4913-8f6b-af7f865d55bd": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 220.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "65a0ad86-3162-476d-a969-896e8dddfecf": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 127.23,
-      "status": "review"
+      "status": "unsupported"
     },
     "dfc393d3-0c9d-5f4a-ad78-cc1f2e372e0a": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2409.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "31ea55f5-f9b5-5687-ab7a-de0b20214941": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 352.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "95d31eba-de8c-5188-8605-6e953d123b91": {
       "graph_node_index": 3,
@@ -2308,73 +2752,73 @@
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 129.74,
-      "status": "review"
+      "status": "unsupported"
     },
     "2fa39b29-522d-562b-a08c-c691fe79b1cd": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2106.24,
-      "status": "review"
+      "status": "unsupported"
     },
     "70eabc01-66bf-50ae-9240-30e2557f77d7": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 670.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "6a95fc1a-9ccb-5839-95bf-0e84e525eddc": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 177.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "eca55645-5931-5e4e-9f46-d8c5e26eda8e": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 246.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "7ac4d8d0-8a90-5474-8e84-05215e1d41bc": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2073.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "c201aecb-ada8-4434-b1cf-877d3a0d4b7b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 228.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "80f61214-33cb-521f-abeb-b85cbf06537d": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2247.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "d64ca704-71e8-5dc1-bb52-3af9ecbbf565": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1896.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "a3f8febe-9610-583b-b731-0e07e456980b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 638.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "79fc7861-5b04-5661-87cc-0134291fb019": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2435.28,
-      "status": "review"
+      "status": "unsupported"
     },
     "757aa100-27ad-4ff4-9476-5efbbf6084ab": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 330.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "ad93f3cb-39cb-4287-93d7-4d6f6524e365": {
       "graph_node_index": 239,
@@ -2386,7 +2830,7 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2326.53,
-      "status": "review"
+      "status": "unsupported"
     },
     "51e327d9-7efe-55aa-b7d0-31934bfabd37": {
       "graph_node_index": 224,
@@ -2404,49 +2848,49 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1185.58,
-      "status": "review"
+      "status": "unsupported"
     },
     "84aae44d-a46b-568f-8f6d-aa381d4c70b5": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 2201.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "6682bf6b-8ef2-554f-bf0e-f236d1890431": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1767.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "3abd1c63-c9b8-45ef-9100-b8d39caaf5db": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1071.79,
-      "status": "review"
+      "status": "unsupported"
     },
     "8e040c88-84ec-551b-bbdb-7c0d16c0b438": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 416.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "7e4a1348-b286-4fd5-bf61-384415ad439d": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1919.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "88dc952f-f590-4f24-92d7-559733db7911": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1822.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "fd7a0d27-28ef-4dc7-afb2-086550ba29b4": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1792.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "220b6b22-50f7-440c-8e4e-fca6ce69586e": {
       "graph_node_index": 175,
@@ -2458,43 +2902,43 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "dfe2b133-1682-4d52-8cdb-4e0a9b9450c1": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 112.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "05b5a5ba-45ec-5dc3-8632-0078f9f8f7e3": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2278.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "5e8db9f1-52f8-51ef-a0c6-de3d590b7cd5": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2215.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "58fa2252-6cd1-569d-8ff7-262ca1b3f7d6": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1740.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "9d9e89fd-2100-4775-8265-730e5877c152": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1740.02,
-      "status": "review"
+      "status": "unsupported"
     },
     "53ee16b3-41cc-54ca-aad3-bd869c042167": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2854.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "016631c0-3442-456e-972b-a1f590ebe8fd": {
       "graph_node_index": 239,
@@ -2506,61 +2950,61 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1032.13,
-      "status": "review"
+      "status": "unsupported"
     },
     "8194a94a-71fe-50cd-a06a-d33b69d4d101": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 592.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "880410ac-d4df-5bc0-93a3-6da4e29b5e6b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 992.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "dd2aa440-d801-4803-9a95-0b0139ac9358": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 997.1,
-      "status": "review"
+      "status": "unsupported"
     },
     "cfcfb9dd-12ef-43e5-b7c5-abb67fd381ac": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2370.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "89a5e29b-5fc7-5072-a902-df1950d1dd01": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 443.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "c2273645-3116-5cd4-b430-4ad4a2a42cde": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 991.04,
-      "status": "review"
+      "status": "unsupported"
     },
     "5c9a92c3-b9dd-56bf-b2ab-3af3aa2f4c9e": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 849.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "95a724ac-9f44-5932-a2e4-33bb1dd65109": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 948.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "7bfb7321-14e0-4b3b-93a9-1361d21d7fa2": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 259.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "794ae677-ca21-5837-bec5-ca01cd28ed71": {
       "graph_node_index": 653,
@@ -2578,97 +3022,97 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1769.47,
-      "status": "review"
+      "status": "unsupported"
     },
     "0f769c5e-087e-51da-a990-f90d289e3410": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "d40107c9-266f-50ca-973d-973030c3f3b5": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 748.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "0c257149-3f2c-566b-a693-471e798f6cce": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 286.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "57b071ea-2fc3-5ece-8ba4-05fddb087bfb": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 647.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "7b410bff-4fd9-521c-8eed-cb194ff196b7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 949.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "83bbf0b6-ad52-520c-8b1e-a621aaed9431": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1096.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "a13f7d90-8d9e-54a6-8c52-14f7e303ba1e": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1708.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "c305105b-5a30-5a4f-92ca-3ba43b636e7e": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2458.7,
-      "status": "review"
+      "status": "unsupported"
     },
     "09b47fe8-fb06-5f71-9c79-138f5a5c5093": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 227.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "b10d7caf-52e2-5dd9-96a7-2bf0087e06d3": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 158.1,
-      "status": "review"
+      "status": "unsupported"
     },
     "f9e911ce-92e7-56c1-8b77-cc34415e3302": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2223.07,
-      "status": "review"
+      "status": "unsupported"
     },
     "d66370d6-ba0f-534f-b413-34f778ebd92c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 456.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "0856119e-4b50-5710-965f-40165815160f": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2497.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "71a13f55-cf1b-4b36-9d6a-381ca66c1d58": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1253.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "d3928350-094b-54e3-bb72-33d599c1a0ee": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 248.0,
-      "status": "review"
+      "status": "unsupported"
     },
     "78623f39-f0fc-5a72-9d59-a10963aa4344": {
       "graph_node_index": 460,
@@ -2680,7 +3124,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 479.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "b73ceb00-7882-4703-9d29-3b0f8412ee83": {
       "graph_node_index": 6,
@@ -2692,13 +3136,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 986.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "44bf018d-b9d6-56d1-9650-b93efa990658": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 227.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "4dbc8aa7-2778-5c58-8d33-638fa8889dae": {
       "graph_node_index": 3,
@@ -2710,7 +3154,7 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 224.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "f2134222-8f97-4593-9fa4-c03115b0f491": {
       "graph_node_index": 239,
@@ -2728,37 +3172,37 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 211.9,
-      "status": "review"
+      "status": "unsupported"
     },
     "a246f602-cff2-5591-9ce4-3dc6d982fb02": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 233.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "8478bb48-b242-5779-b248-f02ee22044c6": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1118.52,
-      "status": "review"
+      "status": "unsupported"
     },
     "1b30ba79-b79a-564f-bfb4-4cd38d8772c9": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1110.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "2d5a605b-7ce5-5576-8afd-3531663c12f4": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 752.04,
-      "status": "review"
+      "status": "unsupported"
     },
     "c6e68e77-5e48-45dd-9e5d-db27c26f9dbb": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 150.5,
-      "status": "review"
+      "status": "unsupported"
     },
     "a459c03c-dfe3-57e5-8d0b-69387ed0ce6b": {
       "graph_node_index": 460,
@@ -2770,109 +3214,109 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 197.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "d78f69d7-5084-5679-8bdd-23adb458523e": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 1154.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "2fda8b35-9b6e-59f5-9d1d-1a8ff093418e": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1199.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "eef70629-c3aa-5a67-836e-ddaa89a60634": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 175.68,
-      "status": "review"
+      "status": "unsupported"
     },
     "14005c65-1ec9-58b9-9014-4c83322e1e4a": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1857.7,
-      "status": "review"
+      "status": "unsupported"
     },
     "a4ebc123-a1b0-5c08-b621-120176157e6b": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2246.79,
-      "status": "review"
+      "status": "unsupported"
     },
     "30a61347-f6dc-4a94-9e60-453a1843c099": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 192.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "d8231f4a-d990-542f-b4c5-454c028cc3f9": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 319.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "17fcd208-7232-5be7-8a22-7e8b53315609": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 192.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "5689a34f-ec82-4e81-b0a6-76165f157b4d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 184.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "cd13c663-8985-4364-8445-2569f989ebfb": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1184.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "b2e8abd3-e796-495a-9433-b7ce6973804d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 416.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "d85721b4-0a9f-4df1-b676-50ef327d8d40": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 438.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "902d666e-8c38-41f8-9593-69b84189eba2": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1072.17,
-      "status": "review"
+      "status": "unsupported"
     },
     "5206c5a5-0f75-4ad8-9d32-36b2fc7343e3": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1092.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "46fb9e9e-1f6e-5969-9e20-7375baf761f2": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1833.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "4496bc6f-23e6-4ea5-896d-3ec64a1e7135": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 223.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "9073de70-a71f-593f-9ae2-48a62cc77cef": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1741.05,
-      "status": "review"
+      "status": "unsupported"
     },
     "2c31da7e-5d9b-5eac-8ba3-ff7ec3009677": {
       "graph_node_index": 239,
@@ -2884,19 +3328,19 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 212.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "b02c1143-330a-490b-a33b-af622f3469ba": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 233.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc99effd-4b38-5f7d-8b54-4539a274c832": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 702.83,
-      "status": "review"
+      "status": "unsupported"
     },
     "0e32cb1a-b0c8-53da-ab21-20993dc5af7a": {
       "graph_node_index": 219,
@@ -2908,61 +3352,61 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 237.03,
-      "status": "review"
+      "status": "unsupported"
     },
     "96111ab0-5c2d-4080-b88e-2821fafb4d7b": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 103.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "d6744fce-ed34-5ece-9b08-df88fe831f5a": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2238.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "fcbd106e-e026-59bb-86e1-9f73f84dd4d1": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 179.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "6be3907e-5e95-5446-b533-4d9a44b7de5c": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 830.24,
-      "status": "review"
+      "status": "unsupported"
     },
     "226dc85f-cb74-5ef5-8182-85e12d2cbc39": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1821.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "ea16baba-3718-5d72-883d-c6cc1b7a3555": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 214.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "8751c182-3f51-4f7a-8d5e-a7875ae30162": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1099.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "09d5f8b2-7dd2-58bd-80e9-e283a9c579b1": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1000.16,
-      "status": "review"
+      "status": "unsupported"
     },
     "b26e2ff5-7c61-55da-94d9-b7750511a320": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 180.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "e7a71f9d-e886-515b-8747-50c9791fc720": {
       "graph_node_index": 3,
@@ -2974,7 +3418,7 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 130.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "e65fe755-9b1f-4aa6-885f-8e4635be8995": {
       "graph_node_index": 3,
@@ -3010,13 +3454,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 435.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "cd2a37b1-0b38-49b0-8f13-e42c3c66d4e9": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1844.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "781da0b4-b14d-5d51-a2a5-7fbcceb609ed": {
       "graph_node_index": 239,
@@ -3040,97 +3484,97 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2275.07,
-      "status": "review"
+      "status": "unsupported"
     },
     "6add319f-538a-5e38-805a-9844960e4f6b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 252.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "524f4ce4-484e-55e8-ac4b-c40f6d6140a7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 967.99,
-      "status": "review"
+      "status": "unsupported"
     },
     "8bacdd7a-0576-5f71-9b2f-aed865b09095": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 287.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "ce5321ea-cf1d-5cba-893c-156643313fa3": {
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 1037.19,
-      "status": "review"
+      "status": "unsupported"
     },
     "8ac647db-d102-53f0-b35b-b7103f6a168f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 234.69,
-      "status": "review"
+      "status": "unsupported"
     },
     "3677195e-3b88-5f7a-b5b9-23e952045e94": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1285.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "38654527-a0d9-5f8e-b6e9-0f352d156d8c": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2886.09,
-      "status": "review"
+      "status": "unsupported"
     },
     "80e3d64c-46ac-5b77-814f-eab1f8b27961": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 453.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "1ca26e33-fa87-4025-b12d-b84d724664f8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 951.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "cd5ccf28-9a75-5f80-81e5-720e88fe973e": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 477.42,
-      "status": "review"
+      "status": "unsupported"
     },
     "b8dee194-2e22-4508-9782-cbf918ba4cb7": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 477.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "e2b0ec2a-0188-42db-af56-090ff2960434": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 482.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "b1a5769b-7518-4f3e-bf29-b9365a156114": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 256.4,
-      "status": "review"
+      "status": "unsupported"
     },
     "fa20064b-2062-573c-864f-57be75c89b30": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1818.13,
-      "status": "review"
+      "status": "unsupported"
     },
     "da88d943-08c6-4388-a932-ab88999d5594": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1803.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "c450d394-f3f1-4f65-b005-ac6faea4432e": {
       "graph_node_index": 239,
@@ -3142,13 +3586,13 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.55,
-      "status": "review"
+      "status": "unsupported"
     },
     "717aeb91-bed3-5aab-8dff-5155f6803738": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2312.7,
-      "status": "review"
+      "status": "unsupported"
     },
     "c590d36b-17b9-51e1-b547-aaa51ad587a1": {
       "graph_node_index": 460,
@@ -3160,55 +3604,55 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2089.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "e19b85d3-1fae-5205-95fe-b7ceecf781a1": {
       "graph_node_index": 845,
       "graph_node_osm_id": 4793258728,
       "snap_distance_m": 944.4,
-      "status": "review"
+      "status": "unsupported"
     },
     "309afa00-ce93-5308-b78a-0c15620ca62b": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2197.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "365992d2-98dc-562a-b0ed-884198abd918": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 168.77,
-      "status": "review"
+      "status": "unsupported"
     },
     "2e83d90c-4dd9-580b-bb62-cb457e9256ba": {
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 2111.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "96f64a76-9c81-412a-83d0-64e7c3e2385c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1203.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "2e528e9c-75f8-5d6e-a184-20b108398500": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1175.46,
-      "status": "review"
+      "status": "unsupported"
     },
     "847275bc-f1a4-5322-99df-b607e08dfcd6": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1827.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "cba16d80-7f62-598d-ae41-d79defa498e4": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 205.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "b366f08e-a030-5973-991e-fd6677ca1bdd": {
       "graph_node_index": 3,
@@ -3220,73 +3664,73 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 1671.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "acb27304-7302-4bbc-a57f-4dd0a7421828": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1215.54,
-      "status": "review"
+      "status": "unsupported"
     },
     "51f5dd97-30eb-5d19-ac35-26cba47585d8": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1972.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "ad360ad0-ed09-592d-a197-e31f00601b2c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1061.97,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc37cb1e-14b2-4a57-8106-ca83dcd1b426": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 173.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "74125a2b-c5f6-58a7-b74e-58309026af94": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 179.15,
-      "status": "review"
+      "status": "unsupported"
     },
     "20d6a218-3cbb-4a87-b44d-bcc1d105e958": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 106.49,
-      "status": "review"
+      "status": "unsupported"
     },
     "9b7354f6-a7b9-4467-a5d8-929b64850b54": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1247.24,
-      "status": "review"
+      "status": "unsupported"
     },
     "be48e2f0-0b77-41cf-a1d5-c7882e653565": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 103.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "efaad6f3-94d6-590a-afd2-cfecf6922af7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 431.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "02729f90-2f9a-54d9-bc2d-6d627e399e73": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 584.2,
-      "status": "review"
+      "status": "unsupported"
     },
     "81cb6013-2602-57ee-944d-095cdce3186b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 638.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "c941ec22-7c03-57e6-838b-3ecdcb0b5eee": {
       "graph_node_index": 156,
@@ -3298,7 +3742,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 352.04,
-      "status": "review"
+      "status": "unsupported"
     },
     "5f0bb295-4aec-5441-bb22-bf7557836d5a": {
       "graph_node_index": 783,
@@ -3310,37 +3754,37 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1079.11,
-      "status": "review"
+      "status": "unsupported"
     },
     "78c8853d-7820-4e8a-900f-f5297c52630f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 288.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "7b8be119-1a0c-5f70-bcc6-2db12f72f327": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 262.74,
-      "status": "review"
+      "status": "unsupported"
     },
     "8f5d07e3-6482-5c1e-b6e2-b00832f58816": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2240.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "78b71e9e-d1ea-5952-948f-5add7e7c4f69": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2441.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "86898802-6b1d-467a-bff1-f20140a18128": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 187.21,
-      "status": "review"
+      "status": "unsupported"
     },
     "0d3e3456-ed0f-53bf-b98c-66e6121c2da0": {
       "graph_node_index": 239,
@@ -3352,7 +3796,7 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 206.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "4f8175bc-bd16-5ae4-860a-a7dcfe2d02e1": {
       "graph_node_index": 3,
@@ -3364,13 +3808,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 114.68,
-      "status": "review"
+      "status": "unsupported"
     },
     "dd709dbf-1857-5c54-8e5e-ae0636a83e6c": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1064.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "7b08c7af-abaf-4ee4-9da3-0713cc918aad": {
       "graph_node_index": 239,
@@ -3388,7 +3832,7 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "0b56630a-9080-5bcf-a0fe-c7f96aaf9900": {
       "graph_node_index": 460,
@@ -3400,7 +3844,7 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 140.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "0353dc74-7807-555e-89a7-92a6bb3aaa6d": {
       "graph_node_index": 3,
@@ -3412,7 +3856,7 @@
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 170.06,
-      "status": "review"
+      "status": "unsupported"
     },
     "a9104c52-48af-50ef-a8b5-b0fa906026c9": {
       "graph_node_index": 805,
@@ -3424,79 +3868,79 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2344.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "72f62b1e-9379-5413-ba55-1a62772bf12d": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2300.99,
-      "status": "review"
+      "status": "unsupported"
     },
     "76313d34-227b-5186-8f35-1040426b7c52": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 860.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "15902aa1-b589-5d03-8c67-4c53a4db994e": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1471.28,
-      "status": "review"
+      "status": "unsupported"
     },
     "8dba4ca5-3dc4-4a12-9e75-0deed2669b01": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 261.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "705b8c69-38e5-5d25-bfac-169feec8f563": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1004.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "813ec44c-ee39-59f4-bb72-d65f819f1566": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 189.58,
-      "status": "review"
+      "status": "unsupported"
     },
     "87a23858-1f25-5b14-8612-aa80c767cf02": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2304.86,
-      "status": "review"
+      "status": "unsupported"
     },
     "98098e38-1421-55bb-ba95-65432b41354e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 986.27,
-      "status": "review"
+      "status": "unsupported"
     },
     "4694e2b9-5365-5a94-8e93-e47f76da9e75": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1133.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "9e411529-2092-5f8e-8d57-4a6fbc803387": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 492.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "12f6b0cf-0741-560f-9f6b-ed333d8cd49f": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1433.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "f33f0f8c-6206-560b-85bf-edb0b3968174": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 196.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "fdd32b29-c06b-549f-a5df-0fd4840ec13e": {
       "graph_node_index": 3,
@@ -3508,43 +3952,43 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 2122.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "71e7b730-b74a-5d34-ad97-3b0d7a99ac61": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1696.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "f04fd0ba-0bea-55ad-9a6d-606ef1614c6d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 634.41,
-      "status": "review"
+      "status": "unsupported"
     },
     "f0109e6b-2686-44cc-8486-3bd4090c71f8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 620.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "ee677d3c-5f6e-5a1d-af84-feb3236c8d9d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 611.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "40c47ef1-66d2-5fb2-808f-e1c532f2739f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 385.83,
-      "status": "review"
+      "status": "unsupported"
     },
     "04c5001b-a10f-4fff-ab77-5d7b1fc595df": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 752.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "40f79c68-be45-46db-a749-1626ae3cc935": {
       "graph_node_index": 549,
@@ -3556,61 +4000,61 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 249.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "32bc74a4-1b22-50ce-aa8b-2e3733018b8a": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 495.07,
-      "status": "review"
+      "status": "unsupported"
     },
     "d1c28b23-4acd-4392-a027-99fb6efd9450": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 102.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "fc3a0d10-60f6-45cb-8b39-b25d2256cb0f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 204.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "cc3a0ee9-d7cc-5112-bc76-40fa232f202e": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 201.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "cad51622-b0f6-4982-bf08-4835fe874b81": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 980.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "196bb665-27bc-5fb5-ab2e-11dc617d78c6": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1044.93,
-      "status": "review"
+      "status": "unsupported"
     },
     "e3ffbb26-d305-40ea-b71c-090104f60efc": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 838.34,
-      "status": "review"
+      "status": "unsupported"
     },
     "7b22e7e0-67bd-5e01-9286-f9ac645a418a": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 893.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "5356fc8e-80b6-5dce-9700-8dc36cc985e9": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 163.65,
-      "status": "review"
+      "status": "unsupported"
     },
     "1f574975-094e-505d-87ea-d5a7e0b0177e": {
       "graph_node_index": 968,
@@ -3622,61 +4066,61 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2279.08,
-      "status": "review"
+      "status": "unsupported"
     },
     "2b3088bd-9876-4618-9b8e-36826038e87e": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 342.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "2efda813-a794-5a2c-a065-e590c5781861": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 341.83,
-      "status": "review"
+      "status": "unsupported"
     },
     "4efd1776-e8f3-53fd-b366-a7a45b66afa4": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 542.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "3437271d-9d77-5940-9165-bd48a5e77bc0": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1193.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "987f680b-c29c-5a9c-9244-dcba1887be81": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 260.32,
-      "status": "review"
+      "status": "unsupported"
     },
     "c5edbba3-c76f-5723-aa51-6ad69126edcf": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 184.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "9cb6bcd1-1a32-46f3-9899-0ac05bd86772": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 205.3,
-      "status": "review"
+      "status": "unsupported"
     },
     "850668ef-e84f-48a2-9df6-1a02e33803fe": {
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 134.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "b2e995b2-5a8f-5844-88e6-af1a7f22f55b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1152.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "04893b67-a5a5-53de-86c7-943db36554a3": {
       "graph_node_index": 992,
@@ -3688,19 +4132,19 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2407.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "7263704b-e904-5ee0-8054-b236a20e2b48": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2229.25,
-      "status": "review"
+      "status": "unsupported"
     },
     "7d598f1b-b719-571b-9129-a39b040c9158": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2182.45,
-      "status": "review"
+      "status": "unsupported"
     },
     "dc5980d7-98f2-5577-b66c-10e321886e9f": {
       "graph_node_index": 653,
@@ -3712,31 +4156,31 @@
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2255.88,
-      "status": "review"
+      "status": "unsupported"
     },
     "792be060-0392-5530-9f31-9a20c238bcad": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 231.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "5d4ca3d2-33d0-4759-8919-f1784551607e": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 159.5,
-      "status": "review"
+      "status": "unsupported"
     },
     "f5716ffa-8efc-5693-ada4-2710c94d905d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 158.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "f3944ecd-196b-4e08-8dd8-92b9a821eea1": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 134.32,
-      "status": "review"
+      "status": "unsupported"
     },
     "f2e22815-da1b-4666-a6e2-40527e3e5684": {
       "graph_node_index": 333,
@@ -3748,85 +4192,85 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1301.31,
-      "status": "review"
+      "status": "unsupported"
     },
     "27682690-f5d7-5a26-989f-0a1a58b133a5": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 884.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "10e74c81-dac5-5830-a566-d2240abb9f5b": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1782.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "effcd154-3b53-595d-b8bf-6b588e720814": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2458.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "2568cf58-4be8-5084-8210-498bacd545da": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 200.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "ad280092-bb8f-5546-93cd-644dc318f270": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 737.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "86fa909f-9915-5a62-8e14-cfd8bd900f5e": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 473.49,
-      "status": "review"
+      "status": "unsupported"
     },
     "0d81bfeb-285d-50ee-98d1-8426689bea51": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 973.3,
-      "status": "review"
+      "status": "unsupported"
     },
     "d790a531-0cd1-5fcb-b9ee-de0bb49d5aa8": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2495.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "4b190634-8523-57ef-b7e5-26d29d3fa1c1": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2214.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "76a4c88e-904d-56dd-aa76-56b022f41cff": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 790.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "2f6a64b5-a6af-5993-9cee-c6647805cdd3": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 203.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "79e4487b-40cb-4407-b4f9-d28fdabaf89a": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 235.73,
-      "status": "review"
+      "status": "unsupported"
     },
     "1f3f09ab-50f9-5c3d-8e9a-dfca1b9fa105": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 635.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "5f3bbd3f-4c5e-410c-920c-a9c7b09e6078": {
       "graph_node_index": 3,
@@ -3844,13 +4288,13 @@
       "graph_node_index": 3,
       "graph_node_osm_id": 382802198,
       "snap_distance_m": 148.9,
-      "status": "review"
+      "status": "unsupported"
     },
     "790fc6b9-b309-51a5-b7e1-4e60fc95d5b7": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1007.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "205e139c-d9c7-56dd-8d9e-86b9ec602738": {
       "graph_node_index": 239,
@@ -3862,13 +4306,13 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2460.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "77e6e1f5-0da6-5191-8885-eac15dd48cd8": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "c7e8ab32-69e7-40e0-a194-85ac9dc93782": {
       "graph_node_index": 786,
@@ -3880,31 +4324,31 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 120.05,
-      "status": "review"
+      "status": "unsupported"
     },
     "47cf0b42-6137-5aac-9bdb-e345474306b4": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 759.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "f1532fea-b6c7-5e62-9276-f6a01f7fa874": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 1755.66,
-      "status": "review"
+      "status": "unsupported"
     },
     "c8fdddaa-83aa-56db-89e8-6505f4af91e7": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2059.75,
-      "status": "review"
+      "status": "unsupported"
     },
     "87d49b4d-9024-51f2-88e4-d7152cd14078": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2446.94,
-      "status": "review"
+      "status": "unsupported"
     },
     "4d5a8fd7-8909-502f-839e-a01f16b02e0f": {
       "graph_node_index": 239,
@@ -3916,19 +4360,19 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1822.17,
-      "status": "review"
+      "status": "unsupported"
     },
     "13d1ccd0-470b-4505-93b4-efc63692baaf": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 221.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "7722db6f-9fda-58dd-9470-eb1bbaa7db9b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 125.37,
-      "status": "review"
+      "status": "unsupported"
     },
     "2d63bf84-5fce-59ec-a0a9-e5a5ef182010": {
       "graph_node_index": 239,
@@ -3940,91 +4384,91 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 2364.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "e3faf921-b6d8-55fe-ac7a-76ede67e7324": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 326.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "c2c17d02-abe6-54ab-8316-4ed76d58014c": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 108.04,
-      "status": "review"
+      "status": "unsupported"
     },
     "ce050a2e-a309-551c-a097-dcf1dab9d7a3": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 1897.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "1cb02b68-a806-55ed-8460-96b1d9493911": {
       "graph_node_index": 845,
       "graph_node_osm_id": 4793258728,
       "snap_distance_m": 673.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "b4c9d82b-b156-5c63-95cc-312dbf675b95": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 116.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "d9890397-1f4a-5219-974f-f621d6cd3516": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 2920.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "d9878b2a-d94a-5526-bf9b-c8cc2fdcac3a": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2291.07,
-      "status": "review"
+      "status": "unsupported"
     },
     "d35fa973-65e7-5407-8179-0e214bdaad40": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2105.11,
-      "status": "review"
+      "status": "unsupported"
     },
     "f6b1786c-edfe-450e-8a9c-2296e6252073": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2202.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "db5f0eb0-5801-55df-b25e-4a753618d24f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1363.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "6bb36b6f-9d85-5d7e-beb1-8bc016b4aa1f": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 209.23,
-      "status": "review"
+      "status": "unsupported"
     },
     "5d309c4a-1e9f-5a18-a161-8c16e8c374b9": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 638.18,
-      "status": "review"
+      "status": "unsupported"
     },
     "6ec1d73b-5e80-5508-83c9-5bf2620e4433": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2074.13,
-      "status": "review"
+      "status": "unsupported"
     },
     "34c9fcec-fbc9-5852-8295-cfe9d656cd6e": {
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2722.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "8d028a8a-2e23-5341-a4a8-878378eef7a8": {
       "graph_node_index": 312,
@@ -4036,7 +4480,7 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 209.38,
-      "status": "review"
+      "status": "unsupported"
     },
     "0b3d2e42-a71b-45fc-b885-6b70d57e22d3": {
       "graph_node_index": 921,
@@ -4054,25 +4498,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 491.38,
-      "status": "review"
+      "status": "unsupported"
     },
     "481ae622-eebb-588e-a76f-f43dea5dee4f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1197.33,
-      "status": "review"
+      "status": "unsupported"
     },
     "9bee3c9d-e5b3-4978-be50-341f13b19527": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2332.85,
-      "status": "review"
+      "status": "unsupported"
     },
     "e45324c2-2fe2-4ba4-af38-049999be1b00": {
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2305.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "fa90013b-830c-5f7b-86db-78cb123364cc": {
       "graph_node_index": 3,
@@ -4084,7 +4528,7 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 183.54,
-      "status": "review"
+      "status": "unsupported"
     },
     "156580e8-b22d-5fe5-b8d2-8b31b9f867f1": {
       "graph_node_index": 3,
@@ -4096,13 +4540,13 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2072.71,
-      "status": "review"
+      "status": "unsupported"
     },
     "6926bc0b-3551-554b-9174-ed743bdda11a": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 178.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "14e724e0-aa3e-5f01-a6c1-d5c8b38659ad": {
       "graph_node_index": 215,
@@ -4114,25 +4558,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1252.33,
-      "status": "review"
+      "status": "unsupported"
     },
     "22c4a6ad-5ac1-507a-bd58-d0a9ab2db205": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1176.54,
-      "status": "review"
+      "status": "unsupported"
     },
     "2e5dd420-52f6-5e9b-b116-92349a5e7b1e": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 816.84,
-      "status": "review"
+      "status": "unsupported"
     },
     "fd6a03a5-16ce-51a0-8e8a-69738e1d9974": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 262.98,
-      "status": "review"
+      "status": "unsupported"
     },
     "eb59c5fb-ebdc-5ff0-9691-8779aeb110e5": {
       "graph_node_index": 3,
@@ -4144,79 +4588,79 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 472.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "2b0e2044-c638-5a9a-806d-9fa0022ccd37": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 134.69,
-      "status": "review"
+      "status": "unsupported"
     },
     "2073ab2a-24e4-5583-ac39-61669f43b3a6": {
       "graph_node_index": 224,
       "graph_node_osm_id": 529868244,
       "snap_distance_m": 250.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "b2e1dd47-ecad-485a-a181-d0a4d49535ed": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2022.76,
-      "status": "review"
+      "status": "unsupported"
     },
     "6f2d6c01-0469-5d1e-912b-5eaff66bd195": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1085.63,
-      "status": "review"
+      "status": "unsupported"
     },
     "d7b07c1d-b049-5914-8223-0e75b6ea30b1": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 268.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "bdeea4a5-4e69-5b0d-8c32-a303327d4f14": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 738.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "fa730b64-14a1-5fd3-828e-f82a5bbcbbbe": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1162.01,
-      "status": "review"
+      "status": "unsupported"
     },
     "7e3a04e3-98a5-57e2-9cad-ee8646385cf8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1305.59,
-      "status": "review"
+      "status": "unsupported"
     },
     "c3aba065-c551-44d9-9de9-cfe618f36daa": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 239.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "e1a082ff-f111-563c-9eee-c913772f182b": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 117.49,
-      "status": "review"
+      "status": "unsupported"
     },
     "ff22ab64-4bc7-4940-8748-0a7dc22ea897": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 2268.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "158e6800-b291-548a-a52b-4a8d2767003d": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 675.36,
-      "status": "review"
+      "status": "unsupported"
     },
     "77fa706d-cd94-4532-88f7-db003c99c7ac": {
       "graph_node_index": 239,
@@ -4228,31 +4672,31 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 233.14,
-      "status": "review"
+      "status": "unsupported"
     },
     "ddfdbdb0-91bf-586b-a690-cab0080c26e8": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1109.89,
-      "status": "review"
+      "status": "unsupported"
     },
     "cdd3bb64-f56b-544c-9324-fe69cf62ebb8": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 966.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "737afac8-b33e-4b37-85f2-21c5fc4764b4": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1107.95,
-      "status": "review"
+      "status": "unsupported"
     },
     "1e606552-ebce-4f71-b1fb-0905956f84e4": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2239.96,
-      "status": "review"
+      "status": "unsupported"
     },
     "daf28e38-f42e-4cba-9b02-69dffed1bb5c": {
       "graph_node_index": 239,
@@ -4264,7 +4708,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 166.54,
-      "status": "review"
+      "status": "unsupported"
     },
     "ce19132b-ef5c-4273-a019-7f6f8cab4bdc": {
       "graph_node_index": 239,
@@ -4276,13 +4720,13 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1812.29,
-      "status": "review"
+      "status": "unsupported"
     },
     "ca9937c9-16e5-4fd0-8c59-53f3b2ae9474": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 994.06,
-      "status": "review"
+      "status": "unsupported"
     },
     "1c632bd0-40a4-4824-bcd9-3a102bd242b2": {
       "graph_node_index": 224,
@@ -4300,25 +4744,25 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1081.78,
-      "status": "review"
+      "status": "unsupported"
     },
     "ebe59b73-aee5-5385-a283-007efde40d57": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1087.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "c6279bdf-261b-5a5b-a7f2-bea1692988ce": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1029.32,
-      "status": "review"
+      "status": "unsupported"
     },
     "e5a57ded-9a5c-45cb-be9b-0cb8bf7a1669": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1220.5,
-      "status": "review"
+      "status": "unsupported"
     },
     "d017d49a-e051-4ec3-93c6-67dd9ea0abb9": {
       "graph_node_index": 239,
@@ -4336,25 +4780,25 @@
       "graph_node_index": 215,
       "graph_node_osm_id": 527829431,
       "snap_distance_m": 147.67,
-      "status": "review"
+      "status": "unsupported"
     },
     "9aeafc36-0064-4ecf-8f73-f1e43f9f6594": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 190.3,
-      "status": "review"
+      "status": "unsupported"
     },
     "72da2892-8630-5d0a-839f-779449493888": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 322.63,
-      "status": "review"
+      "status": "unsupported"
     },
     "01f96a96-303b-5696-8df5-3ee188195d0f": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 707.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "f8b1b034-cd82-5ba7-af85-ba801abace68": {
       "graph_node_index": 998,
@@ -4366,25 +4810,25 @@
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1480.62,
-      "status": "review"
+      "status": "unsupported"
     },
     "68be8fa9-c212-5197-9592-7e24a2f40052": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2808.6,
-      "status": "review"
+      "status": "unsupported"
     },
     "790fa241-0e9c-4be4-9cad-0e7756a940d4": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 178.77,
-      "status": "review"
+      "status": "unsupported"
     },
     "c640e102-4b3a-4742-8556-92212210825d": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1173.06,
-      "status": "review"
+      "status": "unsupported"
     },
     "e212f073-e453-526d-8988-a07d6448f17d": {
       "graph_node_index": 800,
@@ -4402,7 +4846,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 965.26,
-      "status": "review"
+      "status": "unsupported"
     },
     "719d090a-aab3-4131-a36c-8f635c40e324": {
       "graph_node_index": 803,
@@ -4420,7 +4864,7 @@
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 1066.39,
-      "status": "review"
+      "status": "unsupported"
     },
     "f5d93078-f58c-5cf4-9749-4ff13f9d5a97": {
       "graph_node_index": 239,
@@ -4444,13 +4888,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 511.64,
-      "status": "review"
+      "status": "unsupported"
     },
     "9867a85d-c6d3-5150-b115-e4bf7c936cab": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1250.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "53c4a829-20e3-5cbe-aba2-df4eeba50a32": {
       "graph_node_index": 803,
@@ -4462,13 +4906,13 @@
       "graph_node_index": 992,
       "graph_node_osm_id": 9031117674,
       "snap_distance_m": 2710.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "eb3379f9-ef40-558b-9c7b-53cd04537c65": {
       "graph_node_index": 239,
       "graph_node_osm_id": 529880218,
       "snap_distance_m": 1240.82,
-      "status": "review"
+      "status": "unsupported"
     },
     "31504000-f8a2-538d-b65e-c656a6d1d0fb": {
       "graph_node_index": 176,
@@ -4486,13 +4930,13 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1073.87,
-      "status": "review"
+      "status": "unsupported"
     },
     "f5e33d63-57be-5076-9d65-433866a4570e": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 116.48,
-      "status": "review"
+      "status": "unsupported"
     },
     "0840b66d-817a-5644-bae4-afc3ce7e104f": {
       "graph_node_index": 3,
@@ -4504,19 +4948,19 @@
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 268.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "9b554a66-2897-536a-b539-da37fe567efc": {
       "graph_node_index": 597,
       "graph_node_osm_id": 1252052275,
       "snap_distance_m": 2166.61,
-      "status": "review"
+      "status": "unsupported"
     },
     "15a9b53d-93bb-568b-a853-7e48206439f1": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1162.57,
-      "status": "review"
+      "status": "unsupported"
     },
     "e6ba51a7-0a23-51de-88eb-42305aea3250": {
       "graph_node_index": 460,
@@ -4540,7 +4984,7 @@
       "graph_node_index": 558,
       "graph_node_osm_id": 1119886495,
       "snap_distance_m": 2075.8,
-      "status": "review"
+      "status": "unsupported"
     },
     "c7342953-44d1-49e3-a69c-f9c8b4f1b121": {
       "graph_node_index": 921,
@@ -4552,55 +4996,55 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1024.81,
-      "status": "review"
+      "status": "unsupported"
     },
     "1843d248-0f53-4765-aa06-6e0a0c3e94f7": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1162.56,
-      "status": "review"
+      "status": "unsupported"
     },
     "2bcdd506-06a5-471c-bf59-c24bc7875917": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 321.47,
-      "status": "review"
+      "status": "unsupported"
     },
     "42d49110-4ca6-41f1-8f81-7a8b642d7d3e": {
       "graph_node_index": 652,
       "graph_node_osm_id": 1510885969,
       "snap_distance_m": 804.9,
-      "status": "review"
+      "status": "unsupported"
     },
     "43eb5380-765c-4c8c-b8da-d3d5c0cb0c7b": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 657.91,
-      "status": "review"
+      "status": "unsupported"
     },
     "8650497c-32c7-4594-b9c5-ea0067dc90bd": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 872.72,
-      "status": "review"
+      "status": "unsupported"
     },
     "986e4866-e9ec-480a-b3a0-627eb8971436": {
       "graph_node_index": 77,
       "graph_node_osm_id": 428740891,
       "snap_distance_m": 179.43,
-      "status": "review"
+      "status": "unsupported"
     },
     "b608421e-ecfc-4f14-a161-9a83e027d6c1": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 777.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "bedbb9e3-7711-4176-8aab-336bfe21ac86": {
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 1325.92,
-      "status": "review"
+      "status": "unsupported"
     },
     "d11e60b5-ff54-46f9-85f6-fafc07848996": {
       "graph_node_index": 102,
@@ -4612,7 +5056,7 @@
       "graph_node_index": 783,
       "graph_node_osm_id": 3429855301,
       "snap_distance_m": 2956.22,
-      "status": "review"
+      "status": "unsupported"
     },
     "fca4663e-0c34-4cee-975e-81468ffda9d0": {
       "graph_node_index": 454,
@@ -4624,7 +5068,7 @@
       "graph_node_index": 460,
       "graph_node_osm_id": 790708791,
       "snap_distance_m": 474.83,
-      "status": "review"
+      "status": "unsupported"
     }
   }
 }

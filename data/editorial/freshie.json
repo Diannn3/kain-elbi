@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "research_date": "2026-08-07",
+  "intro": "A beginner-friendly map of Elbi food areas and a non-ranked set of places that appear in recent public student/community discussions.",
+  "starter_collection_id": "freshie-starter",
+  "source_note": "Community mentions are signals, not quality ratings. Hours, prices, queues, and operating status can change.",
+  "situations": [
+    {"id":"proper-meal","title":"I just need a proper meal","description":"Start with restaurants, canteens, and food courts across Elbi.","explore_query":"category=restaurant"},
+    {"id":"coffee","title":"Coffee before class","description":"Browse cafés without pretending every listing has current hours.","explore_query":"category=cafe"},
+    {"id":"raymundo","title":"Show me Raymundo","description":"Learn one of the densest student-food areas outside campus.","explore_query":"zone=raymundo"},
+    {"id":"campus","title":"Stay inside campus","description":"Browse food points inside the UPLB campus area.","explore_query":"zone=inside-uplb"},
+    {"id":"surprise","title":"Show me somewhere new","description":"Open Explore with the full catalog and pick a zone you have not tried yet.","explore_query":""}
+  ],
+  "glossary": [
+    {"term":"Smart Pick","definition":"A place that fits Kain Elbi's supported walking route and time budget. It is not a food-quality ranking."},
+    {"term":"Raymundo","definition":"Kain Elbi's area label for the dense cluster around Raymundo Gate and nearby streets."},
+    {"term":"Grove / Vega","definition":"Kain Elbi's area label for the Grove and Vega Arcade cluster just outside campus."},
+    {"term":"Route coverage","definition":"Whether the current Room TBA pedestrian graph can defensibly connect a place to supported campus anchors."}
+  ]
+}

@@ -1,1 +1,50 @@
-{}
+{
+  "reddit-raymundo-2026-07": {
+    "name": "r/uplb — Pagkainan sa Raymundo",
+    "type": "student-community",
+    "url": "https://www.reddit.com/r/uplb/comments/1uu8kfh/pagkainan_sa_raymundo/",
+    "published_at": "2026-07-12",
+    "access_level": "public",
+    "authority_level": "community"
+  },
+  "reddit-student-lb-2026-07": {
+    "name": "r/laguna — Staying in Los Baños as a student",
+    "type": "student-community",
+    "url": "https://www.reddit.com/r/laguna/comments/1uuz76z/staying_in_losba%C3%B1os_for_a_month_as_a_student/",
+    "published_at": "2026-07-13",
+    "access_level": "public",
+    "authority_level": "community"
+  },
+  "reddit-lb-group-2026-06": {
+    "name": "r/laguna — Places to eat around LB",
+    "type": "community",
+    "url": "https://www.reddit.com/r/laguna/comments/1uckbe4/places_to_eat_around_lb/",
+    "published_at": "2026-06-22",
+    "access_level": "public",
+    "authority_level": "community"
+  },
+  "reddit-lb-2026-03": {
+    "name": "r/laguna — Places to eat in Los Baños",
+    "type": "community",
+    "url": "https://www.reddit.com/r/laguna/comments/1s55c3p/places_to_eat_in_los_ba%C3%B1os/",
+    "published_at": "2026-03-27",
+    "access_level": "public",
+    "authority_level": "community"
+  },
+  "reddit-lb-2025-07": {
+    "name": "r/laguna — Places to eat at in Los Baños",
+    "type": "community",
+    "url": "https://www.reddit.com/r/laguna/comments/1lrb7rs/places_to_eat_at_in_los_banos/",
+    "published_at": "2025-07-04",
+    "access_level": "public",
+    "authority_level": "community"
+  },
+  "uplb-bao-food-map-2026": {
+    "name": "UPLB Business Affairs Office — Midyear 2026 Food Map",
+    "type": "official",
+    "url": "https://www.facebook.com/UPLBBusinessAffairsOffice/posts/-hungry-on-campus-heres-your-uplb-food-map-for-midyear-2026whether-you-need-a-qu/1548566737058295/",
+    "published_at": "",
+    "access_level": "public",
+    "authority_level": "official"
+  }
+}

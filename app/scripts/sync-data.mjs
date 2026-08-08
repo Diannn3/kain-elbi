@@ -50,8 +50,12 @@ await syncRequired('route_matrix.json', (value) => {
 		return;
 	}
 	if (value.schema_version === 2) {
-		for (const key of ['generated_at', 'anchors', 'routing', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']) {
+		for (const key of ['generated_at', 'anchors', 'routing', 'place_snaps', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']) {
 			if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
+		}
+		const thresholds = value.routing?.snap_thresholds_m;
+		if (!thresholds || Number(thresholds.good) > 40 || Number(thresholds.place_max) > 100 || Number(thresholds.anchor_max) > 100) {
+			throw new Error('route_matrix.json must use <=40m good and <=100m place/anchor snap thresholds');
 		}
 		return;
 	}
@@ -75,6 +79,37 @@ await syncRequired('collections.json', (value) => {
 	coverVariant: item.coverVariant ?? item.cover_metadata?.theme ?? 'forest',
 	placeIds: item.placeIds ?? item.place_ids ?? [],
 })));
+
+
+
+await syncRequired('zones.json', (value) => {
+	if (!Array.isArray(value) || value.length === 0) throw new Error('zones.json must contain zone records');
+	for (const [index, item] of value.entries()) {
+		if (!item.id || !item.name || !Array.isArray(item.placeIds)) throw new Error(`zones.json item ${index} is invalid`);
+	}
+}, (value) => value.map((item) => ({
+	id: item.id,
+	name: item.name,
+	shortName: item.shortName ?? item.short_name ?? item.name,
+	description: item.description,
+	priority: Number(item.priority ?? 0),
+	bounds: item.bounds ? {
+		minLat: Number(item.bounds.minLat ?? item.bounds.min_lat),
+		maxLat: Number(item.bounds.maxLat ?? item.bounds.max_lat),
+		minLon: Number(item.bounds.minLon ?? item.bounds.min_lon),
+		maxLon: Number(item.bounds.maxLon ?? item.bounds.max_lon),
+	} : null,
+	placeIds: item.placeIds ?? item.place_ids ?? [],
+	placeCount: Number(item.placeCount ?? item.place_count ?? (item.placeIds ?? item.place_ids ?? []).length),
+})));
+
+await syncRequired('freshie.json', (value) => {
+	if (!value || typeof value !== 'object') throw new Error('freshie.json must contain an object');
+	if (!value.researchDate || !value.starterCollectionId) throw new Error('freshie.json is missing researchDate/starterCollectionId');
+	if (!Array.isArray(value.situations) || !Array.isArray(value.glossary) || !Array.isArray(value.mentions)) {
+		throw new Error('freshie.json is missing situations/glossary/mentions');
+	}
+});
 
 await syncOptional('manifest.json');
 await syncOptional('anchor_aliases.json');

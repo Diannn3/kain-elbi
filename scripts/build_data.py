@@ -8,6 +8,8 @@ from typing import Any
 
 from build_places import build_places
 from generate_collections import build_collections
+from generate_zones import build_zones
+from generate_freshie import build_freshie
 from generate_route_matrix import build_route_matrix
 from lib.paths import COLLECTIONS_FILE, MANIFEST_FILE, PLACES_FILE, RAW_DIR, REPORTS_DIR, ROOM_TBA_GRAPH_FILE, ROUTE_MATRIX_FILE
 
@@ -25,6 +27,8 @@ def _route_status(canonical_place_count: int) -> dict[str, Any]:
         snaps = value.get('place_snaps') or {}
         unsupported = sum((snap or {}).get('status') == 'unsupported' for snap in snaps.values())
         review = sum((snap or {}).get('status') == 'review' for snap in snaps.values())
+        unsupported_anchors = value.get('unsupported_anchors') or {}
+        supported_anchors = value.get('anchors') or {}
         return {
             'status': 'room-tba-graph',
             'schema_version': 2,
@@ -36,6 +40,9 @@ def _route_status(canonical_place_count: int) -> dict[str, Any]:
             'unsupported_places': unsupported,
             'review_places': review,
             'unclassified_places': max(0, canonical_place_count - len(snaps)),
+            'supported_anchors': len(supported_anchors),
+            'unsupported_anchors': len(unsupported_anchors),
+            'unsupported_anchor_ids': sorted(unsupported_anchors),
         }
     if schema == 1:
         routable = len(value.get('place_to_anchor_seconds') or {})
@@ -57,13 +64,15 @@ def _route_status(canonical_place_count: int) -> dict[str, Any]:
     }
 
 
-def write_manifest(place_report: dict[str, Any], collection_count: int) -> dict[str, Any]:
+def write_manifest(place_report: dict[str, Any], collection_count: int, zone_count: int, freshie_mentions: int) -> dict[str, Any]:
     manifest = {
         'schema_version': 1,
         'dataset_version': datetime.now(timezone.utc).strftime('%Y.%m.%d'),
         'generated_at': datetime.now(timezone.utc).isoformat(),
         'places': place_report,
         'collections': {'published': collection_count},
+        'explore': {'zones': zone_count},
+        'freshie': {'evidence_records': freshie_mentions},
         'routing': _route_status(place_report.get('canonical_places', 0)),
         'inputs': {
             'osm_snapshot': str((RAW_DIR / 'osm-los-banos-food.geojson').relative_to(MANIFEST_FILE.parent.parent)),
@@ -81,6 +90,8 @@ def main() -> None:
 
     place_report = build_places()
     collections = build_collections()
+    zones = build_zones()
+    freshie = build_freshie()
     if args.routes != 'skip':
         if ROOM_TBA_GRAPH_FILE.exists():
             routing_report = build_route_matrix()
@@ -90,7 +101,7 @@ def main() -> None:
         else:
             print('Routing: Room TBA graph not present; preserving existing route_matrix.json as an explicitly legacy artifact.')
 
-    manifest = write_manifest(place_report, len(collections))
+    manifest = write_manifest(place_report, len(collections), len(zones), len(freshie.get('mentions') or []))
     print(json.dumps(manifest, indent=2, ensure_ascii=False))
 
 

@@ -48,7 +48,7 @@ describe('Sprint 2 unified List/Map UX', () => {
 	it('labels simplified map lines as context rather than walking directions', () => {
 		const app = read('src/components/results/SmartPicksApp.svelte');
 		const canvas = read('src/components/map/MapCanvas.svelte');
-		expect(app).toMatch(/dashed map line is simplified context/i);
+	expect(app).toMatch(/dashed line is simplified context/i);
 		expect(canvas).toMatch(/must never be presented as turn-by-turn walking directions/i);
 	});
 });

@@ -50,9 +50,9 @@
 	const focusedRank = $derived(focusedPick ? picks.findIndex((pick) => pick.place.id === focusedPick.place.id) + 1 : 0);
 	const routingNote = $derived(
 		routeGeometryState === 'actual'
-			? 'Solid route follows the Room TBA pedestrian graph for this selected place.'
+			? 'Solid route follows the Room TBA pedestrian graph, with short access connectors to the selected place.'
 			: matrix?.schema_version === 2
-				? 'Walking metrics use the Room TBA pedestrian graph. Path geometry is not available in this build, so the dashed line is simplified context.'
+				? 'Walking metrics use the Room TBA pedestrian graph plus supported access connectors. Path geometry is unavailable in this build, so the dashed line is simplified context.'
 				: 'Walking metrics are still using the legacy estimate artifact. The dashed map line is geographic context only.',
 	);
 

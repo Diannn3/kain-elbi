@@ -1,79 +1,208 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PlaceHoursStatus from '../../components/place/PlaceHoursStatus.svelte';
+import PlaceMiniMap from '../../components/map/PlaceMiniMap.svelte';
 import { loadBuildData } from '../../lib/data/build';
+import { categoryLabel, cuisineSummary, nearestAnchorContext, routeCoverageLabel, sourceSummary } from '../../lib/place-presentation';
 import type { Place } from '../../lib/types';
 
-export async function getStaticPaths() {
-	const { places } = await loadBuildData();
-	return places.map((place) => ({ params: { id: place.id }, props: { place } }));
+interface NearestContext {
+	name: string;
+	minutes: number;
+	meters?: number;
 }
 
-interface Props { place: Place }
-const { place } = Astro.props;
-const categoryNames = {
-	cafe: 'Café', restaurant: 'Restaurant', fast_food: 'Quick Bite', food_court: 'Food Court',
-	bakery_deli: 'Bakery & Sweets', kiosk_stall: 'Kiosk & Stall', other: 'Food Place',
-};
+export async function getStaticPaths() {
+	const { places, matrix } = await loadBuildData();
+	return places.map((place) => {
+		const nearest = nearestAnchorContext(matrix, place.id);
+		return {
+			params: { id: place.id },
+			props: {
+				place,
+				nearest: nearest ? {
+					name: nearest.anchor.name,
+					minutes: Math.max(1, Math.round(nearest.seconds / 60)),
+					meters: nearest.meters,
+				} : undefined,
+				routeCoverage: routeCoverageLabel(matrix, place.id),
+			},
+		};
+	});
+}
+
+interface Props {
+	place: Place;
+	nearest?: NearestContext;
+	routeCoverage: string;
+}
+const { place, nearest, routeCoverage } = Astro.props;
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}&travelmode=walking`;
-const sourceNames = [...new Set(place.sources.map((source) => source.source.toUpperCase()))];
+const cuisine = cuisineSummary(place);
+const listingSummary = sourceSummary(place);
+const websiteUrl = place.website && /^https?:\/\//i.test(place.website) ? place.website : null;
+const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : null;
 ---
 
-<Layout title={`${place.name} — Kain Elbi`} description={`Open-data place details and route context for ${place.name} near UPLB.`}>
+<Layout title={`${place.name} — Kain Elbi`} description={`Location and open-data listing details for ${place.name} near UPLB.`}>
 	<main id="main-content" class="detail-page page-shell">
-		<nav aria-label="Breadcrumb"><a href="/">Discover</a><span aria-hidden="true">/</span><a href="/picks">Smart Picks</a><span aria-hidden="true">/</span><span>{place.name}</span></nav>
-		<section class="detail-hero">
-			<div class="route-art" aria-hidden="true"><span>A</span><i></i><b>Food</b><i></i><span>B</span></div>
-			<div class="title-block"><p>{categoryNames[place.category]}</p><h1>{place.name}</h1><span>Candidate place record · check details before leaving</span></div>
+		<nav class="breadcrumb" aria-label="Breadcrumb">
+			<a href="/">Kain Elbi</a><span aria-hidden="true">/</span><span>Place</span><span aria-hidden="true">/</span><span>{place.name}</span>
+		</nav>
+
+		<section class="place-intro" aria-labelledby="place-title">
+			<div class="intro-copy">
+				<p class="eyebrow">{categoryLabel(place.category)}{cuisine ? ` · ${cuisine}` : ''}</p>
+				<h1 id="place-title">{place.name}</h1>
+				<PlaceHoursStatus client:load openingHours={place.openingHours} lat={place.lat} lon={place.lon} />
+				<div class="primary-actions">
+					<a class="directions" href={directionsUrl} target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a>
+					<a class="planner" href="/#route-planner">Plan around your class</a>
+				</div>
+			</div>
+			<div class="intro-note">
+				<p class="note-label">Kain route coverage</p>
+				<strong>{routeCoverage}</strong>
+				{nearest ? (
+					<p>Nearest supported campus anchor: <b>{nearest.name}</b>, about {nearest.minutes} min away{nearest.meters ? ` (${Math.round(nearest.meters)} m)` : ''} on Kain's current pedestrian graph.</p>
+				) : (
+					<p>You can still open this location in external maps, but Kain will not invent a campus walking estimate where its graph does not reach.</p>
+				)}
+			</div>
 		</section>
 
-		<div class="detail-grid">
-			<section aria-labelledby="know-title">
-				<p class="eyebrow">What We Know</p><h2 id="know-title">Useful details, without pretending.</h2>
-				<dl>
-					<div><dt>Category</dt><dd>{categoryNames[place.category]}</dd></div>
-					<div><dt>Hours</dt><dd>{place.openingHours ? 'Hours are listed in the source; confirm before going.' : 'Hours unavailable'}</dd></div>
-					{place.cuisine.length > 0 && <div><dt>Cuisine tags</dt><dd>{place.cuisine.join(', ')}</dd></div>}
-				</dl>
+		<div class="content-grid">
+			<section class="location-card" aria-labelledby="location-title">
+				<div class="card-heading">
+					<div><p class="section-label">Location</p><h2 id="location-title">See where it is.</h2></div>
+					<a href={directionsUrl} target="_blank" rel="noreferrer">Open map ↗</a>
+				</div>
+				<PlaceMiniMap client:visible name={place.name} lat={place.lat} lon={place.lon} />
+				<div class="location-meta">
+					<span>Lat {place.lat.toFixed(5)}</span><span>Lon {place.lon.toFixed(5)}</span>
+				</div>
 			</section>
-			<aside class="confidence" aria-labelledby="confidence-title">
-				<p class="eyebrow">Data Confidence</p><h2 id="confidence-title">{place.confidenceLabel}</h2>
-				<p>{sourceNames.length ? `Found in ${sourceNames.join(' and ')}` : 'Limited source information'} · not field-verified.</p>
-				{place.sources.length > 0 && <details><summary>View source records</summary><ul>{place.sources.map((source) => <li><strong>{source.source}</strong><span>{source.sourceId}</span></li>)}</ul></details>}
-			</aside>
+
+			<section class="facts-card" aria-labelledby="details-title">
+				<p class="section-label">Place details</p>
+				<h2 id="details-title">What Kain knows.</h2>
+				<dl class="facts-list">
+					<div><dt>Type</dt><dd>{categoryLabel(place.category)}</dd></div>
+					<div><dt>Hours</dt><dd>{place.openingHours ? 'Source-listed hours available' : 'Hours unavailable'}</dd></div>
+					{cuisine && <div><dt>Food tags</dt><dd>{cuisine}</dd></div>}
+					{websiteUrl && <div><dt>Website</dt><dd><a href={websiteUrl} target="_blank" rel="noreferrer">Visit website ↗</a></dd></div>}
+					{phoneUrl && <div><dt>Phone</dt><dd><a href={phoneUrl}>{place.phone}</a></dd></div>}
+				</dl>
+				{place.openingHours && (
+					<details class="schedule-detail">
+						<summary>View source-listed schedule</summary>
+						<code>{place.openingHours}</code>
+					</details>
+				)}
+			</section>
 		</div>
 
-		<div class="actions"><a class="primary" href={directionsUrl} target="_blank" rel="noreferrer">Open External Directions <span aria-hidden="true">↗</span></a><a href="/">Plan a Different Break</a></div>
-		<p class="external-note">Google Maps opens outside Kain Elbi. Exact GPS location is never stored here.</p>
+		<section class="listing-card" aria-labelledby="listing-title">
+			<div class="listing-intro">
+				<p class="section-label">About this listing</p>
+				<h2 id="listing-title">Transparent, but out of your way.</h2>
+				<p>{listingSummary}. Kain uses open data for discovery and route feasibility; this page is not a claim that every business detail has been field-verified.</p>
+			</div>
+			<details>
+				<summary>View listing sources and confidence</summary>
+				<div class="source-detail">
+					<div><span>Confidence</span><strong>{place.confidenceLabel}</strong></div>
+					<div><span>Independent sources</span><strong>{place.independentSourceCount}</strong></div>
+					{place.sources.length > 0 && (
+						<ul>{place.sources.map((source) => <li><b>{source.source.toUpperCase()}</b><code>{source.sourceId}</code></li>)}</ul>
+					)}
+				</div>
+			</details>
+		</section>
+
+		<div class="bottom-actions">
+			<a class="primary" href={directionsUrl} target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a>
+			<a href="/#route-planner">Find food for another break</a>
+		</div>
+		<p class="external-note">External directions open in Google Maps. Kain does not store your exact GPS location on this page.</p>
 	</main>
 </Layout>
 
 <style>
-	.detail-page { padding-top: 1rem; padding-bottom: 4rem; }
-	nav { display: flex; gap: .55rem; overflow: hidden; color: var(--muted); font-size: .75rem; white-space: nowrap; }
-	nav a { text-underline-offset: .2em; } nav span:last-child { overflow: hidden; text-overflow: ellipsis; }
-	.detail-hero { position: relative; min-height: 24rem; margin-top: 1rem; overflow: hidden; border-radius: 1.75rem; color: white; background: var(--forest); }
-	.detail-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 75% 15%, hsl(44 96% 49% / .28), transparent 18rem); }
-	.route-art { position: absolute; z-index: 2; top: 3rem; left: max(1.25rem, 6vw); right: max(1.25rem, 6vw); display: flex; align-items: center; }
-	.route-art i { flex: 1; border-top: 2px dashed hsl(0 0% 100% / .5); }
-	.route-art span, .route-art b { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; color: var(--forest); background: white; font: 800 .75rem/1 var(--font-display); }
-	.route-art b { width: 4.5rem; height: 4.5rem; background: var(--sun); transform: rotate(-7deg); }
-	.title-block { position: absolute; z-index: 3; right: 1.25rem; bottom: 1.5rem; left: 1.25rem; }
-	.title-block p { margin: 0 0 .5rem; color: var(--sun); font: 750 .72rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
-	.title-block h1 { max-width: 16ch; margin: 0; font: 790 clamp(2.7rem, 12vw, 5.8rem)/.88 var(--font-display); }
-	.title-block span { display: block; margin-top: .8rem; color: hsl(0 0% 100% / .68); font-size: .8rem; }
-	.detail-grid { display: grid; gap: 1rem; margin-top: 1rem; }
-	.detail-grid > * { padding: 1.3rem; border: 1px solid var(--line); border-radius: 1.35rem; background: var(--paper); }
-	.eyebrow { margin: 0; color: var(--text-accent); font: 760 .7rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
-	h2 { max-width: 18ch; margin: .6rem 0 1.25rem; color: var(--forest); font: 760 clamp(1.65rem, 6vw, 2.5rem)/.98 var(--font-display); }
-	dl { margin: 0; } dl div { display: grid; grid-template-columns: 7rem 1fr; gap: .75rem; padding: .8rem 0; border-top: 1px solid var(--line); }
-	dt { color: var(--muted); font-size: .78rem; } dd { margin: 0; font-weight: 650; }
-	.confidence { color: white; background: var(--forest); } .confidence .eyebrow { color: var(--sun); } .confidence h2 { color: white; }
-	.confidence > p:last-of-type { color: hsl(0 0% 100% / .68); line-height: 1.5; }
-	details { margin-top: 1.25rem; border-top: 1px solid hsl(0 0% 100% / .2); } summary { min-height: 2.75rem; padding-top: .9rem; cursor: pointer; font-weight: 700; }
-	ul { padding-left: 1.1rem; } li { margin: .65rem 0; } li strong, li span { display: block; } li span { margin-top: .2rem; color: hsl(0 0% 100% / .6); font-size: .68rem; overflow-wrap: anywhere; }
-	.actions { display: grid; gap: .7rem; margin-top: 1rem; }
-	.actions a { display: grid; place-items: center; min-height: 3.5rem; padding: .5rem 1rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--forest); font-weight: 750; text-align: center; }
-	.actions .primary { border-color: var(--sun); background: var(--sun); text-decoration: none; }
-	.external-note { color: var(--muted); font-size: .75rem; text-align: center; }
-	@media (min-width: 800px) { .detail-hero { min-height: 34rem; } .detail-grid { grid-template-columns: 1.2fr .8fr; } .detail-grid > * { padding: 2rem; } .actions { grid-template-columns: 1fr 1fr; } }
+	.detail-page { padding-top: var(--space-4); padding-bottom: 5rem; }
+	.breadcrumb { display: flex; gap: var(--space-2); min-width: 0; overflow: hidden; color: var(--text-secondary); font-size: 0.75rem; white-space: nowrap; }
+	.breadcrumb a { text-underline-offset: 0.2em; }
+	.breadcrumb span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+	.place-intro { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
+	.intro-copy,
+	.intro-note { padding: var(--space-6); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); }
+	.intro-copy { background: hsl(45 50% 98% / 0.9); box-shadow: 0 1rem 2.5rem hsl(154 45% 10% / 0.07); }
+	.intro-note { align-content: end; color: white; background: var(--forest); }
+	.eyebrow,
+	.section-label,
+	.note-label { margin: 0; color: var(--text-accent); font: 760 0.72rem/1.25 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; }
+	.intro-copy h1 { max-width: 17ch; margin: var(--space-2) 0 var(--space-4); color: var(--forest); font: 790 clamp(2.7rem, 11vw, 5.5rem)/0.9 var(--font-display); letter-spacing: -0.025em; text-wrap: balance; }
+	.primary-actions { display: grid; gap: var(--space-2); margin-top: var(--space-6); }
+	.primary-actions a,
+	.bottom-actions a { display: flex; align-items: center; justify-content: center; min-height: 3.5rem; padding: 0 var(--space-4); border-radius: var(--radius-md); font-weight: 750; text-align: center; text-decoration: none; }
+	.directions,
+	.bottom-actions .primary { border: 1px solid var(--forest); background: var(--forest); color: white; }
+	.directions:hover,
+	.bottom-actions .primary:hover { background: var(--forest-deep); }
+	.planner,
+	.bottom-actions a:not(.primary) { border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--forest); }
+	.planner:hover,
+	.bottom-actions a:not(.primary):hover { background: var(--surface-subtle); }
+	.intro-note .note-label { color: var(--sun); }
+	.intro-note strong { display: block; margin-top: var(--space-2); font: 760 clamp(1.4rem, 6vw, 2.2rem)/1 var(--font-display); }
+	.intro-note p:last-child { max-width: 42ch; margin: var(--space-4) 0 0; color: hsl(0 0% 100% / 0.74); line-height: 1.55; }
+	.intro-note b { color: white; }
+	.content-grid { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+	.location-card,
+	.facts-card,
+	.listing-card { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--surface-raised); }
+	.card-heading { display: flex; align-items: end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+	.card-heading h2,
+	.facts-card h2,
+	.listing-card h2 { max-width: 20ch; margin: var(--space-2) 0 0; color: var(--forest); font: 770 clamp(1.55rem, 6vw, 2.35rem)/0.98 var(--font-display); }
+	.card-heading > a { flex: none; min-height: var(--tap-target); display: flex; align-items: center; color: var(--forest); font-weight: 720; text-underline-offset: 0.2em; }
+	.location-meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); color: var(--text-secondary); font-size: 0.7rem; font-variant-numeric: tabular-nums; }
+	.facts-list { margin: var(--space-4) 0 0; }
+	.facts-list > div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--border-subtle); }
+	.facts-list dt { color: var(--text-secondary); font-size: 0.78rem; }
+	.facts-list dd { margin: 0; font-weight: 650; line-height: 1.45; }
+	.facts-list a { color: var(--forest); text-underline-offset: 0.2em; }
+	.schedule-detail { margin-top: var(--space-2); border-top: 1px solid var(--border-subtle); }
+	.schedule-detail summary,
+	.listing-card summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--forest); font-weight: 720; }
+	.schedule-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--surface-subtle); color: var(--text-secondary); font-size: 0.75rem; white-space: normal; overflow-wrap: anywhere; }
+	.listing-card { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+	.listing-intro > p:last-child { max-width: 62ch; margin: var(--space-3) 0 0; color: var(--text-secondary); line-height: 1.6; }
+	.listing-card details { border-top: 1px solid var(--border-subtle); }
+	.source-detail { padding-bottom: var(--space-4); }
+	.source-detail > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--border-subtle); }
+	.source-detail > div span { color: var(--text-secondary); font-size: 0.78rem; }
+	.source-detail > div strong { color: var(--forest); text-align: right; }
+	.source-detail ul { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+	.source-detail li { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-2); color: var(--text-secondary); font-size: 0.72rem; }
+	.source-detail li b { color: var(--text-accent); }
+	.source-detail code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.bottom-actions { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
+	.external-note { max-width: 44rem; margin: var(--space-3) auto 0; color: var(--text-secondary); font-size: 0.74rem; line-height: 1.45; text-align: center; }
+	@media (min-width: 760px) {
+		.place-intro { grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr); }
+		.intro-copy,
+		.intro-note { padding: var(--space-8); }
+		.primary-actions { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); max-width: 38rem; }
+		.content-grid { grid-template-columns: minmax(0, 1.2fr) minmax(19rem, 0.8fr); }
+		.location-card,
+		.facts-card,
+		.listing-card { padding: var(--space-6); }
+		.listing-card { grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.75fr); align-items: start; }
+		.listing-card details { border-top: 0; border-left: 1px solid var(--border-subtle); padding-left: var(--space-6); }
+		.bottom-actions { grid-template-columns: 1fr 1fr; }
+	}
+	@media (min-width: 1100px) {
+		.intro-copy h1 { font-size: clamp(4.2rem, 7vw, 6rem); }
+	}
 </style>

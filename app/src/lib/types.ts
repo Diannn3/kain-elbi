@@ -46,11 +46,15 @@ export interface Anchor {
 	graph_node_index?: number;
 	graph_node_osm_id?: number;
 	snap_distance_m?: number;
+	snap_status?: 'good' | 'review' | 'unsupported';
 }
 
 export interface RouteLeg {
 	seconds: number;
 	meters?: number;
+	graph_meters?: number;
+	from_snap_meters?: number;
+	to_snap_meters?: number;
 }
 
 export interface RouteMatrixV1 {
@@ -74,8 +78,14 @@ export interface RouteMatrixV2 {
 		graph_sha256?: string;
 		weight?: string;
 		note?: string;
+		snap_thresholds_m?: {
+			good: number;
+			place_max: number;
+			anchor_max: number;
+		};
 	};
 	anchors: Record<string, Anchor>;
+	unsupported_anchors?: Record<string, Anchor>;
 	place_snaps?: Record<string, {
 		graph_node_index: number;
 		graph_node_osm_id: number;
@@ -140,4 +150,60 @@ export interface Collection {
 	sourceUrls: string[];
 	coverVariant: 'sun' | 'leaf' | 'forest';
 	placeIds: string[];
+}
+
+export interface FoodZone {
+	id: string;
+	name: string;
+	shortName: string;
+	description: string;
+	priority: number;
+	bounds: {
+		minLat: number;
+		maxLat: number;
+		minLon: number;
+		maxLon: number;
+	} | null;
+	placeIds: string[];
+	placeCount: number;
+}
+
+export interface FreshieSituation {
+	id: string;
+	title: string;
+	description: string;
+	explore_query: string;
+}
+
+export interface FreshieGlossaryItem {
+	term: string;
+	definition: string;
+}
+
+export interface FreshieMention {
+	placeId: string;
+	sourceId: string;
+	claimType: string;
+	summary: string;
+}
+
+export interface FreshieSource {
+	name: string;
+	type: string;
+	url: string;
+	publishedAt: string;
+	accessLevel: string;
+	authorityLevel: string;
+}
+
+export interface FreshieData {
+	version: number;
+	researchDate: string;
+	intro: string;
+	starterCollectionId: string;
+	sourceNote: string;
+	situations: FreshieSituation[];
+	glossary: FreshieGlossaryItem[];
+	mentions: FreshieMention[];
+	sources: Record<string, FreshieSource>;
 }

@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "researchDate": "2026-08-07",
+  "intro": "A beginner-friendly map of Elbi food areas and a non-ranked set of places that appear in recent public student/community discussions.",
+  "starterCollectionId": "freshie-starter",
+  "sourceNote": "Community mentions are signals, not quality ratings. Hours, prices, queues, and operating status can change.",
+  "situations": [
+    {
+      "id": "proper-meal",
+      "title": "I just need a proper meal",
+      "description": "Start with restaurants, canteens, and food courts across Elbi.",
+      "explore_query": "category=restaurant"
+    },
+    {
+      "id": "coffee",
+      "title": "Coffee before class",
+      "description": "Browse cafés without pretending every listing has current hours.",
+      "explore_query": "category=cafe"
+    },
+    {
+      "id": "raymundo",
+      "title": "Show me Raymundo",
+      "description": "Learn one of the densest student-food areas outside campus.",
+      "explore_query": "zone=raymundo"
+    },
+    {
+      "id": "campus",
+      "title": "Stay inside campus",
+      "description": "Browse food points inside the UPLB campus area.",
+      "explore_query": "zone=inside-uplb"
+    },
+    {
+      "id": "surprise",
+      "title": "Show me somewhere new",
+      "description": "Open Explore with the full catalog and pick a zone you have not tried yet.",
+      "explore_query": ""
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Smart Pick",
+      "definition": "A place that fits Kain Elbi's supported walking route and time budget. It is not a food-quality ranking."
+    },
+    {
+      "term": "Raymundo",
+      "definition": "Kain Elbi's area label for the dense cluster around Raymundo Gate and nearby streets."
+    },
+    {
+      "term": "Grove / Vega",
+      "definition": "Kain Elbi's area label for the Grove and Vega Arcade cluster just outside campus."
+    },
+    {
+      "term": "Route coverage",
+      "definition": "Whether the current Room TBA pedestrian graph can defensibly connect a place to supported campus anchors."
+    }
+  ],
+  "mentions": [
+    {
+      "placeId": "7aad170a-eb6f-4ba8-bca7-b382362f9277",
+      "sourceId": "reddit-raymundo-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned in a recent public UPLB discussion about affordable places around Raymundo."
+    },
+    {
+      "placeId": "dc5980d7-98f2-5577-b66c-10e321886e9f",
+      "sourceId": "reddit-raymundo-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned in a recent public UPLB discussion about places around Raymundo."
+    },
+    {
+      "placeId": "f6f9b441-f4d4-58e8-bcf8-bfcc17a99674",
+      "sourceId": "reddit-raymundo-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned in a recent public UPLB discussion about food around Raymundo."
+    },
+    {
+      "placeId": "7aad170a-eb6f-4ba8-bca7-b382362f9277",
+      "sourceId": "reddit-student-lb-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned by a recent Los Baños student discussion as a practical food option."
+    },
+    {
+      "placeId": "365992d2-98dc-562a-b0ed-884198abd918",
+      "sourceId": "reddit-student-lb-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned in a recent student-budget discussion about Los Baños food."
+    },
+    {
+      "placeId": "2c31da7e-5d9b-5eac-8ba3-ff7ec3009677",
+      "sourceId": "reddit-student-lb-2026-07",
+      "claimType": "student_mention",
+      "summary": "Mentioned in a recent student discussion about drinks around Los Baños."
+    },
+    {
+      "placeId": "d1c28b23-4acd-4392-a027-99fb6efd9450",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "Repeatedly mentioned in a recent public Los Baños restaurant discussion."
+    },
+    {
+      "placeId": "64efa94e-1679-573d-82f6-693905878d9d",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a recent public Los Baños restaurant discussion."
+    },
+    {
+      "placeId": "d1c26a3b-f9f2-48d7-ae3d-403be5fe3544",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "Mentioned multiple times in a recent public Los Baños restaurant discussion."
+    },
+    {
+      "placeId": "76a4c88e-904d-56dd-aa76-56b022f41cff",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a recent public Los Baños restaurant discussion."
+    },
+    {
+      "placeId": "40f79c68-be45-46db-a749-1626ae3cc935",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "The SEARCA canteen was mentioned in a recent public Los Baños food discussion."
+    },
+    {
+      "placeId": "cc2799e1-8e78-420d-b1d6-7eff82390ded",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "IRRI cafeteria was mentioned in a recent public Los Baños food discussion."
+    },
+    {
+      "placeId": "220b6b22-50f7-440c-8e4e-fca6ce69586e",
+      "sourceId": "reddit-lb-group-2026-06",
+      "claimType": "community_mention",
+      "summary": "Likha at SEARCA was mentioned in a recent public Los Baños food discussion."
+    },
+    {
+      "placeId": "d1c28b23-4acd-4392-a027-99fb6efd9450",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a 2026 public discussion about places people return to in Los Baños."
+    },
+    {
+      "placeId": "64efa94e-1679-573d-82f6-693905878d9d",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a 2026 public discussion about places people return to in Los Baños."
+    },
+    {
+      "placeId": "d1c26a3b-f9f2-48d7-ae3d-403be5fe3544",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a 2026 public discussion about places people return to in Los Baños."
+    },
+    {
+      "placeId": "76a4c88e-904d-56dd-aa76-56b022f41cff",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a 2026 public discussion about places people return to in Los Baños."
+    },
+    {
+      "placeId": "033fd8da-5efa-41d4-a9e7-5e0bde4d9c86",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned as a Demarses-area food option in a 2026 public discussion."
+    },
+    {
+      "placeId": "31c504cf-2aab-4a2d-bbcf-a985060a9a10",
+      "sourceId": "reddit-lb-2026-03",
+      "claimType": "community_mention",
+      "summary": "Mentioned as a Demarses-area food option in a 2026 public discussion."
+    },
+    {
+      "placeId": "f5d93078-f58c-5cf4-9749-4ff13f9d5a97",
+      "sourceId": "reddit-lb-2025-07",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a public Los Baños food discussion as a place near Raymundo Gate."
+    },
+    {
+      "placeId": "76a4c88e-904d-56dd-aa76-56b022f41cff",
+      "sourceId": "reddit-lb-2025-07",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a public Los Baños food discussion along the Lopez area."
+    },
+    {
+      "placeId": "b431f320-2acd-562c-91d0-885d4f6ebbef",
+      "sourceId": "reddit-lb-2025-07",
+      "claimType": "community_mention",
+      "summary": "Mentioned in a public Los Baños food discussion around the Lopez/SEARCA area."
+    }
+  ],
+  "sources": {
+    "reddit-raymundo-2026-07": {
+      "name": "r/uplb — Pagkainan sa Raymundo",
+      "type": "student-community",
+      "url": "https://www.reddit.com/r/uplb/comments/1uu8kfh/pagkainan_sa_raymundo/",
+      "publishedAt": "2026-07-12",
+      "accessLevel": "public",
+      "authorityLevel": "community"
+    },
+    "reddit-student-lb-2026-07": {
+      "name": "r/laguna — Staying in Los Baños as a student",
+      "type": "student-community",
+      "url": "https://www.reddit.com/r/laguna/comments/1uuz76z/staying_in_losba%C3%B1os_for_a_month_as_a_student/",
+      "publishedAt": "2026-07-13",
+      "accessLevel": "public",
+      "authorityLevel": "community"
+    },
+    "reddit-lb-group-2026-06": {
+      "name": "r/laguna — Places to eat around LB",
+      "type": "community",
+      "url": "https://www.reddit.com/r/laguna/comments/1uckbe4/places_to_eat_around_lb/",
+      "publishedAt": "2026-06-22",
+      "accessLevel": "public",
+      "authorityLevel": "community"
+    },
+    "reddit-lb-2026-03": {
+      "name": "r/laguna — Places to eat in Los Baños",
+      "type": "community",
+      "url": "https://www.reddit.com/r/laguna/comments/1s55c3p/places_to_eat_in_los_ba%C3%B1os/",
+      "publishedAt": "2026-03-27",
+      "accessLevel": "public",
+      "authorityLevel": "community"
+    },
+    "reddit-lb-2025-07": {
+      "name": "r/laguna — Places to eat at in Los Baños",
+      "type": "community",
+      "url": "https://www.reddit.com/r/laguna/comments/1lrb7rs/places_to_eat_at_in_los_banos/",
+      "publishedAt": "2025-07-04",
+      "accessLevel": "public",
+      "authorityLevel": "community"
+    },
+    "uplb-bao-food-map-2026": {
+      "name": "UPLB Business Affairs Office — Midyear 2026 Food Map",
+      "type": "official",
+      "url": "https://www.facebook.com/UPLBBusinessAffairsOffice/posts/-hungry-on-campus-heres-your-uplb-food-map-for-midyear-2026whether-you-need-a-qu/1548566737058295/",
+      "publishedAt": "",
+      "accessLevel": "public",
+      "authorityLevel": "official"
+    }
+  }
+}

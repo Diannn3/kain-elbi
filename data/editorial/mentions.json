@@ -1,1 +1,24 @@
-[]
+[
+  {"place_id":"7aad170a-eb6f-4ba8-bca7-b382362f9277","source_id":"reddit-raymundo-2026-07","claim_type":"student_mention","summary":"Mentioned in a recent public UPLB discussion about affordable places around Raymundo."},
+  {"place_id":"dc5980d7-98f2-5577-b66c-10e321886e9f","source_id":"reddit-raymundo-2026-07","claim_type":"student_mention","summary":"Mentioned in a recent public UPLB discussion about places around Raymundo."},
+  {"place_id":"f6f9b441-f4d4-58e8-bcf8-bfcc17a99674","source_id":"reddit-raymundo-2026-07","claim_type":"student_mention","summary":"Mentioned in a recent public UPLB discussion about food around Raymundo."},
+  {"place_id":"7aad170a-eb6f-4ba8-bca7-b382362f9277","source_id":"reddit-student-lb-2026-07","claim_type":"student_mention","summary":"Mentioned by a recent Los Baños student discussion as a practical food option."},
+  {"place_id":"365992d2-98dc-562a-b0ed-884198abd918","source_id":"reddit-student-lb-2026-07","claim_type":"student_mention","summary":"Mentioned in a recent student-budget discussion about Los Baños food."},
+  {"place_id":"2c31da7e-5d9b-5eac-8ba3-ff7ec3009677","source_id":"reddit-student-lb-2026-07","claim_type":"student_mention","summary":"Mentioned in a recent student discussion about drinks around Los Baños."},
+  {"place_id":"d1c28b23-4acd-4392-a027-99fb6efd9450","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"Repeatedly mentioned in a recent public Los Baños restaurant discussion."},
+  {"place_id":"64efa94e-1679-573d-82f6-693905878d9d","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"Mentioned in a recent public Los Baños restaurant discussion."},
+  {"place_id":"d1c26a3b-f9f2-48d7-ae3d-403be5fe3544","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"Mentioned multiple times in a recent public Los Baños restaurant discussion."},
+  {"place_id":"76a4c88e-904d-56dd-aa76-56b022f41cff","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"Mentioned in a recent public Los Baños restaurant discussion."},
+  {"place_id":"40f79c68-be45-46db-a749-1626ae3cc935","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"The SEARCA canteen was mentioned in a recent public Los Baños food discussion."},
+  {"place_id":"cc2799e1-8e78-420d-b1d6-7eff82390ded","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"IRRI cafeteria was mentioned in a recent public Los Baños food discussion."},
+  {"place_id":"220b6b22-50f7-440c-8e4e-fca6ce69586e","source_id":"reddit-lb-group-2026-06","claim_type":"community_mention","summary":"Likha at SEARCA was mentioned in a recent public Los Baños food discussion."},
+  {"place_id":"d1c28b23-4acd-4392-a027-99fb6efd9450","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned in a 2026 public discussion about places people return to in Los Baños."},
+  {"place_id":"64efa94e-1679-573d-82f6-693905878d9d","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned in a 2026 public discussion about places people return to in Los Baños."},
+  {"place_id":"d1c26a3b-f9f2-48d7-ae3d-403be5fe3544","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned in a 2026 public discussion about places people return to in Los Baños."},
+  {"place_id":"76a4c88e-904d-56dd-aa76-56b022f41cff","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned in a 2026 public discussion about places people return to in Los Baños."},
+  {"place_id":"033fd8da-5efa-41d4-a9e7-5e0bde4d9c86","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned as a Demarses-area food option in a 2026 public discussion."},
+  {"place_id":"31c504cf-2aab-4a2d-bbcf-a985060a9a10","source_id":"reddit-lb-2026-03","claim_type":"community_mention","summary":"Mentioned as a Demarses-area food option in a 2026 public discussion."},
+  {"place_id":"f5d93078-f58c-5cf4-9749-4ff13f9d5a97","source_id":"reddit-lb-2025-07","claim_type":"community_mention","summary":"Mentioned in a public Los Baños food discussion as a place near Raymundo Gate."},
+  {"place_id":"76a4c88e-904d-56dd-aa76-56b022f41cff","source_id":"reddit-lb-2025-07","claim_type":"community_mention","summary":"Mentioned in a public Los Baños food discussion along the Lopez area."},
+  {"place_id":"b431f320-2acd-562c-91d0-885d4f6ebbef","source_id":"reddit-lb-2025-07","claim_type":"community_mention","summary":"Mentioned in a public Los Baños food discussion around the Lopez/SEARCA area."}
+]
