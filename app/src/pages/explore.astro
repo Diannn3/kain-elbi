@@ -14,37 +14,158 @@ const initialCollection = Astro.url.searchParams.get('collection') ?? '';
 const featuredZones = zones.filter((zone) => zone.id !== 'elsewhere-lb').slice(0, 6);
 ---
 
-<Layout title="Explore Elbi — Kain Elbi" description="Browse food places around UPLB and Los Baños by area, category, list, or map.">
-	<main id="main-content" class="page-shell explore-page">
-		<header class="page-head">
-			<p class="eyebrow-global">Explore</p>
-			<h1>See what’s around Elbi<span aria-hidden="true">.</span></h1>
-			<p>Browse the full open-data catalog without pretending every place has a supported campus route. Search first, then decide where you want to go.</p>
+<Layout title="Explore Elbi — UPPETITE" description="Browse food places around UPLB and Los Baños by area, category, list, or map.">
+	<main id="main-content" class="explore-page">
+		<header class="explore-masthead">
+			<div class="page-head page-shell">
+				<p class="masthead-eyebrow">Explore</p>
+				<h1>See what’s around Elbi<span aria-hidden="true">.</span></h1>
+				<p>Browse the full open-data catalog without pretending every place has a supported campus route. Search first, then decide where you want to go.</p>
+			</div>
 		</header>
 
-		<section class="zone-section" aria-labelledby="zone-heading">
-			<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
-			<div class="zone-grid">
-				{featuredZones.map((zone) => (
-					<a class="zone-card" href={`/explore?zone=${zone.id}`}>
-						<span>{zone.placeCount} catalog places</span>
-						<strong>{zone.name}</strong>
-						<p>{zone.description}</p>
-					</a>
-				))}
-			</div>
-			<p class="zone-note">These are Kain Elbi geographic labels for discovery, not official UPLB or municipal district boundaries.</p>
-		</section>
+		<div class="explore-search-stage page-shell">
+			<ExploreApp {places} {zones} {collections} {routablePlaceIds} {initialQuery} {initialZone} {initialCategory} {initialCollection} client:load />
+		</div>
 
-		<section class="collection-section" aria-labelledby="collection-heading">
-			<div class="section-heading"><div><p class="eyebrow-global">Research-Backed Browse Lists</p><h2 id="collection-heading">Community mentions, without fake rankings.</h2></div></div>
-			<div class="collection-grid">{collections.map((collection) => <a href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} sources reviewed</span><strong>{collection.title}</strong><p>{collection.description}</p></a>)}</div>
-		</section>
+		<div class="explore-content page-shell">
+			<section class="zone-section" aria-labelledby="zone-heading">
+				<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
+				<div class="zone-grid">
+					{featuredZones.map((zone) => (
+						<a class="zone-card" href={`/explore?zone=${zone.id}`}>
+							<span>{zone.placeCount} catalog places</span>
+							<strong>{zone.name}</strong>
+							<p>{zone.description}</p>
+						</a>
+					))}
+				</div>
+				<p class="zone-note">These are UPPETITE geographic labels for discovery, not official UPLB or municipal district boundaries.</p>
+			</section>
 
-		<ExploreApp {places} {zones} {collections} {routablePlaceIds} {initialQuery} {initialZone} {initialCategory} {initialCollection} client:load />
+			<section class="collection-section" aria-labelledby="collection-heading">
+				<div class="section-heading"><div><p class="eyebrow-global">Research-Backed Browse Lists</p><h2 id="collection-heading">Community mentions, without fake rankings.</h2></div></div>
+				<div class="collection-grid">{collections.map((collection) => <a href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} sources reviewed</span><strong>{collection.title}</strong><p>{collection.description}</p></a>)}</div>
+			</section>
+		</div>
 	</main>
 </Layout>
 
 <style>
-	.explore-page{padding-top:clamp(2rem,6vw,4.5rem)}.page-head{max-width:48rem}.page-head h1{max-width:12ch;margin:.6rem 0 0;color:var(--forest);font:820 clamp(3rem,10vw,6rem)/.88 var(--font-display);letter-spacing:-.055em}.page-head h1 span{color:var(--sun)}.page-head>p:last-child{max-width:42rem;margin:1.25rem 0 0;color:var(--text-secondary);font-size:1.05rem;line-height:1.55}.zone-section{margin:clamp(3rem,8vw,5rem) 0 2rem}.zone-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.zone-card{min-height:10rem;padding:1rem;border:1px solid var(--border-subtle);border-radius:1.3rem;background:var(--surface-raised);text-decoration:none}.zone-card span{color:var(--text-accent);font:740 .68rem/1 var(--font-display);letter-spacing:.07em;text-transform:uppercase}.zone-card strong{display:block;margin:.65rem 0 0;color:var(--forest);font:770 1.35rem/1 var(--font-display)}.zone-card p{margin:.5rem 0 0;color:var(--text-secondary);font-size:.86rem;line-height:1.4}.zone-card:hover{border-color:hsl(154 50% 20%/.35);box-shadow:0 .6rem 1.5rem hsl(154 50% 15%/.06)}.zone-note{margin:.8rem 0 0;color:var(--text-secondary);font-size:.78rem}.collection-section{margin:2.5rem 0 1.5rem}.collection-grid{display:grid;gap:.75rem}.collection-grid a{padding:1rem;border:1px solid var(--border-subtle);border-radius:1.2rem;background:var(--surface-raised);text-decoration:none}.collection-grid span{color:var(--text-accent);font:740 .68rem/1 var(--font-display);letter-spacing:.06em;text-transform:uppercase}.collection-grid strong{display:block;margin:.55rem 0 0;color:var(--forest);font:760 1.2rem/1.05 var(--font-display)}.collection-grid p{margin:.5rem 0 0;color:var(--text-secondary);font-size:.85rem;line-height:1.4}.explore-page :global(.explore-shell){margin-top:1.5rem}@media(min-width:760px){.zone-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+	.explore-page { padding-bottom: 1rem; }
+	.explore-masthead {
+		position: relative;
+		overflow: hidden;
+		min-height: clamp(18rem, 38svh, 25rem);
+		background:
+			radial-gradient(circle at 88% 18%, rgb(230 106 25 / 0.16), transparent 18rem),
+			radial-gradient(circle at 8% 105%, rgb(36 3 7 / 0.3), transparent 24rem),
+			var(--brand-gradient);
+	}
+	.explore-masthead::after {
+		content: '';
+		position: absolute;
+		right: clamp(-5rem, -4vw, -2rem);
+		bottom: -3rem;
+		width: clamp(13rem, 30vw, 23rem);
+		aspect-ratio: 1;
+		border: 2px dashed rgb(255 249 241 / 0.12);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+	.page-head { position: relative; z-index: 1; padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(6rem, 10vw, 8rem); }
+	.masthead-eyebrow {
+		margin: 0;
+		color: var(--brand-cream);
+		font: 760 0.76rem/1 var(--font-display);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+	.masthead-eyebrow::before {
+		content: '';
+		display: inline-block;
+		width: 2.25rem;
+		height: 0.2rem;
+		margin-right: 0.65rem;
+		border-radius: 999px;
+		vertical-align: middle;
+		background: var(--brand-orange);
+	}
+	.page-head h1 {
+		max-width: 12ch;
+		margin: 0.65rem 0 0;
+		color: var(--brand-cream);
+		font: 820 clamp(3rem, 10vw, 6rem)/0.88 var(--font-display);
+		letter-spacing: -0.055em;
+	}
+	.page-head h1 span { color: var(--brand-orange); }
+	.page-head > p:last-child {
+		max-width: 42rem;
+		margin: 1.25rem 0 0;
+		color: var(--brand-sand);
+		font-size: 1.05rem;
+		line-height: 1.55;
+	}
+	.explore-search-stage { position: relative; z-index: 4; margin-top: clamp(-4.8rem, -6vw, -3.6rem); }
+	.explore-content { margin-top: clamp(3rem, 7vw, 5rem); }
+	.zone-section { margin: 0 0 2rem; }
+	.zone-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+	.zone-card {
+		position: relative;
+		min-height: 11rem;
+		padding: 1.15rem 1.1rem 1.15rem 1.3rem;
+		border: 1px solid var(--color-border);
+		border-radius: 1.3rem;
+		background: var(--brand-cream);
+		box-shadow: 0 0.55rem 1.4rem rgb(71 12 17 / 0.045);
+		text-decoration: none;
+		overflow: hidden;
+		transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+	}
+	.zone-card:nth-child(even) { background: var(--brand-sand); }
+	.zone-card::before {
+		content: '';
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+		width: 0.72rem;
+		height: 0.72rem;
+		border: 3px solid var(--brand-orange);
+		border-radius: 50%;
+		background: var(--brand-cream);
+	}
+	.zone-card::after {
+		content: '';
+		position: absolute;
+		right: 1.62rem;
+		top: 1.82rem;
+		width: 3.5rem;
+		border-top: 2px dashed var(--brand-orange);
+		transform: rotate(-18deg);
+		transform-origin: right center;
+		opacity: 0.75;
+	}
+	.zone-card span { color: var(--brand-maroon-deep); font: 740 0.68rem/1 var(--font-display); letter-spacing: 0.07em; text-transform: uppercase; }
+	.zone-card strong { display: block; max-width: 12ch; margin: 1.35rem 0 0; color: var(--brand-maroon-deep); font: 770 1.35rem/1 var(--font-display); }
+	.zone-card p { max-width: 30ch; margin: 0.55rem 0 0; color: var(--color-text-muted); font-size: 0.86rem; line-height: 1.45; }
+	.zone-card:hover { transform: translateY(-2px); border-color: var(--color-border-strong); box-shadow: 0 0.8rem 1.8rem rgb(71 12 17 / 0.08); }
+	.zone-note { margin: 0.8rem 0 0; color: var(--color-text-muted); font-size: 0.78rem; }
+	.collection-section { margin: 2.5rem 0 1.5rem; }
+	.collection-grid { display: grid; gap: 0.75rem; }
+	.collection-grid a {
+		padding: 1.1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 1.2rem;
+		background: var(--brand-cream);
+		text-decoration: none;
+	}
+	.collection-grid a:nth-child(even) { background: var(--brand-sand); }
+	.collection-grid span { color: var(--brand-maroon-deep); font: 740 0.68rem/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+	.collection-grid strong { display: block; margin: 0.55rem 0 0; color: var(--brand-maroon-deep); font: 760 1.2rem/1.05 var(--font-display); }
+	.collection-grid p { margin: 0.5rem 0 0; color: var(--color-text-muted); font-size: 0.85rem; line-height: 1.45; }
+	@media (min-width: 760px) {
+		.zone-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+		.collection-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	}
+	@media (prefers-reduced-motion: reduce) { .zone-card { transition: none; } }
 </style>

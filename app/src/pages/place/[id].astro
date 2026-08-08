@@ -44,10 +44,10 @@ const websiteUrl = place.website && /^https?:\/\//i.test(place.website) ? place.
 const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : null;
 ---
 
-<Layout title={`${place.name} — Kain Elbi`} description={`Location and open-data listing details for ${place.name} near UPLB.`}>
+<Layout title={`${place.name} — UPPETITE`} description={`Location and open-data listing details for ${place.name} near UPLB.`}>
 	<main id="main-content" class="detail-page page-shell">
 		<nav class="breadcrumb" aria-label="Breadcrumb">
-			<a href="/">Kain Elbi</a><span aria-hidden="true">/</span><span>Place</span><span aria-hidden="true">/</span><span>{place.name}</span>
+			<a href="/">UPPETITE</a><span aria-hidden="true">/</span><span>Place</span><span aria-hidden="true">/</span><span>{place.name}</span>
 		</nav>
 
 		<section class="place-intro" aria-labelledby="place-title">
@@ -61,12 +61,12 @@ const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : nul
 				</div>
 			</div>
 			<div class="intro-note">
-				<p class="note-label">Kain route coverage</p>
+				<p class="note-label">UPPETITE route coverage</p>
 				<strong>{routeCoverage}</strong>
 				{nearest ? (
-					<p>Nearest supported campus anchor: <b>{nearest.name}</b>, about {nearest.minutes} min away{nearest.meters ? ` (${Math.round(nearest.meters)} m)` : ''} on Kain's current pedestrian graph.</p>
+					<p>Nearest supported campus anchor: <b>{nearest.name}</b>, about {nearest.minutes} min away{nearest.meters ? ` (${Math.round(nearest.meters)} m)` : ''} on UPPETITE's current pedestrian graph.</p>
 				) : (
-					<p>You can still open this location in external maps, but Kain will not invent a campus walking estimate where its graph does not reach.</p>
+					<p>You can still open this location in external maps, but UPPETITE will not invent a campus walking estimate where its graph does not reach.</p>
 				)}
 			</div>
 		</section>
@@ -85,7 +85,7 @@ const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : nul
 
 			<section class="facts-card" aria-labelledby="details-title">
 				<p class="section-label">Place details</p>
-				<h2 id="details-title">What Kain knows.</h2>
+				<h2 id="details-title">What UPPETITE knows.</h2>
 				<dl class="facts-list">
 					<div><dt>Type</dt><dd>{categoryLabel(place.category)}</dd></div>
 					<div><dt>Hours</dt><dd>{place.openingHours ? 'Source-listed hours available' : 'Hours unavailable'}</dd></div>
@@ -106,7 +106,7 @@ const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : nul
 			<div class="listing-intro">
 				<p class="section-label">About this listing</p>
 				<h2 id="listing-title">Transparent, but out of your way.</h2>
-				<p>{listingSummary}. Kain uses open data for discovery and route feasibility; this page is not a claim that every business detail has been field-verified.</p>
+				<p>{listingSummary}. UPPETITE uses open data for discovery and route feasibility; this page is not a claim that every business detail has been field-verified.</p>
 			</div>
 			<details>
 				<summary>View listing sources and confidence</summary>
@@ -124,71 +124,76 @@ const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : nul
 			<a class="primary" href={directionsUrl} target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a>
 			<a href="/#route-planner">Find food for another break</a>
 		</div>
-		<p class="external-note">External directions open in Google Maps. Kain does not store your exact GPS location on this page.</p>
+		<p class="external-note">External directions open in Google Maps. UPPETITE does not store your exact GPS location on this page.</p>
 	</main>
 </Layout>
 
 <style>
 	.detail-page { padding-top: var(--space-4); padding-bottom: 5rem; }
-	.breadcrumb { display: flex; gap: var(--space-2); min-width: 0; overflow: hidden; color: var(--text-secondary); font-size: 0.75rem; white-space: nowrap; }
-	.breadcrumb a { text-underline-offset: 0.2em; }
+	.breadcrumb { display: flex; gap: var(--space-2); min-width: 0; overflow: hidden; color: var(--color-text-muted); font-size: 0.75rem; white-space: nowrap; }
+	.breadcrumb a { color: var(--brand-maroon-deep); font-weight: 700; text-underline-offset: 0.2em; }
 	.breadcrumb span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 	.place-intro { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
 	.intro-copy,
-	.intro-note { padding: var(--space-6); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); }
-	.intro-copy { background: hsl(45 50% 98% / 0.9); box-shadow: 0 1rem 2.5rem hsl(154 45% 10% / 0.07); }
-	.intro-note { align-content: end; color: white; background: var(--forest); }
+	.intro-note { padding: var(--space-6); border: 1px solid var(--color-border); border-radius: var(--radius-xl); }
+	.intro-copy { background: var(--brand-cream); box-shadow: 0 1rem 2.5rem rgb(71 12 17 / 0.07); }
+	.intro-note { position: relative; align-content: end; background: var(--brand-sand); overflow: hidden; }
+	.intro-note::before { content: ''; position: absolute; top: 1.2rem; right: 1.2rem; width: 0.85rem; height: 0.85rem; border: 3px solid var(--brand-orange); border-radius: 50%; background: var(--brand-cream); }
+	.intro-note::after { content: ''; position: absolute; top: 2.15rem; right: 1.85rem; width: 4.25rem; border-top: 2px dashed var(--brand-orange); transform: rotate(-18deg); transform-origin: right center; }
 	.eyebrow,
 	.section-label,
-	.note-label { margin: 0; color: var(--text-accent); font: 760 0.72rem/1.25 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; }
-	.intro-copy h1 { max-width: 17ch; margin: var(--space-2) 0 var(--space-4); color: var(--forest); font: 790 clamp(2.7rem, 11vw, 5.5rem)/0.9 var(--font-display); letter-spacing: -0.025em; text-wrap: balance; }
+	.note-label { margin: 0; color: var(--brand-maroon-deep); font: 760 0.72rem/1.25 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; }
+	.intro-copy h1 { max-width: 17ch; margin: var(--space-2) 0 var(--space-4); color: var(--brand-maroon-deep); font: 790 clamp(2.7rem, 11vw, 5.5rem)/0.9 var(--font-display); letter-spacing: -0.025em; text-wrap: balance; }
 	.primary-actions { display: grid; gap: var(--space-2); margin-top: var(--space-6); }
 	.primary-actions a,
 	.bottom-actions a { display: flex; align-items: center; justify-content: center; min-height: 3.5rem; padding: 0 var(--space-4); border-radius: var(--radius-md); font-weight: 750; text-align: center; text-decoration: none; }
 	.directions,
-	.bottom-actions .primary { border: 1px solid var(--forest); background: var(--forest); color: white; }
+	.bottom-actions .primary { border: 1px solid var(--brand-maroon-deep); background: var(--brand-maroon-deep); color: var(--brand-cream); }
 	.directions:hover,
-	.bottom-actions .primary:hover { background: var(--forest-deep); }
+	.bottom-actions .primary:hover { background: var(--brand-maroon-ink); }
 	.planner,
-	.bottom-actions a:not(.primary) { border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--forest); }
+	.bottom-actions a:not(.primary) { border: 1px solid var(--brand-maroon-deep); background: transparent; color: var(--brand-maroon-deep); }
 	.planner:hover,
-	.bottom-actions a:not(.primary):hover { background: var(--surface-subtle); }
-	.intro-note .note-label { color: var(--sun); }
-	.intro-note strong { display: block; margin-top: var(--space-2); font: 760 clamp(1.4rem, 6vw, 2.2rem)/1 var(--font-display); }
-	.intro-note p:last-child { max-width: 42ch; margin: var(--space-4) 0 0; color: hsl(0 0% 100% / 0.74); line-height: 1.55; }
-	.intro-note b { color: white; }
+	.bottom-actions a:not(.primary):hover { background: var(--brand-sand); }
+	.intro-note .note-label { color: var(--brand-maroon-deep); }
+	.intro-note strong { display: block; max-width: 16ch; margin-top: var(--space-2); color: var(--brand-maroon-deep); font: 760 clamp(1.4rem, 6vw, 2.2rem)/1 var(--font-display); }
+	.intro-note p:last-child { max-width: 42ch; margin: var(--space-4) 0 0; color: var(--color-text-muted); line-height: 1.55; }
+	.intro-note b { color: var(--brand-maroon-deep); }
 	.content-grid { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
 	.location-card,
 	.facts-card,
-	.listing-card { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--surface-raised); }
+	.listing-card { padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+	.location-card,
+	.listing-card { background: var(--brand-cream); }
+	.facts-card { background: var(--brand-sand); }
 	.card-heading { display: flex; align-items: end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
 	.card-heading h2,
 	.facts-card h2,
-	.listing-card h2 { max-width: 20ch; margin: var(--space-2) 0 0; color: var(--forest); font: 770 clamp(1.55rem, 6vw, 2.35rem)/0.98 var(--font-display); }
-	.card-heading > a { flex: none; min-height: var(--tap-target); display: flex; align-items: center; color: var(--forest); font-weight: 720; text-underline-offset: 0.2em; }
-	.location-meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); color: var(--text-secondary); font-size: 0.7rem; font-variant-numeric: tabular-nums; }
+	.listing-card h2 { max-width: 20ch; margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 770 clamp(1.55rem, 6vw, 2.35rem)/0.98 var(--font-display); }
+	.card-heading > a { flex: none; min-height: var(--tap-target); display: flex; align-items: center; color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
+	.location-meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); color: var(--color-text-muted); font-size: 0.7rem; font-variant-numeric: tabular-nums; }
 	.facts-list { margin: var(--space-4) 0 0; }
-	.facts-list > div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--border-subtle); }
-	.facts-list dt { color: var(--text-secondary); font-size: 0.78rem; }
-	.facts-list dd { margin: 0; font-weight: 650; line-height: 1.45; }
-	.facts-list a { color: var(--forest); text-underline-offset: 0.2em; }
-	.schedule-detail { margin-top: var(--space-2); border-top: 1px solid var(--border-subtle); }
+	.facts-list > div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--color-border); }
+	.facts-list dt { color: var(--color-text-muted); font-size: 0.78rem; }
+	.facts-list dd { margin: 0; color: var(--color-text); font-weight: 650; line-height: 1.45; }
+	.facts-list a { color: var(--brand-maroon-deep); text-underline-offset: 0.2em; }
+	.schedule-detail { margin-top: var(--space-2); border-top: 1px solid var(--color-border); }
 	.schedule-detail summary,
-	.listing-card summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--forest); font-weight: 720; }
-	.schedule-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--surface-subtle); color: var(--text-secondary); font-size: 0.75rem; white-space: normal; overflow-wrap: anywhere; }
+	.listing-card summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--brand-maroon-deep); font-weight: 720; }
+	.schedule-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--brand-cream); color: var(--color-text-muted); font-size: 0.75rem; white-space: normal; overflow-wrap: anywhere; }
 	.listing-card { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
-	.listing-intro > p:last-child { max-width: 62ch; margin: var(--space-3) 0 0; color: var(--text-secondary); line-height: 1.6; }
-	.listing-card details { border-top: 1px solid var(--border-subtle); }
+	.listing-intro > p:last-child { max-width: 62ch; margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.6; }
+	.listing-card details { border-top: 1px solid var(--color-border); }
 	.source-detail { padding-bottom: var(--space-4); }
-	.source-detail > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--border-subtle); }
-	.source-detail > div span { color: var(--text-secondary); font-size: 0.78rem; }
-	.source-detail > div strong { color: var(--forest); text-align: right; }
+	.source-detail > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--color-border); }
+	.source-detail > div span { color: var(--color-text-muted); font-size: 0.78rem; }
+	.source-detail > div strong { color: var(--brand-maroon-deep); text-align: right; }
 	.source-detail ul { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
-	.source-detail li { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-2); color: var(--text-secondary); font-size: 0.72rem; }
-	.source-detail li b { color: var(--text-accent); }
+	.source-detail li { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-2); color: var(--color-text-muted); font-size: 0.72rem; }
+	.source-detail li b { color: var(--brand-maroon-deep); }
 	.source-detail code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 	.bottom-actions { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
-	.external-note { max-width: 44rem; margin: var(--space-3) auto 0; color: var(--text-secondary); font-size: 0.74rem; line-height: 1.45; text-align: center; }
+	.external-note { max-width: 44rem; margin: var(--space-3) auto 0; color: var(--color-text-muted); font-size: 0.74rem; line-height: 1.45; text-align: center; }
 	@media (min-width: 760px) {
 		.place-intro { grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr); }
 		.intro-copy,
@@ -199,10 +204,8 @@ const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : nul
 		.facts-card,
 		.listing-card { padding: var(--space-6); }
 		.listing-card { grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.75fr); align-items: start; }
-		.listing-card details { border-top: 0; border-left: 1px solid var(--border-subtle); padding-left: var(--space-6); }
+		.listing-card details { border-top: 0; border-left: 1px solid var(--color-border); padding-left: var(--space-6); }
 		.bottom-actions { grid-template-columns: 1fr 1fr; }
 	}
-	@media (min-width: 1100px) {
-		.intro-copy h1 { font-size: clamp(4.2rem, 7vw, 6rem); }
-	}
+	@media (min-width: 1100px) { .intro-copy h1 { font-size: clamp(4.2rem, 7vw, 6rem); } }
 </style>

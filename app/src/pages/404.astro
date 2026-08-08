@@ -1,11 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Place Not Found — Kain Elbi"><main id="main-content" class="not-found page-shell"><p>404 · Route Changed</p><h1>That place is not in the current dataset.</h1><span>Open-data records can change between releases. Start a fresh route to see the candidates available now.</span><a href="/">Plan a New Break</a></main></Layout>
+
+<Layout title="Place Not Found — UPPETITE">
+	<main id="main-content" class="brand-screen">
+		<div class="not-found page-shell">
+			<p>404 · Route Changed</p>
+			<h1>That place is not in the current dataset.</h1>
+			<span>Open-data records can change between releases. Start a fresh route to see the candidates available now.</span>
+			<a href="/">Plan a New Break</a>
+		</div>
+	</main>
+</Layout>
+
 <style>
-	.not-found { display: grid; align-content: center; min-height: 65dvh; padding-block: 3rem; }
-	.not-found p { color: var(--text-accent); font: 750 .75rem/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
-	.not-found h1 { max-width: 13ch; margin: .5rem 0 1rem; color: var(--forest); font: 790 clamp(2.7rem, 11vw, 5.8rem)/.9 var(--font-display); }
-	.not-found span { max-width: 38rem; color: var(--muted); line-height: 1.5; }
-	.not-found a { display: grid; place-items: center; width: fit-content; min-height: 3.25rem; margin-top: 1.5rem; padding: 0 1rem; border-radius: .9rem; color: white; background: var(--forest); font-weight: 750; text-decoration: none; }
+	.brand-screen { position: relative; overflow: hidden; min-height: 70dvh; background: radial-gradient(circle at 84% 18%, rgb(230 106 25 / 0.16), transparent 18rem), var(--brand-gradient); }
+	.brand-screen::after { content: ''; position: absolute; right: -7rem; bottom: -8rem; width: 24rem; aspect-ratio: 1; border: 2px dashed rgb(255 249 241 / 0.12); border-radius: 50%; pointer-events: none; }
+	.not-found { position: relative; z-index: 1; display: grid; align-content: center; min-height: 70dvh; padding-block: 4rem; color: var(--brand-cream); }
+	.not-found p { color: var(--brand-cream); font: 750 0.75rem/1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; }
+	.not-found p::before { content: ''; display: inline-block; width: 2rem; margin-right: 0.6rem; border-top: 3px solid var(--brand-orange); vertical-align: middle; }
+	.not-found h1 { max-width: 13ch; margin: 0.6rem 0 1rem; color: var(--brand-cream); font: 790 clamp(2.7rem, 11vw, 5.8rem)/0.9 var(--font-display); }
+	.not-found span { max-width: 38rem; color: var(--brand-sand); line-height: 1.55; }
+	.not-found a { display: grid; place-items: center; width: fit-content; min-height: 3.25rem; margin-top: 1.5rem; padding: 0 1rem; border: 1px solid var(--brand-cream); border-radius: 0.9rem; color: var(--brand-maroon-deep); background: var(--brand-cream); font-weight: 750; text-decoration: none; }
+	.not-found a:hover { background: var(--brand-sand); }
 </style>

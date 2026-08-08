@@ -1,12 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Offline — Kain Elbi"><main id="main-content" class="offline page-shell"><div aria-hidden="true">A · · · Food · · · B</div><p>Offline</p><h1>Your saved route data is still on this device.</h1><span>Return to a page you opened before, or reconnect to load a new page. Kain Elbi never caches exact GPS coordinates.</span><a href="/">Try the Route Planner</a></main></Layout>
+
+<Layout title="Offline — UPPETITE">
+	<main id="main-content" class="brand-screen">
+		<div class="offline page-shell">
+			<div class="route-chip" aria-hidden="true"><span>A</span><i></i><b>Food</b><i></i><span>B</span></div>
+			<p>Offline</p>
+			<h1>Your saved route data is still on this device.</h1>
+			<span>Return to a page you opened before, or reconnect to load a new page. UPPETITE never caches exact GPS coordinates.</span>
+			<a href="/">Try the Route Planner</a>
+		</div>
+	</main>
+</Layout>
+
 <style>
-	.offline { display: grid; align-content: center; min-height: 70dvh; padding-block: 3rem; }
-	.offline div { width: fit-content; padding: .8rem 1rem; border-radius: 999px; color: var(--forest); background: var(--sun); font-weight: 800; }
-	.offline p { margin: 1.5rem 0 .4rem; color: var(--text-accent); font-weight: 750; text-transform: uppercase; }
-	.offline h1 { max-width: 14ch; margin: 0 0 1rem; color: var(--forest); font: 790 clamp(2.5rem, 10vw, 5rem)/.92 var(--font-display); }
-	.offline span { max-width: 38rem; color: var(--muted); line-height: 1.5; }
-	.offline a { width: fit-content; margin-top: 1.5rem; padding: 1rem; border-radius: .9rem; color: white; background: var(--forest); font-weight: 750; }
+	.brand-screen { position: relative; overflow: hidden; min-height: 72dvh; background: radial-gradient(circle at 82% 16%, rgb(230 106 25 / 0.18), transparent 18rem), var(--brand-gradient); }
+	.brand-screen::after { content: ''; position: absolute; left: -8rem; bottom: -9rem; width: 26rem; aspect-ratio: 1; border: 2px dashed rgb(255 249 241 / 0.12); border-radius: 50%; pointer-events: none; }
+	.offline { position: relative; z-index: 1; display: grid; align-content: center; min-height: 72dvh; padding-block: 4rem; color: var(--brand-cream); }
+	.route-chip { width: fit-content; display: grid; grid-template-columns: auto 2.5rem auto 2.5rem auto; align-items: center; gap: 0.45rem; padding: 0.7rem 0.85rem; border: 1px solid rgb(255 249 241 / 0.22); border-radius: 999px; background: rgb(255 249 241 / 0.1); }
+	.route-chip span { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--brand-cream); color: var(--brand-maroon-deep); font-weight: 800; }
+	.route-chip i { border-top: 2px dashed var(--brand-orange); }
+	.route-chip b { color: var(--brand-cream); font-size: 0.78rem; }
+	.offline > p { margin: 1.5rem 0 0.45rem; color: var(--brand-cream); font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; }
+	.offline h1 { max-width: 14ch; margin: 0 0 1rem; color: var(--brand-cream); font: 790 clamp(2.5rem, 10vw, 5rem)/0.92 var(--font-display); }
+	.offline > span { max-width: 38rem; color: var(--brand-sand); line-height: 1.55; }
+	.offline > a { display: grid; place-items: center; width: fit-content; min-height: 3.25rem; margin-top: 1.5rem; padding: 0 1rem; border: 1px solid var(--brand-cream); border-radius: 0.9rem; color: var(--brand-maroon-deep); background: var(--brand-cream); font-weight: 750; text-decoration: none; }
+	.offline > a:hover { background: var(--brand-sand); }
 </style>
