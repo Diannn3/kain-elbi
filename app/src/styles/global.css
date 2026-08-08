@@ -1,23 +1,25 @@
 :root {
-	/* Brand palette - UPetite Elbi */
-	--upetite-maroon: #8C1D24;
-	--upetite-olive: #66651F;
-	--upetite-orange: #E66A19;
-	--upetite-cream: #FFF9F1;
-	--upetite-sand: #F2E8DC;
-	--upetite-charcoal: #292725;
-	--upetite-muted: #716C66;
+	/* Brand palette */
+	--forest: hsl(154 76% 13%);
+	--forest-deep: hsl(154 78% 9%);
+	--leaf: hsl(138 48% 38%);
+	--sun: hsl(44 96% 49%);
+	--cream: hsl(45 44% 95%);
+	--paper: hsl(45 50% 98%);
+	--ink: hsl(153 25% 11%);
+	--mist: hsl(145 20% 93%);
+	--muted: hsl(150 10% 39%);
 	--line: hsl(154 20% 25% / 0.14);
 
 	/* Semantic roles. Keep brand colors expressive; keep small text AA-safe. */
-	--text-primary: var(--upetite-charcoal);
-	--text-secondary: var(--upetite-muted);
-	--text-accent: var(--upetite-maroon);
-	--surface-page: var(--upetite-cream);
-	--surface-raised: var(--upetite-sand);
-	--surface-subtle: #FAF2E6; /* Slightly darker cream for subtle contrast */
+	--text-primary: var(--ink);
+	--text-secondary: var(--muted);
+	--text-accent: hsl(138 48% 30%);
+	--surface-page: var(--cream);
+	--surface-raised: var(--paper);
+	--surface-subtle: var(--mist);
 	--border-subtle: var(--line);
-	--focus-ring: var(--upetite-orange);
+	--focus-ring: var(--sun);
 
 	/* 4pt/8pt rhythm and shared component geometry. */
 	--space-1: 0.25rem;
@@ -27,14 +29,14 @@
 	--space-6: 1.5rem;
 	--space-8: 2rem;
 	--space-12: 3rem;
-	--radius-sm: 8px;
-	--radius-md: 14px;
-	--radius-lg: 18px;
-	--radius-xl: 24px;
+	--radius-sm: 0.75rem;
+	--radius-md: 1rem;
+	--radius-lg: 1.5rem;
+	--radius-xl: 2rem;
 	--tap-target: 3rem;
 
-	--font-display: 'Sora Variable', 'Arial Narrow', sans-serif;
-	--font-body: 'Inter Variable', 'Trebuchet MS', sans-serif;
+	--font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
+	--font-body: 'Atkinson Hyperlegible Next Variable', 'Trebuchet MS', sans-serif;
 	--page: min(100% - 2rem, 74rem);
 	font-family: var(--font-body);
 	color: var(--text-primary);

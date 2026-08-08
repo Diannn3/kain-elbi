@@ -19,7 +19,7 @@ const sourceEntries = Object.entries(freshie.sources).filter(([, source]) => sou
 const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<Layout title="Freshie Mode — UPetite Elbi" description="A beginner-friendly guide to Elbi food zones and recent public student/community food mentions.">
+<Layout title="Freshie Mode — Kain Elbi" description="A beginner-friendly guide to Elbi food zones and recent public student/community food mentions.">
 	<main id="main-content" class="page-shell freshie-page">
 		<section class="freshie-hero">
 			<div><p class="eyebrow-global">Freshie Mode 🌱</p><h1>Learn how Elbi eats<span aria-hidden="true">.</span></h1><p>{freshie.intro}</p></div>
@@ -44,7 +44,7 @@ const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numer
 					<a href={`/explore?zone=${zone.id}`}><span>{zone.placeCount} catalog places</span><strong>{zone.name}</strong><p>{zone.description}</p></a>
 				))}
 			</div>
-			<p class="fineprint">Zone names and boundaries are UPetite Elbi discovery labels. They are not official administrative boundaries.</p>
+			<p class="fineprint">Zone names and boundaries are Kain Elbi discovery labels. They are not official administrative boundaries.</p>
 		</section>
 
 		{starter && starterPlaces.length > 0 && (
