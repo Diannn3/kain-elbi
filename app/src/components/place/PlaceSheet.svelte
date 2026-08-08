@@ -2,6 +2,7 @@
 	import { availabilityLabel } from '../../lib/place-availability';
 	import { categoryLabel, cuisineSummary, sourceSummary } from '../../lib/place-presentation';
 	import type { Place, SmartPick } from '../../lib/types';
+	import { appStorage } from '../../lib/storage.svelte';
 
 	let {
 		place,
@@ -134,6 +135,11 @@
 			</div>
 
 			<footer class="sheet-actions">
+				<button class="save-button" type="button" aria-label={appStorage.isPlaceSaved(place.id) ? "Remove from saved places" : "Save place"} class:saved={appStorage.isPlaceSaved(place.id)} onclick={() => appStorage.toggleSavedPlace(place!.id)}>
+					<svg aria-hidden="true" viewBox="0 0 24 24">
+						<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3 1.2-6.9-5-4.9 6.9-1Z" fill={appStorage.isPlaceSaved(place.id) ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+					</svg>
+				</button>
 				<a class="secondary" href={placeUrl}>Full place page</a>
 				<a class="directions" href={directionsUrl} target="_blank" rel="noreferrer">
 					Get directions
@@ -212,8 +218,12 @@
 	li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--space-2); min-width: 0; color: var(--text-secondary); font-size: 0.72rem; }
 	li span { color: var(--text-accent); font-weight: 750; }
 	li code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.sheet-actions { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--border-subtle); background: hsl(45 50% 98% / 0.97); box-shadow: 0 -0.75rem 1.6rem hsl(154 35% 10% / 0.08); backdrop-filter: blur(14px); }
-	.sheet-actions a { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-3); border-radius: var(--radius-md); font: 740 0.9rem/1 var(--font-display); text-align: center; text-decoration: none; }
+	.sheet-actions { display: grid; grid-template-columns: auto minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--border-subtle); background: hsl(45 50% 98% / 0.97); box-shadow: 0 -0.75rem 1.6rem hsl(154 35% 10% / 0.08); backdrop-filter: blur(14px); }
+	.sheet-actions a, .sheet-actions button { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-3); border-radius: var(--radius-md); font: 740 0.9rem/1 var(--font-display); text-align: center; text-decoration: none; cursor: pointer; }
+	.save-button { width: 3.5rem; padding: 0 !important; border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--text-secondary); }
+	.save-button:hover { background: var(--surface-subtle); }
+	.save-button.saved { color: var(--sun); background: hsl(44 96% 49% / 0.15); border-color: var(--sun); }
+	.save-button svg { width: 1.4rem; }
 	.secondary { border: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--forest); }
 	.secondary:hover { background: var(--surface-subtle); }
 	.directions { border: 1px solid var(--forest); background: var(--forest); color: white; }
@@ -228,8 +238,9 @@
 	}
 	@keyframes sheet-in-desktop { from { opacity: 0; transform: translateX(1.5rem); } }
 	@media (max-width: 380px) {
-		.sheet-actions { grid-template-columns: 1fr; }
-		.secondary { order: 2; }
+		.sheet-actions { grid-template-columns: auto 1fr; grid-template-rows: auto auto; }
+		.directions { grid-column: 1 / -1; }
+		.secondary { grid-column: 2; }
 	}
 	@media (prefers-reduced-motion: reduce) { .sheet-shell { animation: none; } }
 </style>

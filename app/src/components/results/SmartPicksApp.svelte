@@ -11,7 +11,7 @@
 	import MapCanvas from '../map/MapCanvas.svelte';
 	import MapPickPreview from '../map/MapPickPreview.svelte';
 	import PlaceSheet from '../place/PlaceSheet.svelte';
-
+	import { appStorage } from '../../lib/storage.svelte';
 	type ResultsView = 'list' | 'map';
 	const VIEW_STORAGE_KEY = 'kainElbiResultsView';
 
@@ -162,6 +162,15 @@
 			matrix = data.matrix;
 			context = resolveSearchContext(data.matrix, parseSearchParams(new URLSearchParams(window.location.search)));
 			picks = rankSmartPicks(data.places, data.matrix, context);
+			
+			const resolvedOriginName = data.matrix.anchors[context.originId]?.name ?? 'Your Location';
+			const resolvedDestName = context.destinationId ? (data.matrix.anchors[context.destinationId]?.name ?? 'Unknown') : 'No next class';
+			appStorage.addRecentSearch({
+				label: `${resolvedOriginName} → ${resolvedDestName}`,
+				url: window.location.search,
+				timestamp: Date.now()
+			});
+
 			const requestedFocus = new URL(window.location.href).searchParams.get('focus');
 			if (requestedFocus && picks.some((pick) => pick.place.id === requestedFocus)) focusedPickId = requestedFocus;
 			if (view === 'map' && !focusedPickId) focusedPickId = picks[0]?.place.id;

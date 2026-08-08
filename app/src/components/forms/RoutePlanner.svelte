@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { snapToNearestAnchor } from '../../lib/geo';
 	import type { Anchor, Category } from '../../lib/types';
-
+	import { appStorage } from '../../lib/storage.svelte';
 	let { anchors }: { anchors: Anchor[] } = $props();
 	let breakMinutes = $state(45);
 	let showCustomBreak = $state(false);
@@ -132,7 +132,7 @@
 	<header class="planner-heading">
 		<p class="eyebrow">Plan Your Break</p>
 		<h2>Where are you headed?</h2>
-		<p>Give Kain Elbi the route context. The recommendation check stays on your device.</p>
+		<p>Give UPetite Elbi the route context. The recommendation check stays on your device.</p>
 	</header>
 
 	<div class="planner-fields">
@@ -239,6 +239,20 @@
 				</div>
 			</fieldset>
 		</details>
+
+		{#if appStorage.recentSearches.length > 0}
+			<div class="recent-routes">
+				<p class="eyebrow">Recent Routes</p>
+				<div class="recent-list">
+					{#each appStorage.recentSearches as search}
+						<a href="/picks{search.url}">
+							<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" fill="none" stroke-width="2"/></svg>
+							{search.label}
+						</a>
+					{/each}
+				</div>
+			</div>
+		{/if}
 
 		<button class="find-button" type="submit" disabled={locating}>
 			{locating ? 'Finding Your Route…' : 'Find Food'}
@@ -368,6 +382,11 @@
 	.chips input { position: absolute; opacity: 0; pointer-events: none; }
 	.chips span { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 1rem; border: 1px solid var(--border-subtle); border-radius: 999px; background: var(--surface-raised); font-weight: 680; white-space: nowrap; }
 	.chips label.active span { border-color: var(--forest); background: var(--forest); color: white; }
+	.recent-routes { grid-column: 1 / -1; margin: 0.25rem 0 0.5rem; }
+	.recent-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; }
+	.recent-list a { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.75rem; border: 1px solid var(--border-subtle); border-radius: 999px; background: var(--surface-raised); color: var(--forest); font-size: 0.78rem; font-weight: 650; text-decoration: none; transition: background 150ms ease; }
+	.recent-list a:hover { background: var(--mist); }
+	.recent-list svg { width: 1.1rem; opacity: 0.7; }
 	.find-button {
 		display: flex;
 		align-items: center;

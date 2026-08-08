@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { availabilityLabel } from '../../lib/place-availability';
 	import type { SmartPick } from '../../lib/types';
-
+	import { appStorage } from '../../lib/storage.svelte';
 	let {
 		pick,
 		rank,
@@ -36,8 +36,15 @@
 
 <article class="place-card" data-place-id={pick.place.id}>
 	<div class="card-topline">
-		<span class="fit-label">{routeFitLabel}</span>
-		<span class="category">{categoryNames[pick.place.category]}</span>
+		<div class="topline-badges">
+			<span class="fit-label">{routeFitLabel}</span>
+			<span class="category">{categoryNames[pick.place.category]}</span>
+		</div>
+		<button class="save-icon" type="button" aria-label={appStorage.isPlaceSaved(pick.place.id) ? "Remove from saved places" : "Save place"} class:saved={appStorage.isPlaceSaved(pick.place.id)} onclick={(e) => { e.stopPropagation(); appStorage.toggleSavedPlace(pick.place.id); }}>
+			<svg aria-hidden="true" viewBox="0 0 24 24">
+				<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3 1.2-6.9-5-4.9 6.9-1Z" fill={appStorage.isPlaceSaved(pick.place.id) ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+			</svg>
+		</button>
 	</div>
 
 	<h2>{pick.place.name}</h2>
@@ -73,7 +80,12 @@
 		content-visibility: auto;
 		contain-intrinsic-size: 19rem;
 	}
-	.card-topline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+	.card-topline { display: flex; flex-wrap: nowrap; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
+	.topline-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+	.save-icon { display: grid; place-items: center; padding: 0.4rem; margin: -0.4rem; border: 0; background: transparent; color: var(--text-secondary); cursor: pointer; border-radius: 50%; }
+	.save-icon:hover { color: var(--forest); background: var(--surface-subtle); }
+	.save-icon.saved { color: var(--sun); }
+	.save-icon svg { width: 1.25rem; }
 	.fit-label,
 	.category { font: 760 0.7rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
 	.fit-label { padding: 0.42rem 0.62rem; border-radius: 999px; background: var(--sun); color: var(--forest); }

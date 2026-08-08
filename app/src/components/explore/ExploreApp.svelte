@@ -1,10 +1,16 @@
 <script lang="ts">
 	import ExploreMap from './ExploreMap.svelte';
 	import type { Collection, FoodZone, Place } from '../../lib/types';
+	import { appStorage } from '../../lib/storage.svelte';
 
 	let { places, zones, collections, routablePlaceIds, initialQuery = '', initialZone = '', initialCategory = '', initialCollection = '' }: {
 		places: Place[]; zones: FoodZone[]; collections: Collection[]; routablePlaceIds: string[]; initialQuery?: string; initialZone?: string; initialCategory?: string; initialCollection?: string;
 	} = $props();
+
+	const injectedCollections = $derived([
+		...collections,
+		...(appStorage.savedPlaces.size > 0 ? [{ id: 'saved-places', title: '⭐ Saved Places', placeIds: Array.from(appStorage.savedPlaces) }] : [])
+	]);
 
 	const categoryLabels: Record<string, string> = { cafe: 'Café', restaurant: 'Meals', fast_food: 'Quick bites', food_court: 'Food court', bakery_deli: 'Bakery', kiosk_stall: 'Stalls', other: 'Other' };
 	const routable = new Set(routablePlaceIds);
@@ -19,7 +25,7 @@
 	let mapFailed = $state(false);
 
 	const normalizedQuery = $derived(query.trim().toLowerCase());
-	const activeCollection = $derived(collections.find((item) => item.id === collectionId));
+	const activeCollection = $derived(injectedCollections.find((item) => item.id === collectionId));
 	const collectionPlaces = $derived(new Set(activeCollection?.placeIds ?? []));
 	const filtered = $derived(places.filter((place) => {
 		if (place.recordStatus === 'closed' || !place.name) return false;
@@ -55,7 +61,7 @@
 				<button class:active={category===key} onclick={() => { category=key; changeFilters(); }}>{categoryLabels[key]}</button>
 			{/each}
 		</div>
-		<div class="select-row"><label class="zone-select">Area<select bind:value={zoneId} onchange={changeFilters}><option value="">All areas</option>{#each zones as zone}<option value={zone.id}>{zone.name} · {zone.placeCount}</option>{/each}</select></label><label class="zone-select">Browse list<select bind:value={collectionId} onchange={changeFilters}><option value="">All places</option>{#each collections as collection}<option value={collection.id}>{collection.title}</option>{/each}</select></label></div>
+		<div class="select-row"><label class="zone-select">Area<select bind:value={zoneId} onchange={changeFilters}><option value="">All areas</option>{#each zones as zone}<option value={zone.id}>{zone.name} · {zone.placeCount}</option>{/each}</select></label><label class="zone-select">Browse list<select bind:value={collectionId} onchange={changeFilters}><option value="">All places</option>{#each injectedCollections as collection}<option value={collection.id}>{collection.title}</option>{/each}</select></label></div>
 	</div>
 
 	<div class="result-bar">

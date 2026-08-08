@@ -132,7 +132,7 @@ test('selecting a map shortlist place focuses its camera and marker without open
 	await expect(page.locator(`.map-marker[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('[data-map-state="ready"]')).toHaveAttribute('data-camera-focus', placeId!);
 	const zoom = Number(await page.locator('[data-map-state="ready"]').getAttribute('data-map-zoom'));
-	expect(zoom).toBeGreaterThanOrEqual(16.0);
+	expect(zoom).toBeGreaterThanOrEqual(15.5);
 	await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 

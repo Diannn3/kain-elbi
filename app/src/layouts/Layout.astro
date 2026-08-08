@@ -1,6 +1,6 @@
 ---
-import '@fontsource-variable/bricolage-grotesque/wght.css';
-import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+import '@fontsource-variable/sora/wght.css';
+import '@fontsource-variable/inter/wght.css';
 import '../styles/global.css';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import BottomNav from '../components/layout/BottomNav.astro';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const {
-	title = 'Kain Elbi — Food That Fits Your Break',
+	title = 'UPetite Elbi - Food That Fits Your Break',
 	description = 'Route-aware food discovery for UPLB students, built with open data and privacy in mind.',
 	hideHeader = false,
 	hideNav = false,
@@ -29,7 +29,7 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#f7f4ea" />
+		<meta name="theme-color" content="#FFF9F1" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,7 +44,7 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 		<slot />
 		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}
 		<footer class="site-footer">
-			<p>Kain Elbi uses open-data place records; availability, hours, and business status can change.</p>
+			<p>UPetite Elbi uses open-data place records; availability, hours, and business status can change.</p>
 			<p>© OpenStreetMap contributors · Overture Maps</p>
 		</footer>
 		<script define:vars={{ serviceWorkerEnabled }}>
