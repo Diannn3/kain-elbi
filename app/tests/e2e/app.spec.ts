@@ -26,9 +26,10 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(page.getByRole('dialog')).toBeHidden();
 });
 
-test('simplified hero balances its promise and primary action above the desktop fold', async ({ page }) => {
+test('simplified hero vertically centers its promise beside the planner', async ({ page }) => {
 	await page.setViewportSize({ width: 1280, height: 720 });
 	await page.goto('/');
+	await page.waitForTimeout(600);
 
 	const headlineLines = page.locator('#home-heading .headline-line');
 	await expect(headlineLines).toHaveCount(2);
@@ -36,17 +37,16 @@ test('simplified hero balances its promise and primary action above the desktop 
 	await expect(headlineLines.nth(1)).toHaveText('Your Break.');
 
 	await expect(page.locator('.route-story')).toHaveCount(0);
-	const columnOffset = await page.evaluate(() => {
-		const kicker = document.querySelector('.hero-copy .kicker');
+	const centerOffset = await page.evaluate(() => {
+		const copy = document.querySelector('.hero-copy');
 		const planner = document.querySelector('.hero-planner');
-		if (!kicker || !planner) return null;
-		const kickerBounds = kicker.getBoundingClientRect();
+		if (!copy || !planner) return null;
+		const copyBounds = copy.getBoundingClientRect();
 		const plannerBounds = planner.getBoundingClientRect();
-		return kickerBounds.top - plannerBounds.top;
+		return (copyBounds.top + copyBounds.height / 2) - (plannerBounds.top + plannerBounds.height / 2);
 	});
-	expect(columnOffset).not.toBeNull();
-	expect(columnOffset!).toBeGreaterThanOrEqual(44);
-	expect(columnOffset!).toBeLessThanOrEqual(52);
+	expect(centerOffset).not.toBeNull();
+	expect(Math.abs(centerOffset!)).toBeLessThanOrEqual(5);
 
 	const submit = page.getByRole('button', { name: 'Find Food' });
 	await expect(submit).toBeVisible();
@@ -86,6 +86,93 @@ test('desktop planner aligns its search-first route fields and balanced brand ma
 	expect(markBox).not.toBeNull();
 	expect(markBox!.width).toBeGreaterThanOrEqual(58);
 	expect(markBox!.height).toBeGreaterThanOrEqual(58);
+});
+
+test('wide home header and hero share one fluid shell', async ({ page }) => {
+	await page.setViewportSize({ width: 2400, height: 900 });
+	await page.goto('/');
+
+	const geometry = await page.evaluate(() => {
+		const header = document.querySelector('.site-header .header-inner');
+		const hero = document.querySelector('.hero-inner');
+		if (!header || !hero) return null;
+		const headerBounds = header.getBoundingClientRect();
+		const heroBounds = hero.getBoundingClientRect();
+		return {
+			headerLeft: headerBounds.left,
+			headerRight: headerBounds.right,
+			heroLeft: heroBounds.left,
+			heroRight: heroBounds.right,
+			heroWidth: heroBounds.width,
+			headlineLines: document.querySelectorAll('#home-heading .headline-line').length,
+		};
+	});
+
+	expect(geometry).not.toBeNull();
+	expect(Math.abs(geometry!.headerLeft - geometry!.heroLeft)).toBeLessThanOrEqual(1);
+	expect(Math.abs(geometry!.headerRight - geometry!.heroRight)).toBeLessThanOrEqual(1);
+	expect(geometry!.heroWidth).toBeGreaterThanOrEqual(1500);
+	expect(geometry!.headlineLines).toBe(2);
+});
+
+test('short desktop keeps the complete planner above the fold', async ({ page }) => {
+	await page.setViewportSize({ width: 1920, height: 927 });
+	await page.addInitScript(() => {
+		const labels = [
+			'Your Location → No next class',
+			'CAS Annex 2 → No next class',
+			'CAS Annex 2 → No next class',
+			'CAS Main Building → No next class',
+		];
+		localStorage.setItem('kain-elbi-recent-searches', JSON.stringify(labels.map((label, index) => ({
+			label,
+			url: `?origin=route-${index}&originMode=building&break=45`,
+			timestamp: Date.now() - index,
+		}))));
+	});
+	await page.goto('/');
+
+	const privacyNote = page.locator('.planner .privacy-note');
+	await expect(privacyNote).toBeVisible();
+	const privacyBounds = await privacyNote.boundingBox();
+	expect(privacyBounds).not.toBeNull();
+	expect(privacyBounds!.y + privacyBounds!.height).toBeLessThanOrEqual(919);
+
+	const controls = [
+		page.getByLabel('Starting building'),
+		page.getByLabel('Next class building'),
+		page.getByRole('button', { name: /use my current location/i }),
+		page.getByRole('button', { name: /no next class/i }),
+		page.getByRole('button', { name: 'Find Food' }),
+	];
+	for (const control of controls) {
+		const bounds = await control.boundingBox();
+		expect(bounds).not.toBeNull();
+		expect(bounds!.height).toBeGreaterThanOrEqual(44);
+	}
+
+	const recentRouteTops = await page.locator('.recent-list a').evaluateAll((links) =>
+		links.map((link) => Math.round(link.getBoundingClientRect().top)),
+	);
+	expect(new Set(recentRouteTops).size).toBeLessThanOrEqual(1);
+});
+
+test('zoom-equivalent desktop width reflows the hero before it becomes cramped', async ({ page }) => {
+	await page.setViewportSize({ width: 960, height: 900 });
+	await page.goto('/');
+
+	const geometry = await page.evaluate(() => {
+		const copy = document.querySelector('.hero-copy');
+		const planner = document.querySelector('.hero-planner');
+		if (!copy || !planner) return null;
+		const copyBounds = copy.getBoundingClientRect();
+		const plannerBounds = planner.getBoundingClientRect();
+		return { copyBottom: copyBounds.bottom, plannerTop: plannerBounds.top };
+	});
+
+	expect(geometry).not.toBeNull();
+	expect(geometry!.plannerTop).toBeGreaterThanOrEqual(geometry!.copyBottom + 32);
+	expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
 });
 
 test('Smart Picks progressively discloses ranked places without mobile overflow', async ({ page }) => {

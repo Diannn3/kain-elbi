@@ -414,6 +414,39 @@
 		.find-button { max-width: none; min-height: 3.25rem; }
 		.privacy-note { margin-top: calc(var(--space-2) * -1); }
 	}
+	@media (min-width: 1100px) and (max-height: 960px) {
+		.planner { padding: var(--space-5); }
+		.planner-heading { margin-bottom: var(--space-3); }
+		.planner-heading h2 { margin-top: var(--space-1); }
+		.planner-heading > p:last-child { margin-top: var(--space-1); line-height: 1.35; }
+		.planner-fields { gap: var(--space-3); column-gap: var(--space-4); }
+		legend { margin-bottom: var(--space-2); }
+		.route-disclosure { line-height: 1.3; }
+		.preset-grid button { min-height: 2.75rem; }
+		.recent-routes { position: relative; margin: 0; min-width: 0; }
+		.recent-routes::after {
+			content: '';
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: var(--space-8);
+			height: 2.5rem;
+			pointer-events: none;
+			background: linear-gradient(to right, transparent, rgb(242 232 220 / 0.96));
+		}
+		.recent-list {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			overflow-y: hidden;
+			margin-top: var(--space-2);
+			padding: 0 var(--space-6) var(--space-1) 0;
+			scroll-padding-inline: var(--space-2);
+			scrollbar-width: thin;
+		}
+		.recent-list a { flex: 0 0 auto; scroll-snap-align: start; }
+		.find-button { min-height: var(--tap-target); }
+		.privacy-note { margin-top: calc(var(--space-1) * -1); }
+	}
 	@media (max-width: 420px) {
 		.planner { padding: 1.25rem; border-radius: 1.5rem; }
 		.preset-grid { grid-template-columns: repeat(4, 1fr); }

@@ -95,6 +95,7 @@
 	--font-display: 'Sora Variable', 'Sora', Arial, sans-serif;
 	--font-body: 'Inter Variable', 'Inter', Arial, sans-serif;
 	--page: min(100% - 2rem, 74rem);
+	--page-wide: min(100% - clamp(3rem, 5vw, 6rem), 96rem);
 	font-family: var(--font-body);
 	color: var(--color-text);
 	background: var(--color-page);
