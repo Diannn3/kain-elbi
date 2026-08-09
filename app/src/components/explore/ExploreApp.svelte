@@ -30,6 +30,7 @@
 	let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
 	const normalizedQuery = $derived(query.trim().toLowerCase());
+	const isResultsMode = $derived(Boolean(normalizedQuery || zoneId || category || collectionId));
 	const activeCollection = $derived(injectedCollections.find((item) => item.id === collectionId));
 	const collectionPlaces = $derived(new Set(activeCollection?.placeIds ?? []));
 	const filtered = $derived(places.filter((place) => {
@@ -131,29 +132,31 @@
 		</div>
 	</div>
 
-	<div class="editorial-discovery">
-		<section class="zone-section" aria-labelledby="zone-heading">
-			<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
-			<div class="zone-grid">
-				{#each featuredZones as zone}
-					<a class="zone-card" class:active={zoneId === zone.id} aria-current={zoneId === zone.id ? 'page' : undefined} href={`/explore?zone=${zone.id}`}>
-						<span>{zone.placeCount} catalog places</span><strong>{zone.name}</strong><p>{zone.description}</p>
-					</a>
-				{/each}
-			</div>
-			<p class="zone-note">These are UPPETITE geographic labels for discovery, not official UPLB or municipal district boundaries.</p>
-		</section>
-		{#if collections.length}
-			<section class="collection-section" aria-labelledby="collection-heading">
-				<div class="section-heading"><div><p class="eyebrow-global">Community Curated Lists</p><h2 id="collection-heading">Real places people are talking about, completely unranked.</h2></div></div>
-				<div class="collection-grid">
-					{#each collections as collection}
-						<a class:active={collectionId === collection.id} aria-current={collectionId === collection.id ? 'page' : undefined} href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} community mentions</span><strong>{collection.title}</strong><p>{collection.description}</p></a>
+	{#if urlReady && !isResultsMode}
+		<div class="editorial-discovery">
+			<section class="zone-section" aria-labelledby="zone-heading">
+				<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
+				<div class="zone-grid">
+					{#each featuredZones as zone}
+						<a class="zone-card" class:active={zoneId === zone.id} aria-current={zoneId === zone.id ? 'page' : undefined} href={`/explore?zone=${zone.id}`}>
+							<span>{zone.placeCount} catalog places</span><strong>{zone.name}</strong><p>{zone.description}</p>
+						</a>
 					{/each}
 				</div>
+				<p class="zone-note">These are UPPETITE geographic labels for discovery, not official UPLB or municipal district boundaries.</p>
 			</section>
-		{/if}
-	</div>
+			{#if collections.length}
+				<section class="collection-section" aria-labelledby="collection-heading">
+					<div class="section-heading"><div><p class="eyebrow-global">Community Curated Lists</p><h2 id="collection-heading">Real places people are talking about, completely unranked.</h2></div></div>
+					<div class="collection-grid">
+						{#each collections as collection}
+							<a class:active={collectionId === collection.id} aria-current={collectionId === collection.id ? 'page' : undefined} href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} community mentions</span><strong>{collection.title}</strong><p>{collection.description}</p></a>
+						{/each}
+					</div>
+				</section>
+			{/if}
+		</div>
+	{/if}
 
 	<div class="result-bar">
 		<div aria-live="polite"><strong>{filtered.length}</strong> places <span>· {activeCollection ? 'Research-backed browse list · ' : ''}Explore helps you discover food, not rank it.</span></div>
