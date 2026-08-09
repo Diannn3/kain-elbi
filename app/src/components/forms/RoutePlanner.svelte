@@ -366,7 +366,7 @@
 	.chips::-webkit-scrollbar { display: none; }
 	.chips label { flex: 0 0 auto; }
 	.chips input { position: absolute; opacity: 0; pointer-events: none; }
-	.chips span {
+	.chips label span {
 		display: grid;
 		place-items: center;
 		min-height: var(--tap-target);
