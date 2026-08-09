@@ -18,6 +18,7 @@
 
 	let { initialView = 'list' }: { initialView?: ResultsView } = $props();
 	let loading = $state(true);
+	let showSkeleton = $state(false);
 	let error = $state('');
 	let picks = $state<SmartPick[]>([]);
 	let context = $state<SearchContext>();
@@ -31,6 +32,7 @@
 	let listScrollY = 0;
 	let contentRoot: HTMLElement;
 	let contextBar: HTMLElement;
+	let visibleCount = $state(12);
 	let sheetController: PlaceSheetController<SmartPick> | undefined;
 
 	const categoryOptions: { value?: Category; label: string }[] = [
@@ -49,6 +51,8 @@
 	const categoryLabel = $derived(categoryOptions.find((option) => option.value === context?.preferredCategory)?.label ?? 'Any food');
 	const focusedPick = $derived(picks.find((pick) => pick.place.id === focusedPickId));
 	const focusedRank = $derived(focusedPick ? picks.findIndex((pick) => pick.place.id === focusedPick.place.id) + 1 : 0);
+	const visiblePicks = $derived(picks.slice(0, visibleCount));
+	const remainingPicks = $derived(Math.max(0, picks.length - visiblePicks.length));
 	const routingNote = $derived(
 		routeGeometryState === 'actual'
 			? 'Solid route follows the Room TBA pedestrian graph, with short access connectors to the selected place.'
@@ -136,6 +140,7 @@
 
 	onMount(() => {
 		let active = true;
+		const skeletonTimer = setTimeout(() => { if (active && loading) showSkeleton = true; }, 200);
 		const url = new URL(window.location.href);
 		const queryView = url.searchParams.get('view');
 		if (queryView === 'list' || queryView === 'map') {
@@ -180,10 +185,13 @@
 			error = cause instanceof Error ? cause.message : 'Smart Picks could not load. Refresh when you are online.';
 		}).finally(() => {
 			loading = false;
+			showSkeleton = false;
+			clearTimeout(skeletonTimer);
 		});
 
 		return () => {
 			active = false;
+			clearTimeout(skeletonTimer);
 			sheetController?.destroy();
 		};
 	});
@@ -251,7 +259,7 @@
 
 	<div class="results-sheet">
 		{#if loading}
-			<div class="loading" role="status" aria-live="polite">
+			<div class:visible={showSkeleton} class="loading" role="status" aria-live="polite">
 				<p class="eyebrow">Checking Your Route</p>
 				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
 				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
@@ -282,7 +290,7 @@
 					<p>Impossible stops are removed first. The rest are ranked by route fit, time available, preference, and data confidence.</p>
 				</header>
 				<div class="result-list" aria-live="polite">
-					{#each picks as pick, index}
+					{#each visiblePicks as pick, index}
 						<PlaceCard
 							{pick}
 							rank={index + 1}
@@ -291,6 +299,7 @@
 						/>
 					{/each}
 				</div>
+				{#if remainingPicks > 0}<div class="result-disclosure"><p>Showing {visiblePicks.length} of {picks.length} route-fit places.</p><button type="button" onclick={() => visibleCount += 12}>Show {Math.min(12, remainingPicks)} more <span aria-hidden="true">↓</span><span class="sr-only"> — {remainingPicks} remaining</span></button></div>{/if}
 			</section>
 
 			<section class="map-view" hidden={view !== 'map'} aria-labelledby="map-results-title">
@@ -349,6 +358,7 @@
 <style>
 	.picks-layout {
 		width: min(100% - 2rem, 52rem);
+		min-width: 0;
 		min-height: calc(100dvh - 4.5rem);
 		margin: 1rem auto 0;
 		transition: width 180ms ease;
@@ -574,7 +584,7 @@
 	.refine-menu a:hover,
 	.refine-menu a.active { background: var(--brand-sand); }
 
-	.results-sheet { padding: 1.6rem 0 4rem; }
+	.results-sheet { min-width: 0; padding: var(--space-6) 0 6rem; }
 	.results-header { margin-bottom: 1.2rem; }
 	.eyebrow { margin: 0; color: var(--color-text-accent); font: 760 0.72rem / 1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; }
 
@@ -596,9 +606,15 @@
 		line-height: 1.55;
 	}
 
-	.result-list { display: grid; gap: 0.9rem; }
+	.list-view, .result-list { min-width: 0; }
+	.result-list { display: grid; gap: var(--space-4); }
 	.loading,
 	.empty { padding: 2rem 0; }
+	.loading { min-height: 22rem; visibility: hidden; opacity: 0; transition: opacity 140ms ease; }
+	.loading.visible { visibility: visible; opacity: 1; }
+	.result-disclosure { display: grid; justify-items: center; gap: var(--space-2); margin-top: var(--space-5); text-align: center; }
+	.result-disclosure p { margin: 0; color: var(--color-text-muted); }
+	.result-disclosure button { min-height: var(--tap-target); padding: 0 var(--space-5); border: 1px solid var(--brand-maroon-deep); border-radius: var(--radius-sm); background: var(--brand-maroon-deep); color: var(--brand-cream); font-weight: 760; }
 	.skeleton-card { display: grid; gap: 0.7rem; margin-top: 1rem; padding: 1.25rem; border-radius: 1.25rem; background: var(--color-surface-raised); }
 	.skeleton-card span { height: 1rem; border-radius: 999px; background: linear-gradient(90deg, var(--brand-sand), white, var(--brand-sand)); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
 	.skeleton-card span:nth-child(1) { width: 30%; }

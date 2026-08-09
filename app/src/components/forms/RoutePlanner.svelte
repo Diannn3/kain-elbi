@@ -132,7 +132,7 @@
 	<header class="planner-heading">
 		<p class="eyebrow">Plan Your Break</p>
 		<h2>Where are you headed?</h2>
-		<p>Give Kain Elbi the route context. The recommendation check stays on your device.</p>
+		<p>Give UPPETITE the route context. The recommendation check stays on your device.</p>
 	</header>
 
 	<div class="planner-fields">
@@ -191,7 +191,7 @@
 			<datalist id="destination-anchor-options">
 				{#each anchors as anchor}<option value={anchor.name}></option>{/each}
 			</datalist>
-			<button class="no-next-class" class:active={!destinationId && !destinationQuery} type="button" onclick={clearDestination}>
+			<button class="no-next-class" class:active={!destinationId && !destinationQuery} type="button" aria-pressed={!destinationId && !destinationQuery} onclick={clearDestination}>
 				<span aria-hidden="true">○</span> No next class
 			</button>
 			<p class="field-note">No next class? Your return trip is not included in one-way mode.</p>
@@ -206,10 +206,11 @@
 						type="button"
 						class:active={!showCustomBreak && breakMinutes === preset}
 						aria-label={`Set break to ${preset} minutes`}
+						aria-pressed={!showCustomBreak && breakMinutes === preset}
 						onclick={() => setPreset(preset)}
 					>{preset}<small>min</small></button>
 				{/each}
-				<button type="button" class:active={showCustomBreak} onclick={() => (showCustomBreak = true)}>Custom</button>
+				<button type="button" class:active={showCustomBreak} aria-pressed={showCustomBreak} onclick={() => (showCustomBreak = true)}>Custom</button>
 			</div>
 			{#if showCustomBreak}
 				<div class="custom-stepper">
@@ -273,7 +274,7 @@
 		border: 1px solid hsl(0 0% 100% / 0.72);
 		border-radius: var(--radius-xl);
 		background: hsl(45 44% 99% / 0.82);
-		box-shadow: 0 1.5rem 4rem hsl(154 76% 13% / 0.12);
+		box-shadow: 0 1.5rem 4rem rgb(92 16 22 / 0.12);
 		backdrop-filter: blur(22px) saturate(1.1);
 	}
 	.planner-heading { margin-bottom: var(--space-6); }
@@ -315,7 +316,7 @@
 		text-align: left;
 		transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
 	}
-	.current-location:hover { border-color: hsl(138 48% 38% / 0.45); background: hsl(145 20% 95%); }
+	.current-location:hover { border-color: var(--color-border-strong); background: var(--brand-sand); }
 	.current-location.active { border-color: var(--forest); background: var(--mist); box-shadow: inset 0 0 0 1px var(--forest); }
 	.current-location svg { width: 1.4rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; }
 	.current-location span { min-width: 0; display: grid; gap: 0.15rem; }
@@ -335,7 +336,7 @@
 		background: var(--surface-raised);
 		color: var(--text-primary);
 		font-weight: 650;
-		box-shadow: 0 0.35rem 1rem hsl(154 50% 20% / 0.05);
+		box-shadow: 0 0.35rem 1rem rgb(92 16 22 / 0.05);
 	}
 	.search-field input[aria-invalid='true'] { border-color: hsl(2 70% 42%); box-shadow: 0 0 0 1px hsl(2 70% 42%); }
 	.search-field input::placeholder { color: hsl(150 8% 48%); font-weight: 500; }
@@ -348,7 +349,7 @@
 		color: var(--text-secondary);
 		font-weight: 700;
 	}
-	.no-next-class.active { border-color: hsl(154 20% 25% / 0.24); background: var(--mist); color: var(--forest); }
+	.no-next-class.active { border-color: var(--color-border-strong); background: var(--mist); color: var(--forest); }
 	.field-note { margin: -0.15rem 0 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.45; }
 	.preset-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; }
 	.preset-grid button {
@@ -399,7 +400,7 @@
 		color: white;
 		font: 760 1.05rem/1 var(--font-display);
 		letter-spacing: 0.02em;
-		box-shadow: 0 0.75rem 1.5rem hsl(154 76% 13% / 0.2);
+		box-shadow: 0 0.75rem 1.5rem rgb(92 16 22 / 0.2);
 		transition: transform 160ms ease, background-color 160ms ease;
 	}
 	.find-button:hover { background: var(--forest-deep); transform: translateY(-2px); }

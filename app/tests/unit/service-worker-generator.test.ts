@@ -20,9 +20,9 @@ async function createFixture() {
 	await put(root, 'manifest.webmanifest', '{}');
 	await put(root, 'favicon.svg', '<svg></svg>');
 	await put(root, 'favicon.ico', 'ico');
-	await put(root, 'icons/kain-elbi-192.png', 'png192');
-	await put(root, 'icons/kain-elbi-512.png', 'png512');
-	await put(root, 'icons/kain-elbi-maskable-512.png', 'mask');
+	await put(root, 'icons/uppetite-192.png', 'png192');
+	await put(root, 'icons/uppetite-512.png', 'png512');
+	await put(root, 'icons/uppetite-maskable-512.png', 'mask');
 	await put(root, '_astro/Layout.abc.css', 'body{}');
 	await put(root, '_astro/RoutePlanner.abc.js', "import{client}from'./client.abc.js'; import('./MapExperience.abc.js'); import('./opening_hours.abc.js');");
 	await put(root, '_astro/client.svelte.abc.js', 'export const renderer = true;');
@@ -31,9 +31,9 @@ async function createFixture() {
 	await put(root, '_astro/MapExperience.abc.js', 'heavy experience');
 	await put(root, '_astro/opening_hours.abc.js', 'heavy hours');
 	await put(root, '_astro/PlaceSheet.abc.js', 'sheet');
-	await put(root, '_astro/bricolage-grotesque-latin-wght-normal.abc.woff2', 'font-a');
-	await put(root, '_astro/atkinson-hyperlegible-next-latin-wght-normal.abc.woff2', 'font-b');
-	await put(root, '_astro/bricolage-grotesque-latin-ext-wght-normal.abc.woff2', 'font-ext');
+	await put(root, '_astro/sora-latin-wght-normal.abc.woff2', 'font-a');
+	await put(root, '_astro/inter-latin-wght-normal.abc.woff2', 'font-b');
+	await put(root, '_astro/sora-latin-ext-wght-normal.abc.woff2', 'font-ext');
 	await put(root, 'place/one/index.html', '<h1>Place</h1>');
 	await put(root, 'data/route_matrix.json', '{}');
 	return root;
@@ -60,12 +60,12 @@ describe('service worker generator', () => {
 			'/index.html',
 			'/offline/index.html',
 			'/manifest.webmanifest',
-			'/icons/kain-elbi-192.png',
+			'/icons/uppetite-192.png',
 			'/_astro/Layout.abc.css',
 			'/_astro/RoutePlanner.abc.js',
 			'/_astro/client.abc.js',
-			'/_astro/bricolage-grotesque-latin-wght-normal.abc.woff2',
-			'/_astro/atkinson-hyperlegible-next-latin-wght-normal.abc.woff2',
+			'/_astro/sora-latin-wght-normal.abc.woff2',
+			'/_astro/inter-latin-wght-normal.abc.woff2',
 		]));
 		expect(manifest.join('\n')).not.toMatch(/place\/one|route_matrix|maplibre|MapExperience|opening_hours|PlaceSheet|latin-ext/);
 		expect(manifest).toEqual([...manifest].sort());

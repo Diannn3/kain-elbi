@@ -50,9 +50,9 @@ export async function buildPrecacheManifest(distDir) {
 		'/manifest.webmanifest',
 		'/favicon.svg',
 		'/favicon.ico',
-		'/icons/kain-elbi-192.png',
-		'/icons/kain-elbi-512.png',
-		'/icons/kain-elbi-maskable-512.png',
+		'/icons/uppetite-192.png',
+		'/icons/uppetite-512.png',
+		'/icons/uppetite-maskable-512.png',
 	];
 	const allFiles = await walk(distDir);
 	const allUrls = new Set(allFiles.map((path) => toUrl(distDir, path)));
@@ -83,7 +83,7 @@ export async function buildPrecacheManifest(distDir) {
 	}
 
 	for (const url of allUrls) {
-		if (/(?:bricolage-grotesque|atkinson-hyperlegible-next)-latin-wght-normal\.[^/]+\.woff2$/i.test(url)) manifest.add(url);
+		if (/(?:sora|inter)-latin-wght-normal\.[^/]+\.woff2$/i.test(url)) manifest.add(url);
 	}
 
 	const result = Array.from(manifest).filter((url) => allUrls.has(url) && !isForbidden(url)).sort();
@@ -106,8 +106,8 @@ export async function generateServiceWorker(distDir = resolve(process.cwd(), 'di
 	const cacheable = await buildPrecacheManifest(distDir);
 	const version = await hashDistContents(distDir);
 	const source = `const VERSION = ${JSON.stringify(version)};
-const STATIC_CACHE = 'kain-elbi-static-' + VERSION;
-const DATA_CACHE = 'kain-elbi-data-' + VERSION;
+const STATIC_CACHE = 'uppetite-static-' + VERSION;
+const DATA_CACHE = 'uppetite-data-' + VERSION;
 const PRECACHE = ${JSON.stringify(cacheable)};
 
 async function precacheShell() {
@@ -125,7 +125,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(Promise.all([
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('kain-elbi-') && ![STATIC_CACHE, DATA_CACHE].includes(key)).map((key) => caches.delete(key)))),
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => (key.startsWith('kain-elbi-') || key.startsWith('uppetite-')) && ![STATIC_CACHE, DATA_CACHE].includes(key)).map((key) => caches.delete(key)))),
     self.clients.claim(),
   ]));
 });

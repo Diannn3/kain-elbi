@@ -14,7 +14,7 @@ test('home is accessible and does not overflow at mobile width', async ({ page }
 
 test('building route produces explainable Smart Picks and opens a sheet', async ({ page }) => {
 	await page.goto(`/picks${routeQuery}`);
-	await expect(page.getByRole('heading', { name: /Places? Fit Your 60-Minute Break/i })).toBeVisible();
+	await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
 	await expect(page.getByText(/leaves \d+ minutes for your stop/i).first()).toBeVisible();
 	await page.getByRole('button', { name: 'Details' }).first().click();
 	const dialog = page.getByRole('dialog');
@@ -24,6 +24,32 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(dialog.locator('details.listing-info')).not.toHaveAttribute('open', '');
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).toBeHidden();
+});
+
+test('Smart Picks progressively discloses ranked places without mobile overflow', async ({ page }) => {
+	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('.place-card').first()).toBeVisible();
+	const total = Number((await page.locator('#results-title').textContent())?.match(/^\d+/)?.[0]);
+	const initial = await page.locator('.place-card').count();
+	expect(initial).toBe(Math.min(12, total));
+	if (total > 12) {
+		await page.getByRole('button', { name: /show \d+ more/i }).click();
+		expect(await page.locator('.place-card').count()).toBe(Math.min(24, total));
+	}
+	expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
+});
+
+test('Smart Picks delays its skeleton to avoid a flash on fast loads', async ({ page }) => {
+	await page.route('**/data/places.json', async (route) => {
+		await new Promise((resolve) => setTimeout(resolve, 350));
+		await route.continue();
+	});
+	await page.goto(`/picks${routeQuery}`);
+	const loading = page.locator('.loading');
+	await expect(loading).toBeAttached();
+	await expect(loading).not.toHaveClass(/visible/);
+	await expect(loading).toHaveClass(/visible/, { timeout: 320 });
+	await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
 });
 
 test('a mathematically tight 20-minute break renders the deterministic empty state', async ({ page }) => {
@@ -80,7 +106,7 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 		styleRequests += 1;
 		await route.fulfill({
 			contentType: 'application/json',
-			body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
+			body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 		});
 	});
 	await page.goto(`/map${routeQuery}`);
@@ -96,7 +122,7 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 test('show on map keeps the same Smart Picks context and selects that place', async ({ page }) => {
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
-		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
+		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
 	await page.goto(`/picks${routeQuery}`);
 	const firstCard = page.locator('.place-card').first();
@@ -117,7 +143,7 @@ test('show on map keeps the same Smart Picks context and selects that place', as
 test('selecting a map shortlist place focuses its camera and marker without opening details', async ({ page }) => {
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
-		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
+		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
 	await page.goto(`/map${routeQuery}`);
 	await expect(page.locator('[data-map-state="ready"]')).toBeVisible();
@@ -139,7 +165,7 @@ test('selecting a map shortlist place focuses its camera and marker without open
 test('map preview place sheet follows Back and Forward with inert state', async ({ page }) => {
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
-		body: JSON.stringify({ version: 8, name: 'Kain Elbi test style', sources: {}, layers: [] }),
+		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
 	await page.goto(`/map${routeQuery}`);
 	await expect(page.locator('.map-preview')).toBeVisible();
@@ -170,7 +196,7 @@ test('full place page prioritizes location and actions over provenance', async (
 
 	await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 	await expect(page.getByRole('link', { name: /Get directions/i }).first()).toBeVisible();
-	await expect(page.getByText(/Kain route coverage/i)).toBeVisible();
+	await expect(page.getByText(/UPPETITE route coverage/i)).toBeVisible();
 	await expect(page.locator('.route-art')).toHaveCount(0);
 	await expect(page.getByText(/Candidate place record/i)).toHaveCount(0);
 	await expect(page.getByText(/About this listing/i)).toBeVisible();
@@ -189,11 +215,46 @@ test('Sprint 4 navigation exposes Find, Explore, and Freshie', async ({ page, is
 
 test('Explore filters the named catalog without route-fit metrics', async ({ page }) => {
 	await page.goto('/explore?zone=raymundo');
+	await expect(page.locator('.zone-select select').first()).toHaveValue('raymundo');
 	await expect(page.getByText(/Explore does not rank food quality/i)).toBeVisible();
 	await expect(page.locator('.explore-card').first()).toBeVisible();
+	expect(await page.locator('.explore-card').count()).toBeLessThanOrEqual(24);
 	await page.getByPlaceholder(/Search food, places, or areas/i).fill('Mokape');
 	await expect(page.getByRole('heading', { name: /Mokape Coffee Los Baños/i })).toBeVisible();
 	await expect(page.getByText(/minutes available/i)).toHaveCount(0);
+});
+
+test('Explore owns direct URL state and progressively discloses catalog cards', async ({ page }) => {
+	await page.goto('/explore?q=zzzznotaplace');
+	await expect(page.getByRole('heading', { name: /No matches yet/i })).toBeVisible();
+	await page.goto('/explore');
+	await expect(page.locator('.explore-card')).toHaveCount(24);
+	await page.getByRole('button', { name: /show 24 more/i }).click();
+	await expect(page.locator('.explore-card')).toHaveCount(48);
+	const zoneTop = await page.locator('#zone-heading').evaluate((element) => element.getBoundingClientRect().top + scrollY);
+	const resultsTop = await page.locator('.result-bar').evaluate((element) => element.getBoundingClientRect().top + scrollY);
+	expect(zoneTop).toBeLessThan(resultsTop);
+});
+
+test('Explore Back and Forward restore committed filter state', async ({ page }) => {
+	await page.goto('/explore');
+	await page.getByRole('button', { name: 'Café' }).click();
+	await expect(page).toHaveURL(/category=cafe/);
+	await page.getByRole('button', { name: 'Quick bites' }).click();
+	await expect(page).toHaveURL(/category=fast_food/);
+	await page.goBack();
+	await expect(page.getByRole('button', { name: 'Café' })).toHaveAttribute('aria-pressed', 'true');
+	await page.goForward();
+	await expect(page.getByRole('button', { name: 'Quick bites' })).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('UPPETITE header asset loads on home and internal pages', async ({ page }) => {
+	for (const path of ['/', '/explore']) {
+		await page.goto(path);
+		const mark = page.locator('.site-header .brand img');
+		await expect(mark).toBeVisible();
+		expect(await mark.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+	}
 });
 
 test('Freshie Mode exposes non-ranked evidence and source transparency', async ({ page }) => {

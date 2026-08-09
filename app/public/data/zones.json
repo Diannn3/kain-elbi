@@ -645,7 +645,7 @@
     "id": "elsewhere-lb",
     "name": "Elsewhere in Los Baños",
     "shortName": "Elsewhere",
-    "description": "Catalog places outside Kain Elbi’s current named food-zone boxes.",
+    "description": "Catalog places outside UPPETITE’s current named food-zone boxes.",
     "priority": 999,
     "bounds": null,
     "placeIds": [

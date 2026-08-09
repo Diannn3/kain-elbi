@@ -15,12 +15,12 @@ describe('PWA manifest', () => {
 		expect(manifest.scope).toBe('/');
 		expect(manifest.start_url).toBe('/');
 		expect(manifest.icons).toEqual(expect.arrayContaining([
-			expect.objectContaining({ src: '/icons/kain-elbi-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' }),
-			expect.objectContaining({ src: '/icons/kain-elbi-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' }),
-			expect.objectContaining({ src: '/icons/kain-elbi-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }),
+			expect.objectContaining({ src: '/icons/uppetite-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' }),
+			expect.objectContaining({ src: '/icons/uppetite-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' }),
+			expect.objectContaining({ src: '/icons/uppetite-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }),
 		]));
-		expect(pngSize('public/icons/kain-elbi-192.png')).toEqual({ width: 192, height: 192 });
-		expect(pngSize('public/icons/kain-elbi-512.png')).toEqual({ width: 512, height: 512 });
-		expect(pngSize('public/icons/kain-elbi-maskable-512.png')).toEqual({ width: 512, height: 512 });
+		expect(pngSize('public/icons/uppetite-192.png')).toEqual({ width: 192, height: 192 });
+		expect(pngSize('public/icons/uppetite-512.png')).toEqual({ width: 512, height: 512 });
+		expect(pngSize('public/icons/uppetite-maskable-512.png')).toEqual({ width: 512, height: 512 });
 	});
 });

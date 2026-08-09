@@ -5,15 +5,13 @@ const isFind = currentPath === '/' || currentPath.startsWith('/picks');
 const isExplore = currentPath.startsWith('/explore');
 const isFreshie = currentPath.startsWith('/freshie');
 const isHome = currentPath === '/';
-const lockupSrc = isHome
-	? '/brand/uppetite-lockup-light.png'
-	: '/brand/uppetite-lockup-dark.png';
 ---
 
 <header class:list={['site-header', { 'site-header--home': isHome }]}>
 	<div class="header-inner">
-		<a class="brand" href="/" aria-label="UPPETITE home">
-			<img src={lockupSrc} alt="UPPETITE" loading="eager" decoding="async" />
+		<a class="brand" href="/" aria-label="UPPETITE home" translate="no">
+			<img src="/brand/uppetite-mark-header.png" alt="" width="96" height="96" loading="eager" decoding="async" fetchpriority="high" />
+			<span>UPPETITE</span>
 		</a>
 		<nav aria-label="Primary navigation">
 			<a href="/" aria-current={isFind ? 'page' : undefined}>Find</a>
@@ -49,12 +47,15 @@ const lockupSrc = isHome
 		display: flex;
 		align-items: center;
 		text-decoration: none;
+		color: var(--brand-maroon-deep);
+		font: 820 1.2rem/1 var(--font-display);
+		letter-spacing: 0.055em;
 	}
 
 	.brand img {
 		width: auto;
-		height: 2.15rem;
-		max-width: min(12rem, 42vw);
+		height: 2.25rem;
+		max-width: 2.25rem;
 		object-fit: contain;
 		object-position: left center;
 	}
@@ -101,6 +102,8 @@ const lockupSrc = isHome
 	.site-header--home nav a {
 		color: var(--brand-cream);
 	}
+
+	.site-header--home .brand { color: var(--brand-cream); }
 
 	.site-header--home nav a:hover {
 		background: rgb(255 249 241 / 0.11);

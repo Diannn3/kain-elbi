@@ -78,13 +78,15 @@
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
 	--space-4: 1rem;
+	--space-5: 1.25rem;
 	--space-6: 1.5rem;
 	--space-8: 2rem;
+	--space-10: 2.5rem;
 	--space-12: 3rem;
-	--radius-sm: 0.75rem;
+	--radius-sm: 0.875rem;
 	--radius-md: 1rem;
-	--radius-lg: 1.5rem;
-	--radius-xl: 2rem;
+	--radius-lg: 1.125rem;
+	--radius-xl: 1.125rem;
 	--tap-target: 3rem;
 
 	/* =========================================================
@@ -111,6 +113,7 @@ html {
 	min-width: 320px;
 	scroll-behavior: smooth;
 	background: var(--color-page);
+	scroll-padding-bottom: 6rem;
 }
 
 body {
@@ -203,6 +206,19 @@ h3 {
 	outline: 3px solid var(--color-focus);
 	outline-offset: 3px;
 	box-shadow: 0 0 0 2px var(--brand-cream);
+}
+
+.maplibregl-ctrl-group button {
+	width: 2.75rem;
+	height: 2.75rem;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+}
+
+.maplibregl-ctrl-group button:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px var(--brand-cream);
 }
 
 .site-footer {

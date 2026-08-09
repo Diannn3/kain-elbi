@@ -33,4 +33,11 @@ describe('RoutePlanner', () => {
 		render(RoutePlanner, { anchors });
 		expect(screen.getByText(/return trip is not included/i)).toBeInTheDocument();
 	});
+
+	it('exposes pressed state for route and break selections', () => {
+		render(RoutePlanner, { anchors });
+		expect(screen.getByRole('button', { name: /no next class/i })).toHaveAttribute('aria-pressed', 'true');
+		expect(screen.getByRole('button', { name: /set break to 45 minutes/i })).toHaveAttribute('aria-pressed', 'true');
+		expect(screen.getByRole('button', { name: /custom/i })).toHaveAttribute('aria-pressed', 'false');
+	});
 });

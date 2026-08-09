@@ -108,26 +108,32 @@
 
 <style>
 	.place-card {
-		padding: 1.25rem;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		padding: var(--space-5);
 		border: 1px solid var(--color-border);
-		border-radius: 1.4rem;
-		background: rgb(255 255 255 / 0.78);
+		border-radius: var(--radius-lg);
+		background: var(--brand-cream);
 		box-shadow:
 			0 0.7rem 2rem rgb(92 16 22 / 0.07),
 			inset 0 1px 0 rgb(255 255 255 / 0.78);
-		backdrop-filter: blur(12px);
 		content-visibility: auto;
 		contain-intrinsic-size: 20rem;
+		transition: border-color 150ms ease, box-shadow 150ms ease;
 	}
+	.place-card:hover, .place-card:focus-within { border-color: var(--brand-maroon-deep); box-shadow: inset 3px 0 0 var(--brand-maroon-deep), 0 0.75rem 2rem rgb(92 16 22 / 0.08); }
 
 	.card-topline {
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 0.75rem;
+		min-width: 0;
 	}
 
 	.topline-badges {
+		min-width: 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
@@ -295,12 +301,13 @@
 
 	.actions {
 		display: grid;
-		grid-template-columns: 0.82fr 1.18fr;
-		gap: 0.65rem;
+		grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+		gap: var(--space-3);
 		margin-top: 1rem;
 	}
 
 	.actions button {
+		min-width: 0;
 		display: grid;
 		place-items: center;
 		min-height: var(--tap-target);
@@ -309,6 +316,9 @@
 		font-weight: 760;
 		transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
 	}
+	.map-action span { display: inline-block; margin-left: var(--space-1); transition: transform 150ms ease; }
+	.map-action:hover span, .map-action:focus-visible span { transform: translateX(4px); }
+	.map-action:active span { transform: translateX(0); }
 
 	.actions button:hover {
 		transform: translateY(-1px);
@@ -340,6 +350,7 @@
 			padding: 1.5rem;
 		}
 	}
+	@media (max-width: 350px) { .actions { grid-template-columns: 1fr; } }
 
 	@media (prefers-reduced-motion: reduce) {
 		.save-icon,
