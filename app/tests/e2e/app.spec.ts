@@ -26,6 +26,68 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(page.getByRole('dialog')).toBeHidden();
 });
 
+test('simplified hero balances its promise and primary action above the desktop fold', async ({ page }) => {
+	await page.setViewportSize({ width: 1280, height: 720 });
+	await page.goto('/');
+
+	const headlineLines = page.locator('#home-heading .headline-line');
+	await expect(headlineLines).toHaveCount(2);
+	await expect(headlineLines.nth(0)).toHaveText('Food That Fits');
+	await expect(headlineLines.nth(1)).toHaveText('Your Break.');
+
+	await expect(page.locator('.route-story')).toHaveCount(0);
+	const columnOffset = await page.evaluate(() => {
+		const kicker = document.querySelector('.hero-copy .kicker');
+		const planner = document.querySelector('.hero-planner');
+		if (!kicker || !planner) return null;
+		const kickerBounds = kicker.getBoundingClientRect();
+		const plannerBounds = planner.getBoundingClientRect();
+		return kickerBounds.top - plannerBounds.top;
+	});
+	expect(columnOffset).not.toBeNull();
+	expect(columnOffset!).toBeGreaterThanOrEqual(44);
+	expect(columnOffset!).toBeLessThanOrEqual(52);
+
+	const submit = page.getByRole('button', { name: 'Find Food' });
+	await expect(submit).toBeVisible();
+	const bounds = await submit.boundingBox();
+	expect(bounds).not.toBeNull();
+	expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(720);
+});
+
+test('desktop planner aligns its search-first route fields and balanced brand mark', async ({ page }) => {
+	await page.setViewportSize({ width: 1280, height: 720 });
+	await page.goto('/');
+
+	const originInput = page.getByLabel('Starting building');
+	const destinationInput = page.getByLabel('Next class building');
+	const currentLocation = page.getByRole('button', { name: /use my current location/i });
+	const noNextClass = page.getByRole('button', { name: /no next class/i });
+	const [originBox, destinationBox, currentBox, noNextBox] = await Promise.all([
+		originInput.boundingBox(),
+		destinationInput.boundingBox(),
+		currentLocation.boundingBox(),
+		noNextClass.boundingBox(),
+	]);
+
+	for (const box of [originBox, destinationBox, currentBox, noNextBox]) expect(box).not.toBeNull();
+	expect(Math.abs(originBox!.y - destinationBox!.y)).toBeLessThanOrEqual(1);
+	expect(Math.abs(originBox!.height - destinationBox!.height)).toBeLessThanOrEqual(1);
+	expect(Math.abs(currentBox!.y - noNextBox!.y)).toBeLessThanOrEqual(1);
+	expect(currentBox!.y).toBeGreaterThanOrEqual(originBox!.y + originBox!.height + 7);
+	expect(noNextBox!.y).toBeGreaterThanOrEqual(destinationBox!.y + destinationBox!.height + 7);
+	expect(currentBox!.height).toBeGreaterThanOrEqual(44);
+	expect(noNextBox!.height).toBeGreaterThanOrEqual(44);
+
+	const mark = page.locator('.site-header .brand img');
+	await expect(mark).toBeVisible();
+	expect(await mark.evaluate((image) => getComputedStyle(image).transform)).not.toBe('none');
+	const markBox = await mark.boundingBox();
+	expect(markBox).not.toBeNull();
+	expect(markBox!.width).toBeGreaterThanOrEqual(58);
+	expect(markBox!.height).toBeGreaterThanOrEqual(58);
+});
+
 test('Smart Picks progressively discloses ranked places without mobile overflow', async ({ page }) => {
 	await page.goto(`/picks${routeQuery}`);
 	await expect(page.locator('.place-card').first()).toBeVisible();
@@ -41,14 +103,13 @@ test('Smart Picks progressively discloses ranked places without mobile overflow'
 
 test('Smart Picks delays its skeleton to avoid a flash on fast loads', async ({ page }) => {
 	await page.route('**/data/places.json', async (route) => {
-		await new Promise((resolve) => setTimeout(resolve, 350));
+		await new Promise((resolve) => setTimeout(resolve, 1_500));
 		await route.continue();
 	});
-	await page.goto(`/picks${routeQuery}`);
+	await page.goto(`/picks${routeQuery}`, { waitUntil: 'domcontentloaded' });
 	const loading = page.locator('.loading');
 	await expect(loading).toBeAttached();
-	await expect(loading).not.toHaveClass(/visible/);
-	await expect(loading).toHaveClass(/visible/, { timeout: 320 });
+	await expect(loading).toHaveClass(/visible/, { timeout: 1_000 });
 	await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
 });
 

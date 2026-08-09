@@ -18,6 +18,25 @@ describe('RoutePlanner', () => {
 		expect(screen.getByLabelText('Next class building')).toBeInTheDocument();
 	});
 
+	it('places each alternative action after its matching search input', () => {
+		render(RoutePlanner, { anchors });
+
+		const startingInput = screen.getByLabelText('Starting building');
+		const destinationInput = screen.getByLabelText('Next class building');
+		const currentLocation = screen.getByRole('button', { name: /use my current location/i });
+		const noNextClass = screen.getByRole('button', { name: /no next class/i });
+
+		expect(startingInput.compareDocumentPosition(currentLocation) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+		expect(destinationInput.compareDocumentPosition(noNextClass) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+	});
+
+	it('uses one compact secondary-action treatment for both route alternatives', () => {
+		render(RoutePlanner, { anchors });
+
+		expect(screen.getByRole('button', { name: /use my current location/i })).toHaveClass('location-alternative');
+		expect(screen.getByRole('button', { name: /no next class/i })).toHaveClass('location-alternative');
+	});
+
 	it('uses presets first and progressively reveals a custom break control', async () => {
 		render(RoutePlanner, { anchors });
 

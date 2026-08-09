@@ -14,19 +14,16 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 			<div class="hero-inner page-shell">
 				<div class="hero-copy">
 					<p class="kicker">Find · Between Classes</p>
-					<h1 id="home-heading">Food That Fits<br />Your Break<span aria-hidden="true">.</span></h1>
-					<p class="lede">Tell us where you are, where you need to be, and how much time you have. UPPETITE filters out stops that do not fit your supported campus route.</p>
+					<h1 id="home-heading">
+						<span class="headline-line">Food That Fits</span>
+						<span class="headline-line">Your Break<span class="headline-stop" aria-hidden="true">.</span></span>
+					</h1>
+					<p class="lede">Choose where you are, where class is next, and how long you have. We’ll show only food stops that fit the walk.</p>
 				</div>
 
-				<div class="hero-mark" aria-hidden="true">
-					<img src="/brand/uppetite-mark.png" alt="" loading="eager" decoding="async" />
-				</div>
+				<div class="hero-planner"><RoutePlanner {anchors} client:load /></div>
 			</div>
 		</section>
-
-		<div class="planner-stage page-shell">
-			<div class="planner-wrap"><RoutePlanner {anchors} client:load /></div>
-		</div>
 
 		<section class="modes page-shell" aria-labelledby="modes-heading">
 			<div class="section-heading">
@@ -83,13 +80,13 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 <style>
 	.hero {
 		position: relative;
-		min-height: clamp(36rem, 66svh, 48rem);
+		min-height: 45rem;
 		overflow: clip;
 		isolation: isolate;
 		color: var(--brand-cream);
 		background:
-			radial-gradient(circle at 82% 18%, rgb(230 106 25 / 0.16), transparent 22rem),
-			radial-gradient(circle at 12% 88%, rgb(24 2 5 / 0.3), transparent 28rem),
+			radial-gradient(circle at 90% 82%, rgb(230 106 25 / 0.16), transparent 27rem),
+			radial-gradient(circle at 8% 90%, rgb(24 2 5 / 0.34), transparent 30rem),
 			var(--brand-gradient);
 	}
 
@@ -107,14 +104,17 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		min-height: inherit;
 		display: grid;
 		align-items: center;
-		padding-top: clamp(7rem, 14vh, 10rem);
-		padding-bottom: clamp(10rem, 16vh, 13rem);
+		gap: var(--space-10);
+		width: min(100% - 3rem, 88rem);
+		padding-top: 7rem;
+		padding-bottom: var(--space-10);
 	}
 
 	.hero-copy {
 		position: relative;
 		z-index: 2;
-		max-width: 48rem;
+		min-width: 0;
+		max-width: 42rem;
 	}
 
 	.kicker {
@@ -138,52 +138,40 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 	}
 
 	h1 {
-		max-width: 14ch;
 		margin: 0;
 		color: var(--brand-cream);
-		font: 820 clamp(3.2rem, 11vw, 6.8rem) / 0.86 var(--font-display);
-		letter-spacing: -0.06em;
+		font: 820 clamp(3rem, 7vw, 4.75rem) / 0.98 var(--font-display);
+		letter-spacing: -0.065em;
 	}
 
-	h1 span {
+	.headline-line {
+		display: block;
+		white-space: nowrap;
+	}
+
+	.headline-stop {
 		color: var(--brand-orange);
 	}
 
 	.lede {
-		max-width: 40rem;
+		max-width: 34rem;
 		margin: 1.65rem 0 0;
 		color: var(--brand-sand);
-		font-size: clamp(1rem, 2.3vw, 1.22rem);
-		line-height: 1.58;
+		font-size: clamp(1rem, 1.7vw, 1.14rem);
+		line-height: 1.55;
 		text-wrap: pretty;
 	}
 
-	.hero-mark {
-		position: absolute;
-		right: -1.5rem;
-		bottom: 6rem;
-		width: min(44vw, 22rem);
-		opacity: 0.24;
-		pointer-events: none;
-		user-select: none;
-	}
-
-	.hero-mark img {
-		width: 100%;
-		height: auto;
-		object-fit: contain;
-		filter: drop-shadow(0 1.2rem 2.8rem rgb(36 3 7 / 0.2));
-	}
-
-	.planner-stage {
+	.hero-planner {
 		position: relative;
-		z-index: 10;
-		margin-top: clamp(-8rem, -10vw, -5rem);
+		z-index: 3;
+		min-width: 0;
+		animation: planner-enter 420ms 100ms both cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
-	.planner-wrap {
-		width: min(100%, 56rem);
-		margin-inline: auto;
+	@keyframes planner-enter {
+		from { opacity: 0; transform: translateY(0.25rem); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
 	.modes,
@@ -323,19 +311,15 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		line-height: 1.45;
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.hero-inner {
-			grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 0.45fr);
-			gap: 4rem;
+			grid-template-columns: minmax(0, 1.02fr) minmax(32rem, 0.98fr);
+			align-items: start;
+			gap: var(--space-12);
 		}
 
-		.hero-mark {
-			position: relative;
-			right: auto;
-			bottom: auto;
-			justify-self: end;
-			width: min(32vw, 25rem);
-			opacity: 0.92;
+		.hero-copy {
+			padding-top: var(--space-12);
 		}
 
 		.mode-grid {
@@ -347,29 +331,49 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		}
 	}
 
-	@media (max-width: 620px) {
+	@media (max-width: 959px) {
 		.hero {
-			min-height: 39rem;
+			min-height: auto;
 		}
 
 		.hero-inner {
+			width: var(--page);
 			padding-top: 7rem;
-			padding-bottom: 11rem;
+			padding-bottom: var(--space-10);
 		}
 
-		.hero-mark {
-			right: -2.4rem;
-			bottom: 7rem;
-			width: 12.5rem;
-			opacity: 0.16;
+		.hero-copy {
+			max-width: 42rem;
 		}
 
-		.planner-stage {
-			margin-top: -6.5rem;
+		.hero-planner {
+			width: min(100%, 46rem);
 		}
 	}
 
+	@media (max-width: 620px) {
+		.hero-inner {
+			gap: var(--space-8);
+			padding-top: 6.5rem;
+			padding-bottom: var(--space-8);
+		}
+
+		h1 {
+			font-size: clamp(2.25rem, 12vw, 3.5rem);
+		}
+
+		.lede {
+			margin-top: var(--space-5);
+		}
+
+	}
+
 	@media (prefers-reduced-motion: reduce) {
+		.mode-card,
+		.hero-planner {
+			animation: none;
+		}
+
 		.mode-card {
 			transition: none;
 		}

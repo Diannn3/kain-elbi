@@ -29,6 +29,11 @@ describe('Sprint 2 unified List/Map UX', () => {
 		expect(preview).toContain('Details');
 	});
 
+	it('delays the Smart Picks skeleton for 200ms to avoid flashing on cached results', () => {
+		const app = read('src/components/results/SmartPicksApp.svelte');
+		expect(app).toMatch(/setTimeout\(\(\) => \{ if \(active && loading\) showSkeleton = true; \}, 200\)/);
+	});
+
 	it('gives small background map dots a forgiving touch hit layer', () => {
 		const canvas = read('src/components/map/MapCanvas.svelte');
 		expect(canvas).toContain("id: 'other-picks-hit'");

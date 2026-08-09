@@ -46,6 +46,7 @@ const isHome = currentPath === '/';
 		min-height: var(--tap-target);
 		display: flex;
 		align-items: center;
+		gap: var(--space-1);
 		text-decoration: none;
 		color: var(--brand-maroon-deep);
 		font: 820 1.2rem/1 var(--font-display);
@@ -58,6 +59,8 @@ const isHome = currentPath === '/';
 		max-width: 2.25rem;
 		object-fit: contain;
 		object-position: left center;
+		transform: translateY(var(--space-1)) scale(1.65);
+		transform-origin: center;
 	}
 
 	nav {
