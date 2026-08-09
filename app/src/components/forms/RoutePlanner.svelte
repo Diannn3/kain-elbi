@@ -290,6 +290,7 @@
 	.planner-heading h2 { margin: 0.5rem 0 0; color: var(--forest); font: 780 clamp(1.65rem, 4vw, 2.15rem)/0.98 var(--font-display); }
 	.planner-heading > p:last-child { max-width: 42rem; margin: 0.65rem 0 0; color: var(--text-secondary); line-height: 1.5; }
 	.planner-fields { display: grid; gap: var(--space-4); }
+	.planner-fields > * { min-width: 0; }
 	fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
 	legend { margin-bottom: 0.65rem; }
 	legend small { color: var(--text-secondary); font: inherit; }
