@@ -50,7 +50,7 @@
 				observer.observe(mapElement);
 				map.once('load', () => { if (!disposed) state = 'ready'; });
 				map.on('error', (event) => {
-					if (/401|403|style/i.test(event.error?.message ?? '')) state = 'failed';
+					if (/401|403|style|fetch|network|unauthorized/i.test(event.error?.message ?? '')) state = 'failed';
 				});
 			} catch {
 				state = 'failed';
@@ -78,13 +78,13 @@
 </div>
 
 <style>
-	.location-map { position: relative; min-height: 15rem; overflow: hidden; border-radius: var(--radius-lg); background: var(--brand-sand); }
-	.map-canvas { position: absolute; inset: 0; }
+	.location-map { position: relative; height: 15rem; overflow: hidden; border-radius: var(--radius-lg); background: var(--brand-sand); }
+	.map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 	.map-fallback { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--space-3); background: radial-gradient(circle at 50% 45%, rgb(230 106 25 / 0.12), transparent 7rem), var(--brand-sand); color: var(--color-text-muted); text-align: center; }
 	.map-fallback p { margin: 0; font-size: 0.75rem; }
 	.pin { position: relative; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50% 50% 50% 0; background: var(--brand-maroon-deep); rotate: -45deg; box-shadow: 0 0.7rem 1.4rem rgb(71 12 17 / 0.2); }
 	.pin i { width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--brand-orange); }
 	:global(.place-location-marker) { width: 2rem; height: 2rem; border: 0.35rem solid var(--brand-cream); border-radius: 50%; background: var(--brand-orange); box-shadow: 0 0.45rem 1.2rem rgb(71 12 17 / 0.3); }
 	:global(.maplibregl-ctrl-attrib) { font-size: 9px; }
-	@media (min-width: 760px) { .location-map { min-height: 20rem; } }
+	@media (min-width: 760px) { .location-map { height: 20rem; } }
 </style>

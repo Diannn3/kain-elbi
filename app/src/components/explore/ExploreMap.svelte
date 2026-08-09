@@ -70,6 +70,9 @@
 					map.on('mouseleave', 'explore-places-hit', () => { if (map) map.getCanvas().style.cursor = ''; });
 					ready = true;
 				});
+				map.on('error', (event) => {
+					if (/401|403|style|fetch|network|unauthorized/i.test(event.error?.message ?? '')) onUnavailable();
+				});
 			} catch { onUnavailable(); }
 		}
 		start();
@@ -77,4 +80,4 @@
 	});
 </script>
 <div class="map" bind:this={mapElement} aria-label="Map of food places in Explore"></div>
-<style>.map{position:absolute;inset:0;background:var(--brand-sand)} :global(.maplibregl-ctrl-attrib){font-family:var(--font-body)}</style>
+<style>.map{position:absolute;inset:0;width:100%;height:100%;background:var(--brand-sand)} :global(.maplibregl-ctrl-attrib){font-family:var(--font-body)}</style>

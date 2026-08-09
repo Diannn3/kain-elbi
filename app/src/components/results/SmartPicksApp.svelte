@@ -631,7 +631,8 @@
 
 	.map-frame {
 		position: relative;
-		min-height: min(66dvh, 42rem);
+		height: 66vh;
+		height: min(66dvh, 42rem);
 		overflow: hidden;
 		border: 1px solid var(--color-border);
 		border-radius: 1.5rem;
@@ -692,7 +693,7 @@
 		.refinements summary { max-width: 7.3rem; padding-inline: 0.6rem; }
 		.map-heading { display: block; }
 		.map-heading > p { width: auto; margin-top: 0.55rem; text-align: left; }
-		.map-frame { min-height: max(29rem, calc(100dvh - 15rem)); border-radius: 1.15rem; }
+		.map-frame { height: 65vh; height: max(29rem, calc(100dvh - 15rem)); border-radius: 1.15rem; }
 		.map-data-note { top: 0.55rem; left: 0.55rem; width: calc(100% - 5rem); font-size: 0.62rem; }
 		.map-preview-wrap { right: 0.55rem; bottom: 0.55rem; left: 0.55rem; }
 	}
@@ -726,7 +727,7 @@
 
 	@media (min-width: 1000px) {
 		.results-sheet { padding-top: 1.8rem; }
-		.map-frame { min-height: min(70dvh, 46rem); }
+		.map-frame { height: 70vh; height: min(70dvh, 46rem); }
 		.map-preview-wrap { right: auto; width: 32rem; }
 	}
 

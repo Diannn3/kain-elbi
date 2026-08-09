@@ -310,7 +310,7 @@
 				});
 
 				map.on('error', (event) => {
-					if (/401|403|style/i.test(event.error?.message ?? '')) unavailable();
+					if (/401|403|style|fetch|network|unauthorized/i.test(event.error?.message ?? '')) unavailable();
 				});
 			} catch {
 				unavailable();
@@ -339,6 +339,8 @@
 	.map-canvas {
 		position: absolute;
 		inset: 0;
+		width: 100%;
+		height: 100%;
 		background: var(--brand-sand);
 	}
 

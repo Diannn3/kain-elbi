@@ -371,7 +371,7 @@
 	.disclosure { display: grid; justify-items: center; gap: var(--space-2); margin-top: var(--space-4); text-align: center; }
 	.disclosure p, .preparing { margin: 0; color: var(--color-text-muted); }
 	.disclosure button { min-height: var(--tap-target); padding: 0 var(--space-5); border: 1px solid var(--brand-maroon-deep); border-radius: var(--radius-sm); background: var(--brand-maroon-deep); color: var(--brand-cream); font-weight: 760; }
-	.map-wrap { position: relative; min-height: 65dvh; overflow: hidden; border: 1px solid var(--color-border); border-radius: 1.5rem; background: var(--brand-sand); box-shadow: 0 0.8rem 2rem rgb(71 12 17 / 0.08); }
+	.map-wrap { position: relative; height: 65vh; height: 65dvh; overflow: hidden; border: 1px solid var(--color-border); border-radius: 1.5rem; background: var(--brand-sand); box-shadow: 0 0.8rem 2rem rgb(71 12 17 / 0.08); }
 	.preview { position: absolute; z-index: 2; right: 0.8rem; bottom: 0.8rem; left: 0.8rem; display: grid; gap: 0.35rem; padding: 1rem; border: 1px solid rgb(255 249 241 / 0.82); border-radius: 1.1rem; background: rgb(255 249 241 / 0.96); box-shadow: 0 1rem 2rem rgb(71 12 17 / 0.18); backdrop-filter: blur(14px); }
 	.preview span,
 	.preview small { color: var(--color-text-muted); font-size: 0.75rem; }
