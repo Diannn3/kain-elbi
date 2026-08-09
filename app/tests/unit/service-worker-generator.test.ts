@@ -1,8 +1,14 @@
-import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { buildPrecacheManifest, hashDistContents } from '../../scripts/generate-service-worker.mjs';
+import {
+	SERVICE_WORKER_SCHEMA_VERSION,
+	buildPrecacheManifest,
+	generateServiceWorker,
+	hashDistContents,
+} from '../../scripts/generate-service-worker.mjs';
+import { PWA_CLIENT_BOOTSTRAP_VERSION } from '../../src/lib/pwa-update.mjs';
 
 const temporaryDirectories: string[] = [];
 
@@ -13,7 +19,7 @@ async function put(root: string, path: string, contents: string | Uint8Array = p
 }
 
 async function createFixture() {
-	const root = await mkdtemp(join(tmpdir(), 'kain-elbi-sw-'));
+	const root = await mkdtemp(join(tmpdir(), 'uppetite-sw-'));
 	temporaryDirectories.push(root);
 	await put(root, 'index.html', '<link rel="stylesheet" href="/_astro/Layout.abc.css"><astro-island component-url="/_astro/RoutePlanner.abc.js" renderer-url="/_astro/client.svelte.abc.js"></astro-island>');
 	await put(root, 'offline/index.html', '<link rel="stylesheet" href="/_astro/Layout.abc.css">');
@@ -40,15 +46,23 @@ async function createFixture() {
 }
 
 afterEach(async () => {
-	await Promise.all(temporaryDirectories.splice(0).map((path) => rm(path, { recursive: true, force: true })));
+	await Promise.all(
+		temporaryDirectories
+			.splice(0)
+			.map((path) => rm(path, { recursive: true, force: true })),
+	);
 });
 
 describe('service worker generator', () => {
+	it('uses the explicit release-gate-v2 lifecycle schema', () => {
+		expect(SERVICE_WORKER_SCHEMA_VERSION).toBe('release-gate-v2');
+	});
+
 	it('changes version when equal-length file contents change', async () => {
 		const root = await createFixture();
-		const first = await hashDistContents(root, 'release-gate-v1');
+		const first = await hashDistContents(root);
 		await put(root, '_astro/client.abc.js', 'export const client = fals');
-		const second = await hashDistContents(root, 'release-gate-v1');
+		const second = await hashDistContents(root);
 		expect(second).not.toBe(first);
 	});
 
@@ -67,7 +81,40 @@ describe('service worker generator', () => {
 			'/_astro/sora-latin-wght-normal.abc.woff2',
 			'/_astro/inter-latin-wght-normal.abc.woff2',
 		]));
-		expect(manifest.join('\n')).not.toMatch(/place\/one|route_matrix|maplibre|MapExperience|opening_hours|PlaceSheet|latin-ext/);
+		expect(manifest.join('\n')).not.toMatch(
+			/place\/one|route_matrix|maplibre|MapExperience|opening_hours|PlaceSheet|latin-ext/,
+		);
 		expect(manifest).toEqual([...manifest].sort());
+	});
+
+	it('generates the automatic legacy-client upgrade lifecycle', async () => {
+		const root = await createFixture();
+		await generateServiceWorker(root);
+
+		const source = await readFile(join(root, 'sw.js'), 'utf8');
+
+		expect(source).toContain(
+			`const CLIENT_BOOTSTRAP_VERSION = ${PWA_CLIENT_BOOTSTRAP_VERSION};`,
+		);
+		expect(source).toContain('UPPETITE_CLIENT_VERSION_PROBE');
+		expect(source).toContain('UPPETITE_CLIENT_VERSION');
+		expect(source).toContain("type: 'window'");
+		expect(source).toContain('includeUncontrolled: true');
+		expect(source).toContain('client.navigate(client.url)');
+		expect(source).toContain('self.skipWaiting()');
+		expect(source).toContain('self.clients.claim()');
+		expect(source).toContain("fetch(request, { cache: 'no-store' })");
+	});
+
+	it('keeps one previous static cache generation during migration', async () => {
+		const root = await createFixture();
+		await generateServiceWorker(root);
+
+		const source = await readFile(join(root, 'sw.js'), 'utf8');
+
+		expect(source).toContain('previousStaticCaches');
+		expect(source).toContain('.slice(-1)');
+		expect(source).toContain('kain-elbi-static-');
+		expect(source).toContain('uppetite-static-');
 	});
 });

@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
 import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { join, relative, resolve, sep } from 'node:path';
+import { PWA_CLIENT_BOOTSTRAP_VERSION } from '../src/lib/pwa-update.mjs';
 
-export const SERVICE_WORKER_SCHEMA_VERSION = 'release-gate-v1';
+export const SERVICE_WORKER_SCHEMA_VERSION = 'release-gate-v2';
 
 async function walk(directory) {
 	const paths = [];
@@ -24,14 +25,18 @@ function toPath(distDir, url) {
 }
 
 function htmlAssetReferences(html) {
-	return Array.from(html.matchAll(/(?:href|src|component-url|renderer-url|before-hydration-url)=["'](\/[^"'#?]+)["']/g), (match) => match[1])
-		.filter((url) => url.startsWith('/_astro/'));
+	return Array.from(
+		html.matchAll(/(?:href|src|component-url|renderer-url|before-hydration-url)=["'](\/[^"'#?]+)["']/g),
+		(match) => match[1],
+	).filter((url) => url.startsWith('/_astro/'));
 }
 
 function staticImportReferences(source, importerUrl) {
 	const references = [];
 	const pattern = /(?:import|export)(?!\s*\()\s*(?:[^'";]*?\bfrom\s*)?["'](\.[^"']+)["']/g;
-	for (const match of source.matchAll(pattern)) references.push(new URL(match[1], `https://kain-elbi.local${importerUrl}`).pathname);
+	for (const match of source.matchAll(pattern)) {
+		references.push(new URL(match[1], `https://kain-elbi.local${importerUrl}`).pathname);
+	}
 	return references;
 }
 
@@ -86,7 +91,9 @@ export async function buildPrecacheManifest(distDir) {
 		if (/(?:sora|inter)-latin-wght-normal\.[^/]+\.woff2$/i.test(url)) manifest.add(url);
 	}
 
-	const result = Array.from(manifest).filter((url) => allUrls.has(url) && !isForbidden(url)).sort();
+	const result = Array.from(manifest)
+		.filter((url) => allUrls.has(url) && !isForbidden(url))
+		.sort();
 	if (result.some(isForbidden)) throw new Error('Forbidden lazy asset entered the precache manifest.');
 	return result;
 }
@@ -106,6 +113,7 @@ export async function generateServiceWorker(distDir = resolve(process.cwd(), 'di
 	const cacheable = await buildPrecacheManifest(distDir);
 	const version = await hashDistContents(distDir);
 	const source = `const VERSION = ${JSON.stringify(version)};
+const CLIENT_BOOTSTRAP_VERSION = ${JSON.stringify(PWA_CLIENT_BOOTSTRAP_VERSION)};
 const STATIC_CACHE = 'uppetite-static-' + VERSION;
 const DATA_CACHE = 'uppetite-data-' + VERSION;
 const PRECACHE = ${JSON.stringify(cacheable)};
@@ -119,27 +127,164 @@ async function precacheShell() {
   }));
 }
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function probeClientVersion(client, timeoutMs = 750) {
+  return new Promise((resolve) => {
+    const channel = new MessageChannel();
+    let settled = false;
+
+    const finish = (supported) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      channel.port1.close();
+      resolve(supported);
+    };
+
+    const timer = setTimeout(() => finish(false), timeoutMs);
+
+    channel.port1.onmessage = (event) => {
+      finish(
+        event.data?.type === 'UPPETITE_CLIENT_VERSION'
+        && event.data?.version === CLIENT_BOOTSTRAP_VERSION
+      );
+    };
+
+    try {
+      client.postMessage(
+        {
+          type: 'UPPETITE_CLIENT_VERSION_PROBE',
+          version: CLIENT_BOOTSTRAP_VERSION,
+        },
+        [channel.port2],
+      );
+    } catch {
+      finish(false);
+    }
+  });
+}
+
+async function upgradeOpenClients() {
+  const beforeClaim = await self.clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true,
+  });
+
+  const support = await Promise.all(
+    beforeClaim.map((client) => probeClientVersion(client)),
+  );
+
+  const legacyClientIds = new Set(
+    beforeClaim
+      .filter((_, index) => !support[index])
+      .map((client) => client.id),
+  );
+
+  await self.clients.claim();
+
+  if (!legacyClientIds.size) return;
+
+  /*
+   * Some intermediate UPPETITE clients already understand
+   * controllerchange but predate the capability probe. Give those
+   * pages a moment to reload themselves, then probe again before
+   * forcing navigation.
+   */
+  await delay(500);
+
+  const afterClaim = await self.clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true,
+  });
+
+  await Promise.allSettled(
+    afterClaim
+      .filter((client) => legacyClientIds.has(client.id))
+      .map(async (client) => {
+        if (await probeClientVersion(client, 250)) return;
+
+        try {
+          if (typeof client.navigate === 'function') {
+            await client.navigate(client.url);
+            return;
+          }
+        } catch {
+          // Fall through to the message fallback.
+        }
+
+        client.postMessage({ type: 'UPPETITE_FORCE_RELOAD' });
+      }),
+  );
+}
+
+async function deleteOldCaches() {
+  const keys = await caches.keys();
+
+  /*
+   * Keep one previous static shell generation as a short compatibility
+   * bridge for an old document that is in the middle of reloading.
+   * Data caches can be replaced immediately because /data/ is already
+   * served by the new worker's stale-while-revalidate path.
+   */
+  const previousStaticCaches = keys
+    .filter((key) =>
+      (key.startsWith('kain-elbi-static-') || key.startsWith('uppetite-static-'))
+      && key !== STATIC_CACHE
+    )
+    .slice(-1);
+
+  const keep = new Set([STATIC_CACHE, DATA_CACHE, ...previousStaticCaches]);
+
+  await Promise.all(
+    keys
+      .filter((key) =>
+        (key.startsWith('kain-elbi-') || key.startsWith('uppetite-'))
+        && !keep.has(key)
+      )
+      .map((key) => caches.delete(key)),
+  );
+}
+
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
-  event.waitUntil(precacheShell());
+  event.waitUntil(
+    Promise.all([
+      precacheShell(),
+      self.skipWaiting(),
+    ]),
+  );
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(Promise.all([
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => (key.startsWith('kain-elbi-') || key.startsWith('uppetite-')) && ![STATIC_CACHE, DATA_CACHE].includes(key)).map((key) => caches.delete(key)))),
-    self.clients.claim(),
-  ]));
+  event.waitUntil(
+    (async () => {
+      await upgradeOpenClients();
+      await deleteOldCaches();
+    })(),
+  );
 });
 
 async function navigation(request) {
   try {
-    const response = await fetch(request);
+    /*
+     * HTML navigations should represent the current deployment.
+     * Bypass the browser HTTP cache, while still allowing the edge/CDN
+     * to satisfy the request according to its own revalidation rules.
+     */
+    const response = await fetch(request, { cache: 'no-store' });
     if (response.ok) (await caches.open(STATIC_CACHE)).put(request, response.clone());
     return response;
   } catch {
     const url = new URL(request.url);
-    const indexPath = url.pathname.endsWith('/') ? url.pathname + 'index.html' : url.pathname + '/index.html';
-    return (await caches.match(request)) || (await caches.match(indexPath)) || (await caches.match('/offline/index.html')) || (await caches.match('/offline.html'));
+    const indexPath = url.pathname.endsWith('/')
+      ? url.pathname + 'index.html'
+      : url.pathname + '/index.html';
+    return (await caches.match(request))
+      || (await caches.match(indexPath))
+      || (await caches.match('/offline/index.html'))
+      || (await caches.match('/offline.html'));
   }
 }
 
@@ -158,18 +303,26 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
   if (url.pathname.startsWith('/data/')) return event.respondWith(staleData(event.request));
   if (event.request.mode === 'navigate') return event.respondWith(navigation(event.request));
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
+  event.respondWith(
+    caches.match(event.request).then((cached) => cached || fetch(event.request)),
+  );
 });
 
 self.addEventListener('message', (event) => {
-  if (event.data?.type === 'SKIP_WAITING') return self.skipWaiting();
+  if (event.data?.type === 'SKIP_WAITING') {
+    event.waitUntil(self.skipWaiting());
+  }
 });
 `;
 
 	await writeFile(join(distDir, 'sw.js'), source, 'utf8');
-	const bytes = await Promise.all(cacheable.map(async (url) => (await stat(toPath(distDir, url))).size));
+	const bytes = await Promise.all(
+		cacheable.map(async (url) => (await stat(toPath(distDir, url))).size),
+	);
 	const totalBytes = bytes.reduce((sum, size) => sum + size, 0);
-	console.log(`Generated service worker ${version} with ${cacheable.length} precache entries (${totalBytes} bytes).`);
+	console.log(
+		`Generated service worker ${version} with ${cacheable.length} precache entries (${totalBytes} bytes).`,
+	);
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : '';

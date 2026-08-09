@@ -1,0 +1,3 @@
+export const PWA_CLIENT_BOOTSTRAP_VERSION = 2;
+export const PWA_UPDATE_INTERVAL_MS = 30 * 60 * 1000;
+export const PWA_MIN_UPDATE_GAP_MS = 60 * 1000;

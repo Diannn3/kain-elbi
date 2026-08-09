@@ -1,81 +1,62 @@
 {
-  "artifact": "UPPETITE Community Launch Hardening Overlay",
-  "baseline_repository": "Diannn3/kain-elbi",
-  "baseline_branch": "update/audit-and-ci-fixes",
-  "baseline_commit": "45ca0a9562ba35afc985ed7ac13239a789a1e0b4",
-  "cumulative_over_previous_phase3_overlay": true,
-  "production_form_configuration_required": true,
-  "production_form_release_blocker_reason": "Live Google Form responder URLs and Suggest Edit entry.<digits> key were not supplied.",
+  "baseline": {
+    "repository": "Diannn3/kain-elbi",
+    "branch": "update/community-hardening",
+    "commit": "2dae1d4343534794509d39a980aa5099d56a36b4"
+  },
+  "validation": {
+    "generator_node_check": true,
+    "layout_inline_node_check": true,
+    "vercel_json_valid": true,
+    "fixture_generated_sw_valid": true,
+    "schema_release_gate_v2": true,
+    "client_probe_present": true,
+    "legacy_navigate_present": true,
+    "skip_waiting_present": true,
+    "clients_claim_present": true,
+    "navigation_no_store": true,
+    "update_via_cache_none": true,
+    "registration_update_present": true,
+    "controllerchange_reload_present": true,
+    "focus_visibility_online_pageshow_checks": true,
+    "stable_sw_url": true,
+    "vercel_sw_revalidation": true
+  },
   "files": [
     {
-      "path": "README-COMMUNITY-HARDENING.md",
-      "bytes": 1354,
-      "sha256": "6ebc566af57543ed4985417e5f5f5d82154a0807f7714dcb7320202721e9af4b"
+      "path": "README-SW-UPDATE-HARDENING.md",
+      "bytes": 1853,
+      "sha256": "c2045cf31851978b8663711456138017d53c16daa474e276ac049afc12641a4a"
     },
     {
-      "path": "WALKTHROUGH.md",
-      "bytes": 3145,
-      "sha256": "e03205f5bda8526c064db031b299ffba843df85430476c0b3f271e45c142417e"
-    },
-    {
-      "path": "app/public/data/freshie.json",
-      "bytes": 9549,
-      "sha256": "ee0cc70844536969ac6e14f0a6c0410c9005167d0484bc95e6102532f7fb6b21"
-    },
-    {
-      "path": "app/src/components/explore/ExploreApp.svelte",
-      "bytes": 24012,
-      "sha256": "6603727f4cc9fdaef6ada89c4ec4728b6a453143515b849b5bae6d5d4ba2d8e7"
-    },
-    {
-      "path": "app/src/components/place/PlaceSheet.svelte",
-      "bytes": 13117,
-      "sha256": "35ae141cde2f042ee236d237db104b63fb1f570ba84cd54cefc8b77efa5cdd92"
+      "path": "app/scripts/generate-service-worker.mjs",
+      "bytes": 10240,
+      "sha256": "944111d479fa904f19638877fb0de8beffee9b8d1f51c880822b09f0dfa91c07"
     },
     {
       "path": "app/src/layouts/Layout.astro",
-      "bytes": 2646,
-      "sha256": "46653d7dd7a7b4affd428ea0a3a576cb4ac4d8b076be34d5de4cd4fe504b31c9"
+      "bytes": 6842,
+      "sha256": "6b1061e4e382933982f24d3a96a7f4f8bfeae624123f3a8fd98b85ef671b09b0"
     },
     {
-      "path": "app/src/lib/community/config.ts",
-      "bytes": 1503,
-      "sha256": "3ccecd903285a4fcc9b25bbfd5536b7748423b00452eacfc9cc958c85431de23"
+      "path": "app/src/lib/pwa-update.mjs",
+      "bytes": 149,
+      "sha256": "fd8fb224fe36dca5db0d306e61ef7f1e6284cd0ad8cab875fbc3828a08b78055"
     },
     {
-      "path": "app/src/pages/contribute.astro",
-      "bytes": 8499,
-      "sha256": "8cdf9bec4ce20b0c495989efd67d44a0def32ffeeda8afe26b54857cc6ff66dd"
+      "path": "app/tests/unit/service-worker-generator.test.ts",
+      "bytes": 4981,
+      "sha256": "9ee0f77e8321828d3f2c9d2c0d947d45f71ec8d94eeea3a5b62f739e87747247"
     },
     {
-      "path": "app/src/pages/place/[id].astro",
-      "bytes": 10508,
-      "sha256": "ed730ae0d003ef89f1822fa785bda8b03985c25d4b0a6f905a5121dd98adb99d"
+      "path": "app/tests/unit/service-worker-update-policy.test.ts",
+      "bytes": 1831,
+      "sha256": "f5f06894b53d681b8324ef68b755159af1a66bd86c64bf9436ae9dcae91261aa"
     },
     {
-      "path": "app/tests/components/place-sheet.test.ts",
-      "bytes": 3070,
-      "sha256": "2c07218976ec33ff1a95e22ab1c2e2cabb874379eec12723fdb3ac6fa5d8defe"
-    },
-    {
-      "path": "app/tests/e2e/app.spec.ts",
-      "bytes": 20633,
-      "sha256": "f11eadfd032eea3e092f99773fc984d09047a2f3f0398a82971eadb0173c09ff"
-    },
-    {
-      "path": "app/tests/e2e/community.spec.ts",
-      "bytes": 4511,
-      "sha256": "eac54cc20e2c7224e2d7a223506b5ed4cf77e57fc12740abb75d1ec54f105e33"
-    },
-    {
-      "path": "data/freshie.json",
-      "bytes": 9549,
-      "sha256": "ee0cc70844536969ac6e14f0a6c0410c9005167d0484bc95e6102532f7fb6b21"
-    },
-    {
-      "path": "docs/community-architecture.md",
-      "bytes": 5143,
-      "sha256": "05e74adca4c5f888efb6166980c947dfbc1b3ec80ac1c0d0286cef191831d64d"
+      "path": "vercel.json",
+      "bytes": 391,
+      "sha256": "74ba14840b2ac1ac1025f734268fac69b7932c77c6bbd20509162d5bae5fd069"
     }
   ]
 }

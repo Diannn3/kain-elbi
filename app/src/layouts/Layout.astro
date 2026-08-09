@@ -5,6 +5,11 @@ import '../styles/global.css';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import BottomNav from '../components/layout/BottomNav.astro';
 import OfflineStatus from '../components/layout/OfflineStatus.svelte';
+import {
+	PWA_CLIENT_BOOTSTRAP_VERSION,
+	PWA_MIN_UPDATE_GAP_MS,
+	PWA_UPDATE_INTERVAL_MS,
+} from '../lib/pwa-update.mjs';
 
 interface Props {
 	title?: string;
@@ -71,15 +76,132 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 			<p>UPPETITE uses open-data place records; availability, hours, and business status can change.</p>
 			<p><a href="/contribute">Contribute to UPPETITE</a> · © OpenStreetMap contributors · Overture Maps</p>
 		</footer>
-		<script define:vars={{ serviceWorkerEnabled }}>
+		<script
+			define:vars={{
+				serviceWorkerEnabled,
+				pwaClientBootstrapVersion: PWA_CLIENT_BOOTSTRAP_VERSION,
+				pwaUpdateIntervalMs: PWA_UPDATE_INTERVAL_MS,
+				pwaMinUpdateGapMs: PWA_MIN_UPDATE_GAP_MS,
+			}}
+		>
 			if (serviceWorkerEnabled && 'serviceWorker' in navigator) {
-				window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+				const CLIENT_BOOTSTRAP_VERSION = pwaClientBootstrapVersion;
+				const UPDATE_INTERVAL_MS = pwaUpdateIntervalMs;
+				const MIN_UPDATE_GAP_MS = pwaMinUpdateGapMs;
+
+				let registration = null;
 				let refreshing = false;
-				navigator.serviceWorker.addEventListener('controllerchange', () => {
-					if (!refreshing) {
-						refreshing = true;
-						window.location.reload();
+				let hasHadController = Boolean(navigator.serviceWorker.controller);
+				let lastUpdateCheck = 0;
+
+				function reloadOnce() {
+					if (refreshing) return;
+					refreshing = true;
+					window.location.reload();
+				}
+
+				/*
+				 * The new worker probes open tabs before claiming them.
+				 * Legacy cached HTML cannot answer this message, allowing
+				 * the worker to identify and migrate it itself.
+				 */
+				navigator.serviceWorker.addEventListener('message', (event) => {
+					if (event.data?.type === 'UPPETITE_CLIENT_VERSION_PROBE') {
+						event.ports?.[0]?.postMessage({
+							type: 'UPPETITE_CLIENT_VERSION',
+							version: CLIENT_BOOTSTRAP_VERSION,
+						});
+						return;
 					}
+
+					if (event.data?.type === 'UPPETITE_FORCE_RELOAD') {
+						reloadOnce();
+					}
+				});
+
+				/*
+				 * Avoid an unnecessary extra reload on the very first SW
+				 * install. Once a page has had a controller, subsequent
+				 * controller changes represent an update and must reload
+				 * the document so HTML/CSS/JS/SW come from one deployment.
+				 */
+				navigator.serviceWorker.addEventListener('controllerchange', () => {
+					if (!hasHadController) {
+						hasHadController = true;
+						return;
+					}
+					reloadOnce();
+				});
+
+				async function checkForUpdate(force = false) {
+					if (!registration) return;
+
+					const now = Date.now();
+					if (!force && now - lastUpdateCheck < MIN_UPDATE_GAP_MS) return;
+					lastUpdateCheck = now;
+
+					try {
+						await registration.update();
+					} catch (error) {
+						console.warn('UPPETITE service-worker update check failed.', error);
+					}
+				}
+
+				async function registerServiceWorker() {
+					try {
+						registration = await navigator.serviceWorker.register('/sw.js', {
+							scope: '/',
+							updateViaCache: 'none',
+						});
+
+						/*
+						 * Rescue an older worker that was already installed
+						 * and waiting before this page loaded.
+						 */
+						if (registration.waiting) {
+							registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+						}
+
+						registration.addEventListener('updatefound', () => {
+							const worker = registration.installing;
+							if (!worker) return;
+
+							worker.addEventListener('statechange', () => {
+								if (
+									worker.state === 'installed'
+									&& navigator.serviceWorker.controller
+								) {
+									worker.postMessage({ type: 'SKIP_WAITING' });
+								}
+							});
+						});
+
+						/*
+						 * Do not rely only on browser lifecycle heuristics.
+						 * Check now, periodically, and whenever a student
+						 * returns to a long-lived UPPETITE tab.
+						 */
+						await checkForUpdate(true);
+						window.setInterval(() => void checkForUpdate(), UPDATE_INTERVAL_MS);
+					} catch (error) {
+						console.error('UPPETITE service-worker registration failed.', error);
+					}
+				}
+
+				window.addEventListener('load', () => {
+					void registerServiceWorker();
+				});
+
+				document.addEventListener('visibilitychange', () => {
+					if (document.visibilityState === 'visible') {
+						void checkForUpdate();
+					}
+				});
+
+				window.addEventListener('focus', () => void checkForUpdate());
+				window.addEventListener('online', () => void checkForUpdate(true));
+				window.addEventListener('pageshow', (event) => {
+					if (event.persisted) void checkForUpdate(true);
 				});
 			}
 		</script>
