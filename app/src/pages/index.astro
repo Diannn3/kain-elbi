@@ -1,7 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import RoutePlanner from '../components/forms/RoutePlanner.svelte';
+import HeroAtmosphere from '../components/home/HeroAtmosphere.astro';
 import { loadBuildData } from '../lib/data/build';
+import '@fontsource-variable/cormorant-garamond/wght-italic.css';
+import '../styles/hero-polish.css';
 
 const { matrix, places, zones, freshie } = await loadBuildData();
 const anchors = Object.values(matrix.anchors);
@@ -9,18 +12,16 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 ---
 
 <Layout pageClass="home-page">
-	<Fragment slot="head">
-		<link rel="prefetch" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
-		<link rel="prefetch" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
-	</Fragment>
 	<main id="main-content">
 		<section class="hero" aria-labelledby="home-heading">
+			<HeroAtmosphere />
+
 			<div class="hero-inner page-shell">
 				<div class="hero-copy">
 					<p class="kicker">Find · Between Classes</p>
 					<h1 id="home-heading">
 						<span class="headline-line">Food That Fits</span>
-						<span class="headline-line">Your Break<span class="headline-stop" aria-hidden="true">.</span></span>
+						<span class="headline-line headline-line--editorial">Your Break<span class="headline-stop" aria-hidden="true">.</span></span>
 					</h1>
 					<p class="lede">Choose where you are, where class is next, and how long you have. We’ll show only food stops that fit the walk.</p>
 				</div>
@@ -90,44 +91,45 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		isolation: isolate;
 		color: var(--brand-cream);
 		background:
-			radial-gradient(circle at 90% 82%, rgb(230 106 25 / 0.16), transparent 27rem),
-			radial-gradient(circle at 8% 90%, rgb(24 2 5 / 0.34), transparent 30rem),
-			var(--brand-gradient);
+			linear-gradient(132deg, #4b0c12 0%, var(--brand-maroon-deep) 26%, #741018 57%, var(--brand-maroon) 100%);
 	}
 
 	.hero::before {
 		content: '';
 		position: absolute;
-		z-index: -1;
+		z-index: 1;
 		inset: 0;
 		pointer-events: none;
-		background: linear-gradient(115deg, rgb(255 249 241 / 0.025), transparent 35%, rgb(255 249 241 / 0.035));
+		background:
+			linear-gradient(90deg, rgb(26 2 5 / 0.15), transparent 34%, transparent 72%, rgb(39 2 6 / 0.08)),
+			linear-gradient(to bottom, rgb(28 2 5 / 0.06), transparent 25%, transparent 75%, rgb(28 2 5 / 0.12));
 	}
 
 	.hero-inner {
 		position: relative;
+		z-index: 4;
 		min-height: inherit;
 		display: grid;
 		align-content: center;
-		align-items: start;
+		align-items: center;
 		gap: var(--space-10);
 		width: var(--page-wide);
-		padding-top: 7rem;
-		padding-bottom: var(--space-10);
+		padding-top: 7.1rem;
+		padding-bottom: 2.6rem;
 	}
 
 	.hero-copy {
 		position: relative;
-		z-index: 2;
+		z-index: 5;
 		min-width: 0;
-		max-width: 42rem;
+		max-width: 46rem;
 	}
 
 	.kicker {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
-		margin: 0 0 1.35rem;
+		gap: 0.82rem;
+		margin: 0 0 1.75rem;
 		color: var(--brand-cream);
 		font: 760 0.76rem / 1 var(--font-display);
 		letter-spacing: 0.16em;
@@ -136,18 +138,20 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 
 	.kicker::before {
 		content: '';
-		width: 2.4rem;
-		height: 0.22rem;
+		width: 2.45rem;
+		height: 0.2rem;
 		flex: none;
 		border-radius: 999px;
 		background: var(--brand-orange);
+		box-shadow: 0 0 1.1rem rgb(230 106 25 / 0.18);
 	}
 
 	h1 {
 		margin: 0;
 		color: var(--brand-cream);
-		font: 820 clamp(3rem, 6vw, 5.25rem) / 0.98 var(--font-display);
+		font: 820 clamp(3.45rem, 4.7vw, 5rem) / 0.94 var(--font-display);
 		letter-spacing: -0.065em;
+		text-shadow: 0 0.2rem 1.7rem rgb(35 4 8 / 0.08);
 	}
 
 	.headline-line {
@@ -155,28 +159,42 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		white-space: nowrap;
 	}
 
+	.headline-line--editorial {
+		margin-top: 0.16em;
+		font-family: var(--font-editorial);
+		font-size: 1.13em;
+		font-style: italic;
+		font-weight: 500;
+		line-height: 0.84;
+		letter-spacing: -0.045em;
+	}
+
 	.headline-stop {
 		color: var(--brand-orange);
+		font-style: normal;
 	}
 
 	.lede {
-		max-width: 34rem;
-		margin: 1.65rem 0 0;
+		max-width: 32rem;
+		margin: 2.4rem 0 0;
 		color: var(--brand-sand);
-		font-size: clamp(1rem, 1.7vw, 1.14rem);
-		line-height: 1.55;
+		font-size: clamp(1rem, 1.45vw, 1.13rem);
+		line-height: 1.62;
 		text-wrap: pretty;
 	}
 
 	.hero-planner {
 		position: relative;
-		z-index: 3;
+		z-index: 6;
+		width: 100%;
+		max-width: 47rem;
 		min-width: 0;
-		animation: planner-enter 420ms 100ms both cubic-bezier(0.22, 1, 0.36, 1);
+		justify-self: end;
+		animation: planner-enter 520ms 120ms both cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	@keyframes planner-enter {
-		from { opacity: 0; transform: translateY(0.25rem); }
+		from { opacity: 0; transform: translateY(0.45rem); }
 		to { opacity: 1; transform: translateY(0); }
 	}
 
@@ -319,14 +337,8 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 
 	@media (min-width: 1100px) {
 		.hero-inner {
-			grid-template-columns: minmax(0, 0.46fr) minmax(36rem, 0.54fr);
-			align-items: start;
-			gap: clamp(var(--space-12), 4vw, 4.5rem);
-		}
-
-		.hero-copy {
-			align-self: center;
-			padding-top: 0;
+			grid-template-columns: minmax(0, 0.48fr) minmax(36rem, 0.52fr);
+			gap: clamp(4rem, 4.2vw, 5rem);
 		}
 
 		.mode-grid {
@@ -345,8 +357,8 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 
 		.hero-inner {
 			width: var(--page);
-			padding-top: 7rem;
-			padding-bottom: var(--space-10);
+			padding-top: 7.5rem;
+			padding-bottom: 3.5rem;
 		}
 
 		.hero-copy {
@@ -355,31 +367,49 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 
 		.hero-planner {
 			width: min(100%, 46rem);
+			justify-self: start;
 		}
 	}
 
-	@media (min-width: 1100px) and (max-height: 960px) {
+	@media (min-width: 1100px) and (max-height: 820px) {
 		.hero-inner {
-			padding-top: 5.75rem;
-			padding-bottom: var(--space-6);
+			padding-top: 5.8rem;
+			padding-bottom: 1.5rem;
+			gap: 3.2rem;
+		}
+
+		h1 {
+			font-size: clamp(3.25rem, 4.35vw, 4.45rem);
+		}
+
+		.lede {
+			margin-top: 1.9rem;
 		}
 	}
 
 	@media (max-width: 620px) {
 		.hero-inner {
 			gap: var(--space-8);
-			padding-top: 6.5rem;
+			padding-top: 6.7rem;
 			padding-bottom: var(--space-8);
 		}
 
 		h1 {
-			font-size: clamp(2.25rem, 12vw, 3.5rem);
+			font-size: clamp(2.45rem, 11.5vw, 3.5rem);
+		}
+
+		.headline-line {
+			white-space: normal;
+		}
+
+		.headline-line--editorial {
+			font-size: 1.08em;
+			line-height: 0.9;
 		}
 
 		.lede {
-			margin-top: var(--space-5);
+			margin-top: 1.75rem;
 		}
-
 	}
 
 	@media (prefers-reduced-motion: reduce) {

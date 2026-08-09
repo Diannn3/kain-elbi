@@ -1,0 +1,218 @@
+:root {
+	--font-editorial: 'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style', 'Baskerville', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+}
+
+.home-page .site-header--home .header-inner {
+	min-height: 5.8rem;
+}
+
+.home-page .site-header--home nav {
+	gap: 0.35rem;
+}
+
+.home-page .site-header--home nav a {
+	padding-inline: 0.95rem;
+}
+
+@media (min-width: 1100px) {
+	.home-page .site-header--home .header-inner {
+		width: var(--page-wide);
+	}
+}
+
+/*
+ * UPPETITE homepage hero — planner-only visual polish.
+ * This file intentionally changes presentation only. The Svelte planner
+ * state, geolocation, recent-route storage, validation, and submission logic
+ * remain untouched in RoutePlanner.svelte.
+ */
+
+.home-page .hero-planner .planner {
+	padding: 1.65rem;
+	border-color: rgb(255 249 241 / 0.84);
+	border-radius: 1.4rem;
+	background:
+		linear-gradient(145deg, rgb(255 249 241 / 0.975), rgb(242 232 220 / 0.965));
+	box-shadow:
+		0 1.65rem 4.6rem rgb(35 4 8 / 0.3),
+		0 0 0 1px rgb(92 16 22 / 0.045),
+		inset 0 1px rgb(255 255 255 / 0.7);
+	backdrop-filter: blur(24px) saturate(1.08);
+	-webkit-backdrop-filter: blur(24px) saturate(1.08);
+}
+
+.home-page .hero-planner .planner-heading {
+	margin-bottom: 1.1rem;
+}
+
+.home-page .hero-planner .planner-heading h2 {
+	margin-top: 0.38rem;
+	color: var(--brand-maroon-deep);
+	font-size: clamp(2rem, 2.35vw, 2.45rem);
+	font-weight: 790;
+	letter-spacing: -0.045em;
+	line-height: 0.98;
+}
+
+.home-page .hero-planner .planner-heading > p:last-child {
+	margin-top: 0.55rem;
+	color: var(--brand-muted);
+	font-size: 0.86rem;
+	line-height: 1.42;
+}
+
+.home-page .hero-planner .planner-fields {
+	gap: 0.9rem;
+	column-gap: 1rem;
+}
+
+.home-page .hero-planner legend,
+.home-page .hero-planner .eyebrow {
+	color: var(--brand-maroon-deep);
+}
+
+.home-page .hero-planner legend {
+	margin-bottom: 0.52rem;
+}
+
+.home-page .hero-planner .search-field input {
+	min-height: 3.25rem;
+	border-color: rgb(92 16 22 / 0.13);
+	border-radius: 0.9rem;
+	background: rgb(255 255 255 / 0.94);
+	box-shadow: 0 0.38rem 1.1rem rgb(92 16 22 / 0.055);
+}
+
+.home-page .hero-planner .search-field input::placeholder {
+	color: #7c8781;
+}
+
+.home-page .hero-planner .location-alternative {
+	min-height: 2.85rem;
+	padding-inline: 0.95rem;
+	border-color: rgb(92 16 22 / 0.24);
+	background: rgb(255 249 241 / 0.54);
+	color: var(--brand-maroon-deep);
+}
+
+.home-page .hero-planner .location-alternative.active {
+	border-color: rgb(92 16 22 / 0.3);
+	background: rgb(242 232 220 / 0.72);
+	box-shadow: inset 0 0 0 1px rgb(92 16 22 / 0.12);
+}
+
+.home-page .hero-planner .field-note {
+	color: #736b66;
+}
+
+.home-page .hero-planner .break-control {
+	max-width: none;
+}
+
+.home-page .hero-planner .preset-grid {
+	gap: 0.5rem;
+}
+
+.home-page .hero-planner .preset-grid button {
+	min-height: 3.05rem;
+	border-color: rgb(92 16 22 / 0.12);
+	border-radius: 0.82rem;
+	background: rgb(255 255 255 / 0.92);
+	box-shadow: 0 0.25rem 0.8rem rgb(92 16 22 / 0.035);
+}
+
+.home-page .hero-planner .preset-grid button.active {
+	border-color: var(--brand-maroon-deep);
+	background: var(--brand-maroon-deep);
+	color: var(--brand-cream);
+	box-shadow: 0 0.55rem 1.2rem rgb(92 16 22 / 0.18);
+}
+
+.home-page .hero-planner .preference-control {
+	border-color: rgb(92 16 22 / 0.13);
+	background: rgb(255 249 241 / 0.72);
+}
+
+.home-page .hero-planner .preference-control summary {
+	min-height: 3.15rem;
+	padding-inline: 0.95rem;
+}
+
+.home-page .hero-planner .recent-routes {
+	margin-block: 0.05rem 0.2rem;
+}
+
+.home-page .hero-planner .recent-list {
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 0 0 0.28rem;
+	scrollbar-width: thin;
+	scrollbar-color: rgb(98 91 86 / 0.5) rgb(255 249 241 / 0.7);
+}
+
+.home-page .hero-planner .recent-list a {
+	flex: 0 0 auto;
+	padding: 0.48rem 0.72rem;
+	border-color: rgb(92 16 22 / 0.12);
+	background: rgb(255 255 255 / 0.9);
+	color: var(--brand-maroon-deep);
+}
+
+.home-page .hero-planner .find-button {
+	width: 100%;
+	max-width: none;
+	min-height: 3.55rem;
+	border-radius: 0.95rem;
+	background: var(--brand-maroon-deep);
+	box-shadow: 0 0.8rem 1.8rem rgb(92 16 22 / 0.22);
+}
+
+.home-page .hero-planner .find-button:hover {
+	background: var(--brand-maroon-ink);
+}
+
+.home-page .hero-planner .privacy-note {
+	color: #736b66;
+}
+
+@media (min-width: 1100px) and (max-height: 820px) {
+	.home-page .hero-planner .planner {
+		padding: 1.35rem 1.45rem;
+	}
+
+	.home-page .hero-planner .planner-heading {
+		margin-bottom: 0.75rem;
+	}
+
+	.home-page .hero-planner .planner-fields {
+		gap: 0.7rem;
+	}
+
+	.home-page .hero-planner .search-field input {
+		min-height: 3rem;
+	}
+
+	.home-page .hero-planner .location-alternative {
+		min-height: 2.65rem;
+	}
+
+	.home-page .hero-planner .preset-grid button {
+		min-height: 2.75rem;
+	}
+
+	.home-page .hero-planner .preference-control summary {
+		min-height: 2.9rem;
+	}
+
+	.home-page .hero-planner .find-button {
+		min-height: 3.15rem;
+	}
+}
+
+@media (max-width: 719px) {
+	.home-page .hero-planner .planner {
+		padding: 1.25rem;
+		border-radius: 1.25rem;
+	}
+}
