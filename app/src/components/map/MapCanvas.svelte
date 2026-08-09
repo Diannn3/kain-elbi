@@ -216,103 +216,104 @@
 				resizeObserver.observe(mapElement);
 
 				map.on('load', () => {
-					if (!map) return;
+					try {
+						if (!map) return;
+						map.addSource('route-context', {
+							type: 'geojson',
+							data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } },
+						});
+						map.addLayer({
+							id: 'route-context-line',
+							type: 'line',
+							source: 'route-context',
+							paint: {
+								'line-color': brand.orange,
+								'line-width': 3,
+								'line-dasharray': [2, 2],
+							},
+						});
+						map.addSource('route-actual', {
+							type: 'geojson',
+							data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } },
+						});
+						map.addLayer({
+							id: 'route-actual-line',
+							type: 'line',
+							source: 'route-actual',
+							paint: {
+								'line-color': brand.orange,
+								'line-width': 3,
+							},
+						});
+						map.addSource('other-picks', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+						map.addLayer({
+							id: 'other-picks-halo',
+							type: 'circle',
+							source: 'other-picks',
+							paint: {
+								'circle-radius': ['case', ['==', ['get', 'selected'], 1], 13, 0],
+								'circle-color': brand.cream,
+								'circle-stroke-color': brand.maroonDeep,
+								'circle-stroke-width': ['case', ['==', ['get', 'selected'], 1], 2, 0],
+							},
+						});
+						map.addLayer({
+							id: 'other-picks-circles',
+							type: 'circle',
+							source: 'other-picks',
+							paint: {
+								'circle-radius': ['case', ['==', ['get', 'selected'], 1], 9, 6],
+								'circle-color': ['case', ['==', ['get', 'selected'], 1], brand.orange, brand.cream],
+								'circle-stroke-color': ['case', ['==', ['get', 'selected'], 1], brand.charcoal, brand.maroonDeep],
+								'circle-stroke-width': 2,
+							},
+						});
+						map.addLayer({
+							id: 'other-picks-hit',
+							type: 'circle',
+							source: 'other-picks',
+							paint: {
+								'circle-radius': 20,
+								'circle-color': brand.charcoal,
+								'circle-opacity': 0.01,
+							},
+						});
 
-					map.addSource('route-context', {
-						type: 'geojson',
-						data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } },
-					});
-					map.addLayer({
-						id: 'route-context-line',
-						type: 'line',
-						source: 'route-context',
-						paint: {
-							'line-color': brand.orange,
-							'line-width': 3,
-							'line-opacity': 0.72,
-							'line-dasharray': [2, 2],
-						},
-					});
+						map.on('click', 'other-picks-hit', (event) => {
+							const id = event.features?.[0]?.properties?.id;
+							const pick = picks.find((item) => item.place.id === String(id));
+							if (pick) onSelect(pick);
+						});
 
-					map.addSource('route-actual', {
-						type: 'geojson',
-						data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } },
-					});
-					map.addLayer({
-						id: 'route-actual-line',
-						type: 'line',
-						source: 'route-actual',
-						paint: {
-							'line-color': brand.orange,
-							'line-width': 5,
-							'line-opacity': 0.94,
-						},
-					});
+						map.on('mouseenter', 'other-picks-hit', () => { if (map) map.getCanvas().style.cursor = 'pointer'; });
+						map.on('mouseleave', 'other-picks-hit', () => { if (map) map.getCanvas().style.cursor = ''; });
 
-					map.addSource('other-picks', {
-						type: 'geojson',
-						data: { type: 'FeatureCollection', features: [] },
-					});
-					map.addLayer({
-						id: 'other-picks-circles',
-						type: 'circle',
-						source: 'other-picks',
-						paint: {
-							'circle-radius': 6.5,
-							'circle-color': brand.cream,
-							'circle-stroke-width': 2,
-							'circle-stroke-color': brand.maroonDeep,
-						},
-					});
+						const bounds = new maplibre.LngLatBounds();
+						const visibleContext = [[origin.lon, origin.lat] as [number, number]];
+						if (destination) visibleContext.push([destination.lon, destination.lat]);
+						picks.slice(0, 30).forEach((pick) => visibleContext.push([pick.place.lon, pick.place.lat]));
+						visibleContext.forEach((point) => bounds.extend(point));
 
-					// The visible dot stays compact while this nearly-transparent layer gives
-					// touch users a forgiving ~40px hit area.
-					map.addLayer({
-						id: 'other-picks-hit',
-						type: 'circle',
-						source: 'other-picks',
-						paint: {
-							'circle-radius': 20,
-							'circle-color': brand.charcoal,
-							'circle-opacity': 0.01,
-						},
-					});
+						if (bounds.isEmpty()) return;
 
-					const selectBackgroundPick = (
-						event: import('maplibre-gl').MapMouseEvent & {
-							features?: import('maplibre-gl').MapGeoJSONFeature[];
-						},
-					) => {
-						const id = event.features?.[0]?.properties?.id;
-						if (!id) return;
-						const pick = picks.find((candidate) => candidate.place.id === String(id));
-						if (pick) onSelect(pick);
-					};
-					map.on('click', 'other-picks-hit', selectBackgroundPick);
-					map.on('mouseenter', 'other-picks-hit', () => {
-						if (map) map.getCanvas().style.cursor = 'pointer';
-					});
-					map.on('mouseleave', 'other-picks-hit', () => {
-						if (map) map.getCanvas().style.cursor = '';
-					});
-
-					const bounds = new maplibre.LngLatBounds();
-					const visibleContext = [[origin.lon, origin.lat] as [number, number]];
-					if (destination) visibleContext.push([destination.lon, destination.lat]);
-					picks.slice(0, 30).forEach((pick) => visibleContext.push([pick.place.lon, pick.place.lat]));
-					visibleContext.forEach((point) => bounds.extend(point));
-					map.fitBounds(bounds, {
-						padding: { top: 64, right: 48, bottom: 190, left: 48 },
-						maxZoom: 16,
-						duration: 0,
-					});
-					mapState = 'ready';
+						map.fitBounds(bounds, {
+							padding: { top: 64, right: 48, bottom: 190, left: 48 },
+							maxZoom: 16,
+							duration: 0,
+						});
+						mapState = 'ready';
+					} catch (err) {
+						console.error('Error initializing map layers/bounds:', err);
+						unavailable();
+					}
 				});
 
 				map.on('error', (event) => {
+					console.error('MapLibre error:', event);
 					if (/401|403|style|fetch|network|unauthorized/i.test(event.error?.message ?? '')) unavailable();
 				});
-			} catch {
+			} catch (err) {
+				console.error('Fatal map startup error:', err);
 				unavailable();
 			}
 		}
