@@ -259,11 +259,13 @@
 
 	<div class="results-sheet">
 		{#if loading}
-			<div class:visible={showSkeleton} class="loading" role="status" aria-live="polite">
-				<p class="eyebrow">Checking Your Route</p>
-				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
-				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
-			</div>
+			{#if showSkeleton}
+				<div class="loading visible" role="status" aria-live="polite">
+					<p class="eyebrow">Checking Your Route</p>
+					<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
+					<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
+				</div>
+			{/if}
 		{:else if error}
 			<div class="empty" role="alert">
 				<p class="eyebrow">Data Unavailable</p>
@@ -610,8 +612,8 @@
 	.result-list { display: grid; gap: var(--space-4); }
 	.loading,
 	.empty { padding: 2rem 0; }
-	.loading { min-height: 22rem; visibility: hidden; opacity: 0; transition: opacity 140ms ease; }
-	.loading.visible { visibility: visible; opacity: 1; }
+	.loading { min-height: 22rem; animation: fade-in 140ms ease; }
+	@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 	.result-disclosure { display: grid; justify-items: center; gap: var(--space-2); margin-top: var(--space-5); text-align: center; }
 	.result-disclosure p { margin: 0; color: var(--color-text-muted); }
 	.result-disclosure button { min-height: var(--tap-target); padding: 0 var(--space-5); border: 1px solid var(--brand-maroon-deep); border-radius: var(--radius-sm); background: var(--brand-maroon-deep); color: var(--brand-cream); font-weight: 760; }

@@ -10,6 +10,10 @@ const routablePlaceIds = matrix.schema_version === 2
 ---
 
 <Layout title="Explore Elbi — UPPETITE" description="Browse food places around UPLB and Los Baños by area, category, list, or map.">
+	<Fragment slot="head">
+		<link rel="prefetch" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<link rel="prefetch" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
+	</Fragment>
 	<main id="main-content" class="explore-page">
 		<header class="explore-masthead">
 			<div class="page-head page-shell">

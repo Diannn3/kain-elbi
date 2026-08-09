@@ -36,6 +36,7 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<title>{title}</title>
+		<slot name="head" />
 	</head>
 	<body class={pageClass}>
 		<a class="skip-link" href="#main-content">Skip to Main Content</a>

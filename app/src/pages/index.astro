@@ -9,6 +9,10 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 ---
 
 <Layout pageClass="home-page">
+	<Fragment slot="head">
+		<link rel="prefetch" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<link rel="prefetch" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
+	</Fragment>
 	<main id="main-content">
 		<section class="hero" aria-labelledby="home-heading">
 			<div class="hero-inner page-shell">
