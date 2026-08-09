@@ -107,7 +107,6 @@
 					<h3 id="place-facts-title">About this place</h3>
 					<dl>
 						<div><dt>Type</dt><dd>{categoryLabel(place.category)}</dd></div>
-						<div><dt>Hours</dt><dd>{hoursStatus}</dd></div>
 						{#if cuisine}<div><dt>Food tags</dt><dd>{cuisine}</dd></div>{/if}
 					</dl>
 					{#if place.openingHours}
@@ -200,7 +199,7 @@
 	.hours-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--brand-sand); color: var(--color-text-muted); font-size: 0.74rem; white-space: normal; overflow-wrap: anywhere; }
 	.contribute-note { margin: var(--space-4) var(--space-1) 0; color: var(--color-text-muted); font-size: 0.8rem; }
 	.contribute-note a { color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
-	.sheet-actions { display: grid; grid-template-columns: auto minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--color-border); background: rgb(255 249 241 / 0.98); box-shadow: 0 -0.75rem 1.6rem rgb(71 12 17 / 0.08); backdrop-filter: blur(14px); }
+	.sheet-actions { display: grid; grid-template-columns: auto minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--color-border); background: rgb(255 249 241 / 0.98); box-shadow: 0 -0.75rem 1.6rem rgb(71 12 17 / 0.08); }
 	.sheet-actions a,
 	.sheet-actions button { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-3); border-radius: var(--radius-md); font: 740 0.9rem/1 var(--font-display); text-align: center; text-decoration: none; cursor: pointer; }
 	.save-button { width: 3.5rem; padding: 0 !important; border: 1px solid var(--color-border); background: var(--brand-sand); color: var(--color-text-muted); }

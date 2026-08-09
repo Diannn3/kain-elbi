@@ -78,9 +78,6 @@ const editUrl = `/contribute?place=${encodeURIComponent(place.id)}#suggest-edit`
 					<a href={directionsUrl} target="_blank" rel="noreferrer">Open map ↗</a>
 				</div>
 				<PlaceMiniMap client:visible name={place.name} lat={place.lat} lon={place.lon} />
-				<div class="location-meta">
-					<span>Lat {place.lat.toFixed(5)}</span><span>Lon {place.lon.toFixed(5)}</span>
-				</div>
 			</section>
 
 			<section class="facts-card" aria-labelledby="details-title">
@@ -151,7 +148,6 @@ const editUrl = `/contribute?place=${encodeURIComponent(place.id)}#suggest-edit`
 	.card-heading h2,
 	.facts-card h2 { max-width: 20ch; margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 770 clamp(1.55rem, 6vw, 2.35rem)/0.98 var(--font-display); }
 	.card-heading > a { flex: none; min-height: var(--tap-target); display: flex; align-items: center; color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
-	.location-meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); color: var(--color-text-muted); font-size: 0.7rem; font-variant-numeric: tabular-nums; }
 	.facts-list { margin: var(--space-4) 0 0; }
 	.facts-list > div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--color-border); }
 	.facts-list dt { color: var(--color-text-muted); font-size: 0.78rem; }

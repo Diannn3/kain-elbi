@@ -1,147 +1,81 @@
 {
-  "repository": "Diannn3/kain-elbi",
-  "branch": "update/revert-hero-polish",
-  "baseline_commit": "eca7fb0fd7621439d5f05701a2e11defc2b59be8",
+  "artifact": "UPPETITE Community Launch Hardening Overlay",
+  "baseline_repository": "Diannn3/kain-elbi",
+  "baseline_branch": "update/audit-and-ci-fixes",
+  "baseline_commit": "45ca0a9562ba35afc985ed7ac13239a789a1e0b4",
+  "cumulative_over_previous_phase3_overlay": true,
+  "production_form_configuration_required": true,
+  "production_form_release_blocker_reason": "Live Google Form responder URLs and Suggest Edit entry.<digits> key were not supplied.",
   "files": [
     {
-      "path": ".github/workflows/ci.yml",
-      "bytes": 1674,
-      "sha256": "e8acf50271f0e4a12f9aac9fc20824985908918688b321997af7c6a44ed10a67"
+      "path": "README-COMMUNITY-HARDENING.md",
+      "bytes": 1354,
+      "sha256": "6ebc566af57543ed4985417e5f5f5d82154a0807f7714dcb7320202721e9af4b"
     },
     {
-      "path": "IMPLEMENTATION_REPORT.md",
-      "bytes": 5729,
-      "sha256": "52275ec019458673998de317f4eaa65e4aaeb02b150dcd8772d38c34bc74621f"
+      "path": "WALKTHROUGH.md",
+      "bytes": 3145,
+      "sha256": "e03205f5bda8526c064db031b299ffba843df85430476c0b3f271e45c142417e"
     },
     {
-      "path": "README-CLOUD-OVERLAY.md",
-      "bytes": 3643,
-      "sha256": "00f9276240f89db558e8ddc40b05229e56fafa05574d1b12fff33ebfc794b8cb"
-    },
-    {
-      "path": "app/README.md",
-      "bytes": 2622,
-      "sha256": "2ffc215fcc7cc78994b850fc52d5600b31407f8f1befccff4a9b14de34e1a373"
-    },
-    {
-      "path": "app/package.json",
-      "bytes": 1510,
-      "sha256": "f41f31d3fc980bc386a467820b5f46acf4657d27c2ca486cad9387d396f8d25e"
-    },
-    {
-      "path": "app/playwright.config.ts",
-      "bytes": 967,
-      "sha256": "ba6858f326b80b2a5f1aa6f285d8be74f9df2cea464671a906edfb323041ce8d"
-    },
-    {
-      "path": "app/scripts/report-build-size.mjs",
-      "bytes": 912,
-      "sha256": "645e75ad03a45c873246e81d7e2c8cdddb8c68d96e4345a365c76febe5c668ba"
+      "path": "app/public/data/freshie.json",
+      "bytes": 9549,
+      "sha256": "ee0cc70844536969ac6e14f0a6c0410c9005167d0484bc95e6102532f7fb6b21"
     },
     {
       "path": "app/src/components/explore/ExploreApp.svelte",
-      "bytes": 20416,
-      "sha256": "4f5bf18c09189b6deb7d0705dc73c08922e45b3977e7be3266f4f50f6b19e381"
+      "bytes": 24012,
+      "sha256": "6603727f4cc9fdaef6ada89c4ec4728b6a453143515b849b5bae6d5d4ba2d8e7"
     },
     {
-      "path": "app/src/components/explore/ExploreMap.svelte",
-      "bytes": 4227,
-      "sha256": "15597f5f260ba7e11ca01fabd183d85354b1617925fae52284cfc37a0dff6f2c"
-    },
-    {
-      "path": "app/src/components/layout/BottomNav.astro",
-      "bytes": 1864,
-      "sha256": "ee3c28c18378c80321880b4ac5605312efc6c07d35c20664c4b79170556ee1e3"
-    },
-    {
-      "path": "app/src/components/layout/OfflineStatus.svelte",
-      "bytes": 2143,
-      "sha256": "2585cca3c1b1d06cd08bb24f994c3713a93502471a183f268b81cfcfa438324c"
-    },
-    {
-      "path": "app/src/components/map/PlaceMiniMap.svelte",
-      "bytes": 3600,
-      "sha256": "03cbcccb690e09a7e1bd5ce8aab80a21b92310a50fa55714eef0a524c241c427"
+      "path": "app/src/components/place/PlaceSheet.svelte",
+      "bytes": 13117,
+      "sha256": "35ae141cde2f042ee236d237db104b63fb1f570ba84cd54cefc8b77efa5cdd92"
     },
     {
       "path": "app/src/layouts/Layout.astro",
-      "bytes": 2594,
-      "sha256": "50b41d1af0838f2074af5ead2998f226171ac707a6a9606fe4d6577e4a139b9b"
+      "bytes": 2646,
+      "sha256": "46653d7dd7a7b4affd428ea0a3a576cb4ac4d8b076be34d5de4cd4fe504b31c9"
     },
     {
-      "path": "app/src/lib/geo.ts",
-      "bytes": 1441,
-      "sha256": "205524fb180d83d985fe6e00e2450421e24b6ff96580261033eec2fa841a9b0c"
+      "path": "app/src/lib/community/config.ts",
+      "bytes": 1503,
+      "sha256": "3ccecd903285a4fcc9b25bbfd5536b7748423b00452eacfc9cc958c85431de23"
     },
     {
-      "path": "app/src/lib/place-availability.ts",
-      "bytes": 2138,
-      "sha256": "b4c52cb3e317a25afa31c70e71c1a604056e7865072910e4074a951c36123ca5"
+      "path": "app/src/pages/contribute.astro",
+      "bytes": 8499,
+      "sha256": "8cdf9bec4ce20b0c495989efd67d44a0def32ffeeda8afe26b54857cc6ff66dd"
     },
     {
-      "path": "app/src/lib/smart-picks.ts",
-      "bytes": 5453,
-      "sha256": "39ad6e7c13c51989ea5ca4fa9d365382e823ba33ab9e45fc2cce85963e9a4873"
+      "path": "app/src/pages/place/[id].astro",
+      "bytes": 10508,
+      "sha256": "ed730ae0d003ef89f1822fa785bda8b03985c25d4b0a6f905a5121dd98adb99d"
     },
     {
-      "path": "app/src/lib/storage.svelte.ts",
-      "bytes": 3356,
-      "sha256": "3aba11e1aedc24522978ac079cd4ddaec8da6bd71091bbd65c696e93b0647e6e"
+      "path": "app/tests/components/place-sheet.test.ts",
+      "bytes": 3070,
+      "sha256": "2c07218976ec33ff1a95e22ab1c2e2cabb874379eec12723fdb3ac6fa5d8defe"
     },
     {
-      "path": "app/src/pages/explore.astro",
-      "bytes": 4823,
-      "sha256": "69165c50737aa5b8ec562da11eea3c6fce90c6ec34b0944a8158cea907f9f796"
+      "path": "app/tests/e2e/app.spec.ts",
+      "bytes": 20633,
+      "sha256": "f11eadfd032eea3e092f99773fc984d09047a2f3f0398a82971eadb0173c09ff"
     },
     {
-      "path": "app/src/pages/index.astro",
-      "bytes": 8940,
-      "sha256": "5533036b4c600b92a04b40d0ba3c9be11531fb47491d788bb85aad8499473a4a"
+      "path": "app/tests/e2e/community.spec.ts",
+      "bytes": 4511,
+      "sha256": "eac54cc20e2c7224e2d7a223506b5ed4cf77e57fc12740abb75d1ec54f105e33"
     },
     {
-      "path": "app/src/pages/offline.astro",
-      "bytes": 2429,
-      "sha256": "ca9e9873447baa4e95873b736309fd90157719d01749efdfd61ad0bdf7d8a9af"
+      "path": "data/freshie.json",
+      "bytes": 9549,
+      "sha256": "ee0cc70844536969ac6e14f0a6c0410c9005167d0484bc95e6102532f7fb6b21"
     },
     {
-      "path": "app/tests/e2e/explore-results-mode.spec.ts",
-      "bytes": 3376,
-      "sha256": "bb8a38097afa3b4464009bcd7c5456b2221ec8d89e1daad14fcc11d4e56d28fb"
-    },
-    {
-      "path": "app/tests/e2e/offline.spec.ts",
-      "bytes": 1019,
-      "sha256": "731ed81c3c4207cb578faac54620586a1fa21881bd8425f1a157de8820da4e9f"
-    },
-    {
-      "path": "app/tests/e2e/performance.spec.ts",
-      "bytes": 2591,
-      "sha256": "084d98498e58b7ad170b62bbbfa54bbca5c111dd05874e5fe13831c8aee2f33a"
-    },
-    {
-      "path": "app/tests/e2e/route-hardening.spec.ts",
-      "bytes": 647,
-      "sha256": "ce0af2f085533c28516e934678a13fcbaf504efec55a7ab7ef1573859699b985"
-    },
-    {
-      "path": "app/tests/e2e/visual.spec.ts",
-      "bytes": 1488,
-      "sha256": "a4985a5a5e06c0366d95b48df45b76269df91d18037dfe336d8f18f799289175"
-    },
-    {
-      "path": "app/tests/unit/geo.test.ts",
-      "bytes": 809,
-      "sha256": "6f855dcfba6e2541f9a89672a87e17ca5dac70b620a2c878d5e5d5553e837489"
-    },
-    {
-      "path": "app/tests/unit/smart-picks.test.ts",
-      "bytes": 5231,
-      "sha256": "929a6a254ce85a959700985fa83d66f50a5698da0fe29274f2b08d7d3351b204"
-    },
-    {
-      "path": "app/tests/unit/storage.test.ts",
-      "bytes": 873,
-      "sha256": "85c7f530fe0b106c516de0a715f2faa69b7ee283aea8ec322bcb8f3a063e2252"
+      "path": "docs/community-architecture.md",
+      "bytes": 5143,
+      "sha256": "05e74adca4c5f888efb6166980c947dfbc1b3ec80ac1c0d0286cef191831d64d"
     }
   ]
 }

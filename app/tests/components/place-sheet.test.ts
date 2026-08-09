@@ -51,7 +51,7 @@ describe('PlaceSheet', () => {
 		expect(onClose).toHaveBeenCalledOnce();
 	});
 
-	it('puts route decisions and directions ahead of listing provenance', () => {
+	it('prioritizes route decisions and actions without exposing provenance', () => {
 		render(PlaceSheet, { place, pick, open: true, onClose: () => undefined });
 
 		expect(screen.getByText('Why this fits your break')).toBeInTheDocument();
@@ -60,13 +60,16 @@ describe('PlaceSheet', () => {
 		expect(screen.getAllByText(/Open at estimated arrival/i)[0]).toBeInTheDocument();
 		expect(screen.getByRole('link', { name: /get directions/i })).toHaveAttribute('target', '_blank');
 		expect(screen.getByRole('link', { name: /full place page/i })).toHaveAttribute('href', '/place/place-1');
-		expect(screen.getByText('About this listing')).toBeInTheDocument();
+		expect(screen.getByText('About this place')).toBeInTheDocument();
+		expect(screen.queryByText('About this listing')).not.toBeInTheDocument();
 		expect(screen.queryByText('Candidate place record')).not.toBeInTheDocument();
+		expect(screen.getByRole('link', { name: /suggest an edit/i })).toHaveAttribute('href', '/contribute?place=place-1#suggest-edit');
 	});
 
-	it('shows a useful hours-unavailable state without pretending the place is closed', () => {
+	it('shows hours once without duplicating them in the facts list', () => {
 		render(PlaceSheet, { place, open: true, onClose: () => undefined });
-		expect(screen.getAllByText('Hours unavailable').length).toBeGreaterThan(0);
+		expect(screen.getAllByText('Hours unavailable')).toHaveLength(1);
 		expect(screen.queryByText(/Closed now/i)).not.toBeInTheDocument();
+		expect(screen.queryByText('Hours', { selector: 'dt' })).not.toBeInTheDocument();
 	});
 });

@@ -232,7 +232,7 @@
 		<div aria-live="polite"><strong>{filtered.length}</strong> places <span>· {activeCollection ? 'Research-backed browse list · ' : ''}Explore helps you discover food, not rank it.</span></div>
 		<div class="result-actions">
 			<button class="surprise-button" type="button" disabled={filtered.length === 0} onclick={surpriseMe}>
-				<span aria-hidden="true">↝</span> Show me somewhere new
+				<span aria-hidden="true">↝</span> Surprise me
 			</button>
 			<div class="segmented" role="group" aria-label="Explore view"><button class:active={view==='list'} aria-pressed={view==='list'} onclick={() => setView('list')}>List</button><button class:active={view==='map'} aria-pressed={view==='map'} onclick={() => setView('map')}>Map</button></div>
 		</div>

@@ -349,6 +349,8 @@ test('full place page prioritizes location and actions over provenance', async (
 	await expect(page.getByText(/Candidate place record/i)).toHaveCount(0);
 	await expect(page.getByText(/About this listing/i)).toHaveCount(0);
 	await expect(page.getByRole('link', { name: /Suggest an edit/i })).toBeVisible();
+	await expect(page.getByText(/^Lat\s/i)).toHaveCount(0);
+	await expect(page.getByText(/^Lon\s/i)).toHaveCount(0);
 });
 
 test('Sprint 4 navigation exposes Find, Explore, and Freshie', async ({ page, isMobile }) => {

@@ -1,97 +1,313 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { communityForms, isGoogleFormEntryKey, isGoogleFormUrl, isPrefillableGoogleFormUrl } from '../lib/community/config';
 
 const contributions = [
 	{
 		id: 'add-place',
-		label: 'Add a Place',
+		label: 'Add a place',
 		title: 'Know somewhere we’re missing?',
-		description: 'Suggest a food place that is not yet in the UPPETITE catalog.',
-		href: 'https://forms.gle/REPLACE_WITH_ADD_PLACE_FORM',
-		action: 'Open Add a Place form',
+		description: 'Suggest a food place that is not yet in UPPETITE.',
+		href: communityForms.addPlace,
 	},
 	{
 		id: 'suggest-edit',
-		label: 'Suggest an Edit',
+		label: 'Suggest an edit',
 		title: 'Something changed?',
-		description: 'Tell us about corrected hours, categories, contact details, or a moved/closed place.',
-		href: 'https://forms.gle/REPLACE_WITH_SUGGEST_EDIT_FORM',
-		action: 'Open Suggest an Edit form',
-	},
-	{
-		id: 'add-photos',
-		label: 'Add Photos',
-		title: 'Help people recognize the place.',
-		description: 'Temporary Google Form placeholder for photo submissions. Phase C will replace this with the native moderated photo pipeline.',
-		href: 'https://forms.gle/REPLACE_WITH_ADD_PHOTOS_FORM',
-		action: 'Open Add Photos form',
+		description: 'Tell us about corrected hours, categories, contact details, or a moved or closed place.',
+		href: communityForms.suggestEdit,
 	},
 	{
 		id: 'report-problem',
-		label: 'Report a Problem',
+		label: 'Report a problem',
 		title: 'Found something wrong?',
-		description: 'Report broken information, a duplicate listing, an unsafe link, or another issue with the app or catalog.',
-		href: 'https://forms.gle/REPLACE_WITH_REPORT_PROBLEM_FORM',
-		action: 'Open Report a Problem form',
+		description: 'Report a duplicate listing, broken information, unsafe link, or another issue with the app.',
+		href: communityForms.reportProblem,
 	},
-];
+].map((item) => ({
+	...item,
+	ready: item.id === 'suggest-edit'
+		? isPrefillableGoogleFormUrl(item.href) && isGoogleFormEntryKey(communityForms.suggestEditPlaceIdEntry)
+		: isGoogleFormUrl(item.href),
+}));
+
+const placeEntryReady = isGoogleFormEntryKey(communityForms.suggestEditPlaceIdEntry);
 ---
 
-<Layout title="Contribute — UPPETITE" description="Help improve UPPETITE by suggesting places, corrections, photos, or catalog issues.">
+<Layout title="Contribute — UPPETITE" description="Help improve UPPETITE by suggesting missing places, corrections, or catalog issues.">
 	<main id="main-content" class="contribute-page page-shell">
 		<header class="contribute-hero">
-			<div>
-				<p class="eyebrow-global">Community Contributions</p>
-				<h1>Help make UPPETITE more useful<span aria-hidden="true">.</span></h1>
-				<p>Suggestions are reviewed before they affect the canonical place catalog or route coverage. Community submissions never directly change Smart Picks.</p>
+			<p class="eyebrow-global">Community Contributions</p>
+			<h1>Help improve UPPETITE<span aria-hidden="true">.</span></h1>
+			<p class="hero-copy">Know a place we’re missing or see something outdated? Tell us. We review every submission before it appears in UPPETITE.</p>
+			<div class="quality-note" aria-label="Tips for a useful contribution">
+				<strong>What helps most</strong>
+				<p>Include a Maps link, official page, or another public source when you can.</p>
 			</div>
-			<aside aria-label="Contribution review note">
-				<strong>Reviewed, not automatic</strong>
-				<p>Submit what you know. The UPPETITE team checks contributions before they become part of the public dataset.</p>
-			</aside>
 		</header>
 
-		<section class="contribution-grid" aria-label="Contribution options">
+		<p class="edit-context" data-edit-context hidden></p>
+
+		<section class="contribution-list" aria-label="Contribution options">
 			{contributions.map((item, index) => (
-				<article id={item.id} class="contribution-card">
-					<span>{String(index + 1).padStart(2, '0')} · {item.label}</span>
-					<h2>{item.title}</h2>
-					<p>{item.description}</p>
-					<a href={item.href} target="_blank" rel="noreferrer">{item.action} <span aria-hidden="true">↗</span></a>
+				<article id={item.id} class="contribution-row">
+					<p class="contribution-index">{String(index + 1).padStart(2, '0')}</p>
+					<div class="contribution-copy">
+						<p class="contribution-label">{item.label}</p>
+						<h2>{item.title}</h2>
+						<p>{item.description}</p>
+					</div>
+					<div class="contribution-action">
+						{item.ready ? (
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-community-form={item.id}
+								data-suggest-edit-form={item.id === 'suggest-edit' ? '' : undefined}
+								data-place-entry={item.id === 'suggest-edit' && placeEntryReady ? communityForms.suggestEditPlaceIdEntry : undefined}
+							>
+								{item.label} <span aria-hidden="true">↗</span>
+								<span class="sr-only"> (opens in a new tab)</span>
+							</a>
+						) : (
+							<span class="form-unavailable" data-community-form-unavailable={item.id}>Form setup pending</span>
+						)}
+					</div>
 				</article>
 			))}
 		</section>
 
+		<section id="add-photos" class="photo-coming" aria-labelledby="photo-coming-title">
+			<p class="eyebrow-global">Photo Contributions</p>
+			<h2 id="photo-coming-title">Photos are coming next.</h2>
+			<p>Photo contributions are coming soon with native moderated uploads. We are not collecting image files through Google Forms.</p>
+		</section>
+
 		<section class="privacy-note" aria-labelledby="contribute-privacy-title">
-			<p class="eyebrow-global">Community Layer</p>
-			<h2 id="contribute-privacy-title">The routing core stays separate.</h2>
-			<p>Phase A uses forms for suggestions only. Popularity telemetry and native photo uploads remain isolated future community features; they do not change UPPETITE’s route-fit ranking.</p>
+			<p class="eyebrow-global">Privacy First</p>
+			<h2 id="contribute-privacy-title">Contribute without sharing your route.</h2>
+			<p>Contribution forms do not need your current route or exact GPS location. Suggestions are reviewed manually before they can change UPPETITE.</p>
 		</section>
 	</main>
+
+	<script is:inline>
+		(() => {
+			const placeId = new URLSearchParams(window.location.search).get('place')?.trim();
+			if (!placeId) return;
+	
+			const context = document.querySelector('[data-edit-context]');
+			if (context instanceof HTMLElement) {
+				context.hidden = false;
+				context.textContent = `Suggesting an edit for UPPETITE place ${placeId}.`;
+			}
+	
+			const link = document.querySelector('[data-suggest-edit-form]');
+			if (!(link instanceof HTMLAnchorElement)) return;
+	
+			const entryKey = link.dataset.placeEntry;
+			if (!entryKey || !/^entry\.\d+$/.test(entryKey)) return;
+	
+			const target = new URL(link.href);
+			target.searchParams.set('usp', 'pp_url');
+			target.searchParams.set(entryKey, placeId);
+			link.href = target.toString();
+		})();
+	</script>
+
 </Layout>
 
 <style>
-	.contribute-page { padding-top: clamp(2rem, 6vw, 4.5rem); padding-bottom: 2rem; }
-	.contribute-hero { display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--brand-cream); box-shadow: 0 1rem 2.6rem rgb(71 12 17 / 0.06); }
-	.contribute-hero h1 { max-width: 12ch; margin: var(--space-3) 0 0; color: var(--brand-maroon-deep); font: 820 clamp(2.8rem, 10vw, 5.6rem)/0.9 var(--font-display); letter-spacing: -0.055em; }
-	.contribute-hero h1 span { color: var(--brand-orange); }
-	.contribute-hero > div > p:last-child { max-width: 44rem; margin: var(--space-4) 0 0; color: var(--color-text-muted); line-height: 1.6; }
-	.contribute-hero aside { align-self: end; padding: var(--space-5); border: 1px solid rgb(102 101 31 / 0.28); border-radius: var(--radius-lg); background: var(--brand-sand); }
-	.contribute-hero aside strong { color: var(--brand-olive); font: 760 0.78rem/1 var(--font-display); letter-spacing: 0.07em; text-transform: uppercase; }
-	.contribute-hero aside p { margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.5; }
-	.contribution-grid { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
-	.contribution-card { scroll-margin-top: 2rem; display: flex; flex-direction: column; min-height: 17rem; padding: var(--space-6); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--brand-cream); }
-	.contribution-card:nth-child(even) { background: var(--brand-sand); }
-	.contribution-card > span { color: var(--brand-maroon-deep); font: 760 0.7rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
-	.contribution-card h2 { max-width: 15ch; margin: var(--space-4) 0 0; color: var(--brand-maroon-deep); font: 780 clamp(1.55rem, 5vw, 2.2rem)/1 var(--font-display); }
-	.contribution-card p { margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.5; }
-	.contribution-card > a { display: inline-flex; align-items: center; justify-content: center; width: fit-content; min-height: var(--tap-target); margin-top: auto; padding: 0 var(--space-4); border: 1px solid var(--brand-maroon-deep); border-radius: var(--radius-md); background: var(--brand-maroon-deep); color: var(--brand-cream); font-weight: 740; text-decoration: none; }
-	.contribution-card > a:hover { background: var(--brand-maroon-ink); }
-	.privacy-note { margin-top: var(--space-8); padding: var(--space-6); border-left: 0.35rem solid var(--brand-olive); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: var(--brand-sand); }
-	.privacy-note h2 { margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 760 clamp(1.45rem, 5vw, 2rem)/1 var(--font-display); }
-	.privacy-note > p:last-child { max-width: 48rem; margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.55; }
+	.contribute-page {
+		padding-top: clamp(2rem, 6vw, 4.5rem);
+		padding-bottom: var(--space-8);
+	}
+
+	.contribute-hero {
+		max-width: 58rem;
+		padding: clamp(var(--space-6), 5vw, var(--space-12)) 0 var(--space-8);
+	}
+
+	.contribute-hero h1 {
+		max-width: 11ch;
+		margin: var(--space-3) 0 0;
+		color: var(--brand-maroon-deep);
+		font: 820 clamp(2.8rem, 10vw, 5.6rem) / 0.9 var(--font-display);
+		letter-spacing: -0.055em;
+	}
+
+	.contribute-hero h1 span {
+		color: var(--brand-orange);
+	}
+
+	.hero-copy {
+		max-width: 43rem;
+		margin: var(--space-5) 0 0;
+		color: var(--color-text-muted);
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+
+	.quality-note {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: var(--space-2) var(--space-4);
+		max-width: 43rem;
+		margin-top: var(--space-8);
+		padding: var(--space-4) 0;
+		border-block: 1px solid var(--color-border);
+	}
+
+	.quality-note strong {
+		color: var(--brand-maroon-deep);
+		font: 760 0.76rem / 1.35 var(--font-display);
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+	}
+
+	.quality-note p {
+		margin: 0;
+		color: var(--color-text-muted);
+		line-height: 1.5;
+	}
+
+	.edit-context {
+		margin: 0 0 var(--space-4);
+		padding: var(--space-3) var(--space-4);
+		border-left: 0.25rem solid var(--brand-orange);
+		background: var(--brand-sand);
+		color: var(--brand-maroon-deep);
+		font-weight: 680;
+		line-height: 1.5;
+	}
+
+	.contribution-list {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.contribution-row {
+		display: grid;
+		grid-template-columns: 2.5rem minmax(0, 1fr);
+		gap: var(--space-4);
+		padding: var(--space-6) var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.contribution-row:nth-child(even) {
+		background: rgb(242 232 220 / 0.62);
+	}
+
+	.contribution-index,
+	.contribution-label {
+		margin: 0;
+		font: 760 0.72rem / 1.35 var(--font-display);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.contribution-index {
+		color: var(--brand-orange);
+	}
+
+	.contribution-label {
+		color: var(--brand-maroon-deep);
+	}
+
+	.contribution-copy h2 {
+		max-width: 18ch;
+		margin: var(--space-2) 0 0;
+		color: var(--brand-maroon-deep);
+		font: 780 clamp(1.55rem, 5vw, 2.2rem) / 1 var(--font-display);
+	}
+
+	.contribution-copy > p:last-child {
+		max-width: 39rem;
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		line-height: 1.55;
+	}
+
+	.contribution-action {
+		grid-column: 2;
+		align-self: center;
+	}
+
+	.contribution-action a,
+	.form-unavailable {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap-target);
+		font-weight: 740;
+	}
+
+	.contribution-action a {
+		gap: var(--space-2);
+		color: var(--brand-maroon-deep);
+		text-underline-offset: 0.22em;
+		text-decoration-thickness: 0.08em;
+	}
+
+	.contribution-action a:hover {
+		color: var(--brand-maroon-ink);
+	}
+
+	.form-unavailable {
+		color: var(--color-text-muted);
+	}
+
+	.photo-coming,
+	.privacy-note {
+		margin-top: var(--space-10);
+		padding: var(--space-6);
+	}
+
+	.photo-coming {
+		background: var(--brand-sand);
+		border-left: 0.3rem solid var(--brand-orange);
+	}
+
+	.privacy-note {
+		border-top: 1px solid var(--color-border);
+		padding-inline: 0;
+		padding-bottom: 0;
+	}
+
+	.photo-coming h2,
+	.privacy-note h2 {
+		margin: var(--space-2) 0 0;
+		color: var(--brand-maroon-deep);
+		font: 760 clamp(1.45rem, 5vw, 2rem) / 1 var(--font-display);
+	}
+
+	.photo-coming > p:last-child,
+	.privacy-note > p:last-child {
+		max-width: 48rem;
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		line-height: 1.6;
+	}
+
 	@media (min-width: 760px) {
-		.contribute-hero { grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.42fr); align-items: end; }
-		.contribution-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.contribution-row {
+			grid-template-columns: 3rem minmax(0, 1fr) auto;
+			align-items: center;
+			gap: var(--space-6);
+			padding: var(--space-8) var(--space-4);
+		}
+
+		.contribution-action {
+			grid-column: auto;
+			justify-self: end;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.quality-note {
+			grid-template-columns: 1fr;
+		}
+
+		.contribution-row {
+			padding-inline: 0;
+		}
 	}
 </style>
