@@ -16,6 +16,7 @@ jobs:
     timeout-minutes: 30
     env:
       CI: true
+      TZ: Asia/Manila
     defaults:
       run:
         working-directory: app
