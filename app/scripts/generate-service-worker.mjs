@@ -120,6 +120,7 @@ async function precacheShell() {
 }
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(precacheShell());
 });
 

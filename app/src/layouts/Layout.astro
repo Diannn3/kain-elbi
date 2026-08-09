@@ -74,6 +74,13 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 		<script define:vars={{ serviceWorkerEnabled }}>
 			if (serviceWorkerEnabled && 'serviceWorker' in navigator) {
 				window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+				let refreshing = false;
+				navigator.serviceWorker.addEventListener('controllerchange', () => {
+					if (!refreshing) {
+						refreshing = true;
+						window.location.reload();
+					}
+				});
 			}
 		</script>
 	</body>
