@@ -18,7 +18,6 @@
 
 	let { initialView = 'list' }: { initialView?: ResultsView } = $props();
 	let loading = $state(true);
-	let showSkeleton = $state(false);
 	let error = $state('');
 	let picks = $state<SmartPick[]>([]);
 	let context = $state<SearchContext>();
@@ -140,7 +139,6 @@
 
 	onMount(() => {
 		let active = true;
-		const skeletonTimer = setTimeout(() => { if (active && loading) showSkeleton = true; }, 200);
 		const url = new URL(window.location.href);
 		const queryView = url.searchParams.get('view');
 		if (queryView === 'list' || queryView === 'map') {
@@ -185,13 +183,10 @@
 			error = cause instanceof Error ? cause.message : 'Smart Picks could not load. Refresh when you are online.';
 		}).finally(() => {
 			loading = false;
-			showSkeleton = false;
-			clearTimeout(skeletonTimer);
 		});
 
 		return () => {
 			active = false;
-			clearTimeout(skeletonTimer);
 			sheetController?.destroy();
 		};
 	});
@@ -259,13 +254,11 @@
 
 	<div class="results-sheet">
 		{#if loading}
-			{#if showSkeleton}
-				<div class="loading visible" role="status" aria-live="polite">
-					<p class="eyebrow">Checking Your Route</p>
-					<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
-					<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
-				</div>
-			{/if}
+			<div class="loading visible" role="status" aria-live="polite">
+				<p class="eyebrow">Checking Your Route</p>
+				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
+				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
+			</div>
 		{:else if error}
 			<div class="empty" role="alert">
 				<p class="eyebrow">Data Unavailable</p>
