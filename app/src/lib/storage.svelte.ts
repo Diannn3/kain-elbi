@@ -1,10 +1,36 @@
 const STORAGE_KEY_SAVES = 'kain-elbi-saved-places';
 const STORAGE_KEY_SEARCHES = 'kain-elbi-recent-searches';
+const RECENT_ROUTE_PARAMS = ['origin', 'originMode', 'approach', 'destination', 'break', 'category', 'src', 'v'] as const;
 
 export interface RecentSearch {
 	label: string;
 	url: string;
 	timestamp: number;
+}
+
+function isRecentSearch(value: unknown): value is RecentSearch {
+	if (!value || typeof value !== 'object') return false;
+	const candidate = value as Partial<RecentSearch>;
+	return typeof candidate.label === 'string'
+		&& Boolean(candidate.label.trim())
+		&& typeof candidate.url === 'string'
+		&& typeof candidate.timestamp === 'number'
+		&& Number.isFinite(candidate.timestamp);
+}
+
+export function canonicalRecentSearchUrl(rawUrl: string): string {
+	try {
+		const source = new URL(rawUrl || '/picks', 'https://uppetite.local/picks');
+		const params = new URLSearchParams();
+		for (const key of RECENT_ROUTE_PARAMS) {
+			const value = source.searchParams.get(key)?.trim();
+			if (value) params.set(key, value);
+		}
+		const query = params.toString();
+		return query ? `?${query}` : '';
+	} catch {
+		return '';
+	}
 }
 
 class StorageState {
@@ -16,17 +42,25 @@ class StorageState {
 			try {
 				const saves = window.localStorage.getItem(STORAGE_KEY_SAVES);
 				if (saves) {
-					const parsed = JSON.parse(saves);
-					if (Array.isArray(parsed)) this.savedPlaces = new Set(parsed);
+					const parsed: unknown = JSON.parse(saves);
+					if (Array.isArray(parsed)) {
+						this.savedPlaces = new Set(parsed.filter((id): id is string => typeof id === 'string' && Boolean(id.trim())));
+					}
 				}
 				
 				const searches = window.localStorage.getItem(STORAGE_KEY_SEARCHES);
 				if (searches) {
-					const parsed = JSON.parse(searches);
-					if (Array.isArray(parsed)) this.recentSearches = parsed;
+					const parsed: unknown = JSON.parse(searches);
+					if (Array.isArray(parsed)) {
+						this.recentSearches = parsed
+							.filter(isRecentSearch)
+							.map((search) => ({ ...search, label: search.label.trim(), url: canonicalRecentSearchUrl(search.url) }))
+							.filter((search) => Boolean(search.url))
+							.slice(0, 5);
+					}
 				}
-			} catch (e) {
-				// ignore in environments without localStorage
+			} catch {
+				// Ignore malformed or unavailable local storage and keep safe defaults.
 			}
 		}
 	}
@@ -38,7 +72,7 @@ class StorageState {
 			this.savedPlaces.add(id);
 		}
 		if (typeof window !== 'undefined' && window.localStorage) {
-			try { window.localStorage.setItem(STORAGE_KEY_SAVES, JSON.stringify(Array.from(this.savedPlaces))); } catch (e) {}
+			try { window.localStorage.setItem(STORAGE_KEY_SAVES, JSON.stringify(Array.from(this.savedPlaces))); } catch { /* optional persistence */ }
 		}
 	}
 
@@ -47,13 +81,14 @@ class StorageState {
 	}
 
 	addRecentSearch(search: RecentSearch) {
-		this.recentSearches = this.recentSearches.filter(s => s.url !== search.url);
-		this.recentSearches.unshift(search);
-		if (this.recentSearches.length > 5) {
-			this.recentSearches = this.recentSearches.slice(0, 5);
-		}
+		const url = canonicalRecentSearchUrl(search.url);
+		if (!url || !search.label.trim() || !Number.isFinite(search.timestamp)) return;
+		const normalized: RecentSearch = { label: search.label.trim(), url, timestamp: search.timestamp };
+		this.recentSearches = this.recentSearches.filter((item) => item.url !== normalized.url);
+		this.recentSearches.unshift(normalized);
+		if (this.recentSearches.length > 5) this.recentSearches = this.recentSearches.slice(0, 5);
 		if (typeof window !== 'undefined' && window.localStorage) {
-			try { window.localStorage.setItem(STORAGE_KEY_SEARCHES, JSON.stringify(this.recentSearches)); } catch (e) {}
+			try { window.localStorage.setItem(STORAGE_KEY_SEARCHES, JSON.stringify(this.recentSearches)); } catch { /* optional persistence */ }
 		}
 	}
 }

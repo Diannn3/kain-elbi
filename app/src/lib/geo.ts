@@ -2,6 +2,7 @@ import type { Anchor } from './types';
 
 const EARTH_RADIUS_METERS = 6_371_000;
 const MAX_SNAP_METERS = 300;
+const APPROACH_SECONDS_PER_METER = 1;
 
 function radians(degrees: number): number {
 	return (degrees * Math.PI) / 180;
@@ -30,5 +31,11 @@ export function snapToNearestAnchor(
 		.sort((a, b) => a.distanceMeters - b.distanceMeters);
 	const nearest = candidates[0];
 	if (!nearest || nearest.distanceMeters > MAX_SNAP_METERS) return null;
-	return { ...nearest, approachSeconds: Math.ceil(nearest.distanceMeters / 1) };
+
+	// This is a straight-line approach estimate, not pedestrian path geometry.
+	// Smart Picks applies its separate safety buffer after this approximation.
+	return {
+		...nearest,
+		approachSeconds: Math.ceil(nearest.distanceMeters * APPROACH_SECONDS_PER_METER),
+	};
 }

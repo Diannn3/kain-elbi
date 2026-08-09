@@ -42,7 +42,13 @@ const server = createServer(async (request, response) => {
 			'Cache-Control': 'no-cache',
 		});
 		if (request.method === 'HEAD') response.end();
-		else createReadStream(file).pipe(response);
+		else {
+			const stream = createReadStream(file);
+			stream.on('error', () => {
+				if (!response.headersSent) response.writeHead(500).end('Preview error');
+			});
+			stream.pipe(response);
+		}
 	} catch {
 		response.writeHead(500).end('Preview error');
 	}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { rankSmartPicks } from '../../src/lib/smart-picks';
+import { rankSmartPicks, UnsupportedRouteContextError } from '../../src/lib/smart-picks';
 import type { Place, RouteMatrixV1, SearchContext } from '../../src/lib/types';
 
 const place = (overrides: Partial<Place> = {}): Place => ({
@@ -71,7 +71,7 @@ describe('rankSmartPicks', () => {
 		}, now);
 
 		expect(pick.timeRemainingSeconds).toBe(1800);
-		expect(pick.explanation).toBe('10-minute walk · leaves 30 minutes · return trip not included.');
+		expect(pick.explanation).toBe('10-minute walk · leaves 30 minutes for your stop · return trip not included.');
 	});
 
 	it('keeps category mismatches eligible while ranking exact matches higher', () => {
@@ -100,10 +100,35 @@ describe('rankSmartPicks', () => {
 		expect(result).toEqual([]);
 	});
 
+	it('filters a place whose known-open window is shorter than the minimum stop', () => {
+		const result = rankSmartPicks([
+			place({ openingHours: 'Mo-Fr 08:00-10:20', hasParseableHours: true }),
+		], matrix, context, now);
+		expect(result).toEqual([]);
+	});
+
+	it('caps available stop time at the listed closing time when at least 15 minutes remain', () => {
+		const [pick] = rankSmartPicks([
+			place({ openingHours: 'Mo-Fr 08:00-10:28', hasParseableHours: true }),
+		], matrix, context, now);
+
+		expect(pick.availability).toBe('closes_during_stop');
+		expect(pick.timeRemainingSeconds).toBe(18 * 60);
+		expect(pick.estimatedDepartureAt).toBe('2026-08-07T02:28:00.000Z');
+		expect(pick.explanation).toBe('Adds a 5-minute detour · leaves 18 minutes before the listed closing time.');
+	});
+
 	it('keeps unknown hours eligible', () => {
 		const result = rankSmartPicks([place({ openingHours: null })], matrix, context, now);
 		expect(result).toHaveLength(1);
 		expect(result[0].availability).toBe('unknown');
+	});
+
+	it('throws a route-context error for stale or unsupported saved-route anchors', () => {
+		expect(() => rankSmartPicks([place()], matrix, { ...context, originId: 'old-deleted-building' }, now))
+			.toThrow(UnsupportedRouteContextError);
+		expect(() => rankSmartPicks([place()], matrix, { ...context, destinationId: 'old-deleted-building' }, now))
+			.toThrow(/next-class building is no longer supported/i);
 	});
 
 	it('uses walking time, independent-source confidence, then name as deterministic tie-breakers', () => {

@@ -7,12 +7,38 @@ const { places, zones, collections, matrix } = await loadBuildData();
 const routablePlaceIds = matrix.schema_version === 2
 	? Object.keys(matrix.place_to_anchor)
 	: Object.keys(matrix.place_to_anchor_seconds);
+const exploreZoneIds = zones.map((zone) => zone.id);
+const exploreCollectionIds = collections.map((collection) => collection.id);
 ---
 
 <Layout title="Explore Elbi — UPPETITE" description="Browse food places around UPLB and Los Baños by area, category, list, or map.">
 	<Fragment slot="head">
 		<link rel="prefetch" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
 		<link rel="prefetch" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<script is:inline define:vars={{ exploreZoneIds, exploreCollectionIds }}>
+			(() => {
+				const params = new URLSearchParams(window.location.search);
+				const categories = new Set(['cafe', 'restaurant', 'fast_food', 'food_court', 'bakery_deli', 'kiosk_stall', 'other']);
+				const queryActive = Boolean(params.get('q')?.trim());
+				const zoneActive = exploreZoneIds.includes(params.get('zone') ?? '');
+				const categoryActive = categories.has(params.get('category') ?? '');
+				const collection = params.get('collection') ?? '';
+				let savedPlacesActive = false;
+				if (collection === 'saved-places') {
+					try {
+						const saved = JSON.parse(localStorage.getItem('kain-elbi-saved-places') ?? '[]');
+						savedPlacesActive = Array.isArray(saved) && saved.length > 0;
+					} catch {
+						savedPlacesActive = false;
+					}
+				}
+				const collectionActive = exploreCollectionIds.includes(collection) || savedPlacesActive;
+				if (queryActive || zoneActive || categoryActive || collectionActive) {
+					document.documentElement.setAttribute('data-explore-prepaint', 'results');
+					window.setTimeout(() => document.documentElement.removeAttribute('data-explore-prepaint'), 5_000);
+				}
+			})();
+		</script>
 	</Fragment>
 	<main id="main-content" class="explore-page">
 		<header class="explore-masthead">
@@ -31,6 +57,8 @@ const routablePlaceIds = matrix.schema_version === 2
 </Layout>
 
 <style>
+	:global(html[data-explore-prepaint='results'] .editorial-discovery) { display: none !important; }
+	:global(html[data-explore-prepaint='results'] .result-bar) { visibility: hidden; }
 	.explore-page { padding-bottom: 1rem; }
 	.explore-masthead {
 		position: relative;

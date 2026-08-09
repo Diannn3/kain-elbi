@@ -7,7 +7,7 @@ const anchors = {
 };
 
 describe('snapToNearestAnchor', () => {
-	it('returns the nearest anchor and conservative approach seconds', () => {
+	it('returns the nearest anchor and a deterministic straight-line approach estimate', () => {
 		const snap = snapToNearestAnchor({ lat: 14.1671, lon: 121.2431 }, anchors);
 		expect(snap?.anchor.id).toBe('math');
 		expect(snap?.distanceMeters).toBeLessThan(20);

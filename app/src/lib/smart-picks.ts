@@ -1,13 +1,41 @@
 import { categoryAffinity } from './category-affinity';
-import { evaluatePlaceAvailability } from './place-availability';
-import { anchorToAnchorLeg, anchorToPlaceLeg, placeToAnchorLeg, resolveSearchContext } from './routing';
+import { evaluatePlaceAvailability, openWindowSeconds } from './place-availability';
+import { anchorToAnchorLeg, anchorToPlaceLeg, placeToAnchorLeg, resolveAnchorId } from './routing';
 import type { Place, RouteMatrix, SearchContext, SmartPick } from './types';
 
 export const MINIMUM_STOP_SECONDS = 15 * 60;
 export const SAFETY_BUFFER_SECONDS = 5 * 60;
 
+export class UnsupportedRouteContextError extends Error {
+	constructor(kind: 'origin' | 'destination') {
+		super(
+			kind === 'origin'
+				? 'This saved route is no longer supported by the current campus data. Choose your starting building again.'
+				: 'This next-class building is no longer supported by the current campus data. Choose your route again.',
+		);
+		this.name = 'UnsupportedRouteContextError';
+	}
+}
+
 function minutes(seconds: number): number {
 	return Math.round(seconds / 60);
+}
+
+function resolveSupportedContext(matrix: RouteMatrix, searchContext: SearchContext): SearchContext {
+	const originId = resolveAnchorId(matrix, searchContext.originId);
+	if (!originId) throw new UnsupportedRouteContextError('origin');
+
+	let destinationId: string | undefined;
+	if (searchContext.destinationId) {
+		destinationId = resolveAnchorId(matrix, searchContext.destinationId);
+		if (!destinationId) throw new UnsupportedRouteContextError('destination');
+	}
+
+	return {
+		...searchContext,
+		originId,
+		destinationId,
+	};
 }
 
 export function rankSmartPicks(
@@ -16,7 +44,7 @@ export function rankSmartPicks(
 	searchContext: SearchContext,
 	now = new Date(),
 ): SmartPick[] {
-	const context = resolveSearchContext(matrix, searchContext);
+	const context = resolveSupportedContext(matrix, searchContext);
 	const breakSeconds = context.breakMinutes * 60;
 	const usableTravelBudget = breakSeconds - MINIMUM_STOP_SECONDS - SAFETY_BUFFER_SECONDS;
 
@@ -37,30 +65,41 @@ export function rankSmartPicks(
 		}
 
 		const totalWalkSeconds = context.approachSeconds + originToPlace + placeToDestination;
-		const timeRemainingSeconds = breakSeconds - totalWalkSeconds - SAFETY_BUFFER_SECONDS;
-		if (timeRemainingSeconds < MINIMUM_STOP_SECONDS) return [];
+		const plannedStopSeconds = breakSeconds - totalWalkSeconds - SAFETY_BUFFER_SECONDS;
+		if (plannedStopSeconds < MINIMUM_STOP_SECONDS) return [];
 
 		const arrival = new Date(now.getTime() + (context.approachSeconds + originToPlace) * 1000);
-		const departure = new Date(arrival.getTime() + timeRemainingSeconds * 1000);
-		const availability = evaluatePlaceAvailability(place, arrival, departure);
+		const plannedDeparture = new Date(arrival.getTime() + plannedStopSeconds * 1000);
+		const availability = evaluatePlaceAvailability(place, arrival, plannedDeparture);
 		if (availability === 'closed_at_arrival') return [];
+
+		let timeRemainingSeconds = plannedStopSeconds;
+		if (availability === 'closes_during_stop') {
+			const knownOpenSeconds = openWindowSeconds(place, arrival, plannedDeparture);
+			if (knownOpenSeconds !== undefined) timeRemainingSeconds = Math.min(timeRemainingSeconds, knownOpenSeconds);
+			if (timeRemainingSeconds < MINIMUM_STOP_SECONDS) return [];
+		}
+		const departure = new Date(arrival.getTime() + timeRemainingSeconds * 1000);
 
 		const routeFit = Math.min(timeRemainingSeconds / (30 * 60), 1) * 40;
 		let efficiency = 0;
 		let detourSeconds: number | undefined;
 		let explanation: string;
+		const stopWindowPhrase = availability === 'closes_during_stop'
+			? 'before the listed closing time'
+			: 'for your stop';
 
 		if (context.destinationId && directWalk !== undefined) {
 			const routedWalk = originToPlace + placeToDestination;
 			const ratio = directWalk > 0 ? routedWalk / directWalk : 1;
 			efficiency = ratio <= 1.1 ? 30 : ratio <= 1.5 ? 15 : 0;
 			detourSeconds = Math.max(0, routedWalk - directWalk);
-			explanation = `Adds a ${minutes(detourSeconds)}-minute detour · leaves ${minutes(timeRemainingSeconds)} minutes for your stop.`;
+			explanation = `Adds a ${minutes(detourSeconds)}-minute detour · leaves ${minutes(timeRemainingSeconds)} minutes ${stopWindowPhrase}.`;
 		} else {
 			efficiency = usableTravelBudget > 0
 				? Math.max(0, 1 - originToPlace / usableTravelBudget) * 30
 				: 0;
-			explanation = `${minutes(originToPlace)}-minute walk · leaves ${minutes(timeRemainingSeconds)} minutes · return trip not included.`;
+			explanation = `${minutes(originToPlace)}-minute walk · leaves ${minutes(timeRemainingSeconds)} minutes ${stopWindowPhrase} · return trip not included.`;
 		}
 
 		const categoryScore = categoryAffinity(context.preferredCategory, place.category);

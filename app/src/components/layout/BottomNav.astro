@@ -11,5 +11,10 @@ const isFreshie = currentPath.startsWith('/freshie');
 	<a href="/freshie" aria-current={isFreshie ? 'page' : undefined}><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21V10m0 0c-3-4-7-4-9-3 1 5 4 7 9 6m0-3c2-5 6-7 9-7 0 5-3 9-9 10"/></svg><span>Freshie</span></a>
 </nav>
 <style>
-	.bottom-nav{position:fixed;z-index:50;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));left:.75rem;display:grid;grid-template-columns:repeat(3,1fr);min-height:4.2rem;padding:.35rem;border:1px solid hsl(0 0% 100%/.75);border-radius:1.35rem;background:hsl(45 44% 99%/.9);box-shadow:0 1rem 2.5rem hsl(154 40% 8%/.18);backdrop-filter:blur(18px)}a{min-height:var(--tap-target);display:grid;grid-template-columns:auto auto;place-content:center;align-items:center;gap:.4rem;border-radius:1rem;color:var(--text-secondary);font:730 .75rem/1 var(--font-display);text-decoration:none}a[aria-current='page']{background:var(--forest);color:white}svg{width:1.2rem;fill:none;stroke:currentColor;stroke-width:1.8}@media(max-width:390px){a{grid-template-columns:1fr;gap:.2rem;text-align:center}svg{margin:auto}}@media(min-width:760px){.bottom-nav{display:none}}
+	.bottom-nav{position:fixed;z-index:50;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));left:.75rem;display:grid;grid-template-columns:repeat(3,1fr);min-height:4.2rem;padding:.35rem;border:1px solid rgb(255 249 241/.75);border-radius:1.35rem;background:rgb(255 249 241/.9);box-shadow:0 1rem 2.5rem rgb(71 12 17/.18);backdrop-filter:blur(18px)}
+	a{min-height:var(--tap-target);display:grid;grid-template-columns:auto auto;place-content:center;align-items:center;gap:.4rem;border-radius:1rem;color:var(--color-text-muted);font:730 .75rem/1 var(--font-display);text-decoration:none}
+	a[aria-current='page']{background:var(--brand-maroon-deep);color:var(--brand-cream)}
+	svg{width:1.2rem;fill:none;stroke:currentColor;stroke-width:1.8}
+	@media(max-width:390px){a{grid-template-columns:1fr;gap:.2rem;text-align:center}svg{margin:auto}}
+	@media(min-width:760px){.bottom-nav{display:none}}
 </style>

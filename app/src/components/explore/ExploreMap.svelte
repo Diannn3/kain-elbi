@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { brand } from '../../lib/brand';
 	import type { Place } from '../../lib/types';
 	let { places, selectedId, onSelect, onUnavailable }: { places: Place[]; selectedId?: string; onSelect: (place: Place) => void; onUnavailable: () => void } = $props();
 	let mapElement: HTMLDivElement;
@@ -47,12 +48,19 @@
 				map.on('load', () => {
 					if (!map) return;
 					map.addSource('explore-places', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+					map.addLayer({ id: 'explore-places-halo', type: 'circle', source: 'explore-places', paint: {
+						'circle-radius': ['case', ['==', ['get', 'selected'], 1], 13, 0],
+						'circle-color': brand.cream,
+						'circle-stroke-color': brand.maroonDeep,
+						'circle-stroke-width': ['case', ['==', ['get', 'selected'], 1], 2, 0],
+					} });
 					map.addLayer({ id: 'explore-places-dots', type: 'circle', source: 'explore-places', paint: {
 						'circle-radius': ['case', ['==', ['get', 'selected'], 1], 9, 6],
-						'circle-color': ['case', ['==', ['get', 'selected'], 1], '#f5bb02', '#176b3a'],
-						'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2,
+						'circle-color': ['case', ['==', ['get', 'selected'], 1], brand.orange, brand.cream],
+						'circle-stroke-color': ['case', ['==', ['get', 'selected'], 1], brand.charcoal, brand.maroonDeep],
+						'circle-stroke-width': 2,
 					} });
-					map.addLayer({ id: 'explore-places-hit', type: 'circle', source: 'explore-places', paint: { 'circle-radius': 20, 'circle-opacity': 0.01 } });
+					map.addLayer({ id: 'explore-places-hit', type: 'circle', source: 'explore-places', paint: { 'circle-radius': 20, 'circle-color': brand.charcoal, 'circle-opacity': 0.01 } });
 					map.on('click', 'explore-places-hit', (event) => {
 						const id = event.features?.[0]?.properties?.id;
 						const place = places.find((item) => item.id === String(id));
@@ -69,4 +77,4 @@
 	});
 </script>
 <div class="map" bind:this={mapElement} aria-label="Map of food places in Explore"></div>
-<style>.map{position:absolute;inset:0;background:var(--mist)} :global(.maplibregl-ctrl-attrib){font-family:var(--font-body)}</style>
+<style>.map{position:absolute;inset:0;background:var(--brand-sand)} :global(.maplibregl-ctrl-attrib){font-family:var(--font-body)}</style>

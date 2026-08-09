@@ -16,7 +16,7 @@ describe('Sprint 4 product architecture', () => {
 
 	it('keeps Explore separate from route-fit ranking', () => {
 		const explore = read('src/components/explore/ExploreApp.svelte');
-		expect(explore).toContain('Explore does not rank food quality');
+		expect(explore).toContain('Explore helps you discover food, not rank it.');
 		expect(explore).toContain('Campus route coverage available');
 		expect(explore).not.toContain('timeRemainingSeconds');
 	});

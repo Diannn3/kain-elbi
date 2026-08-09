@@ -22,6 +22,7 @@ const {
 	pageClass = '',
 } = Astro.props;
 const serviceWorkerEnabled = import.meta.env.PROD;
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
 ---
 
 <!doctype html>
@@ -32,6 +33,16 @@ const serviceWorkerEnabled = import.meta.env.PROD;
 		<meta name="theme-color" content="#5C1016" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
+		<meta property="og:site_name" content="UPPETITE" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:locale" content="en_PH" />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+		{canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.webmanifest" />

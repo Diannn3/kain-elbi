@@ -364,7 +364,7 @@ test('Sprint 4 navigation exposes Find, Explore, and Freshie', async ({ page, is
 test('Explore filters the named catalog without route-fit metrics', async ({ page }) => {
 	await page.goto('/explore?zone=raymundo');
 	await expect(page.locator('.zone-select select').first()).toHaveValue('raymundo');
-	await expect(page.getByText(/Explore does not rank food quality/i)).toBeVisible();
+	await expect(page.getByText(/Explore helps you discover food, not rank it/i)).toBeVisible();
 	await expect(page.locator('.explore-card').first()).toBeVisible();
 	expect(await page.locator('.explore-card').count()).toBeLessThanOrEqual(24);
 	await page.getByPlaceholder(/Search food, places, or areas/i).fill('Mokape');
@@ -408,7 +408,7 @@ test('UPPETITE header asset loads on home and internal pages', async ({ page }) 
 test('Freshie Mode exposes non-ranked evidence and source transparency', async ({ page }) => {
 	await page.goto('/freshie');
 	await expect(page.getByText(/Non-ranked\. Inclusion means/i)).toBeVisible();
-	await expect(page.getByText(/public evidence record/i).first()).toBeVisible();
+	await expect(page.getByText(/public student\/community evidence/i).first()).toBeVisible();
 	await page.getByText(/Sources reviewed for Freshie Mode/i).click();
 	await expect(page.locator('.sources a').first()).toBeVisible();
 });

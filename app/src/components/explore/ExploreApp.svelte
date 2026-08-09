@@ -89,7 +89,11 @@
 	function setView(next: 'list' | 'map') {
 		if (view === next) return;
 		view = next;
-		localStorage.setItem('kain-elbi-explore-view', next); // Legacy compatibility key.
+		try {
+			localStorage.setItem('kain-elbi-explore-view', next); // Legacy compatibility key.
+		} catch {
+			// View preference is optional in restricted storage contexts.
+		}
 		syncUrl('push');
 	}
 
@@ -101,15 +105,30 @@
 	onMount(() => {
 		const sourceUrl = new URL(location.href);
 		const parsed = parseExploreUrl(sourceUrl, urlOptions());
-		if (!sourceUrl.searchParams.has('view') && localStorage.getItem('kain-elbi-explore-view') === 'map') parsed.view = 'map';
+		if (!sourceUrl.searchParams.has('view')) {
+			try {
+				if (localStorage.getItem('kain-elbi-explore-view') === 'map') parsed.view = 'map';
+			} catch {
+				// View preference is optional in restricted storage contexts.
+			}
+		}
 		applyUrlState(parsed);
 		urlReady = true;
 		const canonical = serializeExploreUrl(new URL(location.href), parsed);
 		if (canonical.pathname + canonical.search !== location.pathname + location.search) history.replaceState(history.state, '', canonical.pathname + canonical.search);
 
+		const releasePrepaint = requestAnimationFrame(() => {
+			document.documentElement.removeAttribute('data-explore-prepaint');
+		});
+
 		const handlePopState = () => applyUrlState(parseExploreUrl(new URL(location.href), urlOptions()));
 		addEventListener('popstate', handlePopState);
-		return () => { removeEventListener('popstate', handlePopState); clearTimeout(searchTimer); };
+		return () => {
+			cancelAnimationFrame(releasePrepaint);
+			document.documentElement.removeAttribute('data-explore-prepaint');
+			removeEventListener('popstate', handlePopState);
+			clearTimeout(searchTimer);
+		};
 	});
 </script>
 
@@ -132,7 +151,7 @@
 		</div>
 	</div>
 
-	{#if urlReady && !isResultsMode}
+	{#if !isResultsMode}
 		<div class="editorial-discovery">
 			<section class="zone-section" aria-labelledby="zone-heading">
 				<div class="section-heading"><div><p class="eyebrow-global">Food Zones</p><h2 id="zone-heading">Learn Elbi by area.</h2></div></div>
