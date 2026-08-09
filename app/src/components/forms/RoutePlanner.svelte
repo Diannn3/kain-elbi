@@ -374,7 +374,7 @@
 		border: 1px solid var(--border-subtle);
 		border-radius: 999px;
 		background: var(--surface-raised);
-		color: var(--text-primary);
+		color: var(--forest) !important;
 		font-weight: 680;
 		white-space: nowrap;
 		transition: all 150ms ease;
