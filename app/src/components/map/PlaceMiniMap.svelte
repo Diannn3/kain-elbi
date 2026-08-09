@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { loadMapLibre } from '../../lib/maplibre-loader';
 
 	let {
 		name,
@@ -26,8 +27,7 @@
 				const mapTilerKey = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
 				if (!mapTilerKey) throw new Error('PUBLIC_MAPTILER_KEY is not configured');
 
-				const maplibre = await import('maplibre-gl');
-				await import('maplibre-gl/dist/maplibre-gl.css');
+				const maplibre = await loadMapLibre();
 				if (disposed) return;
 
 				map = new maplibre.Map({

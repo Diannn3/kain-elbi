@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { brand } from '../../lib/brand';
+	import { loadMapLibre } from '../../lib/maplibre-loader';
 	import type { Anchor, SmartPick } from '../../lib/types';
 
 	let {
@@ -188,9 +189,8 @@
 				const mapTilerKey = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
 				if (!mapTilerKey) throw new Error('PUBLIC_MAPTILER_KEY is not configured');
 
-				const maplibre = await import('maplibre-gl');
+				const maplibre = await loadMapLibre();
 				maplibreModule = maplibre;
-				await import('maplibre-gl/dist/maplibre-gl.css');
 				if (disposed) return;
 
 				const style = `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(mapTilerKey)}`;

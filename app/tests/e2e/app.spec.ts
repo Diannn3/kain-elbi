@@ -251,11 +251,31 @@ test('one-way mode discloses the omitted return trip', async ({ page }) => {
 
 test('map initializes inside the unified Smart Picks experience', async ({ page }) => {
 	let styleRequests = 0;
+	const workerResponsePromise = page.waitForResponse((response) =>
+		/maplibre-gl-worker.*\.(?:mjs|js)(?:\?|$)/.test(response.url()),
+	);
 	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', async (route) => {
 		styleRequests += 1;
 		await route.fulfill({
 			contentType: 'application/json',
-			body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
+			body: JSON.stringify({
+				version: 8,
+				name: 'UPPETITE worker test style',
+				sources: {
+					'worker-check': {
+						type: 'geojson',
+						data: {
+							type: 'FeatureCollection',
+							features: [{
+								type: 'Feature',
+								properties: {},
+								geometry: { type: 'Point', coordinates: [121.243, 14.169] },
+							}],
+						},
+					},
+				},
+				layers: [{ id: 'worker-check', type: 'circle', source: 'worker-check' }],
+			}),
 		});
 	});
 	await page.goto(`/map${routeQuery}`);
@@ -266,6 +286,8 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 	await expect(page.locator('.diagram-fallback')).toHaveCount(0);
 	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
 	expect(styleRequests).toBe(1);
+	const workerResponse = await workerResponsePromise;
+	expect(workerResponse.status()).toBe(200);
 });
 
 test('show on map keeps the same Smart Picks context and selects that place', async ({ page }) => {

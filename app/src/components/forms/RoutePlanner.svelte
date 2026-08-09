@@ -366,7 +366,20 @@
 	.chips::-webkit-scrollbar { display: none; }
 	.chips label { flex: 0 0 auto; }
 	.chips input { position: absolute; opacity: 0; pointer-events: none; }
-	.chips span { display: grid; place-items: center; min-height: var(--tap-target); padding: 0 1rem; border: 1px solid var(--border-subtle); border-radius: 999px; background: var(--surface-raised); font-weight: 680; white-space: nowrap; }
+	.chips span {
+		display: grid;
+		place-items: center;
+		min-height: var(--tap-target);
+		padding: 0 1rem;
+		border: 1px solid var(--border-subtle);
+		border-radius: 999px;
+		background: var(--surface-raised);
+		color: var(--text-primary);
+		font-weight: 680;
+		white-space: nowrap;
+		transition: all 150ms ease;
+	}
+	.chips label:hover span { background: var(--mist); }
 	.chips label.active span { border-color: var(--forest); background: var(--forest); color: white; }
 	.recent-routes { grid-column: 1 / -1; margin: 0.25rem 0 0.5rem; }
 	.recent-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; }

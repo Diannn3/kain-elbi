@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { brand } from '../../lib/brand';
+	import { loadMapLibre } from '../../lib/maplibre-loader';
 	import type { Place } from '../../lib/types';
 	let { places, selectedId, onSelect, onUnavailable }: { places: Place[]; selectedId?: string; onSelect: (place: Place) => void; onUnavailable: () => void } = $props();
 	let mapElement: HTMLDivElement;
@@ -33,8 +34,7 @@
 				if (!canvas.getContext('webgl2') && !canvas.getContext('webgl')) throw new Error('WebGL unavailable');
 				const key = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
 				if (!key) throw new Error('MapTiler unavailable');
-				const maplibre = await import('maplibre-gl');
-				await import('maplibre-gl/dist/maplibre-gl.css');
+				const maplibre = await loadMapLibre();
 				if (disposed) return;
 				map = new maplibre.Map({
 					container: mapElement,
