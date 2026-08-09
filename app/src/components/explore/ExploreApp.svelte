@@ -145,10 +145,10 @@
 		</section>
 		{#if collections.length}
 			<section class="collection-section" aria-labelledby="collection-heading">
-				<div class="section-heading"><div><p class="eyebrow-global">Research-Backed Browse Lists</p><h2 id="collection-heading">Community mentions, without fake rankings.</h2></div></div>
+				<div class="section-heading"><div><p class="eyebrow-global">Community Curated Lists</p><h2 id="collection-heading">Real places people are talking about, completely unranked.</h2></div></div>
 				<div class="collection-grid">
 					{#each collections as collection}
-						<a class:active={collectionId === collection.id} aria-current={collectionId === collection.id ? 'page' : undefined} href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} sources reviewed</span><strong>{collection.title}</strong><p>{collection.description}</p></a>
+						<a class:active={collectionId === collection.id} aria-current={collectionId === collection.id ? 'page' : undefined} href={`/explore?collection=${collection.id}`}><span>{collection.evidenceCount} community mentions</span><strong>{collection.title}</strong><p>{collection.description}</p></a>
 					{/each}
 				</div>
 			</section>
@@ -156,7 +156,7 @@
 	</div>
 
 	<div class="result-bar">
-		<div aria-live="polite"><strong>{filtered.length}</strong> places <span>· {activeCollection ? 'Research-backed browse list · ' : ''}Explore does not rank food quality.</span></div>
+		<div aria-live="polite"><strong>{filtered.length}</strong> places <span>· {activeCollection ? 'Research-backed browse list · ' : ''}Explore helps you discover food, not rank it.</span></div>
 		<div class="segmented" role="group" aria-label="Explore view"><button class:active={view==='list'} aria-pressed={view==='list'} onclick={() => setView('list')}>List</button><button class:active={view==='map'} aria-pressed={view==='map'} onclick={() => setView('map')}>Map</button></div>
 	</div>
 

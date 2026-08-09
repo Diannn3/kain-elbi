@@ -58,14 +58,14 @@ const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numer
 		{starter && starterPlaces.length > 0 && (
 			<section class="starter" aria-labelledby="starter-heading">
 				<div class="section-heading"><div><p class="eyebrow-global">Freshie Starter Pack</p><h2 id="starter-heading">Places that keep showing up in recent public discussions.</h2></div></div>
-				<p class="starter-note">Non-ranked. Inclusion means we found recent public student/community evidence for the place and matched it to Kain’s open-data catalog; it does not mean “best restaurant.”</p>
+				<p class="starter-note">Non-ranked. Inclusion means we found recent public student/community evidence for the place and matched it to UPPETITE’s open-data catalog; it does not mean “best restaurant.”</p>
 				<div class="starter-grid">
 					{starterItems.map(({ place, zone, mentions }) => (
 						<article>
 							<p class="place-meta">{zone?.shortName ?? 'Los Baños'} · {place.category.replace('_',' ')}</p>
 							<h3><a href={`/place/${place.id}`}>{place.name}</a></h3>
 							{mentions[0] && <p class="why">{mentions[0].summary}</p>}
-							<small>{mentions.length} public evidence record{mentions.length === 1 ? '' : 's'}</small>
+							<small>{mentions.length} community mention{mentions.length === 1 ? '' : 's'}</small>
 						</article>
 					))}
 				</div>
@@ -73,14 +73,14 @@ const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numer
 		)}
 
 		<section class="glossary" aria-labelledby="glossary-heading">
-			<div class="section-heading"><div><p class="eyebrow-global">Elbi Food Glossary</p><h2 id="glossary-heading">Terms Kain uses.</h2></div></div>
+			<div class="section-heading"><div><p class="eyebrow-global">Elbi Food Glossary</p><h2 id="glossary-heading">Terms UPPETITE uses.</h2></div></div>
 			<dl>{freshie.glossary.map((item) => <div><dt>{item.term}</dt><dd>{item.definition}</dd></div>)}</dl>
 		</section>
 
 		<section class="sources" aria-labelledby="sources-heading">
 			<details>
 				<summary id="sources-heading">Sources reviewed for Freshie Mode</summary>
-				<p>These links support the editorial layer only. Kain’s place coordinates/categories still come from the open-data catalog.</p>
+				<p>These links support the editorial layer only. UPPETITE’s place coordinates/categories still come from the open-data catalog.</p>
 				<ul>{sourceEntries.map(([, source]) => <li><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>{source.publishedAt && <span> · {source.publishedAt}</span>}</li>)}</ul>
 			</details>
 		</section>
