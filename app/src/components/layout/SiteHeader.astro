@@ -1,23 +1,47 @@
 ---
 interface Props { currentPath: string }
+
 const { currentPath } = Astro.props;
+
 const isFind = currentPath === '/' || currentPath.startsWith('/picks');
 const isExplore = currentPath.startsWith('/explore');
 const isFreshie = currentPath.startsWith('/freshie');
+const isContribute = currentPath.startsWith('/contribute');
 const isHome = currentPath === '/';
 ---
 
 <header class:list={['site-header', { 'site-header--home': isHome }]}>
 	<div class="header-inner">
 		<a class="brand" href="/" aria-label="UPPETITE home" translate="no">
-			<img src="/brand/uppetite-mark-header.png" alt="" width="96" height="96" loading="eager" decoding="async" fetchpriority="high" />
+			<img
+				src="/brand/uppetite-mark-header.png"
+				alt=""
+				width="96"
+				height="96"
+				loading="eager"
+				decoding="async"
+				fetchpriority="high"
+			/>
 			<span>UPPETITE</span>
 		</a>
-		<nav aria-label="Primary navigation">
-			<a href="/" aria-current={isFind ? 'page' : undefined}>Find</a>
-			<a href="/explore" aria-current={isExplore ? 'page' : undefined}>Explore</a>
-			<a href="/freshie" aria-current={isFreshie ? 'page' : undefined}>Freshie</a>
-		</nav>
+
+		<div class="header-actions">
+			<nav aria-label="Primary navigation">
+				<a href="/" aria-current={isFind ? 'page' : undefined}>Find</a>
+				<a href="/explore" aria-current={isExplore ? 'page' : undefined}>Explore</a>
+				<a href="/freshie" aria-current={isFreshie ? 'page' : undefined}>Freshie</a>
+			</nav>
+
+			{!isContribute && (
+				<a class="contribute-action" href="/contribute">
+					<svg aria-hidden="true" viewBox="0 0 24 24">
+						<path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" />
+						<path d="M12 7v6M9 10h6" />
+					</svg>
+					<span>Contribute</span>
+				</a>
+			)}
+		</div>
 	</div>
 </header>
 
@@ -38,7 +62,7 @@ const isHome = currentPath === '/';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: var(--space-4);
 	}
 
 	.brand {
@@ -46,6 +70,7 @@ const isHome = currentPath === '/';
 		min-height: var(--tap-target);
 		display: flex;
 		align-items: center;
+		flex: none;
 		gap: var(--space-1);
 		text-decoration: none;
 		color: var(--brand-maroon-deep);
@@ -61,6 +86,14 @@ const isHome = currentPath === '/';
 		object-position: left center;
 		transform: translateY(var(--space-1)) scale(1.65);
 		transform-origin: center;
+	}
+
+	.header-actions {
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: var(--space-3);
 	}
 
 	nav {
@@ -91,6 +124,43 @@ const isHome = currentPath === '/';
 		color: var(--color-on-primary);
 	}
 
+	.contribute-action {
+		min-height: var(--tap-target);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex: none;
+		gap: var(--space-2);
+		padding: 0 var(--space-4);
+		border: 1px solid rgb(92 16 22 / 0.34);
+		border-radius: 0.9rem;
+		background: var(--brand-sand);
+		color: var(--brand-maroon-deep);
+		font: 740 0.86rem/1 var(--font-display);
+		text-decoration: none;
+		transition:
+			background-color 150ms ease,
+			border-color 150ms ease,
+			color 150ms ease;
+	}
+
+	.contribute-action svg {
+		width: 1.15rem;
+		height: 1.15rem;
+		flex: none;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.contribute-action:hover {
+		border-color: var(--brand-maroon-deep);
+		background: var(--brand-maroon-deep);
+		color: var(--brand-cream);
+	}
+
 	.site-header--home {
 		position: absolute;
 		top: 0;
@@ -106,7 +176,9 @@ const isHome = currentPath === '/';
 		color: var(--brand-cream);
 	}
 
-	.site-header--home .brand { color: var(--brand-cream); }
+	.site-header--home .brand {
+		color: var(--brand-cream);
+	}
 
 	.site-header--home nav a:hover {
 		background: rgb(255 249 241 / 0.11);
@@ -115,6 +187,18 @@ const isHome = currentPath === '/';
 	.site-header--home nav a[aria-current='page'] {
 		background: var(--brand-cream);
 		color: var(--brand-maroon-deep);
+	}
+
+	.site-header--home .contribute-action {
+		border-color: rgb(255 249 241 / 0.78);
+		background: var(--brand-cream);
+		color: var(--brand-maroon-deep);
+	}
+
+	.site-header--home .contribute-action:hover {
+		border-color: var(--brand-sand);
+		background: var(--brand-sand);
+		color: var(--brand-maroon-ink);
 	}
 
 	@media (min-width: 1100px) {
@@ -126,14 +210,52 @@ const isHome = currentPath === '/';
 	@media (max-width: 759px) {
 		.header-inner {
 			min-height: 4.25rem;
+			gap: var(--space-2);
+		}
+
+		.brand {
+			font-size: 1.05rem;
+			letter-spacing: 0.045em;
 		}
 
 		.brand img {
 			height: 1.95rem;
+			max-width: 1.95rem;
+		}
+
+		.header-actions {
+			margin-left: auto;
 		}
 
 		nav {
 			display: none;
+		}
+
+		.contribute-action {
+			padding-inline: var(--space-3);
+			font-size: 0.8rem;
+		}
+	}
+
+	@media (max-width: 350px) {
+		.header-inner {
+			gap: var(--space-1);
+		}
+
+		.brand {
+			font-size: 0.96rem;
+			letter-spacing: 0.03em;
+		}
+
+		.brand img {
+			height: 1.7rem;
+			max-width: 1.7rem;
+		}
+
+		.contribute-action {
+			gap: var(--space-1);
+			padding-inline: 0.7rem;
+			font-size: 0.76rem;
 		}
 	}
 </style>
