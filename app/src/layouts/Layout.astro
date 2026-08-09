@@ -57,7 +57,7 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : unde
 		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}
 		<footer class="site-footer">
 			<p>UPPETITE uses open-data place records; availability, hours, and business status can change.</p>
-			<p>© OpenStreetMap contributors · Overture Maps</p>
+			<p><a href="/contribute">Contribute to UPPETITE</a> · © OpenStreetMap contributors · Overture Maps</p>
 		</footer>
 		<script define:vars={{ serviceWorkerEnabled }}>
 			if (serviceWorkerEnabled && 'serviceWorker' in navigator) {

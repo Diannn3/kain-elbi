@@ -21,7 +21,8 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(dialog).toBeVisible();
 	await expect(dialog.getByRole('heading', { name: /Why this fits your break/i })).toBeVisible();
 	await expect(dialog.getByRole('link', { name: /Get directions/i })).toBeVisible();
-	await expect(dialog.locator('details.listing-info')).not.toHaveAttribute('open', '');
+	await expect(dialog.locator('details.listing-info')).toHaveCount(0);
+	await expect(dialog.getByRole('link', { name: /Suggest an edit/i })).toBeVisible();
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).toBeHidden();
 });
@@ -333,7 +334,6 @@ test('map preview place sheet follows Back and Forward with inert state', async 
 });
 
 
-
 test('full place page prioritizes location and actions over provenance', async ({ page }) => {
 	await page.goto(`/picks${routeQuery}`);
 	await page.getByRole('button', { name: 'Details' }).first().click();
@@ -347,7 +347,8 @@ test('full place page prioritizes location and actions over provenance', async (
 	await expect(page.getByText(/UPPETITE route coverage/i)).toBeVisible();
 	await expect(page.locator('.route-art')).toHaveCount(0);
 	await expect(page.getByText(/Candidate place record/i)).toHaveCount(0);
-	await expect(page.getByText(/About this listing/i)).toBeVisible();
+	await expect(page.getByText(/About this listing/i)).toHaveCount(0);
+	await expect(page.getByRole('link', { name: /Suggest an edit/i })).toBeVisible();
 });
 
 test('Sprint 4 navigation exposes Find, Explore, and Freshie', async ({ page, isMobile }) => {

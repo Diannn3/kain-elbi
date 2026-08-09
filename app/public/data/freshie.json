@@ -32,8 +32,8 @@
     {
       "id": "surprise",
       "title": "Show me somewhere new",
-      "description": "Open Explore with the full catalog and pick a zone you have not tried yet.",
-      "explore_query": ""
+      "description": "Let Explore randomly choose a place from the current catalog for you.",
+      "explore_query": "surprise=1"
     }
   ],
   "glossary": [

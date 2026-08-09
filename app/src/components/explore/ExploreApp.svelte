@@ -24,9 +24,11 @@
 	let collectionId = $state('');
 	let view = $state<'list' | 'map'>('list');
 	let selectedId = $state('');
+	let surpriseId = $state('');
 	let mapFailed = $state(false);
 	let urlReady = $state(false);
 	let visibleCount = $state(24);
+	let surpriseAnnouncement = $state('');
 	let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
 	const normalizedQuery = $derived(query.trim().toLowerCase());
@@ -62,6 +64,7 @@
 		collectionId = state.collectionId;
 		view = state.view;
 		selectedId = '';
+		surpriseId = '';
 		visibleCount = 24;
 		mapFailed = false;
 	}
@@ -74,6 +77,7 @@
 
 	function commitFilters() {
 		selectedId = '';
+		surpriseId = '';
 		visibleCount = 24;
 		mapFailed = false;
 		syncUrl('push');
@@ -81,6 +85,7 @@
 
 	function changeQuery() {
 		selectedId = '';
+		surpriseId = '';
 		visibleCount = 24;
 		clearTimeout(searchTimer);
 		searchTimer = setTimeout(() => syncUrl('replace'), 160);
@@ -95,6 +100,44 @@
 			// View preference is optional in restricted storage contexts.
 		}
 		syncUrl('push');
+	}
+
+	function randomIndex(length: number) {
+		if (length <= 1) return 0;
+		if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+			const values = new Uint32Array(1);
+			const ceiling = Math.floor(0x1_0000_0000 / length) * length;
+			do crypto.getRandomValues(values); while (values[0] >= ceiling);
+			return values[0] % length;
+		}
+		return Math.floor(Math.random() * length);
+	}
+
+	function surpriseMe() {
+		if (filtered.length === 0) return;
+		const candidates = filtered.length > 1 && selectedId
+			? filtered.filter((place) => place.id !== selectedId)
+			: filtered;
+		const place = candidates[randomIndex(candidates.length)];
+		if (!place) return;
+
+		selectedId = place.id;
+		surpriseId = place.id;
+		surpriseAnnouncement = `Surprise pick: ${place.name}.`;
+
+		if (view === 'map' && !mapFailed) return;
+
+		const index = filtered.findIndex((candidate) => candidate.id === place.id);
+		if (index >= visibleCount) visibleCount = Math.ceil((index + 1) / 24) * 24;
+
+		requestAnimationFrame(() => requestAnimationFrame(() => {
+			const card = Array.from(document.querySelectorAll<HTMLElement>('.explore-card'))
+				.find((element) => element.dataset.placeId === place.id);
+			if (!card) return;
+			const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+			card.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'auto' : 'smooth' });
+			card.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
+		}));
 	}
 
 	function clearFilters() {
@@ -116,6 +159,14 @@
 		urlReady = true;
 		const canonical = serializeExploreUrl(new URL(location.href), parsed);
 		if (canonical.pathname + canonical.search !== location.pathname + location.search) history.replaceState(history.state, '', canonical.pathname + canonical.search);
+
+		const surpriseRequested = sourceUrl.searchParams.get('surprise') === '1';
+		if (surpriseRequested) {
+			const cleaned = new URL(location.href);
+			cleaned.searchParams.delete('surprise');
+			history.replaceState(history.state, '', cleaned.pathname + cleaned.search);
+			requestAnimationFrame(() => surpriseMe());
+		}
 
 		const releasePrepaint = requestAnimationFrame(() => {
 			document.documentElement.removeAttribute('data-explore-prepaint');
@@ -179,8 +230,15 @@
 
 	<div class="result-bar">
 		<div aria-live="polite"><strong>{filtered.length}</strong> places <span>· {activeCollection ? 'Research-backed browse list · ' : ''}Explore helps you discover food, not rank it.</span></div>
-		<div class="segmented" role="group" aria-label="Explore view"><button class:active={view==='list'} aria-pressed={view==='list'} onclick={() => setView('list')}>List</button><button class:active={view==='map'} aria-pressed={view==='map'} onclick={() => setView('map')}>Map</button></div>
+		<div class="result-actions">
+			<button class="surprise-button" type="button" disabled={filtered.length === 0} onclick={surpriseMe}>
+				<span aria-hidden="true">↝</span> Show me somewhere new
+			</button>
+			<div class="segmented" role="group" aria-label="Explore view"><button class:active={view==='list'} aria-pressed={view==='list'} onclick={() => setView('list')}>List</button><button class:active={view==='map'} aria-pressed={view==='map'} onclick={() => setView('map')}>Map</button></div>
+		</div>
 	</div>
+	<p class="contribute-cta">Know a place we’re missing? <a href="/contribute#add-place">Add it to UPPETITE →</a></p>
+	<p class="sr-only" aria-live="polite">{surpriseAnnouncement}</p>
 
 	{#if !urlReady}
 		<p class="preparing" role="status">Preparing Explore…</p>
@@ -188,7 +246,7 @@
 		<div class="grid">
 			{#each visiblePlaces as place (place.id)}
 				{@const zone = zoneForPlace.get(place.id)}
-				<article class="explore-card">
+				<article class="explore-card" class:surprise-selected={surpriseId === place.id} data-place-id={place.id}>
 					<div class="meta"><span>{categoryLabels[place.category]}</span>{#if zone}<span>{zone.shortName}</span>{/if}</div>
 					<h2><a href={`/place/${place.id}`}>{place.name}</a></h2>
 					{#if place.cuisine.length}<p class="tags">{place.cuisine.slice(0,3).join(' · ')}</p>{/if}
@@ -201,7 +259,7 @@
 		{#if remainingCount > 0}<div class="disclosure"><p>Showing {visiblePlaces.length} of {filtered.length} places.</p><button onclick={() => visibleCount += 24}>Show {Math.min(24, remainingCount)} more <span aria-hidden="true">↓</span><span class="sr-only"> — {remainingCount} remaining</span></button></div>{/if}
 	{:else}
 		<div class="map-wrap">
-			<ExploreMap places={filtered} {selectedId} onSelect={(place) => selectedId = place.id} onUnavailable={() => mapFailed = true} />
+			<ExploreMap places={filtered} {selectedId} onSelect={(place) => { selectedId = place.id; surpriseId = ''; }} onUnavailable={() => mapFailed = true} />
 			{#if selected}<aside class="preview"><span>{categoryLabels[selected.category]} · {zoneForPlace.get(selected.id)?.shortName ?? 'Los Baños'}</span><strong>{selected.name}</strong><small>{routable.has(selected.id) ? 'Campus route coverage available' : 'Explore listing'}</small><a href={`/place/${selected.id}`}>View details →</a></aside>{/if}
 		</div>
 	{/if}
@@ -277,6 +335,13 @@
 	.result-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.1rem 0.1rem 0; color: var(--brand-charcoal); }
 	.result-bar strong { color: var(--brand-maroon-deep); }
 	.result-bar span { color: var(--color-text-muted); font-size: 0.85rem; }
+	.result-actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); flex-wrap: wrap; }
+	.surprise-button { min-height: var(--tap-target); padding: 0 var(--space-4); border: 1px solid var(--brand-maroon-deep); border-radius: 999px; background: var(--brand-cream); color: var(--brand-maroon-deep); font-weight: 740; white-space: nowrap; }
+	.surprise-button:hover:not(:disabled) { background: var(--brand-sand); }
+	.surprise-button:disabled { opacity: 0.45; cursor: not-allowed; }
+	.surprise-button > span { margin-right: 0.25rem; color: var(--brand-orange); font-size: 1rem; }
+	.contribute-cta { margin: calc(var(--space-3) * -1) 0 0; color: var(--color-text-muted); font-size: 0.82rem; }
+	.contribute-cta a { color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
 	.segmented { display: grid; grid-template-columns: 1fr 1fr; padding: 0.2rem; border: 1px solid var(--color-border); border-radius: 999px; background: var(--brand-sand); }
 	.segmented button { min-height: 2.5rem; border: 0; background: transparent; }
 	.grid { display: grid; min-width: 0; gap: var(--space-4); }
@@ -292,6 +357,7 @@
 		animation: card-enter 140ms ease-out both;
 	}
 	.explore-card:nth-child(even) { background: var(--brand-sand); }
+	.explore-card.surprise-selected { border-color: var(--brand-orange); box-shadow: 0 0 0 2px rgb(230 106 25 / 0.16), 0 0.75rem 1.8rem rgb(71 12 17 / 0.08); }
 	.meta { display: flex; gap: 0.5rem; flex-wrap: wrap; color: var(--brand-maroon-deep); font: 760 0.68rem/1 var(--font-display); letter-spacing: 0.07em; text-transform: uppercase; }
 	.meta span + span::before { content: '·'; margin-right: 0.5rem; color: var(--color-text-muted); }
 	h2 { margin: 0.65rem 0 0; color: var(--brand-maroon-deep); font: 770 clamp(1.4rem, 5vw, 1.8rem)/1 var(--font-display); }
@@ -315,6 +381,11 @@
 	.empty h2 { margin: 0; }
 	.empty p { color: var(--color-text-muted); }
 	.empty button { min-height: var(--tap-target); padding: 0 1rem; border: 0; border-radius: 0.9rem; background: var(--brand-maroon-deep); color: var(--brand-cream); font-weight: 740; }
+	@media (max-width: 759px) {
+		.result-bar { align-items: flex-start; flex-direction: column; }
+		.result-actions { width: 100%; justify-content: space-between; }
+		.surprise-button { flex: 1; }
+	}
 	@media (min-width: 760px) {
 		.toolbar { grid-template-columns: 1fr auto; align-items: end; padding: 1.15rem; }
 		.search { grid-column: 1 / -1; }

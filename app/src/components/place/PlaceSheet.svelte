@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { availabilityLabel } from '../../lib/place-availability';
-	import { categoryLabel, cuisineSummary, sourceSummary } from '../../lib/place-presentation';
+	import { categoryLabel, cuisineSummary } from '../../lib/place-presentation';
 	import type { Place, SmartPick } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 
@@ -56,8 +56,8 @@
 		place ? `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}&travelmode=walking` : '',
 	);
 	const placeUrl = $derived(place ? `/place/${encodeURIComponent(place.id)}` : '');
+	const editUrl = $derived(place ? `/contribute?place=${encodeURIComponent(place.id)}#suggest-edit` : '/contribute#suggest-edit');
 	const cuisine = $derived(place ? cuisineSummary(place) : undefined);
-	const listingSummary = $derived(place ? sourceSummary(place) : '');
 	const walkMinutes = $derived(pick ? Math.max(0, Math.round(pick.walkToPlaceSeconds / 60)) : 0);
 	const availableMinutes = $derived(pick ? Math.max(0, Math.round(pick.timeRemainingSeconds / 60)) : 0);
 	const detourMinutes = $derived(pick?.detourSeconds === undefined ? undefined : Math.max(0, Math.round(pick.detourSeconds / 60)));
@@ -118,20 +118,7 @@
 					{/if}
 				</section>
 
-				<details class="listing-info">
-					<summary>About this listing</summary>
-					<div class="listing-body">
-						<strong>{place.confidenceLabel}</strong>
-						<p>{listingSummary}. Open-data evidence can change, so UPPETITE does not treat this as field verification.</p>
-						{#if place.sources.length}
-							<ul aria-label="Listing data sources">
-								{#each place.sources as source}
-									<li><span>{source.source.toUpperCase()}</span><code>{source.sourceId}</code></li>
-								{/each}
-							</ul>
-						{/if}
-					</div>
-				</details>
+				<p class="contribute-note">Something changed? <a href={editUrl}>Suggest an edit</a></p>
 			</div>
 
 			<footer class="sheet-actions">
@@ -209,17 +196,10 @@
 	.place-facts dt { color: var(--color-text-muted); font-size: 0.76rem; }
 	.place-facts dd { margin: 0; color: var(--color-text); font-weight: 650; line-height: 1.45; }
 	.hours-detail { margin-top: var(--space-2); border-top: 1px solid var(--color-border); }
-	.hours-detail summary,
-	.listing-info > summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--brand-maroon-deep); font-weight: 720; }
+	.hours-detail summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--brand-maroon-deep); font-weight: 720; }
 	.hours-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--brand-sand); color: var(--color-text-muted); font-size: 0.74rem; white-space: normal; overflow-wrap: anywhere; }
-	.listing-info { margin-top: var(--space-4); padding-inline: var(--space-2); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
-	.listing-body { padding: 0 var(--space-2) var(--space-4); }
-	.listing-body > strong { color: var(--brand-maroon-deep); font: 730 0.9rem/1.2 var(--font-display); }
-	.listing-body > p { margin: var(--space-2) 0 0; color: var(--color-text-muted); font-size: 0.8rem; line-height: 1.55; }
-	ul { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
-	li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--space-2); min-width: 0; color: var(--color-text-muted); font-size: 0.72rem; }
-	li span { color: var(--brand-maroon-deep); font-weight: 750; }
-	li code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.contribute-note { margin: var(--space-4) var(--space-1) 0; color: var(--color-text-muted); font-size: 0.8rem; }
+	.contribute-note a { color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
 	.sheet-actions { display: grid; grid-template-columns: auto minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--color-border); background: rgb(255 249 241 / 0.98); box-shadow: 0 -0.75rem 1.6rem rgb(71 12 17 / 0.08); backdrop-filter: blur(14px); }
 	.sheet-actions a,
 	.sheet-actions button { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-3); border-radius: var(--radius-md); font: 740 0.9rem/1 var(--font-display); text-align: center; text-decoration: none; cursor: pointer; }
