@@ -12,8 +12,11 @@
 	let preferredCategory = $state<Category | ''>('');
 	let status = $state('');
 	let locating = $state(false);
+	let currentLocationAnchorId = $state('');
+	let currentLocationApproachSeconds = $state(0);
 	let originInvalid = $state(false);
 	let destinationInvalid = $state(false);
+	let locationRequestId = 0;
 
 	const presets = [20, 30, 45, 60];
 	const categories: { value: Category | ''; label: string }[] = [
@@ -31,14 +34,89 @@
 		return anchors.find((anchor) => anchor.name.toLocaleLowerCase() === normalized);
 	}
 
-	function chooseCurrentLocation() {
+	function clearResolvedCurrentLocation() {
+		currentLocationAnchorId = '';
+		currentLocationApproachSeconds = 0;
+	}
+
+	function locationFailure(message: string, requestId: number) {
+		if (requestId !== locationRequestId) return;
+		locating = false;
+		clearResolvedCurrentLocation();
+		originId = '';
+		originInvalid = true;
+		status = message;
+	}
+
+	function requestCurrentLocation(navigateWhenReady = false) {
 		originId = 'current';
 		originQuery = '';
 		originInvalid = false;
-		status = '';
+		clearResolvedCurrentLocation();
+
+		const requestId = ++locationRequestId;
+		if (!navigator.geolocation) {
+			locationFailure(
+				'Location is unavailable. Search for a campus building instead.',
+				requestId,
+			);
+			return;
+		}
+
+		locating = true;
+		status = 'Finding your nearest campus point…';
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				if (requestId !== locationRequestId) return;
+
+				const anchorRecord = Object.fromEntries(
+					anchors.map((anchor) => [anchor.id, anchor]),
+				);
+				const snap = snapToNearestAnchor(
+					{ lat: position.coords.latitude, lon: position.coords.longitude },
+					anchorRecord,
+				);
+
+				if (!snap) {
+					locationFailure(
+						'You are outside the supported campus area. Search for a building instead.',
+						requestId,
+					);
+					return;
+				}
+
+				locating = false;
+				currentLocationAnchorId = snap.anchor.id;
+				currentLocationApproachSeconds = snap.approachSeconds;
+				status = `Using your current location near ${snap.anchor.name}.`;
+
+				if (navigateWhenReady) {
+					window.location.assign(
+						buildUrl(snap.anchor.id, 'nearby', snap.approachSeconds),
+					);
+				}
+			},
+			(error) => {
+				const message =
+					error.code === error.PERMISSION_DENIED
+						? 'Location permission was not granted. Search for a campus building instead.'
+						: error.code === error.TIMEOUT
+							? 'Location took too long. Try again or search for a campus building instead.'
+							: 'We could not get your location. Try again or search for a campus building instead.';
+				locationFailure(message, requestId);
+			},
+			{ enableHighAccuracy: false, maximumAge: 60_000, timeout: 8_000 },
+		);
+	}
+
+	function chooseCurrentLocation() {
+		requestCurrentLocation(false);
 	}
 
 	function handleOriginInput(value: string) {
+		locationRequestId += 1;
+		locating = false;
+		clearResolvedCurrentLocation();
 		originQuery = value;
 		const match = findAnchor(value);
 		originId = match?.id ?? '';
@@ -98,33 +176,17 @@
 		if (originId !== 'current') return;
 
 		event.preventDefault();
-		if (!navigator.geolocation) {
-			status = 'Location is unavailable. Search for a campus building instead.';
+		if (currentLocationAnchorId) {
+			window.location.assign(
+				buildUrl(
+					currentLocationAnchorId,
+					'nearby',
+					currentLocationApproachSeconds,
+				),
+			);
 			return;
 		}
-
-		locating = true;
-		status = 'Finding your nearest campus point…';
-		navigator.geolocation.getCurrentPosition(
-			(position) => {
-				const anchorRecord = Object.fromEntries(anchors.map((anchor) => [anchor.id, anchor]));
-				const snap = snapToNearestAnchor(
-					{ lat: position.coords.latitude, lon: position.coords.longitude },
-					anchorRecord,
-				);
-				if (!snap) {
-					locating = false;
-					status = 'You are outside the supported campus area. Search for a building instead.';
-					return;
-				}
-				window.location.assign(buildUrl(snap.anchor.id, 'nearby', snap.approachSeconds));
-			},
-			() => {
-				locating = false;
-				status = 'Location permission was not granted. Search for a campus building instead.';
-			},
-			{ enableHighAccuracy: false, maximumAge: 60_000, timeout: 8_000 },
-		);
+		requestCurrentLocation(true);
 	}
 </script>
 
@@ -160,7 +222,9 @@
 				class="location-alternative current-location"
 				class:active={originId === 'current'}
 				type="button"
+				disabled={locating}
 				aria-pressed={originId === 'current'}
+				aria-describedby="planner-status location-note"
 				onclick={chooseCurrentLocation}
 			>
 				<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Zm0-8.5A2.5 2.5 0 1 0 12 7a2.5 2.5 0 0 0 0 5.5Z" /></svg>
@@ -262,7 +326,7 @@
 		<p class="status" id="planner-status" aria-live="polite">{status}</p>
 		<p class="privacy-note" id="location-note">
 			<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Zm0 5v4m0 4h.01" /></svg>
-			Location permission is only requested when you search with current location. Exact coordinates are not stored.
+			Location permission is requested when you choose current location or search with it. Exact coordinates are not stored.
 		</p>
 	</div>
 </form>
