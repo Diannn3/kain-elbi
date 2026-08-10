@@ -13,6 +13,7 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 	await page.setViewportSize({ width: 390, height: 844 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('html')).toHaveClass(/mobile-map-active/);
 	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('.map-frame')).toBeVisible();
 	await expect(page.locator('.map-preview')).toBeVisible();
@@ -22,12 +23,14 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 		const frame = document.querySelector('.map-frame');
 		const nav = document.querySelector('.bottom-nav');
 		const preview = document.querySelector('.map-preview');
+		const shortlist = document.querySelector('.map-shortlist');
 		const meta = document.querySelector('.ticket-meta');
-		if (!bar || !frame || !nav || !preview || !meta) return null;
+		if (!bar || !frame || !nav || !preview || !shortlist || !meta) return null;
 		const barBox = bar.getBoundingClientRect();
 		const frameBox = frame.getBoundingClientRect();
 		const navBox = nav.getBoundingClientRect();
 		const previewBox = preview.getBoundingClientRect();
+		const shortlistBox = shortlist.getBoundingClientRect();
 		const usableBottom = Math.min(frameBox.bottom, navBox.top - 8);
 		return {
 			barHeight: barBox.height,
@@ -36,6 +39,8 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 			navTop: navBox.top,
 			previewBottom: previewBox.bottom,
 			previewHeight: previewBox.height,
+			shortlistBottom: shortlistBox.bottom,
+			shortlistHeight: shortlistBox.height,
 			visibleMapHeight: Math.max(0, usableBottom - Math.max(frameBox.top, 0)),
 			viewportHeight: innerHeight,
 			metaDisplay: getComputedStyle(meta).display,
@@ -48,9 +53,30 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 	expect(geometry!.metaDisplay).toBe('none');
 	expect(geometry!.frameBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
 	expect(geometry!.previewBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
+	expect(geometry!.shortlistBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
 	expect(geometry!.previewHeight).toBeLessThanOrEqual(125);
 	expect(geometry!.visibleMapHeight).toBeGreaterThanOrEqual(geometry!.viewportHeight * 0.55);
 	expect(geometry!.overflow).toBe(false);
+});
+
+test('mobile Map behaves like a viewport app shell instead of a scrolling document', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await stubBasemap(page);
+	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('html')).toHaveClass(/mobile-map-active/);
+
+	await page.evaluate(() => window.scrollTo(0, 0));
+	try {
+		await page.mouse.wheel(0, 1200);
+	} catch {
+		await page.evaluate(() => window.scrollBy(0, 1200));
+	}
+	await page.waitForTimeout(80);
+
+	expect(await page.evaluate(() => window.scrollY)).toBe(0);
+	expect(await page.locator('html').evaluate((node) => getComputedStyle(node).overflow)).toBe('hidden');
+	expect(await page.locator('body').evaluate((node) => getComputedStyle(node).overflow)).toBe('hidden');
+	await expect(page.locator('.map-shortlist')).toBeInViewport();
 });
 
 test('mobile Map route explanation expands without clipping the truthfulness copy', async ({ page }) => {
@@ -75,7 +101,17 @@ test('mobile List keeps its existing route ticket metadata', async ({ page }) =>
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.goto('/picks?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60&view=list');
 	await expect(page.getByRole('button', { name: 'List' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator('html')).not.toHaveClass(/mobile-map-active/);
 	await expect(page.locator('.ticket-meta')).toBeVisible();
+});
+
+test('switching Map back to List restores ordinary page scrolling', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await stubBasemap(page);
+	await page.goto(`/picks${routeQuery}`);
+	await page.getByRole('button', { name: 'List' }).click();
+	await expect(page.locator('html')).not.toHaveClass(/mobile-map-active/);
+	expect(await page.locator('html').evaluate((node) => getComputedStyle(node).overflow)).not.toBe('hidden');
 });
 
 test('760px and desktop Map retain the full desktop route ticket and share label', async ({ page }) => {
