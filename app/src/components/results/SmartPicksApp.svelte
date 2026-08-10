@@ -862,7 +862,7 @@
 
 		/* The frame ends above the fixed BottomNav instead of extending underneath it. */
 		.picks-layout.map-active .map-frame {
-			height: clamp(16rem, calc(100dvh - 18.5rem - env(safe-area-inset-bottom)), 42rem);
+			height: clamp(16rem, calc(100dvh - 21rem - env(safe-area-inset-bottom)), 42rem);
 			border-radius: 1.15rem;
 		}
 
