@@ -1,0 +1,368 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const roomTbaRepository = 'https://github.com/uplbtools/room-tba';
+const roomTbaRevision = 'feb008212af6b54d3344f44c4a33672b50983fcc';
+const openStreetMapCopyright = 'https://www.openstreetmap.org/copyright';
+const overtureMaps = 'https://overturemaps.org/';
+---
+
+<Layout
+	title="Credits & Data Sources — UPPETITE"
+	description="Credits and data-source acknowledgements for UPPETITE, including Room TBA, OpenStreetMap, and Overture Maps."
+>
+	<main id="main-content" class="credits-page page-shell">
+		<nav class="breadcrumb" aria-label="Breadcrumb">
+			<a href="/">Home</a>
+			<span aria-hidden="true">›</span>
+			<span>Credits &amp; Data Sources</span>
+		</nav>
+
+		<header class="credits-hero">
+			<p class="eyebrow-global">Credits &amp; Data Sources</p>
+			<h1>Built with work worth crediting<span aria-hidden="true">.</span></h1>
+			<p>
+				UPPETITE combines original application work with open data and third-party resources
+				from the UPLB and broader mapping community.
+			</p>
+		</header>
+
+		<div class="credits-layout">
+			<div class="credits-list">
+				<section id="room-tba" class="credit-section" aria-labelledby="room-tba-title">
+					<div class="credit-mark room-tba-mark" aria-hidden="true"><span>RT</span></div>
+					<div class="credit-copy">
+						<div class="credit-heading">
+							<div>
+								<p class="credit-kicker">Campus routing</p>
+								<h2 id="room-tba-title">Room TBA</h2>
+							</div>
+							<span class="source-badge">MIT-licensed upstream</span>
+						</div>
+
+						<p class="credit-lead">
+							UPPETITE's pedestrian-routing pipeline uses a generated walking graph sourced
+							from <strong>Room TBA</strong>, a UPLB campus mapping project by
+							<strong>Simonee Ezekiel Mariquit and contributors</strong>.
+						</p>
+
+						<dl class="source-facts">
+							<div>
+								<dt>Used upstream</dt>
+								<dd><code>src/generated/walk-graph.json</code></dd>
+							</div>
+							<div>
+								<dt>Pinned revision</dt>
+								<dd><code>{roomTbaRevision}</code></dd>
+							</div>
+						</dl>
+
+						<div class="credit-actions">
+							<a class="primary-link" href={roomTbaRepository} target="_blank" rel="noopener noreferrer">
+								View Room TBA on GitHub ↗
+								<span class="sr-only"> (opens in a new tab)</span>
+							</a>
+							<a href="#room-tba-license">Read the retained MIT notice ↓</a>
+						</div>
+					</div>
+				</section>
+
+				<section id="openstreetmap" class="credit-section" aria-labelledby="osm-title">
+					<div class="credit-mark osm-mark" aria-hidden="true">
+						<svg viewBox="0 0 48 48">
+							<path d="M8 35 15 9l22 5-7 26-22-5Z" />
+							<path d="m15 9 8 8 14-3M8 35l13-9 9 14" />
+							<circle cx="24" cy="22" r="5" />
+						</svg>
+					</div>
+					<div class="credit-copy">
+						<div class="credit-heading">
+							<div>
+								<p class="credit-kicker">Map &amp; path data</p>
+								<h2 id="osm-title">OpenStreetMap</h2>
+							</div>
+							<span class="source-badge source-badge-green">ODbL</span>
+						</div>
+
+						<p class="credit-lead">
+							The imported Room TBA walking-graph metadata identifies its path network as
+							derived from OpenStreetMap data.
+						</p>
+
+						<p class="attribution">
+							<strong>© OpenStreetMap contributors</strong><br />
+							Path-network data is available under the Open Data Commons Open Database License (ODbL).
+						</p>
+
+						<a class="primary-link" href={openStreetMapCopyright} target="_blank" rel="noopener noreferrer">
+							OpenStreetMap copyright &amp; license ↗
+							<span class="sr-only"> (opens in a new tab)</span>
+						</a>
+					</div>
+				</section>
+
+				<section id="overture" class="credit-section" aria-labelledby="overture-title">
+					<div class="credit-mark overture-mark" aria-hidden="true">
+						<span></span><span></span><span></span>
+					</div>
+					<div class="credit-copy">
+						<div class="credit-heading">
+							<div>
+								<p class="credit-kicker">Place data</p>
+								<h2 id="overture-title">Overture Maps</h2>
+							</div>
+							<span class="source-badge">Data source</span>
+						</div>
+
+						<p class="credit-lead">
+							UPPETITE credits Overture Maps as one of the open-data sources used in its
+							place-data pipeline.
+						</p>
+
+						<a class="primary-link" href={overtureMaps} target="_blank" rel="noopener noreferrer">
+							Learn about Overture Maps ↗
+							<span class="sr-only"> (opens in a new tab)</span>
+						</a>
+					</div>
+				</section>
+
+				<section id="third-party-software" class="credit-section" aria-labelledby="software-title">
+					<div class="credit-mark software-mark" aria-hidden="true">&lt;/&gt;</div>
+					<div class="credit-copy">
+						<div class="credit-heading">
+							<div>
+								<p class="credit-kicker">Libraries &amp; tools</p>
+								<h2 id="software-title">Third-party software</h2>
+							</div>
+						</div>
+
+						<p class="credit-lead">
+							UPPETITE also uses third-party libraries, fonts, and tools under their
+							respective licenses. Those materials are not relicensed by UPPETITE.
+						</p>
+					</div>
+				</section>
+			</div>
+
+			<aside class="credits-aside" aria-label="About these credits">
+				<section>
+					<p class="aside-label">About this page</p>
+					<h2>Credit without changing ownership.</h2>
+					<p>This page acknowledges third-party work and data used by UPPETITE.</p>
+					<p>
+						<strong>UPPETITE itself remains proprietary.</strong> No license on this page
+						grants rights to UPPETITE's original source code, branding, or other original material.
+					</p>
+				</section>
+
+				<section>
+					<p class="aside-label">Routing provenance</p>
+					<p>
+						The Room TBA credit applies to the imported walking graph. UPPETITE's local
+						<code>anchors.json</code> identifies its source separately as
+						<code>kain-existing-anchors</code>.
+					</p>
+				</section>
+			</aside>
+		</div>
+
+		<section id="room-tba-license" class="license-notice" aria-labelledby="room-tba-license-title">
+			<div class="license-heading">
+				<div>
+					<p class="eyebrow-global">Retained upstream notice</p>
+					<h2 id="room-tba-license-title">Room TBA MIT License</h2>
+				</div>
+				<p>
+					This notice is retained for the Room TBA material UPPETITE uses. It does not license UPPETITE itself.
+				</p>
+			</div>
+
+			<details>
+				<summary>Read the full Room TBA MIT notice</summary>
+				<pre>MIT License
+
+Copyright (c) 2026 Simonee Ezekiel Mariquit
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</pre>
+			</details>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.credits-page { padding-top: var(--space-4); padding-bottom: var(--space-10); }
+	.breadcrumb {
+		display: flex; gap: var(--space-2); align-items: center;
+		color: var(--color-text-muted); font-size: 0.76rem;
+	}
+	.breadcrumb a {
+		min-height: var(--tap-target); display: inline-flex; align-items: center;
+		color: var(--brand-maroon-deep); font-weight: 700; text-underline-offset: 0.2em;
+	}
+	.credits-hero { max-width: 54rem; padding: clamp(2.2rem, 7vw, 5rem) 0 clamp(2.5rem, 6vw, 4.25rem); }
+	.credits-hero h1 {
+		max-width: 12ch; margin: var(--space-3) 0 0;
+		color: var(--brand-maroon-deep);
+		font: 820 clamp(2.8rem, 9vw, 5.5rem)/0.9 var(--font-display);
+		letter-spacing: -0.055em;
+	}
+	.credits-hero h1 span { color: var(--brand-orange); }
+	.credits-hero > p:last-child {
+		max-width: 45rem; margin: var(--space-5) 0 0; color: var(--color-text-muted);
+		font-size: clamp(0.98rem, 2vw, 1.08rem); line-height: 1.65;
+	}
+	.credits-layout { display: grid; gap: var(--space-8); }
+	.credits-list { border-top: 1px solid var(--color-border); }
+	.credit-section {
+		display: grid; grid-template-columns: 3.5rem minmax(0, 1fr);
+		gap: var(--space-4); padding: clamp(var(--space-6), 5vw, var(--space-8)) 0;
+		border-bottom: 1px solid var(--color-border); scroll-margin-top: 6rem;
+	}
+	.credit-mark {
+		display: grid; place-items: center; width: 3.5rem; height: 3.5rem;
+		border: 1px solid var(--color-border); border-radius: var(--radius-md);
+		background: var(--brand-sand); color: var(--brand-maroon-deep);
+		font: 790 0.9rem/1 var(--font-display);
+	}
+	.room-tba-mark {
+		border-radius: 50%; background: var(--brand-cream);
+		box-shadow: inset 0 0 0 0.4rem var(--brand-sand);
+	}
+	.room-tba-mark span {
+		display: grid; place-items: center; width: 2.4rem; height: 2.4rem;
+		border-radius: 50%; background: var(--brand-maroon-deep); color: var(--brand-cream);
+		font-size: 0.75rem; letter-spacing: 0.03em;
+	}
+	.osm-mark svg {
+		width: 2.25rem; fill: none; stroke: currentColor; stroke-width: 1.7;
+		stroke-linecap: round; stroke-linejoin: round;
+	}
+	.overture-mark { position: relative; gap: 0; }
+	.overture-mark span {
+		position: absolute; width: 1.65rem; height: 0.7rem;
+		border: 2px solid var(--brand-orange);
+		transform: rotate(45deg) skew(-8deg, -8deg);
+	}
+	.overture-mark span:nth-child(1) { transform: translateY(-0.55rem) rotate(45deg) skew(-8deg, -8deg); }
+	.overture-mark span:nth-child(3) { transform: translateY(0.55rem) rotate(45deg) skew(-8deg, -8deg); }
+	.software-mark { font-size: 1rem; }
+	.credit-copy { min-width: 0; }
+	.credit-heading {
+		display: flex; align-items: flex-start; justify-content: space-between;
+		gap: var(--space-3); flex-wrap: wrap;
+	}
+	.credit-kicker {
+		margin: 0; color: var(--brand-orange); font: 760 0.68rem/1 var(--font-display);
+		letter-spacing: 0.08em; text-transform: uppercase;
+	}
+	.credit-heading h2 {
+		margin: var(--space-2) 0 0; color: var(--brand-maroon-deep);
+		font: 780 clamp(1.5rem, 5vw, 2rem)/1 var(--font-display);
+	}
+	.source-badge {
+		display: inline-flex; align-items: center; min-height: 2rem; padding: 0 var(--space-3);
+		border-radius: 999px; background: rgb(230 106 25 / 0.1);
+		color: #9a3700; font-size: 0.68rem; font-weight: 760; white-space: nowrap;
+	}
+	.source-badge-green { background: rgb(102 101 31 / 0.12); color: var(--brand-olive); }
+	.credit-lead, .attribution { max-width: 48rem; margin: var(--space-4) 0 0; line-height: 1.65; }
+	.credit-lead { color: var(--color-text); }
+	.attribution {
+		padding-left: var(--space-4); border-left: 0.2rem solid var(--brand-orange);
+		color: var(--color-text-muted); font-size: 0.86rem;
+	}
+	.source-facts { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; }
+	.source-facts div { display: grid; gap: var(--space-1); }
+	.source-facts dt {
+		color: var(--color-text-muted); font-size: 0.7rem; font-weight: 700;
+		text-transform: uppercase; letter-spacing: 0.06em;
+	}
+	.source-facts dd { min-width: 0; margin: 0; color: var(--color-text); font-size: 0.8rem; }
+	code {
+		padding: 0.12em 0.3em; border-radius: 0.35rem; background: var(--brand-sand);
+		font-size: 0.9em; overflow-wrap: anywhere;
+	}
+	.credit-actions { display: flex; gap: var(--space-2) var(--space-4); flex-wrap: wrap; margin-top: var(--space-5); }
+	.credit-actions a, .primary-link {
+		min-height: var(--tap-target); display: inline-flex; align-items: center;
+		color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em;
+	}
+	.credit-actions .primary-link {
+		padding: 0 var(--space-4); border: 1px solid var(--brand-maroon-deep);
+		border-radius: var(--radius-sm); text-decoration: none;
+	}
+	.credit-actions .primary-link:hover, .credit-actions .primary-link:focus-visible { background: var(--brand-sand); }
+	.credits-aside { display: grid; align-content: start; gap: var(--space-4); }
+	.credits-aside section {
+		padding: var(--space-5); border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg); background: var(--brand-sand);
+	}
+	.credits-aside section:nth-child(2) { background: transparent; }
+	.aside-label {
+		margin: 0; color: var(--brand-orange); font: 760 0.68rem/1 var(--font-display);
+		letter-spacing: 0.08em; text-transform: uppercase;
+	}
+	.credits-aside h2 {
+		margin: var(--space-2) 0 0; color: var(--brand-maroon-deep);
+		font: 760 1.2rem/1.1 var(--font-display);
+	}
+	.credits-aside p:not(.aside-label) {
+		margin: var(--space-3) 0 0; color: var(--color-text-muted);
+		font-size: 0.84rem; line-height: 1.55;
+	}
+	.license-notice {
+		margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: var(--space-8);
+		border-top: 1px solid var(--color-border); scroll-margin-top: 6rem;
+	}
+	.license-heading { display: grid; gap: var(--space-3); }
+	.license-heading h2 {
+		margin: var(--space-2) 0 0; color: var(--brand-maroon-deep);
+		font: 780 clamp(1.8rem, 6vw, 2.8rem)/1 var(--font-display);
+	}
+	.license-heading > p { max-width: 42rem; margin: 0; color: var(--color-text-muted); line-height: 1.55; }
+	.license-notice details { margin-top: var(--space-5); border-top: 1px solid var(--color-border); }
+	.license-notice summary {
+		min-height: var(--tap-target); display: flex; align-items: center;
+		cursor: pointer; color: var(--brand-maroon-deep); font-weight: 740;
+	}
+	.license-notice pre {
+		max-width: 100%; margin: 0; padding: var(--space-5); overflow-x: auto;
+		border: 1px solid var(--color-border); border-radius: var(--radius-md);
+		background: var(--brand-sand); color: var(--brand-charcoal);
+		font: 500 0.75rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		white-space: pre-wrap; overflow-wrap: anywhere;
+	}
+	@media (min-width: 900px) {
+		.credits-layout {
+			grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.36fr);
+			align-items: start;
+		}
+		.credits-aside { position: sticky; top: 6rem; }
+		.license-heading {
+			grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.65fr);
+			align-items: end;
+		}
+	}
+	@media (max-width: 420px) {
+		.credit-section { grid-template-columns: 1fr; }
+		.credit-mark { width: 3.25rem; height: 3.25rem; }
+		.credit-actions { align-items: stretch; flex-direction: column; }
+		.credit-actions a { justify-content: center; }
+	}
+</style>

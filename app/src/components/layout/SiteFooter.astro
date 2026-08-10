@@ -1,0 +1,103 @@
+<footer class="uppetite-footer">
+	<div class="footer-shell">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<a class="footer-wordmark" href="/" aria-label="UPPETITE home">UPPETITE</a>
+				<p>Food That Fits Your Break.</p>
+			</div>
+
+			<nav class="footer-nav" aria-label="Footer navigation">
+				<a href="/">Find</a>
+				<a href="/explore">Explore</a>
+				<a href="/freshie">Freshie</a>
+				<a href="/contribute">Contribute</a>
+			</nav>
+		</div>
+
+		<div class="footer-meta">
+			<p>
+				<a href="/contribute">Contribute to UPPETITE</a>
+				<span aria-hidden="true">·</span>
+				<a href="/credits">Credits &amp; data sources</a>
+			</p>
+			<p>
+				<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">
+					© OpenStreetMap contributors<span class="sr-only"> (opens in a new tab)</span>
+				</a>
+				<span aria-hidden="true">·</span>
+				<a href="https://overturemaps.org/" target="_blank" rel="noopener noreferrer">
+					Overture Maps<span class="sr-only"> (opens in a new tab)</span>
+				</a>
+			</p>
+		</div>
+
+		<p class="footer-data-note">
+			UPPETITE uses open-data place records; availability, hours, and business status can change.
+		</p>
+	</div>
+</footer>
+
+<style>
+	.uppetite-footer {
+		margin-top: clamp(4rem, 9vw, 7rem);
+		padding: var(--space-8) 0 calc(6.25rem + env(safe-area-inset-bottom));
+		background: var(--brand-maroon-deep);
+		color: var(--brand-cream);
+	}
+	.footer-shell { width: var(--page); margin-inline: auto; }
+	.footer-main {
+		display: grid;
+		gap: var(--space-6);
+		padding-bottom: var(--space-6);
+		border-bottom: 1px solid rgb(255 249 241 / 0.18);
+	}
+	.footer-brand { display: grid; gap: var(--space-1); }
+	.footer-wordmark {
+		justify-self: start;
+		color: var(--brand-cream);
+		font: 820 1.45rem/1 var(--font-display);
+		letter-spacing: 0.035em;
+		text-decoration: none;
+	}
+	.footer-brand p, .footer-data-note, .footer-meta p { margin: 0; }
+	.footer-brand p { color: var(--brand-sand); font-size: 0.78rem; }
+	.footer-nav { display: flex; gap: var(--space-2) var(--space-5); flex-wrap: wrap; }
+	.footer-nav a, .footer-meta a {
+		min-height: var(--tap-target);
+		display: inline-flex;
+		align-items: center;
+		color: var(--brand-cream);
+		font-weight: 680;
+		text-underline-offset: 0.22em;
+	}
+	.footer-nav a { text-decoration: none; }
+	.footer-nav a:hover, .footer-nav a:focus-visible,
+	.footer-meta a:hover, .footer-meta a:focus-visible {
+		text-decoration: underline;
+		text-decoration-thickness: 0.08em;
+	}
+	.footer-meta {
+		display: grid;
+		gap: var(--space-2);
+		padding: var(--space-4) 0;
+		color: var(--brand-sand);
+		font-size: 0.75rem;
+		line-height: 1.5;
+	}
+	.footer-meta p { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+	.footer-meta a { min-height: 2.5rem; color: var(--brand-sand); }
+	.footer-data-note {
+		max-width: 48rem;
+		color: rgb(242 232 220 / 0.76);
+		font-size: 0.72rem;
+		line-height: 1.5;
+	}
+	@media (min-width: 760px) {
+		.uppetite-footer { padding-bottom: var(--space-8); }
+		.footer-main {
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: center;
+		}
+		.footer-nav { justify-content: flex-end; }
+	}
+</style>

@@ -22,7 +22,7 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(dialog.getByRole('heading', { name: /Why this fits your break/i })).toBeVisible();
 	await expect(dialog.getByRole('link', { name: /Get directions/i })).toBeVisible();
 	await expect(dialog.locator('details.listing-info')).toHaveCount(0);
-	await expect(dialog.getByRole('link', { name: /Suggest an edit/i })).toBeVisible();
+	await expect(dialog.getByRole('link', { name: 'Suggest an edit', exact: true })).toBeVisible();
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).toBeHidden();
 });
@@ -254,7 +254,7 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 	const workerResponsePromise = page.waitForResponse((response) =>
 		/maplibre-gl-worker.*\.(?:mjs|js)(?:\?|$)/.test(response.url()),
 	);
-	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', async (route) => {
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', async (route) => {
 		styleRequests += 1;
 		await route.fulfill({
 			contentType: 'application/json',
