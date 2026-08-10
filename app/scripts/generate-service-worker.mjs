@@ -53,7 +53,6 @@ export async function buildPrecacheManifest(distDir) {
 		'/index.html',
 		'/offline/index.html',
 		'/manifest.webmanifest',
-		'/favicon.svg',
 		'/favicon.ico',
 		'/icons/uppetite-192.png',
 		'/icons/uppetite-512.png',
