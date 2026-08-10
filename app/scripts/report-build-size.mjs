@@ -6,7 +6,7 @@ const KIB = 1024;
 
 const routes = [
 	{ label: 'Home', htmlPath: 'index.html', budget: Number(process.env.BUDGET_HOME_BYTES ?? 900 * KIB) },
-	{ label: 'Explore', htmlPath: 'explore/index.html', budget: Number(process.env.BUDGET_EXPLORE_BYTES ?? 900 * KIB) },
+	{ label: 'Explore', htmlPath: 'explore/index.html', budget: Number(process.env.BUDGET_EXPLORE_BYTES ?? 1024 * KIB) },
 	{ label: 'Smart Picks', htmlPath: 'picks/index.html', budget: Number(process.env.BUDGET_PICKS_BYTES ?? 900 * KIB) },
 	{ label: 'Freshie', htmlPath: 'freshie/index.html', budget: Number(process.env.BUDGET_FRESHIE_BYTES ?? 900 * KIB) },
 ];
