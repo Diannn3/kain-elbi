@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SmartPicksApp from '../components/results/SmartPicksApp.svelte';
+const initialView = Astro.url.searchParams.get('view') === 'map' ? 'map' : 'list';
 ---
 
 <Layout title="Smart Picks — UPPETITE" pageClass="picks-page">
@@ -10,7 +11,7 @@ import SmartPicksApp from '../components/results/SmartPicksApp.svelte';
 		<link rel="prefetch" href="/data/place_enrichment.json" as="fetch" type="application/json" crossorigin="anonymous" />
 	</Fragment>
 	<main id="main-content">
-		<SmartPicksApp client:load />
+		<SmartPicksApp client:load {initialView} />
 		<noscript>
 			<section class="noscript page-shell">
 				<h1>JavaScript Is Needed for Route Checks</h1>

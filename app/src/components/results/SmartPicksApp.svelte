@@ -63,6 +63,13 @@
 				? 'Walking metrics use the Room TBA pedestrian graph plus supported access connectors. Path geometry is unavailable in this build, so the dashed line is simplified context.'
 				: 'Walking metrics are still using the legacy estimate artifact. The dashed map line is geographic context only.',
 	);
+	const routingBadgeLabel = $derived(
+		routeGeometryState === 'actual'
+			? 'Solid Room TBA route'
+			: routeGeometryState === 'loading'
+				? 'Checking route'
+				: matrix?.schema_version === 2 ? 'Simplified route' : 'Legacy route estimate',
+	);
 
 	$effect(() => {
 		const currentMatrix = matrix;
@@ -259,6 +266,7 @@
 				text={`${originName} → ${destinationName} · ${context?.breakMinutes ?? 45} min break`}
 				path={routeSharePath}
 				compact
+				mobileIconOnly
 			/>
 		</div>
 	</header>
@@ -315,7 +323,10 @@
 						<p class="eyebrow">Route Map</p>
 						<h1 id="map-results-title">{picks.length} route-fit {picks.length === 1 ? 'place' : 'places'}</h1>
 					</div>
-					<p>Select a numbered Smart Pick or any food dot to compare it without leaving the map.</p>
+					<p>
+						<span class="map-help-short">Tap a pick or food dot to compare.</span>
+						<span class="map-help-long">Select a numbered Smart Pick or any food dot to compare it without leaving the map.</span>
+					</p>
 				</div>
 
 				<div class="map-frame">
@@ -330,7 +341,11 @@
 						<MapCanvas {origin} {destination} {picks} selectedId={focusedPickId} {routeCoordinates} onSelect={setFocusedPick} onUnavailable={() => mapFallback = true} />
 					{/if}
 
-					<div class="map-data-note" role="note">{routingNote}</div>
+					<div class="map-data-note map-data-note--desktop" role="note">{routingNote}</div>
+					<details class="map-route-info">
+						<summary>{routingBadgeLabel} <span aria-hidden="true">ⓘ</span></summary>
+						<p>{routingNote}</p>
+					</details>
 					{#if focusedPick && focusedRank > 0}
 						<div class="map-preview-wrap" aria-live="polite">
 							<MapPickPreview pick={focusedPick} rank={focusedRank} onDetails={(event) => openDetails(focusedPick, event)} />
@@ -667,6 +682,8 @@
 	.diagram-fallback p { grid-column: 1 / -1; max-width: 28rem; color: var(--color-text-muted); }
 
 	.map-data-note { position: absolute; z-index: 3; top: 0.75rem; left: 0.75rem; width: min(calc(100% - 5.5rem), 27rem); padding: 0.55rem 0.7rem; border: 1px solid rgb(255 255 255 / 0.75); border-radius: 0.8rem; background: rgb(255 249 241 / 0.9); color: var(--color-text-muted); font-size: 0.66rem; line-height: 1.35; backdrop-filter: blur(12px); }
+	.map-route-info { display: none; }
+	.map-help-short { display: none; }
 	.map-preview-wrap { position: absolute; z-index: 5; right: 0.75rem; bottom: 0.75rem; left: 0.75rem; display: flex; justify-content: flex-start; pointer-events: none; }
 	.map-preview-wrap :global(.map-preview) { pointer-events: auto; }
 
@@ -736,6 +753,171 @@
 		.edit-link {
 			padding-inline: 0.35rem;
 		}
+	}
+
+	/* Mobile Route Map: keep the compact treatment isolated from List and desktop. */
+	@media (max-width: 759px) {
+		.picks-layout.map-active {
+			--mobile-nav-clearance: calc(5.45rem + env(safe-area-inset-bottom));
+			width: min(100% - 0.75rem, 52rem);
+			margin-top: 0.35rem;
+		}
+
+		.picks-layout.map-active .context-bar {
+			top: 0.25rem;
+			padding: 0.45rem;
+			border-radius: 1rem;
+		}
+
+		.picks-layout.map-active .trip-ticket {
+			grid-template-columns: var(--tap-target) minmax(0, 1fr) auto;
+			align-items: center;
+			gap: 0.45rem;
+		}
+
+		.picks-layout.map-active .ticket-label,
+		.picks-layout.map-active .ticket-meta,
+		.picks-layout.map-active .route-source { display: none; }
+
+		.picks-layout.map-active .route-copy {
+			grid-template-columns: auto minmax(0, 1fr) auto auto minmax(0, 1fr);
+			gap: 0.28rem;
+		}
+
+		.picks-layout.map-active .route-copy strong {
+			font-size: 0.78rem;
+			line-height: 1.1;
+		}
+
+		.picks-layout.map-active .route-copy .route-arrow { display: block; font-size: 0.78rem; }
+		.picks-layout.map-active .route-point { width: 0.6rem; height: 0.6rem; }
+		.picks-layout.map-active .route-point--destination { grid-column: auto; }
+		.picks-layout.map-active .edit-link { min-height: var(--tap-target); padding-inline: 0.35rem; font-size: 0.78rem; }
+
+		.picks-layout.map-active .context-actions {
+			display: grid;
+			grid-template-columns: 6.25rem minmax(0, 1fr) var(--tap-target);
+			align-items: center;
+			gap: 0.35rem;
+			margin-top: 0.4rem;
+			padding-top: 0.4rem;
+		}
+
+		.picks-layout.map-active .view-switch {
+			width: 6.25rem;
+			min-width: 0;
+			padding: 0.18rem;
+			border-radius: 0.75rem;
+		}
+
+		.picks-layout.map-active .view-switch button {
+			min-height: var(--tap-target);
+			padding-inline: 0.25rem;
+			border-radius: 0.6rem;
+			font-size: 0.75rem;
+		}
+
+		.picks-layout.map-active .refinements {
+			display: grid;
+			grid-template-columns: minmax(3.6rem, 0.85fr) minmax(4.8rem, 1.15fr);
+			justify-content: end;
+			gap: 0.35rem;
+			max-width: 14rem;
+			min-width: 0;
+			flex: initial;
+		}
+
+		.picks-layout.map-active .refinements details { min-width: 0; }
+		.picks-layout.map-active .refinements summary {
+			display: flex;
+			width: 100%;
+			min-height: var(--tap-target);
+			max-width: none;
+			align-items: center;
+			justify-content: center;
+			gap: 0.2rem;
+			padding-inline: 0.4rem;
+			font-size: 0.75rem;
+		}
+		.picks-layout.map-active .refinements summary::after { margin-left: 0; }
+
+		.picks-layout.map-active .results-sheet { padding-top: 0.55rem; }
+		.picks-layout.map-active .map-heading { display: block; margin-bottom: 0.45rem; }
+		.picks-layout.map-active .map-heading .eyebrow { display: none; }
+		.picks-layout.map-active .map-heading h1 {
+			margin: 0;
+			font-size: clamp(1.2rem, 5vw, 1.45rem);
+			line-height: 1.05;
+			letter-spacing: -0.03em;
+		}
+		.picks-layout.map-active .map-heading > p {
+			width: auto;
+			margin-top: 0.25rem;
+			font-size: 0.72rem;
+			line-height: 1.3;
+			text-align: left;
+		}
+		.picks-layout.map-active .map-help-short { display: inline; }
+		.picks-layout.map-active .map-help-long { display: none; }
+
+		/* The frame ends above the fixed BottomNav instead of extending underneath it. */
+		.picks-layout.map-active .map-frame {
+			height: clamp(16rem, calc(100dvh - 18.5rem - env(safe-area-inset-bottom)), 42rem);
+			border-radius: 1.15rem;
+		}
+
+		.picks-layout.map-active .map-data-note--desktop { display: none; }
+		.picks-layout.map-active .map-route-info {
+			position: absolute;
+			z-index: 4;
+			top: 0.5rem;
+			left: 0.5rem;
+			display: block;
+			width: min(17rem, calc(100% - 4.75rem));
+			color: var(--color-text-muted);
+		}
+		.picks-layout.map-active .map-route-info summary {
+			display: inline-flex;
+			min-height: 2.75rem;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0 0.65rem;
+			border: 1px solid rgb(255 255 255 / 0.8);
+			border-radius: 999px;
+			background: rgb(255 249 241 / 0.93);
+			box-shadow: 0 0.45rem 1.2rem rgb(92 16 22 / 0.12);
+			color: var(--brand-maroon-deep);
+			font: 720 0.7rem/1 var(--font-display);
+			cursor: pointer;
+			list-style: none;
+			backdrop-filter: blur(12px);
+		}
+		.picks-layout.map-active .map-route-info summary::-webkit-details-marker { display: none; }
+		.picks-layout.map-active .map-route-info p {
+			margin: 0.35rem 0 0;
+			padding: 0.65rem 0.7rem;
+			border: 1px solid rgb(255 255 255 / 0.8);
+			border-radius: 0.85rem;
+			background: rgb(255 249 241 / 0.96);
+			box-shadow: 0 0.7rem 1.6rem rgb(92 16 22 / 0.14);
+			font-size: 0.7rem;
+			line-height: 1.4;
+			backdrop-filter: blur(14px);
+		}
+
+		.picks-layout.map-active .map-preview-wrap { right: 0.5rem; bottom: 0.5rem; left: 0.5rem; }
+		.picks-layout.map-active .map-shortlist { margin-top: 0.5rem; }
+	}
+
+	@media (max-width: 350px) {
+		.picks-layout.map-active .context-bar { padding-inline: 0.35rem; }
+		.picks-layout.map-active .trip-ticket,
+		.picks-layout.map-active .context-actions { gap: 0.28rem; }
+		.picks-layout.map-active .route-point { display: none; }
+		.picks-layout.map-active .route-copy { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+		.picks-layout.map-active .route-copy strong,
+		.picks-layout.map-active .view-switch button,
+		.picks-layout.map-active .refinements summary { font-size: 0.72rem; }
 	}
 
 	@media (min-width: 1000px) {

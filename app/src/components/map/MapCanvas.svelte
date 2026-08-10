@@ -158,11 +158,14 @@
 		};
 		currentMap.once('moveend', onMoveEnd);
 		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const compactMobileMap = window.matchMedia('(max-width: 759px)').matches;
 		const frame = requestAnimationFrame(() => {
 			currentMap.easeTo({
 				center: [pick.place.lon, pick.place.lat],
 				zoom: Math.max(currentMap.getZoom(), 16.8),
-				padding: { top: 72, right: 48, bottom: 210, left: 48 },
+				padding: compactMobileMap
+					? { top: 56, right: 36, bottom: 138, left: 36 }
+					: { top: 72, right: 48, bottom: 210, left: 48 },
 				duration: reducedMotion ? 0 : 520,
 			});
 		});
@@ -294,8 +297,11 @@
 
 						if (bounds.isEmpty()) return;
 
+						const compactMobileMap = window.matchMedia('(max-width: 759px)').matches;
 						map.fitBounds(bounds, {
-							padding: { top: 64, right: 48, bottom: 190, left: 48 },
+							padding: compactMobileMap
+								? { top: 52, right: 36, bottom: 128, left: 36 }
+								: { top: 64, right: 48, bottom: 190, left: 48 },
 							maxZoom: 16,
 							duration: 0,
 						});
