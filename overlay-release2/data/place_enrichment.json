@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "places": {
+    "6b0e46c5-25f3-55a6-ba70-21b72b8c3398": {
+      "aliases": [
+        "Big Belly's UPLB",
+        "Big Belly's"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 175,
+        "mealHighPhp": 225,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "79e4487b-40cb-4407-b4f9-d28fdabaf89a": {
+      "aliases": [
+        "Stable Wagyu & Wings",
+        "Stable Wagyu and Wings"
+      ],
+      "addedAt": "2026-08-06",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 255,
+        "mealHighPhp": 395,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "6638fef8-872e-51ed-ae57-a178c6921a16": {
+      "aliases": [
+        "Ate Rica's Bacsilog Grove Los Banos",
+        "Ate Rica's Bacsilog Grove"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 125,
+        "mealHighPhp": 225,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "205e139c-d9c7-56dd-8d9e-86b9ec602738": {
+      "aliases": [
+        "Super Siomai Los Banos",
+        "Super Siomai UP Raymundo",
+        "Super Siomai Raymundo"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 84,
+        "mealHighPhp": 142,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "dbaf86b0-b26d-516e-a7f5-be0729a303d7": {
+      "aliases": [
+        "Café de Elbi"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 150,
+        "mealHighPhp": 178,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "a3f8febe-9610-583b-b731-0e07e456980b": {
+      "aliases": [
+        "Kwatogs",
+        "Kwatogs Los Banos"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 205,
+        "mealHighPhp": 226,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "91609345-a1d6-594e-a4f6-00fee68c0986": {
+      "aliases": [
+        "Waffle Time Los Baños",
+        "Waffle Time Centtro Mall"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10"
+    },
+    "b73ceb00-7882-4703-9d29-3b0f8412ee83": {
+      "aliases": [
+        "McDonald's Vega Center"
+      ],
+      "addedAt": "2026-08-06",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 108,
+        "mealHighPhp": 183,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "5f3bbd3f-4c5e-410c-920c-a9c7b09e6078": {
+      "aliases": [
+        "Starbucks Vega Arcade UPLB",
+        "Starbucks Vega Arcade"
+      ],
+      "addedAt": "2026-08-06",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 130,
+        "mealHighPhp": 295,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "2c16a88e-48b3-592c-bb20-fb53cf226e9f": {
+      "aliases": [
+        "BonChon Centro Mall Los Baños",
+        "Bonchon Centro Mall",
+        "Bonchon Centtro Mall"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 156,
+        "mealHighPhp": 334,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "ee09619f-6181-5891-ad86-a21ce3703b9e": {
+      "aliases": [
+        "Jollibee Lopez Avenue Los Banos",
+        "Jollibee Grove"
+      ],
+      "addedAt": "2026-08-07",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 85,
+        "mealHighPhp": 211,
+        "verifiedAt": "2026-08-10"
+      }
+    },
+    "eac9bea6-d28d-4e24-8454-d060d12d7d27": {
+      "aliases": [
+        "Chowking Vegamall",
+        "Chowking Vega"
+      ],
+      "addedAt": "2026-08-06",
+      "lastReviewedAt": "2026-08-10",
+      "price": {
+        "mealLowPhp": 92,
+        "mealHighPhp": 233,
+        "verifiedAt": "2026-08-10"
+      }
+    }
+  }
+}

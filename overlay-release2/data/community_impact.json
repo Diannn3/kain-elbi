@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "month": "2026-08",
+  "generatedAt": null,
+  "metrics": {
+    "placesAdded": 0,
+    "placesCorrected": 0,
+    "hoursChecked": 0,
+    "eventsPublished": 0
+  }
+}

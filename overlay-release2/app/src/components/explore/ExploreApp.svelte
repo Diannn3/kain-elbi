@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import ExploreMap from './ExploreMap.svelte';
 	import FoodEvents from './FoodEvents.svelte';
-	import CommunityPulse from '../community/CommunityPulse.svelte';
 	import type { Category, Collection, FoodEvent, FoodZone, Place } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 	import {
@@ -433,7 +432,6 @@
 	{#if !isResultsMode}
 		<div class="editorial-discovery">
 			<FoodEvents {events} />
-			<CommunityPulse {places} {zones} />
 
 			{#if recentPlaces.length}
 				<section class="recent-section" aria-labelledby="recent-heading">

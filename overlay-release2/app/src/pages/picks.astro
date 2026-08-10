@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SmartPicksApp from '../components/results/SmartPicksApp.svelte';
+---
+
+<Layout title="Smart Picks — UPPETITE" pageClass="picks-page">
+	<Fragment slot="head">
+		<link rel="preload" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<link rel="preload" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<link rel="prefetch" href="/data/place_enrichment.json" as="fetch" type="application/json" crossorigin="anonymous" />
+	</Fragment>
+	<main id="main-content">
+		<SmartPicksApp client:load />
+		<noscript>
+			<section class="noscript page-shell">
+				<h1>JavaScript Is Needed for Route Checks</h1>
+				<p>UPPETITE calculates Smart Picks privately in your browser. Enable JavaScript, then try your route again.</p>
+				<a href="/">Return to the Route Planner</a>
+			</section>
+		</noscript>
+	</main>
+</Layout>
+
+<style>
+	.noscript { padding: 3rem 0; }
+	.noscript h1 { color: var(--forest); font: 780 2.5rem/1 var(--font-display); }
+</style>

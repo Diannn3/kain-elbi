@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CommunityImpact from '../components/community/CommunityImpact.astro';
+import { loadBuildData } from '../lib/data/build';
+import {
+	communityForms,
+	isGoogleFormEntryKey,
+	isGoogleFormUrl,
+	isPrefillableGoogleFormUrl,
+} from '../lib/community/config';
+
+const { communityImpact } = await loadBuildData();
+
+const contributions = [
+	{
+		id: 'add-place',
+		label: 'Add a place',
+		title: 'Know somewhere we’re missing?',
+		description: 'Suggest a food place that is not yet in UPPETITE.',
+		href: communityForms.addPlace,
+	},
+	{
+		id: 'suggest-edit',
+		label: 'Suggest an edit',
+		title: 'Something changed?',
+		description: 'Tell us about corrected hours, categories, contact details, or a moved or closed place.',
+		href: communityForms.suggestEdit,
+	},
+	{
+		id: 'report-problem',
+		label: 'Report a problem',
+		title: 'Found something wrong?',
+		description: 'Report a duplicate listing, broken information, unsafe link, or another issue with the app.',
+		href: communityForms.reportProblem,
+	},
+].map((item) => ({
+	...item,
+	ready: item.id === 'suggest-edit'
+		? isPrefillableGoogleFormUrl(item.href) && isGoogleFormEntryKey(communityForms.suggestEditPlaceIdEntry)
+		: isGoogleFormUrl(item.href),
+}));
+
+const operations = [
+	{
+		id: 'business-update',
+		label: 'Business update',
+		title: 'Run a food place?',
+		description: 'Submit official hours, menu, price, contact, closure, or location updates for your establishment.',
+		href: communityForms.businessUpdate,
+		ready: isPrefillableGoogleFormUrl(communityForms.businessUpdate)
+			&& isGoogleFormEntryKey(communityForms.businessUpdatePlaceIdEntry),
+	},
+	{
+		id: 'submit-event',
+		label: 'Temporary food event',
+		title: 'Planning a food booth or pop-up?',
+		description: 'Submit a time-limited bazaar, org fundraiser, food fair, or temporary stall for moderation.',
+		href: communityForms.submitEvent,
+		ready: isGoogleFormUrl(communityForms.submitEvent),
+	},
+];
+
+const placeEntryReady = isGoogleFormEntryKey(communityForms.suggestEditPlaceIdEntry);
+const businessPlaceEntryReady = isGoogleFormEntryKey(communityForms.businessUpdatePlaceIdEntry);
+---
+
+<Layout title="Contribute — UPPETITE" description="Help improve UPPETITE with missing places, corrections, business updates, and temporary food events.">
+	<main id="main-content" class="contribute-page page-shell">
+		<header class="contribute-hero">
+			<p class="eyebrow-global">Community Contributions</p>
+			<h1>Help improve UPPETITE<span aria-hidden="true">.</span></h1>
+			<p class="hero-copy">Know a place we’re missing or see something outdated? Tell us. We review every submission before it appears in UPPETITE.</p>
+			<div class="quality-note" aria-label="Tips for a useful contribution">
+				<strong>What helps most</strong>
+				<p>Include a Maps link, official page, current menu, or another public source when you can.</p>
+			</div>
+		</header>
+
+		<p class="edit-context" data-edit-context hidden></p>
+
+		<section class="contribution-list" aria-label="Contribution options">
+			{contributions.map((item, index) => (
+				<article id={item.id} class="contribution-row">
+					<p class="contribution-index">{String(index + 1).padStart(2, '0')}</p>
+					<div class="contribution-copy">
+						<p class="contribution-label">{item.label}</p>
+						<h2>{item.title}</h2>
+						<p>{item.description}</p>
+					</div>
+					<div class="contribution-action">
+						{item.ready ? (
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-community-form={item.id}
+								data-prefill-kind={item.id === 'suggest-edit' ? 'suggest-edit' : undefined}
+								data-place-entry={item.id === 'suggest-edit' && placeEntryReady ? communityForms.suggestEditPlaceIdEntry : undefined}
+							>
+								{item.label} <span aria-hidden="true">↗</span>
+								<span class="sr-only"> (opens in a new tab)</span>
+							</a>
+						) : (
+							<span class="form-unavailable" data-community-form-unavailable={item.id}>Form setup pending</span>
+						)}
+					</div>
+				</article>
+			))}
+		</section>
+
+		<section class="operations" aria-labelledby="operations-title">
+			<div class="operations-heading">
+				<p class="eyebrow-global">Keep Elbi current</p>
+				<h2 id="operations-title">More ways to help.</h2>
+				<p>Business and temporary-event submissions are reviewed separately before anything goes live.</p>
+			</div>
+
+			<div class="operation-list">
+				{operations.map((item) => (
+					<article id={item.id}>
+						<div>
+							<p>{item.label}</p>
+							<h3>{item.title}</h3>
+							<span>{item.description}</span>
+						</div>
+						{item.ready ? (
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-community-form={item.id}
+								data-prefill-kind={item.id === 'business-update' ? 'business-update' : undefined}
+								data-place-entry={item.id === 'business-update' && businessPlaceEntryReady ? communityForms.businessUpdatePlaceIdEntry : undefined}
+							>
+								Open form ↗
+								<span class="sr-only"> (opens in a new tab)</span>
+							</a>
+						) : (
+							<span class="form-unavailable" data-community-form-unavailable={item.id}>Form setup pending</span>
+						)}
+					</article>
+				))}
+			</div>
+		</section>
+
+		<CommunityImpact data={communityImpact} />
+
+		<section id="add-photos" class="photo-coming" aria-labelledby="photo-coming-title">
+			<p class="eyebrow-global">Photo Contributions</p>
+			<h2 id="photo-coming-title">Photos are coming next.</h2>
+			<p>Photo contributions are coming soon with native moderated uploads. We are not collecting image files through Google Forms.</p>
+		</section>
+
+		<section class="privacy-note" aria-labelledby="contribute-privacy-title">
+			<p class="eyebrow-global">Privacy First</p>
+			<h2 id="contribute-privacy-title">Contribute without sharing your route.</h2>
+			<p>Contribution forms do not need your current route or exact GPS location. Suggestions are reviewed manually before they can change UPPETITE.</p>
+		</section>
+	</main>
+
+	<script is:inline>
+		(() => {
+			const placeId = new URLSearchParams(window.location.search).get('place')?.trim();
+			if (!placeId) return;
+
+			const context = document.querySelector('[data-edit-context]');
+			if (context instanceof HTMLElement) {
+				context.hidden = false;
+				context.textContent = `Updating UPPETITE place ${placeId}.`;
+			}
+
+			for (const link of document.querySelectorAll('[data-prefill-kind]')) {
+				if (!(link instanceof HTMLAnchorElement)) continue;
+				const entryKey = link.dataset.placeEntry;
+				if (!entryKey || !/^entry\.\d+$/.test(entryKey)) continue;
+
+				const target = new URL(link.href);
+				target.searchParams.set('usp', 'pp_url');
+				target.searchParams.set(entryKey, placeId);
+				link.href = target.toString();
+			}
+		})();
+	</script>
+</Layout>
+
+<style>
+	.contribute-page { padding-top: clamp(2rem, 6vw, 4.5rem); padding-bottom: var(--space-8); }
+	.contribute-hero { max-width: 58rem; padding: clamp(var(--space-6), 5vw, var(--space-12)) 0 var(--space-8); }
+	.contribute-hero h1 {
+		max-width: 11ch; margin: var(--space-3) 0 0; color: var(--brand-maroon-deep);
+		font: 820 clamp(2.8rem, 10vw, 5.6rem) / 0.9 var(--font-display); letter-spacing: -0.055em;
+	}
+	.contribute-hero h1 span { color: var(--brand-orange); }
+	.hero-copy { max-width: 43rem; margin: var(--space-5) 0 0; color: var(--color-text-muted); font-size: 1rem; line-height: 1.65; }
+	.quality-note {
+		display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2) var(--space-4);
+		max-width: 43rem; margin-top: var(--space-8); padding: var(--space-4) 0; border-block: 1px solid var(--color-border);
+	}
+	.quality-note strong { color: var(--brand-maroon-deep); font: 760 0.76rem / 1.35 var(--font-display); letter-spacing: 0.07em; text-transform: uppercase; }
+	.quality-note p { margin: 0; color: var(--color-text-muted); line-height: 1.5; }
+	.edit-context {
+		margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border-left: 0.25rem solid var(--brand-orange);
+		background: var(--brand-sand); color: var(--brand-maroon-deep); font-weight: 680; line-height: 1.5;
+	}
+	.contribution-list { border-top: 1px solid var(--color-border); }
+	.contribution-row {
+		display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: var(--space-4);
+		padding: var(--space-6) var(--space-2); border-bottom: 1px solid var(--color-border);
+	}
+	.contribution-row:nth-child(even) { background: rgb(242 232 220 / 0.62); }
+	.contribution-index, .contribution-label {
+		margin: 0; font: 760 0.72rem / 1.35 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase;
+	}
+	.contribution-index { color: var(--brand-orange); }
+	.contribution-label { color: var(--brand-maroon-deep); }
+	.contribution-copy h2 { max-width: 18ch; margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 780 clamp(1.55rem, 5vw, 2.2rem) / 1 var(--font-display); }
+	.contribution-copy > p:last-child { max-width: 39rem; margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.55; }
+	.contribution-action { grid-column: 2; align-self: center; }
+	.contribution-action a, .form-unavailable { display: inline-flex; align-items: center; min-height: var(--tap-target); font-weight: 740; }
+	.contribution-action a, .operation-list a { color: var(--brand-maroon-deep); text-underline-offset: 0.22em; }
+	.form-unavailable { color: var(--color-text-muted); }
+
+	.operations { display: grid; gap: var(--space-5); margin-top: var(--space-10); padding-top: var(--space-8); border-top: 1px solid var(--color-border); }
+	.operations-heading { max-width: 48rem; }
+	.operations-heading h2 { margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 780 clamp(1.8rem, 6vw, 2.8rem)/1 var(--font-display); }
+	.operations-heading > p:last-child { margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.55; }
+	.operation-list { border-top: 1px solid var(--color-border); }
+	.operation-list article { display: grid; gap: var(--space-4); padding: var(--space-5) 0; border-bottom: 1px solid var(--color-border); }
+	.operation-list article > div > p { margin: 0; color: var(--brand-orange); font: 760 0.7rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+	.operation-list h3 { margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 760 1.25rem/1.1 var(--font-display); }
+	.operation-list article > div > span { display: block; max-width: 44rem; margin-top: var(--space-2); color: var(--color-text-muted); line-height: 1.5; }
+	.operation-list a, .operation-list > article > .form-unavailable {
+		min-height: var(--tap-target); display: inline-flex; align-items: center; justify-self: start; font-weight: 720;
+	}
+
+	.photo-coming, .privacy-note { margin-top: var(--space-10); padding: var(--space-6); }
+	.photo-coming { background: var(--brand-sand); border-left: 0.3rem solid var(--brand-orange); }
+	.privacy-note { border-top: 1px solid var(--color-border); padding-inline: 0; padding-bottom: 0; }
+	.photo-coming h2, .privacy-note h2 { margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 760 clamp(1.45rem, 5vw, 2rem) / 1 var(--font-display); }
+	.photo-coming > p:last-child, .privacy-note > p:last-child { max-width: 48rem; margin: var(--space-3) 0 0; color: var(--color-text-muted); line-height: 1.6; }
+
+	@media (min-width: 760px) {
+		.contribution-row { grid-template-columns: 3rem minmax(0, 1fr) auto; align-items: center; gap: var(--space-6); padding: var(--space-8) var(--space-4); }
+		.contribution-action { grid-column: auto; justify-self: end; }
+		.operation-list article { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+		.operation-list a, .operation-list > article > .form-unavailable { justify-self: end; }
+	}
+	@media (max-width: 520px) {
+		.quality-note { grid-template-columns: 1fr; }
+		.contribution-row { padding-inline: 0; }
+	}
+</style>

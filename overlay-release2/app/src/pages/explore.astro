@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExploreApp from '../components/explore/ExploreApp.svelte';
+import { loadBuildData } from '../lib/data/build';
+
+const { places, zones, collections, matrix, events } = await loadBuildData();
+const routablePlaceIds = matrix.schema_version === 2
+	? Object.keys(matrix.place_to_anchor)
+	: Object.keys(matrix.place_to_anchor_seconds);
+const exploreZoneIds = zones.map((zone) => zone.id);
+const exploreCollectionIds = collections.map((collection) => collection.id);
+---
+
+<Layout title="Explore Elbi — UPPETITE" description="Browse food places around UPLB and Los Baños by area, category, opening hours, budget, list, or map.">
+	<Fragment slot="head">
+		<link rel="prefetch" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<link rel="prefetch" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />
+		<script is:inline define:vars={{ exploreZoneIds, exploreCollectionIds }}>
+			(() => {
+				const params = new URLSearchParams(window.location.search);
+				const categories = new Set(['cafe', 'restaurant', 'fast_food', 'food_court', 'bakery_deli', 'kiosk_stall', 'other']);
+				const hours = new Set(['open', 'closing']);
+				const budgets = new Set(['100', '150', '200']);
+				const queryActive = Boolean(params.get('q')?.trim());
+				const zoneActive = exploreZoneIds.includes(params.get('zone') ?? '');
+				const categoryActive = categories.has(params.get('category') ?? '');
+				const hoursActive = hours.has(params.get('hours') ?? '');
+				const budgetActive = budgets.has(params.get('budget') ?? '');
+				const collection = params.get('collection') ?? '';
+				let savedPlacesActive = false;
+				if (collection === 'saved-places') {
+					try {
+						const saved = JSON.parse(localStorage.getItem('kain-elbi-saved-places') ?? '[]');
+						savedPlacesActive = Array.isArray(saved) && saved.length > 0;
+					} catch {
+						savedPlacesActive = false;
+					}
+				}
+				const collectionActive = exploreCollectionIds.includes(collection) || savedPlacesActive;
+				if (queryActive || zoneActive || categoryActive || collectionActive || hoursActive || budgetActive) {
+					document.documentElement.setAttribute('data-explore-prepaint', 'results');
+					window.setTimeout(() => document.documentElement.removeAttribute('data-explore-prepaint'), 5_000);
+				}
+			})();
+		</script>
+	</Fragment>
+
+	<main id="main-content" class="explore-page">
+		<header class="explore-masthead">
+			<div class="page-head page-shell">
+				<p class="masthead-eyebrow">Explore</p>
+				<h1>See what’s around Elbi<span aria-hidden="true">.</span></h1>
+				<p>Browse by area, category, hours, budget, list, or map. Discover food spots across Elbi from our open-data catalog, then decide where you want to go.</p>
+			</div>
+		</header>
+
+		<div class="explore-search-stage page-shell">
+			<ExploreApp {places} {zones} {collections} {routablePlaceIds} {events} client:load />
+			<noscript><p class="noscript-note">Explore filters need JavaScript. You can still open individual place pages from UPPETITE search results.</p></noscript>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	:global(html[data-explore-prepaint='results'] .editorial-discovery) { display: none !important; }
+	:global(html[data-explore-prepaint='results'] .result-bar) { visibility: hidden; }
+	.explore-page { padding-bottom: 1rem; }
+	.explore-masthead {
+		position: relative;
+		overflow: hidden;
+		min-height: clamp(18rem, 38svh, 25rem);
+		background:
+			radial-gradient(circle at 88% 18%, rgb(230 106 25 / 0.16), transparent 18rem),
+			radial-gradient(circle at 8% 105%, rgb(36 3 7 / 0.3), transparent 24rem),
+			var(--brand-gradient);
+	}
+	.explore-masthead::after {
+		content: '';
+		position: absolute;
+		right: clamp(-5rem, -4vw, -2rem);
+		bottom: -3rem;
+		width: clamp(13rem, 30vw, 23rem);
+		aspect-ratio: 1;
+		border: 2px dashed rgb(255 249 241 / 0.12);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+	.page-head { position: relative; z-index: 1; padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(6rem, 10vw, 8rem); }
+	.masthead-eyebrow {
+		margin: 0;
+		color: var(--brand-cream);
+		font: 760 0.76rem/1 var(--font-display);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+	.masthead-eyebrow::before {
+		content: '';
+		display: inline-block;
+		width: 2.25rem;
+		height: 0.2rem;
+		margin-right: 0.65rem;
+		border-radius: 999px;
+		vertical-align: middle;
+		background: var(--brand-orange);
+	}
+	.page-head h1 {
+		max-width: 12ch;
+		margin: 0.65rem 0 0;
+		color: var(--brand-cream);
+		font: 820 clamp(3rem, 10vw, 6rem)/0.88 var(--font-display);
+		letter-spacing: -0.055em;
+	}
+	.page-head h1 span { color: var(--brand-orange); }
+	.page-head > p:last-child {
+		max-width: 42rem;
+		margin: 1.25rem 0 0;
+		color: var(--brand-sand);
+		font-size: 1.05rem;
+		line-height: 1.55;
+	}
+	.explore-search-stage { position: relative; z-index: 4; margin-top: clamp(-4.8rem, -6vw, -3.6rem); }
+	.noscript-note { padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--brand-sand); }
+</style>

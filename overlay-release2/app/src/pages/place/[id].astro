@@ -4,7 +4,6 @@ import PlaceHoursStatus from '../../components/place/PlaceHoursStatus.svelte';
 import PlaceMiniMap from '../../components/map/PlaceMiniMap.svelte';
 import ShareButton from '../../components/common/ShareButton.svelte';
 import ListingFreshness from '../../components/place/ListingFreshness.svelte';
-import VisitReportButton from '../../components/community/VisitReportButton.svelte';
 import { loadBuildData } from '../../lib/data/build';
 import { formatPriceRange } from '../../lib/data/place-enrichment';
 import { categoryLabel, cuisineSummary, nearestAnchorContext, routeCoverageLabel } from '../../lib/place-presentation';
@@ -122,8 +121,7 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 					</details>
 				)}
 
-				<VisitReportButton client:load placeId={place.id} placeName={place.name} />
-				<ListingFreshness client:load place={place} showBusinessAction />
+				<ListingFreshness place={place} showBusinessAction />
 			</section>
 		</div>
 

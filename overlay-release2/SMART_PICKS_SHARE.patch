@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: app/src/components/results/SmartPicksApp.svelte
+@@
+ 	import MapPickPreview from '../map/MapPickPreview.svelte';
+ 	import PlaceSheet from '../place/PlaceSheet.svelte';
++	import ShareButton from '../common/ShareButton.svelte';
+ 	import { appStorage } from '../../lib/storage.svelte';
+@@
+ 	const remainingPicks = $derived(Math.max(0, picks.length - visiblePicks.length));
++	const routeSharePath = $derived(
++		context ? `/picks?${serializeSearchParams(context).toString()}` : '/picks',
++	);
+@@
+ 			<div class="refinements" aria-label="Refine Smart Picks">
+@@
+ 				</details>
+ 			</div>
++			<ShareButton
++				label="Share route"
++				title="UPPETITE route"
++				text={`${originName} → ${destinationName} · ${context?.breakMinutes ?? 45} min break`}
++				path={routeSharePath}
++				compact
++			/>
+ 		</div>
+@@
+ 	.context-actions {
+ 		display: flex;
+ 		align-items: center;
+ 		justify-content: space-between;
+ 		gap: 0.65rem;
++		flex-wrap: wrap;
+ 		margin-top: 0.65rem;
+@@
+ 	.refinements {
+ 		display: flex;
+ 		min-width: 0;
+ 		gap: 0.45rem;
++		flex-wrap: wrap;
+ 	}
+*** End Patch

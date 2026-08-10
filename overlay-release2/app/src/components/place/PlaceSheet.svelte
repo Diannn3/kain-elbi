@@ -6,7 +6,6 @@
 	import { appStorage } from '../../lib/storage.svelte';
 	import ShareButton from '../common/ShareButton.svelte';
 	import ListingFreshness from './ListingFreshness.svelte';
-	import VisitReportButton from '../community/VisitReportButton.svelte';
 
 	let {
 		place,
@@ -133,7 +132,6 @@
 					{/if}
 				</section>
 
-				<VisitReportButton placeId={place.id} placeName={place.name} compact />
 				<ListingFreshness {place} compact />
 
 				<div class="community-actions">

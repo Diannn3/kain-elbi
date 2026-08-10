@@ -1,0 +1,70 @@
+---
+import type { CommunityImpactData } from '../../lib/types';
+import { hasCommunityImpact } from '../../lib/data/community-ops';
+
+interface Props {
+	data: CommunityImpactData;
+}
+
+const { data } = Astro.props;
+const visible = hasCommunityImpact(data);
+const label = new Intl.DateTimeFormat('en-PH', {
+	month: 'long',
+	year: 'numeric',
+	timeZone: 'Asia/Manila',
+}).format(new Date(`${data.month}-01T00:00:00+08:00`));
+
+const metrics = [
+	{ value: data.metrics.placesCorrected, label: 'places corrected' },
+	{ value: data.metrics.placesAdded, label: 'new places added' },
+	{ value: data.metrics.hoursChecked, label: 'hours checked' },
+	{ value: data.metrics.eventsPublished, label: 'food events published' },
+].filter((item) => item.value > 0);
+---
+
+{visible && (
+	<section class="impact" aria-labelledby="community-impact-title">
+		<div>
+			<p class="eyebrow-global">Community impact · {label}</p>
+			<h2 id="community-impact-title">Small fixes add up.</h2>
+			<p>Only reviewed, merged contributions are counted here.</p>
+		</div>
+		<dl>
+			{metrics.map((metric) => (
+				<div>
+					<dt>{metric.label}</dt>
+					<dd>{metric.value}</dd>
+				</div>
+			))}
+		</dl>
+	</section>
+)}
+
+<style>
+	.impact {
+		display: grid;
+		gap: var(--space-6);
+		margin-top: var(--space-10);
+		padding: var(--space-6) 0;
+		border-block: 1px solid var(--color-border);
+	}
+	.impact h2 {
+		margin: var(--space-2) 0 0;
+		color: var(--brand-maroon-deep);
+		font: 770 clamp(1.7rem, 5vw, 2.4rem)/1 var(--font-display);
+	}
+	.impact > div > p:last-child { margin: var(--space-3) 0 0; color: var(--color-text-muted); }
+	.impact dl {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		margin: 0;
+	}
+	.impact dl div { padding-top: var(--space-3); border-top: 0.2rem solid var(--brand-orange); }
+	.impact dt { color: var(--color-text-muted); font-size: 0.75rem; }
+	.impact dd { margin: var(--space-2) 0 0; color: var(--brand-maroon-deep); font: 790 2rem/1 var(--font-display); }
+	@media (min-width: 760px) {
+		.impact { grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.9fr); align-items: end; }
+		.impact dl { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	}
+</style>

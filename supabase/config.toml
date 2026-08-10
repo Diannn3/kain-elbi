@@ -1,0 +1,7 @@
+project_id = "uppetite"
+
+[functions.community-report]
+verify_jwt = false
+
+[functions.community-pulse]
+verify_jwt = false
