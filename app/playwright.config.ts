@@ -22,6 +22,12 @@ export default defineConfig({
 			use: { ...devices['Desktop Chrome'], browserName: 'chromium' },
 		},
 		{
+			name: 'mobile-webkit',
+			testMatch: /mobile-map-layout\.spec\.ts/,
+			testIgnore: releaseGateSpecs,
+			use: { ...devices['iPhone 13'], browserName: 'webkit' },
+		},
+		{
 			name: 'performance-chromium',
 			testMatch: /performance\.spec\.ts/,
 			use: {

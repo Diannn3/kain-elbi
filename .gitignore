@@ -24,6 +24,10 @@ scratch/
 .system_generated/
 *.pmtiles
 
+# Playwright artifacts
+app/test-results/
+app/playwright-report/
+
 # OS
 .DS_Store
 Thumbs.db

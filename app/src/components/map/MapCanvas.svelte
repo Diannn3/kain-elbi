@@ -179,6 +179,9 @@
 	onMount(() => {
 		let disposed = false;
 		let resizeObserver: ResizeObserver | undefined;
+		let resizeFrame = 0;
+		let lastWidth = -1;
+		let lastHeight = -1;
 		const unavailable = () => {
 			if (disposed) return;
 			mapState = 'failed';
@@ -195,13 +198,14 @@
 				const maplibre = await loadMapLibre();
 				maplibreModule = maplibre;
 				if (disposed) return;
+				const compactMobileMap = window.matchMedia('(max-width: 759px)').matches;
 				map = new maplibre.Map({
 					container: mapElement,
 					style,
 					center: [origin.lon, origin.lat],
 					zoom: 15.5,
 					maxBounds: [[121.215, 14.135], [121.275, 14.195]],
-					cooperativeGestures: true,
+					cooperativeGestures: !compactMobileMap,
 					dragRotate: false,
 					pitchWithRotate: false,
 					respectPrefersReducedMotion: true,
@@ -213,7 +217,19 @@
 					customAttribution: '© Carto · © OpenStreetMap contributors · Overture Maps',
 				}));
 
-				resizeObserver = new ResizeObserver(() => map?.resize());
+				resizeObserver = new ResizeObserver((entries) => {
+					const rect = entries[0]?.contentRect;
+					const width = Math.round(rect?.width ?? mapElement.clientWidth);
+					const height = Math.round(rect?.height ?? mapElement.clientHeight);
+					if (!width || !height || (width === lastWidth && height === lastHeight)) return;
+					lastWidth = width;
+					lastHeight = height;
+					if (resizeFrame) cancelAnimationFrame(resizeFrame);
+					resizeFrame = requestAnimationFrame(() => {
+						resizeFrame = 0;
+						map?.resize();
+					});
+				});
 				resizeObserver.observe(mapElement);
 
 				map.on('load', () => {
@@ -325,6 +341,7 @@
 		start();
 		return () => {
 			disposed = true;
+			if (resizeFrame) cancelAnimationFrame(resizeFrame);
 			resizeObserver?.disconnect();
 			map?.remove();
 		};

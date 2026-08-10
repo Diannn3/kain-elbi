@@ -89,6 +89,16 @@
 	--radius-xl: 1.125rem;
 	--tap-target: 3rem;
 
+	/* Mobile app-shell geometry.
+	   BottomNav and immersive mobile surfaces share this contract so
+	   feature layouts never have to guess how much space the nav occupies. */
+	--mobile-nav-min-height: 4.2rem;
+	--mobile-nav-edge-gap: 0.75rem;
+	--mobile-nav-shell-gap: 0.5rem;
+	--mobile-nav-clearance: calc(
+		var(--mobile-nav-min-height) + var(--mobile-nav-edge-gap) + var(--mobile-nav-shell-gap) + env(safe-area-inset-bottom)
+	);
+
 	/* =========================================================
 	   TYPOGRAPHY
 	   ========================================================= */
@@ -276,6 +286,18 @@ h3 {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border: 0;
+}
+
+@media (max-width: 759px) {
+	html.mobile-map-active,
+	body.mobile-map-active {
+		overflow: hidden;
+		overscroll-behavior: none;
+	}
+
+	html.mobile-map-active {
+		scroll-behavior: auto;
+	}
 }
 
 @media (min-width: 760px) {

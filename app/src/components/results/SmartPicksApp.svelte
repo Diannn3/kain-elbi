@@ -34,6 +34,7 @@
 	let contextBar: HTMLElement;
 	let visibleCount = $state(12);
 	let sheetController: PlaceSheetController<SmartPick> | undefined;
+	let mobileMapQuery: MediaQueryList | undefined;
 
 	const categoryOptions: { value?: Category; label: string }[] = [
 		{ label: 'Any food' },
@@ -121,18 +122,29 @@
 		if (view === 'map') replaceResultsUrl('map', pick.place.id);
 	}
 
+	function syncMobileMapShell() {
+		if (typeof document === 'undefined') return;
+		const active = view === 'map'
+			&& (mobileMapQuery?.matches ?? window.matchMedia('(max-width: 759px)').matches);
+		document.documentElement.classList.toggle('mobile-map-active', active);
+		document.body.classList.toggle('mobile-map-active', active);
+	}
+
 	function switchView(nextView: ResultsView, pick?: SmartPick) {
 		if (typeof window === 'undefined') return;
 		if (view === 'list') listScrollY = window.scrollY;
 		if (pick) focusedPickId = pick.place.id;
 		else if (nextView === 'map' && !focusedPickId) focusedPickId = picks[0]?.place.id;
 		view = nextView;
+		syncMobileMapShell();
 		try { window.localStorage.setItem(VIEW_STORAGE_KEY, nextView); } catch { /* local preference is optional */ }
 		replaceResultsUrl(nextView, nextView === 'map' ? focusedPickId : undefined);
 		mapFallback = false;
 		requestAnimationFrame(() => {
 			if (nextView === 'map') {
-				contextBar?.scrollIntoView({ block: 'start', behavior: 'auto' });
+				if (!(mobileMapQuery?.matches ?? window.matchMedia('(max-width: 759px)').matches)) {
+					contextBar?.scrollIntoView({ block: 'start', behavior: 'auto' });
+				}
 			} else {
 				window.scrollTo({ top: listScrollY, behavior: 'auto' });
 			}
@@ -151,6 +163,10 @@
 	onMount(() => {
 		let active = true;
 		const url = new URL(window.location.href);
+		mobileMapQuery = window.matchMedia('(max-width: 759px)');
+		const handleMobileMapMediaChange = () => syncMobileMapShell();
+		mobileMapQuery.addEventListener('change', handleMobileMapMediaChange);
+
 		const queryView = url.searchParams.get('view');
 		if (queryView === 'list' || queryView === 'map') {
 			view = queryView;
@@ -160,6 +176,7 @@
 				if (savedView === 'list' || savedView === 'map') view = savedView;
 			} catch { /* ignore unavailable storage */ }
 		}
+		syncMobileMapShell();
 		if (window.location.pathname === '/map') replaceResultsUrl('map', url.searchParams.get('focus') ?? undefined);
 
 		sheetController = createPlaceSheetController({
@@ -198,6 +215,10 @@
 
 		return () => {
 			active = false;
+			mobileMapQuery?.removeEventListener('change', handleMobileMapMediaChange);
+			document.documentElement.classList.remove('mobile-map-active');
+			document.body.classList.remove('mobile-map-active');
+			mobileMapQuery = undefined;
 			sheetController?.destroy();
 		};
 	});
@@ -758,13 +779,24 @@
 	/* Mobile Route Map: keep the compact treatment isolated from List and desktop. */
 	@media (max-width: 759px) {
 		.picks-layout.map-active {
-			--mobile-nav-clearance: calc(5.45rem + env(safe-area-inset-bottom));
-			width: min(100% - 0.75rem, 52rem);
-			margin-top: 0.35rem;
+			position: fixed;
+			z-index: 30;
+			top: 0.35rem;
+			right: 0.375rem;
+			bottom: var(--mobile-nav-clearance);
+			left: 0.375rem;
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
+			width: auto;
+			min-height: 0;
+			margin: 0;
+			overflow: hidden;
+			transition: none;
 		}
 
 		.picks-layout.map-active .context-bar {
-			top: 0.25rem;
+			position: relative;
+			top: auto;
 			padding: 0.45rem;
 			border-radius: 1rem;
 		}
@@ -841,28 +873,55 @@
 		}
 		.picks-layout.map-active .refinements summary::after { margin-left: 0; }
 
-		.picks-layout.map-active .results-sheet { padding-top: 0.55rem; }
-		.picks-layout.map-active .map-heading { display: block; margin-bottom: 0.45rem; }
+		.picks-layout.map-active .results-sheet {
+			min-height: 0;
+			padding: 0.5rem 0 0;
+			overflow: hidden;
+		}
+
+		.picks-layout.map-active .results-sheet > .loading,
+		.picks-layout.map-active .results-sheet > .empty {
+			height: 100%;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+		}
+
+		.picks-layout.map-active .map-view {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+			gap: 0.4rem;
+			height: 100%;
+			min-height: 0;
+			overflow: hidden;
+		}
+
+		.picks-layout.map-active .map-heading {
+			display: block;
+			min-height: 0;
+			margin: 0;
+		}
 		.picks-layout.map-active .map-heading .eyebrow { display: none; }
 		.picks-layout.map-active .map-heading h1 {
 			margin: 0;
-			font-size: clamp(1.2rem, 5vw, 1.45rem);
+			font-size: clamp(1.1rem, 4.8vw, 1.35rem);
 			line-height: 1.05;
 			letter-spacing: -0.03em;
 		}
 		.picks-layout.map-active .map-heading > p {
 			width: auto;
-			margin-top: 0.25rem;
-			font-size: 0.72rem;
-			line-height: 1.3;
+			margin-top: 0.18rem;
+			font-size: 0.68rem;
+			line-height: 1.2;
 			text-align: left;
 		}
 		.picks-layout.map-active .map-help-short { display: inline; }
 		.picks-layout.map-active .map-help-long { display: none; }
 
-		/* The frame ends above the fixed BottomNav instead of extending underneath it. */
+		/* The app shell owns the viewport geometry. The map simply fills the
+		   remaining grid row; there are no viewport-minus-magic-number calculations. */
 		.picks-layout.map-active .map-frame {
-			height: clamp(16rem, calc(100dvh - 21rem - env(safe-area-inset-bottom)), 42rem);
+			height: 100%;
+			min-height: 0;
 			border-radius: 1.15rem;
 		}
 
@@ -906,7 +965,27 @@
 		}
 
 		.picks-layout.map-active .map-preview-wrap { right: 0.5rem; bottom: 0.5rem; left: 0.5rem; }
-		.picks-layout.map-active .map-shortlist { margin-top: 0.5rem; }
+		.picks-layout.map-active .map-shortlist {
+			min-height: 0;
+			margin: 0;
+			padding: 0.05rem 0 0.15rem;
+			overscroll-behavior: contain;
+		}
+
+		.picks-layout.map-active .map-shortlist button {
+			flex-basis: min(17rem, 78vw);
+			min-height: 4rem;
+			padding-block: 0.5rem;
+		}
+	}
+
+	@media (max-width: 759px) and (max-height: 740px) {
+		.picks-layout.map-active .map-heading > p { display: none; }
+		.picks-layout.map-active .map-view { gap: 0.3rem; }
+		.picks-layout.map-active .map-shortlist button {
+			min-height: 3.6rem;
+			padding-block: 0.4rem;
+		}
 	}
 
 	@media (max-width: 350px) {
