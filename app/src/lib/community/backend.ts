@@ -176,3 +176,54 @@ export async function reportCommunityAction(
 export async function loadCommunityPulse(): Promise<CommunityPulseResponse> {
 	return invoke<CommunityPulseResponse>('community-pulse');
 }
+
+export async function uploadCommunityPhoto(placeId: string, file: File): Promise<{ success: boolean; status: string }> {
+	const config = communityBackendConfig();
+	if (!config.configured) throw new Error('Community backend is not configured.');
+
+	const installId = getOrCreateInstallationId();
+	if (!installId) throw new Error('Local storage is unavailable.');
+
+	const formData = new FormData();
+	formData.append('placeId', placeId);
+	formData.append('installId', installId);
+	formData.append('file', file);
+
+	const response = await fetch(`${config.url}/functions/v1/photo-upload`, {
+		method: 'POST',
+		headers: {
+			apikey: config.publishableKey,
+		},
+		body: formData,
+	});
+
+	if (!response.ok) {
+		const message = await response.json().catch(() => null) as { error?: string } | null;
+		throw new Error(message?.error || `Photo upload failed (${response.status}).`);
+	}
+	
+	return response.json() as Promise<{ success: boolean; status: string }>;
+}
+
+export async function loadCommunityPhotos(placeId: string): Promise<string[]> {
+	const config = communityBackendConfig();
+	if (!config.configured) return [];
+
+	try {
+		const response = await fetch(`${config.url}/rest/v1/uppetite_community_place_photos?place_id=eq.${encodeURIComponent(placeId)}&status=eq.approved&select=storage_path`, {
+			method: 'GET',
+			headers: {
+				apikey: config.publishableKey,
+				'Authorization': `Bearer ${config.publishableKey}`, // PostgREST requires Bearer token
+			},
+		});
+
+		if (!response.ok) return [];
+
+		const data = await response.json() as { storage_path: string }[];
+		return data.map(row => `${config.url}/storage/v1/object/public/place-photos/${row.storage_path}`);
+	} catch (error) {
+		console.error('Failed to load photos', error);
+		return [];
+	}
+}

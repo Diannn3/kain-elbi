@@ -7,6 +7,7 @@
 	import ShareButton from '../common/ShareButton.svelte';
 	import ListingFreshness from './ListingFreshness.svelte';
 	import VisitReportButton from '../community/VisitReportButton.svelte';
+	import PhotoGallery from './PhotoGallery.svelte';
 
 	let {
 		place,
@@ -135,6 +136,7 @@
 
 				<VisitReportButton placeId={place.id} placeName={place.name} compact />
 				<ListingFreshness {place} compact />
+				<PhotoGallery placeId={place.id} allowUpload={true} />
 
 				<div class="community-actions">
 					<ShareButton

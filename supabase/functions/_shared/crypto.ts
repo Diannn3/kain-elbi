@@ -1,6 +1,6 @@
 const encoder = new TextEncoder();
 
-async function hmacHex(secret: string, value: string): Promise<string> {
+export async function hmacHex(secret: string, value: string): Promise<string> {
 	const key = await crypto.subtle.importKey(
 		'raw',
 		encoder.encode(secret),
