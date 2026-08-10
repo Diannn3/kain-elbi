@@ -10,7 +10,7 @@ function requireRecord(value: unknown, label: string): Record<string, unknown> {
 }
 
 function requireKey(record: Record<string, unknown>, key: string, filename: string): unknown {
-	if (!(key in record) || record[key] === null || record[key] === '') {
+	if (!(key in record) || record[key] === null) {
 		throw new Error(`${filename} is missing ${key}`);
 	}
 	return record[key];

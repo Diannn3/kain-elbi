@@ -12,7 +12,7 @@ describe('Sprint 2 unified List/Map UX', () => {
 		const legacyMap = read('src/components/map/MapExperience.svelte');
 
 		expect(app).toContain("type ResultsView = 'list' | 'map'");
-		expect(app).toContain("const VIEW_STORAGE_KEY = 'kainElbiResultsView'");
+		expect(app).toContain("const VIEW_STORAGE_KEY = STORAGE_KEYS.resultsView;");
 		expect(app).toContain("url.searchParams.set('view', 'map')");
 		expect(app).toContain("url.searchParams.set('focus', focusId)");
 		expect(app).toContain("onMap={() => switchView('map', pick)}");

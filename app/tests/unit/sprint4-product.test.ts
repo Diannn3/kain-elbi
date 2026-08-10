@@ -24,7 +24,7 @@ describe('Sprint 4 product architecture', () => {
 	it('supports searchable List / Map discovery and persistent view preference', () => {
 		const explore = read('src/components/explore/ExploreApp.svelte');
 		const map = read('src/components/explore/ExploreMap.svelte');
-		expect(explore).toContain("'kain-elbi-explore-view'");
+		expect(explore).toContain("STORAGE_KEYS.exploreView");
 		expect(explore).toContain("setView('map')");
 		expect(map).toContain("id: 'explore-places-hit'");
 		expect(map).toContain("'circle-radius': 20");
