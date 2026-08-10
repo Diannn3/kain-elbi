@@ -156,6 +156,11 @@
   },
   "files": [
     {
+      "path": "PLACE_ENRICHMENT_RESEARCH.md",
+      "bytes": 1968,
+      "sha256": "ecbff123e759dfbb65a74c13c3d6653d9cf8fcfa95b0e2a8cf6a83cbed61b0fd"
+    },
+    {
       "path": "SMART_PICKS_SHARE.patch",
       "bytes": 1110,
       "sha256": "947fd8df6ed361b0f7896ff83344e50d32709071ca466fc692efa22a132ba9b1"
@@ -167,8 +172,8 @@
     },
     {
       "path": "app/public/data/place_enrichment.json",
-      "bytes": 35,
-      "sha256": "5055c114747165e7d5f023bd2d372b44d211fc38377d14236d69a4a4bbccc3d6"
+      "bytes": 3866,
+      "sha256": "99385247d2449b871270c4c037b1d509c27386090f77ae7ae1160cd4711fb749"
     },
     {
       "path": "app/scripts/sync-data.mjs",
@@ -182,13 +187,13 @@
     },
     {
       "path": "app/src/components/explore/ExploreApp.svelte",
-      "bytes": 32522,
-      "sha256": "3103591e981062b84e3a630feccd7567ea3f2151f330e508ecca62c233c81806"
+      "bytes": 32573,
+      "sha256": "99d69109887b673b66c33fd67bfc783061a558277983307a472d4edf60162e9a"
     },
     {
       "path": "app/src/components/place/PlaceSheet.svelte",
-      "bytes": 14021,
-      "sha256": "88bb392ac70908ec4372c9441289216fba3c7444064e3676215ec3b2e73a90fa"
+      "bytes": 14027,
+      "sha256": "f9f34ceacb6e1dba821048cbac546b767b0bb135a99491caff712b9c876d93b8"
     },
     {
       "path": "app/src/lib/data/build.ts",
@@ -242,8 +247,8 @@
     },
     {
       "path": "app/src/pages/place/[id].astro",
-      "bytes": 11470,
-      "sha256": "9d38153b52b41a912e2e1ca4582034b9a1ab1fc6b121d1f087ade16bc12d9622"
+      "bytes": 11476,
+      "sha256": "ac32c02d496877130f871a99706a6c0b76ba5c56c639773a558a68cc0bbb01d8"
     },
     {
       "path": "app/tests/e2e/release1-discovery.spec.ts",
@@ -277,13 +282,25 @@
     },
     {
       "path": "data/place_enrichment.json",
-      "bytes": 35,
-      "sha256": "5055c114747165e7d5f023bd2d372b44d211fc38377d14236d69a4a4bbccc3d6"
+      "bytes": 3866,
+      "sha256": "99385247d2449b871270c4c037b1d509c27386090f77ae7ae1160cd4711fb749"
+    },
+    {
+      "path": "data/place_enrichment_evidence.json",
+      "bytes": 6799,
+      "sha256": "c0bc64090aa73379a8bc2fd1b0ab4fed8586ac1c2bfd5d5063ad171198bc6b08"
     },
     {
       "path": "docs/place-enrichment.md",
-      "bytes": 1446,
-      "sha256": "b6e26ca42ee67ebb304ca443513724f0155aa517081d37e4c3e6209d59066746"
+      "bytes": 2564,
+      "sha256": "2fc351d5c2aa1aaa950076b183ec0d2c632a84ee00aefffaea6346dbeb0bb37c"
     }
-  ]
+  ],
+  "place_enrichment_batch": {
+    "research_date": "2026-08-10",
+    "records_enriched": 12,
+    "records_with_price": 11,
+    "price_label": "online-listed meal range",
+    "evidence_file": "data/place_enrichment_evidence.json"
+  }
 }

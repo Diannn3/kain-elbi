@@ -118,7 +118,7 @@
 						{#if cuisine}<div><dt>Food tags</dt><dd>{cuisine}</dd></div>{/if}
 						{#if priceLabel}
 							<div>
-								<dt>Typical meal</dt>
+								<dt>Online-listed meal</dt>
 								<dd>{priceLabel}<small> · checked {place.price?.verifiedAt}</small></dd>
 							</div>
 						{/if}

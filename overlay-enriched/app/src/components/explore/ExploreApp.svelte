@@ -418,9 +418,9 @@
 						onchange={(event) => setBudget(event.currentTarget.value)}
 					>
 						<option value="">Any budget</option>
-						<option value="100">Can eat under ₱100</option>
-						<option value="150">Can eat under ₱150</option>
-						<option value="200">Can eat under ₱200</option>
+						<option value="100">Online-listed meal ≤ ₱100</option>
+						<option value="150">Online-listed meal ≤ ₱150</option>
+						<option value="200">Online-listed meal ≤ ₱200</option>
 					</select>
 				</label>
 			{/if}
@@ -442,7 +442,7 @@
 							<a href={`/place/${place.id}`}>
 								<span>Added {place.addedAt}</span>
 								<strong>{place.name}</strong>
-								{#if place.price}<small>{formatPriceRange(place.price)} typical meal range</small>{/if}
+								{#if place.price}<small>{formatPriceRange(place.price)} online-listed meal range</small>{/if}
 								<b>View place →</b>
 							</a>
 						{/each}
@@ -510,7 +510,7 @@
 				<strong>{filtered.length}</strong> places
 				<span>
 					· {activeCollection ? 'Research-backed browse list · ' : ''}
-					{budget ? 'Known price ranges only · ' : ''}
+					{budget ? 'Known online menu prices only · ' : ''}
 					Explore helps you discover food, not rank it.
 				</span>
 			{/if}
@@ -554,7 +554,7 @@
 					</div>
 					<h2><a href={`/place/${place.id}`}>{place.name}</a></h2>
 					{#if place.cuisine.length}<p class="tags">{place.cuisine.slice(0, 3).join(' · ')}</p>{/if}
-					{#if price}<p class="price-line"><strong>{price}</strong> typical meal range</p>{/if}
+					{#if price}<p class="price-line"><strong>{price}</strong> online-listed meal range</p>{/if}
 					<p class="coverage">
 						{routable.has(place.id)
 							? 'Campus route coverage available'
@@ -600,7 +600,7 @@
 						{categoryLabels[selected.category]} · {zoneForPlace.get(selected.id)?.shortName ?? 'Los Baños'}
 					</span>
 					<strong>{selected.name}</strong>
-					{#if selected.price}<small>{formatPriceRange(selected.price)} typical meal range</small>{/if}
+					{#if selected.price}<small>{formatPriceRange(selected.price)} online-listed meal range</small>{/if}
 					<small>{routable.has(selected.id) ? 'Campus route coverage available' : 'Explore listing'}</small>
 					<a href={`/place/${selected.id}`}>View details →</a>
 				</aside>
