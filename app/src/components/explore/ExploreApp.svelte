@@ -2,9 +2,11 @@
 	import { onMount } from 'svelte';
 	import ExploreMap from './ExploreMap.svelte';
 	import FoodEvents from './FoodEvents.svelte';
+	import ExploreMobileFilters from './ExploreMobileFilters.svelte';
 	import CommunityPulse from '../community/CommunityPulse.svelte';
 	import type { Category, Collection, FoodEvent, FoodZone, Place } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
+	import { STORAGE_KEYS } from '../../lib/storage-keys';
 	import {
 		parseExploreUrl,
 		serializeExploreUrl,
@@ -221,7 +223,7 @@
 		if (view === next) return;
 		view = next;
 		try {
-			localStorage.setItem('kain-elbi-explore-view', next); // Legacy compatibility key.
+			localStorage.setItem(STORAGE_KEYS.exploreView, next); // Legacy compatibility key.
 		} catch {
 			// View preference is optional in restricted storage contexts.
 		}
@@ -281,7 +283,7 @@
 		const parsed = parseExploreUrl(sourceUrl, urlOptions());
 		if (!sourceUrl.searchParams.has('view')) {
 			try {
-				if (localStorage.getItem('kain-elbi-explore-view') === 'map') parsed.view = 'map';
+				if (localStorage.getItem(STORAGE_KEYS.exploreView) === 'map') parsed.view = 'map';
 			} catch {
 				// View preference is optional in restricted storage contexts.
 			}
@@ -365,6 +367,24 @@
 				{/each}
 			</div>
 		</div>
+
+
+		<ExploreMobileFilters
+			{zones}
+			collections={injectedCollections}
+			{zoneId}
+			{collectionId}
+			{hours}
+			{budget}
+			{hoursCapableCount}
+			{pricedPlaceCount}
+			{hoursLoading}
+			{hoursError}
+			onZone={(value) => { zoneId = value; commitFilters(); }}
+			onCollection={(value) => { collectionId = value; commitFilters(); }}
+			onHours={(value) => void setHours(value)}
+			onBudget={setBudget}
+		/>
 
 		{#if hoursCapableCount > 0}
 			<div class="hours-rail">

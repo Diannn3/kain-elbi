@@ -1,10 +1,14 @@
 import { categoryAffinity } from './category-affinity';
 import { evaluatePlaceAvailability, openWindowSeconds } from './place-availability';
 import { anchorToAnchorLeg, anchorToPlaceLeg, placeToAnchorLeg, resolveAnchorId } from './routing';
+import {
+	MINIMUM_STOP_SECONDS,
+	SAFETY_BUFFER_SECONDS,
+	SMART_PICK_POLICY,
+} from './smart-picks-policy';
 import type { Place, RouteMatrix, SearchContext, SmartPick } from './types';
 
-export const MINIMUM_STOP_SECONDS = 15 * 60;
-export const SAFETY_BUFFER_SECONDS = 5 * 60;
+export { MINIMUM_STOP_SECONDS, SAFETY_BUFFER_SECONDS } from './smart-picks-policy';
 
 export class UnsupportedRouteContextError extends Error {
 	constructor(kind: 'origin' | 'destination') {
@@ -81,7 +85,8 @@ export function rankSmartPicks(
 		}
 		const departure = new Date(arrival.getTime() + timeRemainingSeconds * 1000);
 
-		const routeFit = Math.min(timeRemainingSeconds / (30 * 60), 1) * 40;
+		const routeFit = Math.min(timeRemainingSeconds / SMART_PICK_POLICY.time.fullRouteFitSeconds, 1)
+			* SMART_PICK_POLICY.score.routeFitMax;
 		let efficiency = 0;
 		let detourSeconds: number | undefined;
 		let explanation: string;
@@ -92,19 +97,24 @@ export function rankSmartPicks(
 		if (context.destinationId && directWalk !== undefined) {
 			const routedWalk = originToPlace + placeToDestination;
 			const ratio = directWalk > 0 ? routedWalk / directWalk : 1;
-			efficiency = ratio <= 1.1 ? 30 : ratio <= 1.5 ? 15 : 0;
+			efficiency = ratio <= SMART_PICK_POLICY.score.efficientRouteRatio
+				? SMART_PICK_POLICY.score.efficiencyMax
+				: ratio <= SMART_PICK_POLICY.score.acceptableRouteRatio
+					? SMART_PICK_POLICY.score.acceptableEfficiency
+					: 0;
 			detourSeconds = Math.max(0, routedWalk - directWalk);
 			explanation = `Adds a ${minutes(detourSeconds)}-minute detour · leaves ${minutes(timeRemainingSeconds)} minutes ${stopWindowPhrase}.`;
 		} else {
 			efficiency = usableTravelBudget > 0
-				? Math.max(0, 1 - originToPlace / usableTravelBudget) * 30
+				? Math.max(0, 1 - originToPlace / usableTravelBudget) * SMART_PICK_POLICY.score.efficiencyMax
 				: 0;
 			explanation = `${minutes(originToPlace)}-minute walk · leaves ${minutes(timeRemainingSeconds)} minutes ${stopWindowPhrase} · return trip not included.`;
 		}
 
 		const categoryScore = categoryAffinity(context.preferredCategory, place.category);
 		const confidenceScore =
-			(place.independentSourceCount > 1 ? 10 : 0) + (place.hasParseableHours ? 5 : 0);
+			(place.independentSourceCount > 1 ? SMART_PICK_POLICY.score.multipleSourcesConfidence : 0)
+			+ (place.hasParseableHours ? SMART_PICK_POLICY.score.parseableHoursConfidence : 0);
 		const scoreBreakdown = {
 			routeFit,
 			efficiency,

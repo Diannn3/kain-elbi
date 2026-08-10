@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - update/revert-hero-polish
 
 permissions:
   contents: read
@@ -23,10 +22,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -35,17 +34,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install browser engines
-        run: npx playwright install --with-deps chromium webkit
-
       - name: Unit tests
         run: npm run test:unit
 
+      - name: Production build
+        run: npm run build
+
+      - name: Build-size gate
+        run: npm run audit:build-size
+
+      - name: Install browser engines
+        run: npx playwright install --with-deps chromium webkit
+
       - name: Functional E2E
         run: npm run test:e2e
-
-      - name: Build-size report
-        run: npm run audit:build-size
 
       - name: Performance gate
         run: npm run test:perf
@@ -60,7 +62,7 @@ jobs:
 
       - name: Upload Playwright failure artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-failures
           if-no-files-found: ignore

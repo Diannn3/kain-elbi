@@ -9,7 +9,7 @@ async function stubBasemap(page: import('@playwright/test').Page) {
 	}));
 }
 
-test('mobile Map keeps controls compact and the map above BottomNav', async ({ page }) => {
+test('mobile Map keeps the header, route controls, map, and BottomNav in non-overlapping bands', async ({ page }) => {
 	await page.setViewportSize({ width: 390, height: 844 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
@@ -17,23 +17,33 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('.map-frame')).toBeVisible();
 	await expect(page.locator('.map-preview')).toBeVisible();
+	await expect(page.locator('.trip-ticket')).toBeInViewport();
 
 	const geometry = await page.evaluate(() => {
+		const header = document.querySelector('.site-header');
 		const bar = document.querySelector('.context-bar');
+		const ticket = document.querySelector('.trip-ticket');
 		const frame = document.querySelector('.map-frame');
 		const nav = document.querySelector('.bottom-nav');
 		const preview = document.querySelector('.map-preview');
 		const shortlist = document.querySelector('.map-shortlist');
 		const meta = document.querySelector('.ticket-meta');
-		if (!bar || !frame || !nav || !preview || !shortlist || !meta) return null;
+		if (!header || !bar || !ticket || !frame || !nav || !preview || !shortlist || !meta) return null;
+		const headerBox = header.getBoundingClientRect();
 		const barBox = bar.getBoundingClientRect();
+		const ticketBox = ticket.getBoundingClientRect();
 		const frameBox = frame.getBoundingClientRect();
 		const navBox = nav.getBoundingClientRect();
 		const previewBox = preview.getBoundingClientRect();
 		const shortlistBox = shortlist.getBoundingClientRect();
 		const usableBottom = Math.min(frameBox.bottom, navBox.top - 8);
 		return {
+			headerBottom: headerBox.bottom,
+			barTop: barBox.top,
+			barBottom: barBox.bottom,
 			barHeight: barBox.height,
+			ticketTop: ticketBox.top,
+			ticketBottom: ticketBox.bottom,
 			frameHeight: frameBox.height,
 			frameBottom: frameBox.bottom,
 			navTop: navBox.top,
@@ -49,6 +59,10 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 	});
 
 	expect(geometry).not.toBeNull();
+	expect(geometry!.headerBottom).toBeLessThanOrEqual(geometry!.barTop);
+	expect(geometry!.ticketTop).toBeGreaterThanOrEqual(geometry!.headerBottom);
+	expect(geometry!.ticketTop).toBeGreaterThanOrEqual(geometry!.barTop);
+	expect(geometry!.ticketBottom).toBeLessThanOrEqual(geometry!.barBottom);
 	expect(geometry!.barHeight).toBeLessThanOrEqual(132);
 	expect(geometry!.metaDisplay).toBe('none');
 	expect(geometry!.frameBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
@@ -56,6 +70,33 @@ test('mobile Map keeps controls compact and the map above BottomNav', async ({ p
 	expect(geometry!.shortlistBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
 	expect(geometry!.previewHeight).toBeLessThanOrEqual(125);
 	expect(geometry!.visibleMapHeight).toBeGreaterThanOrEqual(geometry!.viewportHeight * 0.55);
+	expect(geometry!.overflow).toBe(false);
+});
+
+test('mobile Map shell geometry remains valid on a taller narrow iPhone viewport', async ({ page }) => {
+	await page.setViewportSize({ width: 430, height: 932 });
+	await stubBasemap(page);
+	await page.goto(`/picks${routeQuery}`);
+	const geometry = await page.evaluate(() => {
+		const header = document.querySelector('.site-header')?.getBoundingClientRect();
+		const bar = document.querySelector('.context-bar')?.getBoundingClientRect();
+		const ticket = document.querySelector('.trip-ticket')?.getBoundingClientRect();
+		const frame = document.querySelector('.map-frame')?.getBoundingClientRect();
+		const nav = document.querySelector('.bottom-nav')?.getBoundingClientRect();
+		if (!header || !bar || !ticket || !frame || !nav) return null;
+		return {
+			headerBottom: header.bottom,
+			barTop: bar.top,
+			ticketTop: ticket.top,
+			frameBottom: frame.bottom,
+			navTop: nav.top,
+			overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+		};
+	});
+	expect(geometry).not.toBeNull();
+	expect(geometry!.headerBottom).toBeLessThanOrEqual(geometry!.barTop);
+	expect(geometry!.ticketTop).toBeGreaterThanOrEqual(geometry!.headerBottom);
+	expect(geometry!.frameBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
 	expect(geometry!.overflow).toBe(false);
 });
 
@@ -94,6 +135,7 @@ test('narrow mobile Map keeps its toolbar on one line without horizontal overflo
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
 	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator('.trip-ticket')).toBeInViewport();
 	expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
 });
 

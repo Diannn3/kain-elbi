@@ -42,6 +42,8 @@ async function createFixture() {
 	await put(root, '_astro/sora-latin-ext-wght-normal.abc.woff2', 'font-ext');
 	await put(root, 'place/one/index.html', '<h1>Place</h1>');
 	await put(root, 'data/route_matrix.json', '{}');
+	await put(root, 'data/runtime-manifest.json', '{}');
+	await put(root, 'data/releases/0123456789ab/places.json', '[]');
 	return root;
 }
 
@@ -54,8 +56,8 @@ afterEach(async () => {
 });
 
 describe('service worker generator', () => {
-	it('uses the explicit release-gate-v2 lifecycle schema', () => {
-		expect(SERVICE_WORKER_SCHEMA_VERSION).toBe('release-gate-v2');
+	it('uses the explicit release-gate-v3 lifecycle schema', () => {
+		expect(SERVICE_WORKER_SCHEMA_VERSION).toBe('release-gate-v3');
 	});
 
 	it('changes version when equal-length file contents change', async () => {
@@ -82,7 +84,7 @@ describe('service worker generator', () => {
 			'/_astro/inter-latin-wght-normal.abc.woff2',
 		]));
 		expect(manifest.join('\n')).not.toMatch(
-			/place\/one|route_matrix|maplibre|MapExperience|opening_hours|PlaceSheet|latin-ext/,
+			/place\/one|route_matrix|runtime-manifest|data\/releases|maplibre|MapExperience|opening_hours|PlaceSheet|latin-ext/,
 		);
 		expect(manifest).toEqual([...manifest].sort());
 	});
@@ -106,15 +108,30 @@ describe('service worker generator', () => {
 		expect(source).toContain("fetch(request, { cache: 'no-store' })");
 	});
 
-	it('keeps one previous static cache generation during migration', async () => {
+	it('uses network-first manifest and cache-first immutable release data', async () => {
+		const root = await createFixture();
+		await generateServiceWorker(root);
+
+		const source = await readFile(join(root, 'sw.js'), 'utf8');
+		expect(source).toContain("url.pathname === '/data/runtime-manifest.json'");
+		expect(source).toContain("url.pathname.startsWith('/data/releases/')");
+		expect(source).toContain('latestDataManifest(event.request)');
+		expect(source).toContain('immutableData(event.request)');
+		expect(source).toContain("new Response(\n      JSON.stringify({ error: 'offline' })");
+	});
+
+	it('keeps one previous static and data cache generation during migration', async () => {
 		const root = await createFixture();
 		await generateServiceWorker(root);
 
 		const source = await readFile(join(root, 'sw.js'), 'utf8');
 
 		expect(source).toContain('previousStaticCaches');
+		expect(source).toContain('previousDataCaches');
 		expect(source).toContain('.slice(-1)');
 		expect(source).toContain('kain-elbi-static-');
 		expect(source).toContain('uppetite-static-');
+		expect(source).toContain('kain-elbi-data-');
+		expect(source).toContain('uppetite-data-');
 	});
 });

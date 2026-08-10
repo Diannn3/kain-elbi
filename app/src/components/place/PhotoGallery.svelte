@@ -2,9 +2,12 @@
 	import { onMount } from 'svelte';
 	import { loadCommunityPhotos } from '../../lib/community/backend';
 	import PhotoUploader from './PhotoUploader.svelte';
+	import { communityFeatures } from '../../lib/community/config';
 
 	export let placeId: string;
 	export let allowUpload = true;
+
+	$: uploadEnabled = allowUpload && communityFeatures.photos !== 'hidden';
 
 	let photos: string[] = [];
 	let loading = true;
@@ -29,11 +32,11 @@
 	}
 </script>
 
-{#if !loading && (photos.length > 0 || allowUpload)}
+{#if !loading && (photos.length > 0 || uploadEnabled)}
 	<div class="photo-gallery-section">
 		<div class="header">
 			<h3>Photos</h3>
-			{#if allowUpload}
+			{#if uploadEnabled}
 				<PhotoUploader {placeId} onUploadSuccess={handleUploadSuccess} />
 			{/if}
 		</div>
@@ -42,7 +45,7 @@
 			<div class="gallery">
 				{#each photos as photoUrl (photoUrl)}
 					<div class="photo-card">
-						<img src={photoUrl} alt="Community uploaded" loading="lazy" />
+						<img src={photoUrl} alt="" loading="lazy" />
 					</div>
 				{/each}
 			</div>

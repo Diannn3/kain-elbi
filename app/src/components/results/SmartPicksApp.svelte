@@ -13,9 +13,10 @@
 	import PlaceSheet from '../place/PlaceSheet.svelte';
 	import ShareButton from '../common/ShareButton.svelte';
 	import { appStorage } from '../../lib/storage.svelte';
+	import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 	type ResultsView = 'list' | 'map';
-	const VIEW_STORAGE_KEY = 'kainElbiResultsView';
+	const VIEW_STORAGE_KEY = STORAGE_KEYS.resultsView;
 
 	let { initialView = 'list' }: { initialView?: ResultsView } = $props();
 	let loading = $state(true);
@@ -322,7 +323,7 @@
 				<header class="results-header">
 					<p class="eyebrow">Smart Picks</p>
 					<h1 id="results-title">{picks.length} {picks.length === 1 ? 'place fits' : 'places fit'} your break.</h1>
-					<p>Impossible stops are removed first. The rest are ranked by route fit, time available, preference, and data confidence.</p>
+					<p>Smart Picks only considers places with supported walking routes. Impossible stops are removed first. The rest are ranked by route fit, time available, preference, and data confidence.</p>
 				</header>
 				<div class="result-list" aria-live="polite">
 					{#each visiblePicks as pick, index}
@@ -781,7 +782,7 @@
 		.picks-layout.map-active {
 			position: fixed;
 			z-index: 30;
-			top: 0.35rem;
+			top: var(--mobile-header-clearance);
 			right: 0.375rem;
 			bottom: var(--mobile-nav-clearance);
 			left: 0.375rem;
@@ -907,13 +908,9 @@
 			line-height: 1.05;
 			letter-spacing: -0.03em;
 		}
-		.picks-layout.map-active .map-heading > p {
-			width: auto;
-			margin-top: 0.18rem;
-			font-size: 0.68rem;
-			line-height: 1.2;
-			text-align: left;
-		}
+		/* Route truthfulness remains available in the in-map disclosure. On
+		   small screens the persistent paragraph steals scarce map height. */
+		.picks-layout.map-active .map-heading > p { display: none; }
 		.picks-layout.map-active .map-help-short { display: inline; }
 		.picks-layout.map-active .map-help-long { display: none; }
 

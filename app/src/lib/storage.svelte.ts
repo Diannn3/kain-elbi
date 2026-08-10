@@ -1,5 +1,7 @@
-const STORAGE_KEY_SAVES = 'kain-elbi-saved-places';
-const STORAGE_KEY_SEARCHES = 'kain-elbi-recent-searches';
+import { STORAGE_KEYS } from './storage-keys';
+
+const STORAGE_KEY_SAVES = STORAGE_KEYS.savedPlaces;
+const STORAGE_KEY_SEARCHES = STORAGE_KEYS.recentSearches;
 const RECENT_ROUTE_PARAMS = ['origin', 'originMode', 'approach', 'destination', 'break', 'category', 'src', 'v'] as const;
 
 export interface RecentSearch {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { communityBackendConfig, loadCommunityPulse, type CommunityPulseRow } from '../../lib/community/backend';
+	import { communityFeatures } from '../../lib/community/config';
 	import { categoryLabel } from '../../lib/place-presentation';
 	import type { FoodZone, Place } from '../../lib/types';
 
@@ -21,6 +22,8 @@
 
 	const knownRows = $derived(rows.filter((row) => placeById.has(row.placeId)));
 	const topRows = $derived(knownRows.slice(0, 5));
+	const totalReports = $derived(knownRows.reduce((sum, row) => sum + row.visitReports30d, 0));
+	const pulseVisible = $derived(communityFeatures.pulse !== 'hidden' && totalReports >= communityFeatures.pulseMinimumReports);
 	const zoneOptions = $derived(
 		zones
 			.filter((zone) => zone.id !== 'elsewhere-lb')
@@ -64,12 +67,12 @@
 	});
 </script>
 
-{#if configured && ready && topRows.length}
+{#if configured && ready && topRows.length && pulseVisible}
 	<section class="community-pulse" aria-labelledby="community-pulse-title">
 		<div class="pulse-heading">
 			<div>
 				<p class="eyebrow-global">Community Pulse</p>
-				<h2 id="community-pulse-title">Where Elbi students report going.</h2>
+				<h2 id="community-pulse-title">Where UPPETITE users report going.</h2>
 			</div>
 			<p>Explicit anonymous visit reports · last 30 days · updated daily.</p>
 		</div>

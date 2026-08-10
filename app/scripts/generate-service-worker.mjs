@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { join, relative, resolve, sep } from 'node:path';
 import { PWA_CLIENT_BOOTSTRAP_VERSION } from '../src/lib/pwa-update.mjs';
 
-export const SERVICE_WORKER_SCHEMA_VERSION = 'release-gate-v2';
+export const SERVICE_WORKER_SCHEMA_VERSION = 'release-gate-v3';
 
 async function walk(directory) {
 	const paths = [];
@@ -223,10 +223,9 @@ async function deleteOldCaches() {
   const keys = await caches.keys();
 
   /*
-   * Keep one previous static shell generation as a short compatibility
-   * bridge for an old document that is in the middle of reloading.
-   * Data caches can be replaced immediately because /data/ is already
-   * served by the new worker's stale-while-revalidate path.
+   * Keep one previous shell and data generation as a compatibility bridge for
+   * an old document that is in the middle of reloading. Versioned data paths
+   * are immutable, so a previous data cache is safe as an offline fallback.
    */
   const previousStaticCaches = keys
     .filter((key) =>
@@ -234,8 +233,19 @@ async function deleteOldCaches() {
       && key !== STATIC_CACHE
     )
     .slice(-1);
+  const previousDataCaches = keys
+    .filter((key) =>
+      (key.startsWith('kain-elbi-data-') || key.startsWith('uppetite-data-'))
+      && key !== DATA_CACHE
+    )
+    .slice(-1);
 
-  const keep = new Set([STATIC_CACHE, DATA_CACHE, ...previousStaticCaches]);
+  const keep = new Set([
+    STATIC_CACHE,
+    DATA_CACHE,
+    ...previousStaticCaches,
+    ...previousDataCaches,
+  ]);
 
   await Promise.all(
     keys
@@ -287,9 +297,32 @@ async function navigation(request) {
   }
 }
 
+async function latestDataManifest(request) {
+  const cache = await caches.open(DATA_CACHE);
+  try {
+    const response = await fetch(request, { cache: 'no-store' });
+    if (response.ok) await cache.put(request, response.clone());
+    return response;
+  } catch {
+    return (await caches.match(request)) || new Response(
+      JSON.stringify({ error: 'offline' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+}
+
+async function immutableData(request) {
+  const cache = await caches.open(DATA_CACHE);
+  const cached = (await cache.match(request)) || (await caches.match(request));
+  if (cached) return cached;
+  const response = await fetch(request);
+  if (response.ok) await cache.put(request, response.clone());
+  return response;
+}
+
 async function staleData(request) {
   const cache = await caches.open(DATA_CACHE);
-  const cached = await cache.match(request);
+  const cached = (await cache.match(request)) || (await caches.match(request));
   const fresh = fetch(request).then((response) => {
     if (response.ok) cache.put(request, response.clone());
     return response;
@@ -300,6 +333,8 @@ async function staleData(request) {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
+  if (url.pathname === '/data/runtime-manifest.json') return event.respondWith(latestDataManifest(event.request));
+  if (url.pathname.startsWith('/data/releases/')) return event.respondWith(immutableData(event.request));
   if (url.pathname.startsWith('/data/')) return event.respondWith(staleData(event.request));
   if (event.request.mode === 'navigate') return event.respondWith(navigation(event.request));
   event.respondWith(

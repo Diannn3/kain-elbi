@@ -8,6 +8,16 @@ export interface CommunityFormConfig {
 	businessUpdatePlaceIdEntry: string;
 }
 
+export type CommunityFeatureReadiness = 'hidden' | 'beta' | 'live';
+
+export interface CommunityFeaturePolicy {
+	pulse: CommunityFeatureReadiness;
+	photos: CommunityFeatureReadiness;
+	events: CommunityFeatureReadiness;
+	/** Minimum total 30-day reports before popularity rankings are rendered. */
+	pulseMinimumReports: number;
+}
+
 export const communityForms: Readonly<CommunityFormConfig> = Object.freeze({
 	addPlace: '',
 	suggestEdit: '',
@@ -16,6 +26,18 @@ export const communityForms: Readonly<CommunityFormConfig> = Object.freeze({
 	submitEvent: '',
 	suggestEditPlaceIdEntry: '',
 	businessUpdatePlaceIdEntry: '',
+});
+
+/**
+ * Product-readiness gates are explicit instead of being inferred from whether
+ * a backend URL happens to be configured. This prevents half-populated beta
+ * modules from presenting sparse data as an established community signal.
+ */
+export const communityFeatures: Readonly<CommunityFeaturePolicy> = Object.freeze({
+	pulse: 'beta',
+	photos: 'beta',
+	events: 'beta',
+	pulseMinimumReports: 5,
 });
 
 export function isGoogleFormUrl(value: string): boolean {

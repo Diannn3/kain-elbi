@@ -6,6 +6,38 @@ import { json } from '../_shared/response.ts';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const PLACE_ID = /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$/;
+const MAX_FILE_BYTES = 2 * 1024 * 1024;
+const DAILY_UPLOAD_LIMIT = 3;
+
+async function isSafeWebp(file: File): Promise<boolean> {
+	if (file.type !== 'image/webp' || file.size < 20) return false;
+	const bytes = new Uint8Array(await file.arrayBuffer());
+	const ascii = (offset: number, length: number) => String.fromCharCode(...bytes.slice(offset, offset + length));
+	if (ascii(0, 4) !== 'RIFF' || ascii(8, 4) !== 'WEBP') return false;
+
+	// RIFF's size field describes the remaining bytes after the first 8 bytes.
+	const riffSize = bytes[4] | (bytes[5] << 8) | (bytes[6] << 16) | (bytes[7] << 24);
+	if ((riffSize >>> 0) + 8 !== bytes.length) return false;
+
+	// Canvas-generated WebP should contain image payload only. Explicitly reject
+	// standardized EXIF/XMP chunks so a crafted caller cannot bypass the client's
+	// metadata-stripping canvas by posting a hand-built WebP directly.
+	let offset = 12;
+	for (; offset + 8 <= bytes.length;) {
+		const chunk = ascii(offset, 4);
+		const chunkSize = (
+			bytes[offset + 4]
+			| (bytes[offset + 5] << 8)
+			| (bytes[offset + 6] << 16)
+			| (bytes[offset + 7] << 24)
+		) >>> 0;
+		const next = offset + 8 + chunkSize + (chunkSize % 2);
+		if (next > bytes.length) return false;
+		if (chunk === 'EXIF' || chunk === 'XMP ') return false;
+		offset = next;
+	}
+	return offset === bytes.length;
+}
 
 Deno.serve(async (req) => {
 	if (req.method === 'OPTIONS') {
@@ -27,84 +59,77 @@ Deno.serve(async (req) => {
 		if (typeof installId !== 'string' || !UUID.test(installId.trim())) {
 			return json(req, { error: 'invalid_installation_id' }, 400);
 		}
-		if (!(file instanceof File)) {
-			return json(req, { error: 'invalid_file' }, 400);
+		if (!(file instanceof File) || file.size <= 0 || file.size > MAX_FILE_BYTES) {
+			return json(req, { error: file instanceof File && file.size > MAX_FILE_BYTES ? 'file_too_large' : 'invalid_file' }, 400);
 		}
-
-		if (file.size > 2 * 1024 * 1024) { // 2MB max after client-side compression
-			return json(req, { error: 'file_too_large' }, 400);
-		}
+		// The client re-encodes selected images to WebP to strip metadata. Do
+		// not trust caller-controlled filename extensions or MIME strings alone.
+		if (!(await isSafeWebp(file))) return json(req, { error: 'invalid_file_type' }, 400);
 
 		const secret = Deno.env.get('UPPETITE_HMAC_SECRET');
-		if (!secret) return json(req, { error: 'server_configuration_error' }, 500);
+		if (!secret || secret.length < 32) return json(req, { error: 'server_configuration_error' }, 500);
 
-		const installIdHash = await hmacHex(secret, `uppetite:v1:install:${installId.trim()}`);
+		const normalizedInstallId = installId.trim();
+		const normalizedPlaceId = placeId.trim();
+		const installIdHash = await hmacHex(secret, `uppetite:v1:install:${normalizedInstallId}`);
 		const day = manilaDay();
-		const dailyUploadToken = await hmacHex(secret, `uppetite:v1:upload:${installId.trim()}:${day}`);
-
 		const admin = adminClient();
 
-		// Check rate limit: max 3 photos per day
-		// Since we don't have a dedicated table for upload rate limits, we'll just count 
-		// the photos from this installation today.
-		const { count, error: countError } = await admin
-			.from('uppetite_community_place_photos')
-			.select('id', { count: 'exact', head: true })
-			.eq('installation_id_hash', installIdHash)
-			.gte('created_at', new Date(new Date().setUTCHours(0,0,0,0)).toISOString()); // Approximate UTC start of day, good enough
-
-		if (countError) {
-			console.error('Count error', countError);
-			return json(req, { error: 'community_backend_error' }, 500);
-		}
-
-		if (count !== null && count >= 3) {
-			return json(req, { error: 'rate_limited' }, 429);
-		}
-
-		// Validate place exists in registry
+		// Validate the place before consuming a daily upload slot.
 		const { data: placeData, error: placeError } = await admin
 			.from('uppetite_community_place_registry')
 			.select('place_id')
-			.eq('place_id', placeId.trim())
+			.eq('place_id', normalizedPlaceId)
 			.eq('active', true)
 			.maybeSingle();
-		
-		if (placeError || !placeData) {
-			return json(req, { error: 'unknown_place' }, 404);
+		if (placeError) {
+			console.error('Place lookup error', placeError);
+			return json(req, { error: 'community_backend_error' }, 500);
 		}
+		if (!placeData) return json(req, { error: 'unknown_place' }, 404);
 
-		// Generate random UUID for storage
+		// One atomic database statement claims a Manila-calendar-day slot.
+		// This closes the race where concurrent requests could both pass a
+		// separate COUNT query before either insert became visible.
+		const { data: slotClaimed, error: slotError } = await admin.rpc('uppetite_claim_photo_upload_slot', {
+			p_day: day,
+			p_installation_id_hash: installIdHash,
+			p_limit: DAILY_UPLOAD_LIMIT,
+		});
+		if (slotError) {
+			console.error('Photo rate-limit claim error', slotError);
+			return json(req, { error: 'community_backend_error' }, 500);
+		}
+		if (!slotClaimed) return json(req, { error: 'rate_limited' }, 429);
+
 		const fileId = crypto.randomUUID();
-		const fileExt = file.name.split('.').pop() || 'webp';
-		const storagePath = `${placeId.trim()}/${fileId}.${fileExt}`;
-
-		// Upload to Storage
+		const storagePath = `${normalizedPlaceId}/${fileId}.webp`;
 		const { error: uploadError } = await admin.storage
 			.from('place-photos')
 			.upload(storagePath, file, {
-				contentType: file.type,
-				upsert: false
+				contentType: 'image/webp',
+				upsert: false,
 			});
-
 		if (uploadError) {
 			console.error('Upload error', uploadError);
 			return json(req, { error: 'upload_failed' }, 500);
 		}
 
-		// Insert into place_photos table
 		const { error: dbError } = await admin
 			.from('uppetite_community_place_photos')
 			.insert({
-				place_id: placeId.trim(),
+				place_id: normalizedPlaceId,
 				storage_path: storagePath,
 				installation_id_hash: installIdHash,
-				status: 'pending'
+				status: 'pending',
 			});
-		
 		if (dbError) {
 			console.error('DB insert error', dbError);
-			// Ideally we'd delete the storage file here, but keeping it is harmless orphan.
+			// Storage and Postgres are separate systems. Compensate immediately
+			// when the metadata write fails so moderation does not accumulate
+			// unreachable orphan objects.
+			const { error: cleanupError } = await admin.storage.from('place-photos').remove([storagePath]);
+			if (cleanupError) console.error('Orphan cleanup error', cleanupError);
 			return json(req, { error: 'community_backend_error' }, 500);
 		}
 

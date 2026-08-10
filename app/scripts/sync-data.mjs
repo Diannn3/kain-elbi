@@ -1,4 +1,5 @@
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -62,13 +63,13 @@ await syncRequired('community_impact.json', (value) => {
 
 await syncRequired('route_matrix.json', (value) => {
 	if (value.schema_version === 1) {
-		for (const key of ['generated_at', 'anchors', 'anchor_to_place_seconds', 'place_to_anchor_seconds', 'anchor_to_anchor_seconds']) {
+		for (const key of ['generated_at', 'walking_speed_mps', 'anchors', 'anchor_to_place_seconds', 'place_to_anchor_seconds', 'anchor_to_anchor_seconds']) {
 			if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
 		}
 		return;
 	}
 	if (value.schema_version === 2) {
-		for (const key of ['generated_at', 'anchors', 'routing', 'place_snaps', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']) {
+		for (const key of ['generated_at', 'walking_speed_mps', 'anchors', 'routing', 'place_snaps', 'anchor_to_place', 'place_to_anchor', 'anchor_to_anchor']) {
 			if (!(key in value)) throw new Error(`route_matrix.json is missing ${key}`);
 		}
 		const thresholds = value.routing?.snap_thresholds_m;
@@ -130,3 +131,42 @@ await syncRequired('freshie.json', (value) => {
 await syncOptional('manifest.json');
 await syncOptional('anchor_aliases.json');
 await syncOptional('walk-graph.json', roomTbaRoot);
+
+/*
+ * Core runtime data is published under one immutable, content-addressed
+ * generation. The client activates a generation only after loading and
+ * validating every required file from the same manifest, preventing a PWA
+ * from mixing e.g. places from one deployment with routes from another.
+ */
+const runtimeFiles = {
+	places: 'places.json',
+	routeMatrix: 'route_matrix.json',
+	collections: 'collections.json',
+	placeEnrichment: 'place_enrichment.json',
+};
+const digest = createHash('sha256');
+for (const filename of Object.values(runtimeFiles)) {
+	const bytes = await readFile(resolve(outputRoot, filename));
+	digest.update(filename).update('\0').update(bytes).update('\0');
+}
+const generation = digest.digest('hex').slice(0, 12);
+const releasesRoot = resolve(outputRoot, 'releases');
+const releaseRoot = resolve(releasesRoot, generation);
+await rm(releasesRoot, { recursive: true, force: true });
+await mkdir(releaseRoot, { recursive: true });
+for (const filename of Object.values(runtimeFiles)) {
+	await copyFile(resolve(outputRoot, filename), resolve(releaseRoot, filename));
+}
+const runtimeManifest = {
+	schemaVersion: 1,
+	generation,
+	files: Object.fromEntries(
+		Object.entries(runtimeFiles).map(([key, filename]) => [key, `/data/releases/${generation}/${filename}`]),
+	),
+};
+await writeFile(
+	resolve(outputRoot, 'runtime-manifest.json'),
+	`${JSON.stringify(runtimeManifest, null, 2)}\n`,
+	'utf8',
+);
+process.stdout.write(`published runtime data generation ${generation}\n`);

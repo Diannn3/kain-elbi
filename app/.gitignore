@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 .vercel
 .env*
+# Build-generated immutable runtime data generations
+public/data/releases/
+public/data/runtime-manifest.json

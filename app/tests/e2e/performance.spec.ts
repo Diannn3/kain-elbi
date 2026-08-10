@@ -76,8 +76,22 @@ async function measure(page: import('@playwright/test').Page, path: string) {
 	expect(vitals!.cls, `${path} exceeded the 0.10 CLS budget`).toBeLessThanOrEqual(0.10);
 }
 
-for (const route of ['/', '/explore', '/explore?category=cafe']) {
+for (const route of [
+	'/',
+	'/explore',
+	'/explore?category=cafe',
+	'/freshie',
+	'/picks?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60&view=list',
+]) {
 	test(`${route} stays within mobile lab performance budgets`, async ({ page }) => {
 		await measure(page, route);
 	});
 }
+
+test('Smart Picks mobile Map stays within lab performance budgets', async ({ page }) => {
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
+		contentType: 'application/json',
+		body: JSON.stringify({ version: 8, name: 'UPPETITE performance test', sources: {}, layers: [] }),
+	}));
+	await measure(page, '/picks?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60&view=map');
+});
