@@ -1,0 +1,19 @@
+---
+import { developer } from '../../lib/developer';
+---
+
+<a
+	href={developer.contacts.email.href}
+	class="developer-contact-link"
+	data-developer-contact-trigger
+	aria-haspopup="dialog"
+	aria-controls="developer-contact-dialog"
+>
+	Developer contact
+</a>
+
+<style>
+	.developer-contact-link {
+		color: inherit;
+	}
+</style>
