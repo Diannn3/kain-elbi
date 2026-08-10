@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PlaceHoursStatus from '../../components/place/PlaceHoursStatus.svelte';
 import PlaceMiniMap from '../../components/map/PlaceMiniMap.svelte';
 import ShareButton from '../../components/common/ShareButton.svelte';
+import ListingFreshness from '../../components/place/ListingFreshness.svelte';
 import { loadBuildData } from '../../lib/data/build';
 import { formatPriceRange } from '../../lib/data/place-enrichment';
 import { categoryLabel, cuisineSummary, nearestAnchorContext, routeCoverageLabel } from '../../lib/place-presentation';
@@ -45,7 +46,6 @@ const cuisine = cuisineSummary(place);
 const priceLabel = formatPriceRange(place.price);
 const websiteUrl = place.website && /^https?:\/\//i.test(place.website) ? place.website : null;
 const phoneUrl = place.phone ? `tel:${place.phone.replace(/[^+\d]/g, '')}` : null;
-const editUrl = `/contribute?place=${encodeURIComponent(place.id)}#suggest-edit`;
 const sharePath = `/place/${encodeURIComponent(place.id)}`;
 ---
 
@@ -120,6 +120,8 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 						<code>{place.openingHours}</code>
 					</details>
 				)}
+
+				<ListingFreshness place={place} showBusinessAction />
 			</section>
 		</div>
 
@@ -128,7 +130,6 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 			<a href="/#route-planner">Find food for another break</a>
 		</div>
 
-		<p class="contribute-note">See something outdated? <a href={editUrl}>Suggest an edit</a>.</p>
 		<p class="external-note">External directions open in Google Maps. UPPETITE does not store your exact GPS location on this page.</p>
 	</main>
 </Layout>

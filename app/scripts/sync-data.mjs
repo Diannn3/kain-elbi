@@ -48,6 +48,18 @@ await syncRequired('place_enrichment.json', (value) => {
 	}
 });
 
+await syncRequired('events.json', (value) => {
+	if (!value || typeof value !== 'object' || value.version !== 1 || !Array.isArray(value.events)) {
+		throw new Error('events.json must use version 1 and contain an events array');
+	}
+});
+
+await syncRequired('community_impact.json', (value) => {
+	if (!value || typeof value !== 'object' || value.version !== 1 || !value.metrics || typeof value.metrics !== 'object') {
+		throw new Error('community_impact.json must use version 1 and contain metrics');
+	}
+});
+
 await syncRequired('route_matrix.json', (value) => {
 	if (value.schema_version === 1) {
 		for (const key of ['generated_at', 'anchors', 'anchor_to_place_seconds', 'place_to_anchor_seconds', 'anchor_to_anchor_seconds']) {

@@ -1,95 +1,25 @@
 {
-  "source": {
-    "repository": "Diannn3/kain-elbi",
-    "branch": "main",
-    "retrieval": "GitHub connector because container DNS could not resolve github.com",
-    "observed_file_shas": {
-      "app/src/components/explore/ExploreApp.svelte": "d5ccbbaeacc491852fa443acd3d962ec933f9009",
-      "app/src/lib/types.ts": "84b0384c8286e62121236a0572bcbcf7ea3199f8",
-      "app/src/lib/data/build.ts": "568dfa464b4367f1dfbd5c21f00df8035aa59436",
-      "app/src/lib/data/loaders.ts": "9efd784561bcc5656d68b9fffa474415964f3da0",
-      "app/src/lib/explore-url.ts": "caa52bb0e57260f0f20fe7a480201a6b236602da",
-      "app/src/components/place/PlaceSheet.svelte": "cf0154faeadd4eb0c199e871673b43d4128fc972",
-      "app/src/pages/place/[id].astro": "44bfa27cf041b3bcf0d108e6c6fac325949368ed",
-      "app/scripts/sync-data.mjs": "5c85eebf95c6f828a3c9a0821cce2ccab0a24165",
-      "app/src/components/results/SmartPicksApp.svelte": "bf7ea0a8a066f14f608684bffb1742dd77cdc4b7"
-    }
+  "release": "Release 2 \u2014 Community Operations",
+  "cumulative_base": "Release 1 \u2014 Discovery Upgrade + verified enrichment batch",
+  "github_main_checked": {
+    "community_config_sha": "4d86d8e3dfd1dbbb0622f31d9f94e451620fabb6",
+    "contribute_page_sha": "1862aefa81372a88b8c488007e615da7159907f0",
+    "community_e2e_sha": "634ad74af7be17cc40c6a1d79400ba13c0d0cb69"
   },
-  "release": "Release 1 \u2014 Discovery Upgrade",
   "checks": {
-    "canonical enrichment exists": {
+    "data/events.json parses": {
       "pass": true,
       "detail": ""
     },
-    "public enrichment mirror exists": {
+    "data/community_impact.json parses": {
       "pass": true,
       "detail": ""
     },
-    "no fabricated enrichment": {
+    "app/public/data/events.json parses": {
       "pass": true,
       "detail": ""
     },
-    "build merges enrichment": {
-      "pass": true,
-      "detail": ""
-    },
-    "runtime enrichment is optional": {
-      "pass": true,
-      "detail": ""
-    },
-    "Open Now dynamic import": {
-      "pass": true,
-      "detail": ""
-    },
-    "Closing Soon 60 minute default": {
-      "pass": true,
-      "detail": ""
-    },
-    "Explore hours URL": {
-      "pass": true,
-      "detail": ""
-    },
-    "Explore budget URL": {
-      "pass": true,
-      "detail": ""
-    },
-    "alias search": {
-      "pass": true,
-      "detail": ""
-    },
-    "Elbi vocabulary": {
-      "pass": true,
-      "detail": ""
-    },
-    "Recently Added data-gated": {
-      "pass": true,
-      "detail": ""
-    },
-    "Budget data-gated": {
-      "pass": true,
-      "detail": ""
-    },
-    "Smart suggestions": {
-      "pass": true,
-      "detail": ""
-    },
-    "Share place page": {
-      "pass": true,
-      "detail": ""
-    },
-    "Share place sheet": {
-      "pass": true,
-      "detail": ""
-    },
-    "Share route patch": {
-      "pass": true,
-      "detail": "SmartPicks is patched against its observed main-branch source pattern."
-    },
-    "legacy localStorage keys untouched": {
-      "pass": true,
-      "detail": ""
-    },
-    "no Supabase runtime added": {
+    "app/public/data/community_impact.json parses": {
       "pass": true,
       "detail": ""
     },
@@ -97,7 +27,67 @@
       "pass": true,
       "detail": ""
     },
-    "app/public/data/place_enrichment.json parses": {
+    "events are empty until moderated data exists": {
+      "pass": true,
+      "detail": ""
+    },
+    "impact is zero until merged contributions exist": {
+      "pass": true,
+      "detail": ""
+    },
+    "business form is safe pending": {
+      "pass": true,
+      "detail": ""
+    },
+    "event form is safe pending": {
+      "pass": true,
+      "detail": ""
+    },
+    "business prefill key exists": {
+      "pass": true,
+      "detail": ""
+    },
+    "freshness uses reviewed date": {
+      "pass": true,
+      "detail": ""
+    },
+    "positive confirmation is not faked": {
+      "pass": true,
+      "detail": ""
+    },
+    "events explicitly stay out of Smart Picks": {
+      "pass": true,
+      "detail": ""
+    },
+    "events expire by client time": {
+      "pass": true,
+      "detail": ""
+    },
+    "business operation appears on Contribute": {
+      "pass": true,
+      "detail": ""
+    },
+    "temporary event operation appears on Contribute": {
+      "pass": true,
+      "detail": ""
+    },
+    "impact component is data-gated": {
+      "pass": true,
+      "detail": ""
+    },
+    "no Supabase runtime added": {
+      "pass": true,
+      "detail": ""
+    },
+    "impact script counts only MERGED": {
+      "pass": true,
+      "detail": ""
+    },
+    "impact bundle has no personal identifiers": {
+      "pass": true,
+      "detail": ""
+    },
+    "node --check app/scripts/build-community-impact.mjs": {
       "pass": true,
       "detail": ""
     },
@@ -109,35 +99,15 @@
       "pass": true,
       "detail": ""
     },
-    "app/src/components/explore/ExploreApp.svelte nonempty": {
+    "standalone TypeScript community modules": {
       "pass": true,
       "detail": ""
     },
-    "app/src/components/place/PlaceSheet.svelte nonempty": {
+    "app/src/components/place/ListingFreshness.svelte block balance": {
       "pass": true,
       "detail": ""
     },
-    "app/src/components/common/ShareButton.svelte nonempty": {
-      "pass": true,
-      "detail": ""
-    },
-    "app/src/pages/place/[id].astro nonempty": {
-      "pass": true,
-      "detail": ""
-    },
-    "hours suggestions data-gated": {
-      "pass": true,
-      "detail": ""
-    },
-    "budget intent does not self-zero search": {
-      "pass": true,
-      "detail": ""
-    },
-    "Share remains tertiary on place page": {
-      "pass": true,
-      "detail": ""
-    },
-    "standalone TypeScript core modules": {
+    "app/src/components/explore/FoodEvents.svelte block balance": {
       "pass": true,
       "detail": ""
     },
@@ -145,13 +115,9 @@
       "pass": true,
       "detail": ""
     },
-    "app/src/components/place/PlaceSheet.svelte block balance": {
+    "impact generator fixture": {
       "pass": true,
-      "detail": ""
-    },
-    "app/src/components/common/ShareButton.svelte block balance": {
-      "pass": true,
-      "detail": ""
+      "detail": "{\"placesAdded\": 1, \"placesCorrected\": 1, \"hoursChecked\": 1, \"eventsPublished\": 1}"
     }
   },
   "files": [
@@ -159,6 +125,11 @@
       "path": "PLACE_ENRICHMENT_RESEARCH.md",
       "bytes": 1968,
       "sha256": "ecbff123e759dfbb65a74c13c3d6653d9cf8fcfa95b0e2a8cf6a83cbed61b0fd"
+    },
+    {
+      "path": "RELEASE2_WALKTHROUGH.md",
+      "bytes": 1695,
+      "sha256": "6178da7223240ff620f670bd5a33fc29a4d71c7c789163f85f9eb3970619eba8"
     },
     {
       "path": "SMART_PICKS_SHARE.patch",
@@ -171,14 +142,29 @@
       "sha256": "64e9ceb5e75918ee6b43cf4b8c76f3926b24ae4cb378f2212981e48dcbcbcc64"
     },
     {
+      "path": "app/public/data/community_impact.json",
+      "bytes": 180,
+      "sha256": "f6d3997e823dcf03dedea0005571497ec8433597217220df3f4bd282229d8a63"
+    },
+    {
+      "path": "app/public/data/events.json",
+      "bytes": 35,
+      "sha256": "6949634eed451b203fa79feeff4135084ea3c25613752545a257dd630938e327"
+    },
+    {
       "path": "app/public/data/place_enrichment.json",
       "bytes": 3866,
       "sha256": "99385247d2449b871270c4c037b1d509c27386090f77ae7ae1160cd4711fb749"
     },
     {
+      "path": "app/scripts/build-community-impact.mjs",
+      "bytes": 3166,
+      "sha256": "acbe47e2e5a6f584b0a747696bef1645857366184977e94b462f755a5355f499"
+    },
+    {
       "path": "app/scripts/sync-data.mjs",
-      "bytes": 5337,
-      "sha256": "e9f6575043f8bfa07ffd5accb4477b9d6680b1ef10a80a61fd89abecd267df0d"
+      "bytes": 5842,
+      "sha256": "6993acacda5d0563249cf5f53e3df789b8a7903339fdf4f6934eb7c37c50b10f"
     },
     {
       "path": "app/src/components/common/ShareButton.svelte",
@@ -186,19 +172,44 @@
       "sha256": "351b9683143092bc62ab5353803d04cd1fceea834d560b3c1fab77e79a098ea2"
     },
     {
+      "path": "app/src/components/community/CommunityImpact.astro",
+      "bytes": 2186,
+      "sha256": "fab9b88c3127458431357ddfbb0bbcc700481081d9bf8631aaca5c85e08791bc"
+    },
+    {
       "path": "app/src/components/explore/ExploreApp.svelte",
-      "bytes": 32573,
-      "sha256": "99d69109887b673b66c33fd67bfc783061a558277983307a472d4edf60162e9a"
+      "bytes": 32690,
+      "sha256": "05ca89583c95f546992b539a8beed422d406dbe8f94d35fd0c95a619aae894eb"
+    },
+    {
+      "path": "app/src/components/explore/FoodEvents.svelte",
+      "bytes": 4468,
+      "sha256": "2eb132c2d72fc5edc4159c2dabc0381922c1de38beb54f0397498b3721d8f01d"
+    },
+    {
+      "path": "app/src/components/place/ListingFreshness.svelte",
+      "bytes": 2233,
+      "sha256": "4091639b54e550bd20764d685d14de4ba626ccdcb152ba4abfed782bffd33b14"
     },
     {
       "path": "app/src/components/place/PlaceSheet.svelte",
-      "bytes": 14027,
-      "sha256": "f9f34ceacb6e1dba821048cbac546b767b0bb135a99491caff712b9c876d93b8"
+      "bytes": 14128,
+      "sha256": "636171de8f537e1e7cfd9000786c16b0c9501f5c0457702d348c9140b1d3547a"
+    },
+    {
+      "path": "app/src/lib/community/config.ts",
+      "bytes": 1194,
+      "sha256": "050791ecc016646ec09b86bfb8165bde3a8c3c48eac3f6f57fc8e2fe6567131b"
     },
     {
       "path": "app/src/lib/data/build.ts",
-      "bytes": 1272,
-      "sha256": "8f4490338459f24db0d17e144007415b4a9d9747f9018ac27c610b633c09e5aa"
+      "bytes": 1578,
+      "sha256": "0f9f75785044504521ddb3019f26b21272897de7e311522387014f9f9fde44a9"
+    },
+    {
+      "path": "app/src/lib/data/community-ops.ts",
+      "bytes": 6385,
+      "sha256": "8de15b4a7cd9eb0c14994b76f2f5fef396fc0f143b8669789387efb4b40ab386"
     },
     {
       "path": "app/src/lib/data/loaders.ts",
@@ -232,13 +243,18 @@
     },
     {
       "path": "app/src/lib/types.ts",
-      "bytes": 5067,
-      "sha256": "d3970b7cab3da71abc47233388f94780ed30dd714f1a408aad46e1d501a58509"
+      "bytes": 5732,
+      "sha256": "8d2edec6e06d555fa35d7fd561b45e90bfd095690116c98fb9df18dc48e6312e"
+    },
+    {
+      "path": "app/src/pages/contribute.astro",
+      "bytes": 11928,
+      "sha256": "4e826ecbbc3d89a6591e55edc09a98ff7f6e05365dac7523c1c2e6172285c25d"
     },
     {
       "path": "app/src/pages/explore.astro",
-      "bytes": 5089,
-      "sha256": "0dcef26b3c1ab8702731eed091fc8549b1c0754c5749f17fe9808ca01125d3b7"
+      "bytes": 5106,
+      "sha256": "4298b30c3fc4df790e7935d21158113047d1bd05898823cef58b8cabc5fe3b62"
     },
     {
       "path": "app/src/pages/picks.astro",
@@ -247,13 +263,23 @@
     },
     {
       "path": "app/src/pages/place/[id].astro",
-      "bytes": 11476,
-      "sha256": "ac32c02d496877130f871a99706a6c0b76ba5c56c639773a558a68cc0bbb01d8"
+      "bytes": 11436,
+      "sha256": "06fec860e23fff390522398b8e64385c017a7352f3c202f1a2512ca95e68cf92"
     },
     {
       "path": "app/tests/e2e/release1-discovery.spec.ts",
       "bytes": 1528,
       "sha256": "8d01f65e0ad1c7310cfce8d5141b1e0560552bc4a0df22e5887e0e82946d20ad"
+    },
+    {
+      "path": "app/tests/e2e/release2-community-ops.spec.ts",
+      "bytes": 1809,
+      "sha256": "730868b5693dab0cbc8924873dd48f0ab914f70765c755feb4581321531dae05"
+    },
+    {
+      "path": "app/tests/unit/community-ops.test.ts",
+      "bytes": 2270,
+      "sha256": "6fbf3b823871c921a7e79c314cfa8fb6e430a96a47fd0b17d46b76163f0dc762"
     },
     {
       "path": "app/tests/unit/explore-discovery.test.ts",
@@ -281,6 +307,16 @@
       "sha256": "9770ca1de192494c0bcc11721134e0fae40a5b1ae2a05671be93773a95f306a0"
     },
     {
+      "path": "data/community_impact.json",
+      "bytes": 180,
+      "sha256": "f6d3997e823dcf03dedea0005571497ec8433597217220df3f4bd282229d8a63"
+    },
+    {
+      "path": "data/events.json",
+      "bytes": 35,
+      "sha256": "6949634eed451b203fa79feeff4135084ea3c25613752545a257dd630938e327"
+    },
+    {
       "path": "data/place_enrichment.json",
       "bytes": 3866,
       "sha256": "99385247d2449b871270c4c037b1d509c27386090f77ae7ae1160cd4711fb749"
@@ -291,16 +327,14 @@
       "sha256": "c0bc64090aa73379a8bc2fd1b0ab4fed8586ac1c2bfd5d5063ad171198bc6b08"
     },
     {
+      "path": "docs/community-operations.md",
+      "bytes": 3826,
+      "sha256": "1f1eea2a05ee4a49813eec5442986aad7bc36648791595d6536b8c31d61a247a"
+    },
+    {
       "path": "docs/place-enrichment.md",
       "bytes": 2564,
       "sha256": "2fc351d5c2aa1aaa950076b183ec0d2c632a84ee00aefffaea6346dbeb0bb37c"
     }
-  ],
-  "place_enrichment_batch": {
-    "research_date": "2026-08-10",
-    "records_enriched": 12,
-    "records_with_price": 11,
-    "price_label": "online-listed meal range",
-    "evidence_file": "data/place_enrichment_evidence.json"
-  }
+  ]
 }

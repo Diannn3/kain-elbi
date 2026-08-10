@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ExploreMap from './ExploreMap.svelte';
-	import type { Category, Collection, FoodZone, Place } from '../../lib/types';
+	import FoodEvents from './FoodEvents.svelte';
+	import type { Category, Collection, FoodEvent, FoodZone, Place } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 	import {
 		parseExploreUrl,
@@ -19,11 +20,12 @@
 		placeFitsBudget,
 	} from '../../lib/data/place-enrichment';
 
-	let { places, zones, collections, routablePlaceIds }: {
+	let { places, zones, collections, routablePlaceIds, events }: {
 		places: Place[];
 		zones: FoodZone[];
 		collections: Collection[];
 		routablePlaceIds: string[];
+		events: FoodEvent[];
 	} = $props();
 
 	const injectedCollections = $derived([
@@ -429,6 +431,8 @@
 
 	{#if !isResultsMode}
 		<div class="editorial-discovery">
+			<FoodEvents {events} />
+
 			{#if recentPlaces.length}
 				<section class="recent-section" aria-labelledby="recent-heading">
 					<div class="section-heading">

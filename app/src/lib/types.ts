@@ -234,3 +234,40 @@ export interface FreshieData {
 	mentions: FreshieMention[];
 	sources: Record<string, FreshieSource>;
 }
+
+
+export type FoodEventStatus = 'scheduled' | 'cancelled';
+
+export interface FoodEvent {
+	id: string;
+	title: string;
+	description: string;
+	startAt: string;
+	endAt: string;
+	locationName: string;
+	lat?: number;
+	lon?: number;
+	organizer?: string;
+	foodTags: string[];
+	sourceUrl: string;
+	status: FoodEventStatus;
+}
+
+export interface FoodEventsData {
+	version: 1;
+	events: FoodEvent[];
+}
+
+export interface CommunityImpactMetrics {
+	placesAdded: number;
+	placesCorrected: number;
+	hoursChecked: number;
+	eventsPublished: number;
+}
+
+export interface CommunityImpactData {
+	version: 1;
+	month: string;
+	generatedAt: string | null;
+	metrics: CommunityImpactMetrics;
+}

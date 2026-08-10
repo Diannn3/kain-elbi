@@ -5,6 +5,7 @@
 	import type { Place, SmartPick } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 	import ShareButton from '../common/ShareButton.svelte';
+	import ListingFreshness from './ListingFreshness.svelte';
 
 	let {
 		place,
@@ -130,6 +131,8 @@
 						</details>
 					{/if}
 				</section>
+
+				<ListingFreshness {place} compact />
 
 				<div class="community-actions">
 					<ShareButton

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import ExploreApp from '../components/explore/ExploreApp.svelte';
 import { loadBuildData } from '../lib/data/build';
 
-const { places, zones, collections, matrix } = await loadBuildData();
+const { places, zones, collections, matrix, events } = await loadBuildData();
 const routablePlaceIds = matrix.schema_version === 2
 	? Object.keys(matrix.place_to_anchor)
 	: Object.keys(matrix.place_to_anchor_seconds);
@@ -55,7 +55,7 @@ const exploreCollectionIds = collections.map((collection) => collection.id);
 		</header>
 
 		<div class="explore-search-stage page-shell">
-			<ExploreApp {places} {zones} {collections} {routablePlaceIds} client:load />
+			<ExploreApp {places} {zones} {collections} {routablePlaceIds} {events} client:load />
 			<noscript><p class="noscript-note">Explore filters need JavaScript. You can still open individual place pages from UPPETITE search results.</p></noscript>
 		</div>
 	</main>
