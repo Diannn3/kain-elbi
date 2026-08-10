@@ -24,22 +24,22 @@
 			try {
 				const canvas = document.createElement('canvas');
 				if (!canvas.getContext('webgl2') && !canvas.getContext('webgl')) throw new Error('WebGL unavailable');
-				const mapTilerKey = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
-				if (!mapTilerKey) throw new Error('PUBLIC_MAPTILER_KEY is not configured');
+				// MapTiler origin restrictions are blocking deployments, so we use a free frictionless basemap instead.
+				const style = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 				const maplibre = await loadMapLibre();
 				if (disposed) return;
 
 				map = new maplibre.Map({
 					container: mapElement,
-					style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(mapTilerKey)}`,
+					style,
 					center: [lon, lat],
 					zoom: 17,
 					interactive: false,
 					attributionControl: false,
 					respectPrefersReducedMotion: true,
 				});
-				map.addControl(new maplibre.AttributionControl({ compact: true, customAttribution: '© MapTiler · © OpenStreetMap contributors' }));
+				map.addControl(new maplibre.AttributionControl({ compact: true, customAttribution: '© Carto · © OpenStreetMap contributors' }));
 
 				const marker = document.createElement('div');
 				marker.className = 'place-location-marker';

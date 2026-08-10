@@ -32,19 +32,19 @@
 			try {
 				const canvas = document.createElement('canvas');
 				if (!canvas.getContext('webgl2') && !canvas.getContext('webgl')) throw new Error('WebGL unavailable');
-				const key = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
-				if (!key) throw new Error('MapTiler unavailable');
+				// MapTiler origin restrictions are blocking deployments, so we use a free frictionless basemap instead.
+				const style = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 				const maplibre = await loadMapLibre();
 				if (disposed) return;
 				map = new maplibre.Map({
 					container: mapElement,
-					style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(key)}`,
+					style,
 					center: [121.243, 14.169], zoom: 14.4,
 					maxBounds: [[121.21, 14.13], [121.28, 14.20]], cooperativeGestures: true,
 					dragRotate: false, pitchWithRotate: false, respectPrefersReducedMotion: true, attributionControl: false,
 				});
 				map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
-				map.addControl(new maplibre.AttributionControl({ compact: true, customAttribution: '© MapTiler · © OpenStreetMap contributors · Overture Maps' }));
+				map.addControl(new maplibre.AttributionControl({ compact: true, customAttribution: '© Carto · © OpenStreetMap contributors · Overture Maps' }));
 				map.on('load', () => {
 					if (!map) return;
 					map.addSource('explore-places', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });

@@ -186,14 +186,12 @@
 			try {
 				const canvas = document.createElement('canvas');
 				if (!canvas.getContext('webgl2') && !canvas.getContext('webgl')) throw new Error('WebGL unavailable');
-				const mapTilerKey = import.meta.env.PUBLIC_MAPTILER_KEY?.trim();
-				if (!mapTilerKey) throw new Error('PUBLIC_MAPTILER_KEY is not configured');
+				// MapTiler origin restrictions are blocking deployments, so we use a free frictionless basemap instead.
+				const style = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 				const maplibre = await loadMapLibre();
 				maplibreModule = maplibre;
 				if (disposed) return;
-
-				const style = `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(mapTilerKey)}`;
 				map = new maplibre.Map({
 					container: mapElement,
 					style,
@@ -209,7 +207,7 @@
 				map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
 				map.addControl(new maplibre.AttributionControl({
 					compact: true,
-					customAttribution: '© MapTiler · © OpenStreetMap contributors · Overture Maps',
+					customAttribution: '© Carto · © OpenStreetMap contributors · Overture Maps',
 				}));
 
 				resizeObserver = new ResizeObserver(() => map?.resize());
