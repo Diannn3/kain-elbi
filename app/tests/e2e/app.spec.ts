@@ -17,14 +17,14 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
 	await expect(page.getByText(/leaves \d+ minutes for your stop/i).first()).toBeVisible();
 	await page.getByRole('button', { name: 'Details' }).first().click();
-	const dialog = page.getByRole('dialog');
+	const dialog = page.locator('dialog.place-dialog');
 	await expect(dialog).toBeVisible();
 	await expect(dialog.getByRole('heading', { name: /Why this fits your break/i })).toBeVisible();
 	await expect(dialog.getByRole('link', { name: /Get directions/i })).toBeVisible();
 	await expect(dialog.locator('details.listing-info')).toHaveCount(0);
-	await expect(dialog.getByRole('link', { name: /Suggest an edit/i })).toBeVisible();
+	await expect(dialog.getByRole('link', { name: 'Suggest an edit', exact: true })).toBeVisible();
 	await page.keyboard.press('Escape');
-	await expect(page.getByRole('dialog')).toBeHidden();
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
 
 test('simplified hero vertically centers its promise beside the planner', async ({ page }) => {
@@ -212,17 +212,17 @@ test('Smart Picks sheet follows Back and Forward with inert and focus restoratio
 	await page.goto(`/picks${routeQuery}`);
 	const trigger = page.getByRole('button', { name: 'Details' }).first();
 	await trigger.click();
-	await expect(page.getByRole('dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 
 	await page.goBack();
-	await expect(page.getByRole('dialog')).toHaveCount(0);
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 	await expect(page).not.toHaveURL(/(?:\?|&)place=/);
 	await expect(page.locator('#picks-content')).not.toHaveAttribute('inert', '');
 	await expect(trigger).toBeFocused();
 
 	await page.goForward();
-	await expect(page.getByRole('dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 });
 
@@ -233,11 +233,11 @@ test('a direct place deep link closes in place without adding modal history', as
 	expect(placeId).toBeTruthy();
 
 	await page.goto(`/picks${routeQuery}&place=${encodeURIComponent(placeId!)}`);
-	await expect(page.getByRole('dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 	await page.keyboard.press('Escape');
 
-	await expect(page.getByRole('dialog')).toHaveCount(0);
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 	await expect(page).toHaveURL(/\/picks\?/);
 	await expect(page).not.toHaveURL(/(?:\?|&)place=/);
 	await expect(page.locator('#picks-content')).not.toHaveAttribute('inert', '');
@@ -254,7 +254,7 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 	const workerResponsePromise = page.waitForResponse((response) =>
 		/maplibre-gl-worker.*\.(?:mjs|js)(?:\?|$)/.test(response.url()),
 	);
-	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', async (route) => {
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', async (route) => {
 		styleRequests += 1;
 		await route.fulfill({
 			contentType: 'application/json',
@@ -291,7 +291,7 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 });
 
 test('show on map keeps the same Smart Picks context and selects that place', async ({ page }) => {
-	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
@@ -308,11 +308,11 @@ test('show on map keeps the same Smart Picks context and selects that place', as
 	await expect(page.locator('.map-preview').getByRole('heading', { name: placeName! })).toBeVisible();
 	await expect(page).toHaveURL(/view=map/);
 	await expect(page).toHaveURL(new RegExp(`focus=${encodeURIComponent(placeId!)}`));
-	await expect(page.getByRole('dialog')).toHaveCount(0);
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
 
 test('selecting a map shortlist place focuses its camera and marker without opening details', async ({ page }) => {
-	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
@@ -330,11 +330,11 @@ test('selecting a map shortlist place focuses its camera and marker without open
 	await expect(page.locator('[data-map-state="ready"]')).toHaveAttribute('data-camera-focus', placeId!);
 	const zoom = Number(await page.locator('[data-map-state="ready"]').getAttribute('data-map-zoom'));
 	expect(zoom).toBeGreaterThanOrEqual(15.5);
-	await expect(page.getByRole('dialog')).toHaveCount(0);
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
 
 test('map preview place sheet follows Back and Forward with inert state', async ({ page }) => {
-	await page.route('https://api.maptiler.com/maps/streets-v2/style.json**', (route) => route.fulfill({
+	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
@@ -342,16 +342,16 @@ test('map preview place sheet follows Back and Forward with inert state', async 
 	await expect(page.locator('.map-preview')).toBeVisible();
 	const trigger = page.locator('.map-preview').getByRole('button', { name: /Details/i });
 	await trigger.click();
-	await expect(page.getByRole('dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 
 	await page.goBack();
-	await expect(page.getByRole('dialog')).toHaveCount(0);
+	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 	await expect(page.locator('#picks-content')).not.toHaveAttribute('inert', '');
 	await expect(trigger).toBeFocused();
 
 	await page.goForward();
-	await expect(page.getByRole('dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 });
 
@@ -359,7 +359,7 @@ test('map preview place sheet follows Back and Forward with inert state', async 
 test('full place page prioritizes location and actions over provenance', async ({ page }) => {
 	await page.goto(`/picks${routeQuery}`);
 	await page.getByRole('button', { name: 'Details' }).first().click();
-	const fullPage = page.getByRole('dialog').getByRole('link', { name: /Full place page/i });
+	const fullPage = page.locator('dialog.place-dialog').getByRole('link', { name: /Full place page/i });
 	const href = await fullPage.getAttribute('href');
 	expect(href).toMatch(/^\/place\//);
 	await page.goto(href!);
@@ -392,7 +392,7 @@ test('Explore filters the named catalog without route-fit metrics', async ({ pag
 	await expect(page.getByText(/Explore helps you discover food, not rank it/i)).toBeVisible();
 	await expect(page.locator('.explore-card').first()).toBeVisible();
 	expect(await page.locator('.explore-card').count()).toBeLessThanOrEqual(24);
-	await page.getByPlaceholder(/Search food, places, or areas/i).fill('Mokape');
+	await page.getByPlaceholder(/Search food, places, or/i).fill('Mokape');
 	await expect(page.getByRole('heading', { name: /Mokape Coffee Los Baños/i })).toBeVisible();
 	await expect(page.getByText(/minutes available/i)).toHaveCount(0);
 });

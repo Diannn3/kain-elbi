@@ -5,6 +5,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import BottomNav from '../components/layout/BottomNav.astro';
 import OfflineStatus from '../components/layout/OfflineStatus.svelte';
+import DeveloperContactModal from '../components/layout/DeveloperContactModal.astro';
 import {
 	PWA_CLIENT_BOOTSTRAP_VERSION,
 	PWA_MIN_UPDATE_GAP_MS,
@@ -76,6 +77,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 			<p>UPPETITE uses open-data place records; availability, hours, and business status can change.</p>
 			<p><a href="/contribute">Contribute to UPPETITE</a> · © OpenStreetMap contributors · Overture Maps</p>
 		</footer>
+		<DeveloperContactModal />
 		<script
 			define:vars={{
 				serviceWorkerEnabled,
