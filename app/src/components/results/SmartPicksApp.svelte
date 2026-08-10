@@ -11,6 +11,7 @@
 	import MapCanvas from '../map/MapCanvas.svelte';
 	import MapPickPreview from '../map/MapPickPreview.svelte';
 	import PlaceSheet from '../place/PlaceSheet.svelte';
+	import ShareButton from '../common/ShareButton.svelte';
 	import { appStorage } from '../../lib/storage.svelte';
 
 	type ResultsView = 'list' | 'map';
@@ -52,6 +53,9 @@
 	const focusedRank = $derived(focusedPick ? picks.findIndex((pick) => pick.place.id === focusedPick.place.id) + 1 : 0);
 	const visiblePicks = $derived(picks.slice(0, visibleCount));
 	const remainingPicks = $derived(Math.max(0, picks.length - visiblePicks.length));
+	const routeSharePath = $derived(
+		context ? `/picks?${serializeSearchParams(context).toString()}` : '/picks',
+	);
 	const routingNote = $derived(
 		routeGeometryState === 'actual'
 			? 'Solid route follows the Room TBA pedestrian graph, with short access connectors to the selected place.'
@@ -249,6 +253,13 @@
 					</div>
 				</details>
 			</div>
+			<ShareButton
+				label="Share route"
+				title="UPPETITE route"
+				text={`${originName} → ${destinationName} · ${context?.breakMinutes ?? 45} min break`}
+				path={routeSharePath}
+				compact
+			/>
 		</div>
 	</header>
 
@@ -498,6 +509,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 0.65rem;
+		flex-wrap: wrap;
 		margin-top: 0.65rem;
 		padding-top: 0.65rem;
 		border-top: 1px solid var(--color-border);
@@ -532,6 +544,7 @@
 		display: flex;
 		min-width: 0;
 		gap: 0.45rem;
+		flex-wrap: wrap;
 	}
 
 	.refinements details {
