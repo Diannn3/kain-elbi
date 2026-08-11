@@ -67,22 +67,34 @@ export async function loadRuntimeDataManifest(): Promise<RuntimeDataManifest> {
 	}
 }
 
-export function readLastKnownGoodRuntimeDataManifest(): RuntimeDataManifest | undefined {
+function getLocalStorage(): Storage | undefined {
 	if (typeof window === 'undefined') return undefined;
 	try {
-		const raw = window.localStorage.getItem(STORAGE_KEYS.runtimeDataManifest);
+		return window.localStorage;
+	} catch {
+		return undefined;
+	}
+}
+
+export function readLastKnownGoodRuntimeDataManifest(): RuntimeDataManifest | undefined {
+	const storage = getLocalStorage();
+	if (!storage) return undefined;
+	try {
+		const raw = storage.getItem(STORAGE_KEYS.runtimeDataManifest);
 		if (!raw) return undefined;
-		return validateRuntimeDataManifest(JSON.parse(raw));
+		const parsed: unknown = JSON.parse(raw);
+		return validateRuntimeDataManifest(parsed);
 	} catch {
 		return undefined;
 	}
 }
 
 export function rememberRuntimeDataManifest(manifest: RuntimeDataManifest): void {
-	if (typeof window === 'undefined' || manifest.generation === 'legacy-unversioned') return;
+	const storage = getLocalStorage();
+	if (!storage || manifest.generation === 'legacy-unversioned') return;
 	try {
-		window.localStorage.setItem(STORAGE_KEYS.runtimeDataManifest, JSON.stringify(manifest));
+		storage.setItem(STORAGE_KEYS.runtimeDataManifest, JSON.stringify(manifest));
 	} catch {
-		// A private/restricted browsing context may disable persistent storage.
+		// Keep optional. Do not break app if storage is full.
 	}
 }

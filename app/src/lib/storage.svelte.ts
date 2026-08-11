@@ -35,14 +35,24 @@ export function canonicalRecentSearchUrl(rawUrl: string): string {
 	}
 }
 
+function getLocalStorage(): Storage | undefined {
+	if (typeof window === 'undefined') return undefined;
+	try {
+		return window.localStorage;
+	} catch {
+		return undefined;
+	}
+}
+
 class StorageState {
 	savedPlaces = $state<Set<string>>(new Set());
 	recentSearches = $state<RecentSearch[]>([]);
 	
 	constructor() {
-		if (typeof window !== 'undefined' && window.localStorage) {
+		const storage = getLocalStorage();
+		if (storage) {
 			try {
-				const saves = window.localStorage.getItem(STORAGE_KEY_SAVES);
+				const saves = storage.getItem(STORAGE_KEY_SAVES);
 				if (saves) {
 					const parsed: unknown = JSON.parse(saves);
 					if (Array.isArray(parsed)) {
@@ -50,7 +60,7 @@ class StorageState {
 					}
 				}
 				
-				const searches = window.localStorage.getItem(STORAGE_KEY_SEARCHES);
+				const searches = storage.getItem(STORAGE_KEY_SEARCHES);
 				if (searches) {
 					const parsed: unknown = JSON.parse(searches);
 					if (Array.isArray(parsed)) {
@@ -73,8 +83,9 @@ class StorageState {
 		} else {
 			this.savedPlaces.add(id);
 		}
-		if (typeof window !== 'undefined' && window.localStorage) {
-			try { window.localStorage.setItem(STORAGE_KEY_SAVES, JSON.stringify(Array.from(this.savedPlaces))); } catch { /* optional persistence */ }
+		const storage = getLocalStorage();
+		if (storage) {
+			try { storage.setItem(STORAGE_KEY_SAVES, JSON.stringify(Array.from(this.savedPlaces))); } catch { /* optional persistence */ }
 		}
 	}
 
@@ -89,8 +100,9 @@ class StorageState {
 		this.recentSearches = this.recentSearches.filter((item) => item.url !== normalized.url);
 		this.recentSearches.unshift(normalized);
 		if (this.recentSearches.length > 5) this.recentSearches = this.recentSearches.slice(0, 5);
-		if (typeof window !== 'undefined' && window.localStorage) {
-			try { window.localStorage.setItem(STORAGE_KEY_SEARCHES, JSON.stringify(this.recentSearches)); } catch { /* optional persistence */ }
+		const storage = getLocalStorage();
+		if (storage) {
+			try { storage.setItem(STORAGE_KEY_SEARCHES, JSON.stringify(this.recentSearches)); } catch { /* optional persistence */ }
 		}
 	}
 }
