@@ -1,0 +1,219 @@
+---
+import { ANALYTICS_CONSENT_STORAGE_KEY } from '../../lib/compliance';
+
+interface Props {
+	measurementId?: string;
+}
+
+const measurementId = Astro.props.measurementId?.trim() ?? '';
+const analyticsEnabled = Boolean(measurementId);
+---
+
+<section
+	class="analytics-consent"
+	data-analytics-consent
+	data-enabled={analyticsEnabled ? 'true' : 'false'}
+	hidden
+	aria-labelledby="analytics-consent-title"
+>
+	<div class="analytics-consent__copy">
+		<p class="analytics-consent__eyebrow">Privacy choices</p>
+		<h2 id="analytics-consent-title">
+			{analyticsEnabled ? 'Optional analytics' : 'Analytics are currently off'}
+		</h2>
+		<p>
+			{analyticsEnabled
+				? 'UPPETITE can use Google Analytics to understand general usage. It stays off unless you allow it.'
+				: 'This deployment is not configured to load optional Google Analytics.'}
+		</p>
+		<a href="/privacy#analytics">Learn what is collected</a>
+	</div>
+
+	<div class="analytics-consent__actions">
+		{analyticsEnabled ? (
+			<>
+				<button type="button" data-analytics-choice="rejected">Reject optional analytics</button>
+				<button type="button" class="primary" data-analytics-choice="accepted">Allow optional analytics</button>
+			</>
+		) : (
+			<button type="button" class="primary" data-analytics-close>Close</button>
+		)}
+	</div>
+</section>
+
+<script is:inline define:vars={{ measurementId, analyticsEnabled, consentKey: ANALYTICS_CONSENT_STORAGE_KEY }}>
+	(() => {
+		const panel = document.querySelector('[data-analytics-consent]');
+		if (!(panel instanceof HTMLElement)) return;
+
+		const readChoice = () => {
+			try {
+				const value = localStorage.getItem(consentKey);
+				return value === 'accepted' || value === 'rejected' ? value : null;
+			} catch {
+				return null;
+			}
+		};
+
+		const writeChoice = (value) => {
+			try {
+				localStorage.setItem(consentKey, value);
+				return true;
+			} catch {
+				return false;
+			}
+		};
+
+		let analyticsLoaded = false;
+
+		const loadAnalytics = () => {
+			if (!analyticsEnabled || !measurementId || analyticsLoaded) return;
+			analyticsLoaded = true;
+
+			window.dataLayer = window.dataLayer || [];
+			window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+			window.gtag('js', new Date());
+			window.gtag('config', measurementId);
+
+			const script = document.createElement('script');
+			script.async = true;
+			script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+			script.dataset.uppetiteAnalytics = 'true';
+			document.head.appendChild(script);
+		};
+
+		const expireCookie = (name, domain) => {
+			const domainPart = domain ? `; Domain=${domain}` : '';
+			document.cookie = `${name}=; Max-Age=0; Path=/${domainPart}; SameSite=Lax`;
+		};
+
+		const clearAnalyticsCookies = () => {
+			const names = document.cookie
+				.split(';')
+				.map((part) => part.trim().split('=')[0])
+				.filter((name) => name === '_ga' || name.startsWith('_ga_'));
+
+			for (const name of names) {
+				expireCookie(name, '');
+				expireCookie(name, location.hostname);
+				expireCookie(name, `.${location.hostname}`);
+			}
+		};
+
+		const show = () => {
+			panel.hidden = false;
+			const firstButton = panel.querySelector('button');
+			if (firstButton instanceof HTMLButtonElement) firstButton.focus();
+		};
+
+		const hide = () => {
+			panel.hidden = true;
+		};
+
+		const initialChoice = readChoice();
+		if (initialChoice === 'accepted') loadAnalytics();
+		else if (analyticsEnabled && initialChoice === null) show();
+
+		document.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+
+			if (target.closest('[data-open-privacy-choices]')) {
+				event.preventDefault();
+				show();
+				return;
+			}
+
+			const choiceButton = target.closest('[data-analytics-choice]');
+			if (choiceButton instanceof HTMLButtonElement) {
+				const choice = choiceButton.dataset.analyticsChoice;
+				if (choice !== 'accepted' && choice !== 'rejected') return;
+
+				const previous = readChoice();
+				if (!writeChoice(choice)) return;
+
+				if (choice === 'accepted') {
+					loadAnalytics();
+					hide();
+					return;
+				}
+
+				clearAnalyticsCookies();
+				hide();
+				if (previous === 'accepted' || analyticsLoaded) window.location.reload();
+				return;
+			}
+
+			if (target.closest('[data-analytics-close]')) hide();
+		});
+	})();
+</script>
+
+<style>
+	.analytics-consent {
+		position: fixed;
+		z-index: 100;
+		right: max(0.75rem, env(safe-area-inset-right));
+		bottom: max(0.75rem, calc(env(safe-area-inset-bottom) + 0.25rem));
+		left: max(0.75rem, env(safe-area-inset-left));
+		display: grid;
+		gap: 1rem;
+		max-width: 46rem;
+		margin-inline: auto;
+		padding: 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 1rem;
+		background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+		box-shadow: 0 1rem 3rem rgb(45 21 17 / 0.18);
+		backdrop-filter: blur(14px);
+	}
+	.analytics-consent[hidden] { display: none; }
+	.analytics-consent__eyebrow {
+		margin: 0;
+		color: var(--brand-orange);
+		font: 760 0.7rem/1 var(--font-display);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.analytics-consent h2 {
+		margin: 0.3rem 0 0;
+		color: var(--brand-maroon-deep);
+		font: 780 1.25rem/1.1 var(--font-display);
+	}
+	.analytics-consent p:not(.analytics-consent__eyebrow) {
+		margin: 0.45rem 0 0;
+		color: var(--color-text-muted);
+		line-height: 1.5;
+	}
+	.analytics-consent a { display: inline-block; margin-top: 0.45rem; color: var(--brand-maroon-deep); }
+	.analytics-consent__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+	.analytics-consent button {
+		min-height: var(--tap-target);
+		padding: 0.65rem 0.9rem;
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		background: var(--color-surface);
+		color: var(--brand-maroon-deep);
+		font-weight: 740;
+		cursor: pointer;
+	}
+	.analytics-consent button.primary {
+		border-color: var(--brand-maroon-deep);
+		background: var(--brand-maroon-deep);
+		color: white;
+	}
+	:global(.privacy-choice-link) {
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
+		cursor: pointer;
+	}
+	@media (min-width: 720px) {
+		.analytics-consent { grid-template-columns: minmax(0, 1fr) auto; align-items: end; padding: 1.15rem 1.25rem; }
+		.analytics-consent__actions { justify-content: flex-end; }
+	}
+</style>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { processAndStripPhoto } from '../../lib/photo-processing';
 	import { uploadCommunityPhoto } from '../../lib/community/backend';
+	import { CONTRIBUTOR_TERMS_VERSION } from '../../lib/compliance';
 
 	export let placeId: string;
 	export let onUploadSuccess: (() => void) | undefined = undefined;
@@ -8,6 +9,7 @@
 	let inputRef: HTMLInputElement;
 	let state: 'idle' | 'processing' | 'uploading' | 'success' | 'error' = 'idle';
 	let errorMessage = '';
+	let termsAccepted = false;
 
 	async function handleFileChange(event: Event) {
 		const target = event.target as HTMLInputElement;
@@ -22,7 +24,7 @@
 			const processedFile = await processAndStripPhoto(file);
 			
 			state = 'uploading';
-			await uploadCommunityPhoto(placeId, processedFile);
+			await uploadCommunityPhoto(placeId, processedFile, CONTRIBUTOR_TERMS_VERSION);
 			
 			state = 'success';
 			if (onUploadSuccess) onUploadSuccess();
@@ -46,7 +48,7 @@
 	}
 
 	function triggerUpload() {
-		if (state === 'idle' || state === 'error') {
+		if ((state === 'idle' || state === 'error') && termsAccepted) {
 			inputRef?.click();
 		}
 	}
@@ -61,13 +63,21 @@
 		class="hidden-input" 
 	/>
 
+	<label class="terms-ack">
+		<input type="checkbox" bind:checked={termsAccepted} disabled={state === 'processing' || state === 'uploading'} />
+		<span>
+			I took this photo or have permission to submit it, and I agree to the
+			<a href="/contributor-terms" target="_blank" rel="noopener noreferrer">Contributor Terms</a>.
+		</span>
+	</label>
+
 	<button 
 		class="upload-btn" 
 		class:processing={state === 'processing' || state === 'uploading'}
 		class:success={state === 'success'}
 		class:error={state === 'error'}
 		on:click={triggerUpload}
-		disabled={state === 'processing' || state === 'uploading' || state === 'success'}
+		disabled={state === 'processing' || state === 'uploading' || state === 'success' || !termsAccepted}
 	>
 		{#if state === 'idle'}
 			<svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -95,6 +105,29 @@
 
 	.hidden-input {
 		display: none;
+	}
+
+	.terms-ack {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.55rem;
+		max-width: 30rem;
+		margin-bottom: 0.65rem;
+		color: var(--color-text-muted);
+		font-size: 0.78rem;
+		line-height: 1.45;
+	}
+
+	.terms-ack input {
+		width: 1rem;
+		height: 1rem;
+		margin-top: 0.12rem;
+		accent-color: var(--brand-maroon-deep);
+	}
+
+	.terms-ack a {
+		color: var(--brand-maroon-deep);
+		text-underline-offset: 0.16em;
 	}
 
 	.upload-btn {

@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { privacyContact } from '../lib/privacy-contact';
+
+const subject = encodeURIComponent('UPPETITE privacy request');
+const body = encodeURIComponent(
+	'Request type (access / correction / deletion / objection / concern):\n\n'
+	+ 'What UPPETITE record or contribution is involved (for example, place ID, approximate submission date, photo description):\n\n'
+	+ 'Please do not send government IDs or other sensitive documents unless UPPETITE specifically asks for a necessary verification step.'
+);
+const mailto = `mailto:${privacyContact.email}?subject=${subject}&body=${body}`;
+---
+
+<Layout title="Privacy Request — UPPETITE" description="Contact UPPETITE about access, correction, deletion, objection, or another privacy concern.">
+	<main id="main-content" class="request-page page-shell">
+		<p class="eyebrow-global">Privacy Request</p>
+		<h1>Tell us what record you need help with.</h1>
+		<p>
+			Because UPPETITE does not require an account, the safest way to process a request is to start with the minimum information needed to locate the relevant record.
+		</p>
+
+		<div class="request-card">
+			<h2>You can request</h2>
+			<ul>
+				<li>information about personal data connected to you;</li>
+				<li>correction of inaccurate personal data;</li>
+				<li>deletion where applicable;</li>
+				<li>objection to certain processing; or</li>
+				<li>review of another privacy concern.</li>
+			</ul>
+		</div>
+
+		<div class="request-card warning">
+			<h2>Do not send unnecessary sensitive documents</h2>
+			<p>Start with the place ID, approximate submission date, photo description, or other non-sensitive details. UPPETITE should request additional verification only if it is actually needed.</p>
+		</div>
+
+		<a class="request-link" href={mailto}>Email the privacy contact →</a>
+		<p class="fine-print">Privacy contact: {privacyContact.email}</p>
+	</main>
+</Layout>
+
+<style>
+	.request-page { max-width: 48rem; padding-top: clamp(2rem, 6vw, 4.5rem); padding-bottom: var(--space-12); }
+	h1 { max-width: 14ch; margin: var(--space-3) 0 0; color: var(--brand-maroon-deep); font: 820 clamp(2.5rem, 9vw, 4.5rem)/0.96 var(--font-display); letter-spacing: -0.05em; }
+	.request-page > p:not(.eyebrow-global) { max-width: 43rem; color: var(--color-text-muted); line-height: 1.65; }
+	.request-card { margin-top: var(--space-6); padding: var(--space-5); border: 1px solid var(--color-border); background: var(--color-surface); }
+	.request-card.warning { border-left: 0.3rem solid var(--brand-orange); background: var(--brand-sand); }
+	.request-card h2 { margin: 0; color: var(--brand-maroon-deep); font: 760 1.3rem/1.1 var(--font-display); }
+	.request-card li, .request-card p { color: var(--color-text-muted); line-height: 1.6; }
+	.request-link { display: inline-flex; align-items: center; min-height: var(--tap-target); margin-top: var(--space-7); color: white; background: var(--brand-maroon-deep); border-radius: 999px; padding: 0.7rem 1rem; font-weight: 760; text-decoration: none; }
+	.fine-print { font-size: 0.88rem; }
+</style>

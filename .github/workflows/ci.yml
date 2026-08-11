@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Editorial privacy audit
+        run: npm run audit:editorial-privacy
+
       - name: Unit tests
         run: npm run test:unit
 

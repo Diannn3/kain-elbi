@@ -74,6 +74,15 @@ const businessPlaceEntryReady = isGoogleFormEntryKey(communityForms.businessUpda
 				<strong>What helps most</strong>
 				<p>Include a Maps link, official page, current menu, or another public source when you can.</p>
 			</div>
+
+			<div class="contribution-terms-gate">
+				<label>
+					<input type="checkbox" data-contribution-terms-accept />
+					<span>I agree to the <a href="/contributor-terms">Contributor Terms</a> before opening a contribution form.</span>
+				</label>
+				<p>Some contribution options open Google Forms, an external service. Submit only information needed for the contribution.</p>
+				<p class="terms-message" data-contribution-terms-message hidden>Please accept the Contributor Terms before opening an external form.</p>
+			</div>
 		</header>
 
 		<p class="edit-context" data-edit-context hidden></p>
@@ -160,6 +169,23 @@ const businessPlaceEntryReady = isGoogleFormEntryKey(communityForms.businessUpda
 
 	<script is:inline>
 		(() => {
+			const termsCheckbox = document.querySelector('[data-contribution-terms-accept]');
+			const termsMessage = document.querySelector('[data-contribution-terms-message]');
+			for (const formLink of document.querySelectorAll('a[data-community-form]')) {
+				formLink.addEventListener('click', (event) => {
+					if (termsCheckbox instanceof HTMLInputElement && !termsCheckbox.checked) {
+						event.preventDefault();
+						if (termsMessage instanceof HTMLElement) termsMessage.hidden = false;
+						termsCheckbox.focus();
+					}
+				});
+			}
+			if (termsCheckbox instanceof HTMLInputElement) {
+				termsCheckbox.addEventListener('change', () => {
+					if (termsMessage instanceof HTMLElement) termsMessage.hidden = termsCheckbox.checked;
+				});
+			}
+
 			const placeId = new URLSearchParams(window.location.search).get('place')?.trim();
 			if (!placeId) return;
 
@@ -198,6 +224,11 @@ const businessPlaceEntryReady = isGoogleFormEntryKey(communityForms.businessUpda
 	}
 	.quality-note strong { color: var(--brand-maroon-deep); font: 760 0.76rem / 1.35 var(--font-display); letter-spacing: 0.07em; text-transform: uppercase; }
 	.quality-note p { margin: 0; color: var(--color-text-muted); line-height: 1.5; }
+	.contribution-terms-gate { max-width: 43rem; margin-top: var(--space-5); padding: var(--space-4); border: 1px solid var(--color-border); background: var(--color-surface); }
+	.contribution-terms-gate label { display: flex; align-items: flex-start; gap: var(--space-3); color: var(--brand-maroon-deep); font-weight: 680; line-height: 1.5; }
+	.contribution-terms-gate input { width: 1.1rem; height: 1.1rem; margin-top: 0.18rem; accent-color: var(--brand-maroon-deep); }
+	.contribution-terms-gate p { margin: var(--space-2) 0 0 1.85rem; color: var(--color-text-muted); font-size: 0.88rem; line-height: 1.5; }
+	.contribution-terms-gate .terms-message { color: var(--brand-maroon-deep); font-weight: 700; }
 	.edit-context {
 		margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border-left: 0.25rem solid var(--brand-orange);
 		background: var(--brand-sand); color: var(--brand-maroon-deep); font-weight: 680; line-height: 1.5;

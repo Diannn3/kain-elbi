@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { COMMUNITY_RETENTION } from '../lib/compliance';
+import { privacyContact } from '../lib/privacy-contact';
+---
+
+<Layout
+	title="Privacy & Data — UPPETITE"
+	description="How UPPETITE handles local preferences, community reports, photos, optional analytics, and privacy requests."
+>
+	<main id="main-content" class="legal-page page-shell">
+		<header>
+			<p class="eyebrow-global">Privacy & Data</p>
+			<h1>Privacy without mystery.</h1>
+			<p>
+				UPPETITE is designed to work without user accounts or route-history profiles. This notice explains the data
+				that can still be processed when you use community features, upload a photo, open an external contribution form,
+				or allow optional analytics.
+			</p>
+			<p><strong>Last updated:</strong> 11 August 2026</p>
+		</header>
+
+		<section>
+			<h2>Who is responsible</h2>
+			<p>
+				The service is operated as <strong>{privacyContact.controllerName}</strong>. Privacy questions and requests can be sent to
+				<a href={`mailto:${privacyContact.email}`}>{privacyContact.email}</a>.
+			</p>
+			<p class="callout">
+				The project operator must complete its NPC registration-or-exemption assessment and formally confirm the applicable PIC/DPO details before broad public beta.
+			</p>
+		</section>
+
+		<section>
+			<h2>What UPPETITE processes</h2>
+			<div class="data-grid">
+				<article>
+					<h3>On-device preferences</h3>
+					<p>View choices, saved/local state, and similar preferences may be stored in your browser so the app can remember what you selected.</p>
+				</article>
+				<article>
+					<h3>Anonymous community installation ID</h3>
+					<p>
+						When you use native community features, the browser can create a random installation UUID. The browser record expires after
+						{COMMUNITY_RETENTION.installationDays} days. The backend receives the UUID only long enough to derive HMAC-based tokens for abuse prevention and deduplication.
+					</p>
+				</article>
+				<article>
+					<h3>Community reports</h3>
+					<p>
+						Visit/accuracy reports are associated with place IDs and privacy-preserving dedupe/rate-limit tokens. Raw interaction events are retained for about
+						{COMMUNITY_RETENTION.interactionDays} days; rate-limit records for about {COMMUNITY_RETENTION.rateLimitDays} days; aggregate daily metrics for up to
+						{COMMUNITY_RETENTION.metricsDays} days.
+					</p>
+				</article>
+				<article>
+					<h3>Photo contributions</h3>
+					<p>
+						Submitted images are re-encoded to WebP and checked to reject EXIF/XMP metadata. Photos are moderated before display. Pending photos are scheduled to expire after
+						{COMMUNITY_RETENTION.pendingPhotoDays} days and rejected photos after {COMMUNITY_RETENTION.rejectedPhotoDays} days.
+					</p>
+				</article>
+				<article>
+					<h3>External contribution forms</h3>
+					<p>
+						Some contribution options open Google Forms. Those forms are external to UPPETITE and may process the information you choose to submit according to their own platform handling.
+						UPPETITE does not need your current route or exact GPS location for these forms.
+					</p>
+				</article>
+			</div>
+		</section>
+
+		<section id="analytics">
+			<h2>Optional analytics</h2>
+			<p>
+				Google Analytics is optional. If it is configured on a deployment, UPPETITE does not download the analytics script until you choose
+				<strong>Allow optional analytics</strong>. Rejecting it does not disable Find, Explore, Freshie, maps, saved local state, or community features.
+			</p>
+			<button type="button" class="choice-button" data-open-privacy-choices>Manage privacy choices</button>
+		</section>
+
+		<section>
+			<h2>Why the data is used</h2>
+			<p>
+				UPPETITE uses local state to provide requested features; community tokens to prevent duplicate/abusive submissions; moderated photos to improve place information;
+				and optional analytics, only when allowed, to understand broad service usage. UPPETITE does not use community installation IDs to build route-history or advertising profiles.
+			</p>
+		</section>
+
+		<section>
+			<h2>Service providers and disclosures</h2>
+			<p>
+				UPPETITE may rely on hosting/deployment infrastructure, Supabase for native community operations and storage, Google Forms for selected contribution workflows,
+				and Google Analytics only when configured and allowed. Data is disclosed only as needed to provide those functions, operate/security-review the service, or comply with applicable law.
+			</p>
+		</section>
+
+		<section>
+			<h2>Your privacy rights</h2>
+			<p>
+				Depending on the circumstances, you may ask about personal data connected to you, request correction or deletion, object to certain processing, or raise a privacy concern.
+				Because UPPETITE intentionally avoids accounts, we may need enough information to locate the relevant record without collecting unnecessary identity information.
+			</p>
+			<p><a class="legal-link" href="/privacy-request">Start a privacy request →</a></p>
+		</section>
+
+		<section>
+			<h2>Security incidents</h2>
+			<p>
+				UPPETITE maintains an incident-response process. Security incidents are documented, assessed for personal-data impact, and escalated according to applicable NPC breach-notification requirements.
+			</p>
+		</section>
+
+		<section>
+			<h2>Research and public sources</h2>
+			<p>
+				Freshie/editorial research is intended to capture information about food places, not profiles of the people discussing them. The project keeps source provenance where useful while its editorial pipeline rejects fields such as usernames,
+				author IDs, avatars, profile URLs, and raw scraped comments.
+			</p>
+		</section>
+
+		<section>
+			<h2>Changes to this notice</h2>
+			<p>Material changes will update the date above. Contributor-license changes use a separate versioned Contributor Terms page.</p>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.legal-page { max-width: 58rem; padding-top: clamp(2rem, 6vw, 4.5rem); padding-bottom: var(--space-12); }
+	header { padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+	h1 { max-width: 13ch; margin: var(--space-3) 0 0; color: var(--brand-maroon-deep); font: 820 clamp(2.6rem, 9vw, 5rem)/0.95 var(--font-display); letter-spacing: -0.05em; }
+	header > p:not(.eyebrow-global) { max-width: 46rem; color: var(--color-text-muted); line-height: 1.65; }
+	section { padding-block: var(--space-7); border-bottom: 1px solid var(--color-border); }
+	h2 { margin: 0; color: var(--brand-maroon-deep); font: 780 clamp(1.5rem, 4vw, 2rem)/1.05 var(--font-display); }
+	h3 { margin: 0; color: var(--brand-maroon-deep); font: 740 1.05rem/1.2 var(--font-display); }
+	section > p, article p { color: var(--color-text-muted); line-height: 1.65; }
+	.data-grid { display: grid; gap: 1px; margin-top: var(--space-5); background: var(--color-border); border: 1px solid var(--color-border); }
+	.data-grid article { padding: var(--space-5); background: var(--color-surface); }
+	.callout { padding: var(--space-4); border-left: 0.3rem solid var(--brand-orange); background: var(--brand-sand); color: var(--brand-maroon-deep); }
+	.choice-button, .legal-link { min-height: var(--tap-target); display: inline-flex; align-items: center; }
+	.choice-button { padding: 0.7rem 1rem; border: 1px solid var(--brand-maroon-deep); border-radius: 999px; background: transparent; color: var(--brand-maroon-deep); font-weight: 760; cursor: pointer; }
+	.legal-link { color: var(--brand-maroon-deep); font-weight: 740; text-underline-offset: 0.2em; }
+	@media (min-width: 760px) { .data-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

@@ -8,6 +8,7 @@ import OfflineStatus from '../components/layout/OfflineStatus.svelte';
 import DeveloperContactModal from '../components/layout/DeveloperContactModal.astro';
 import RoomTbaCreditTrigger from '../components/layout/RoomTbaCreditTrigger.astro';
 import RoomTbaCreditModal from '../components/layout/RoomTbaCreditModal.astro';
+import AnalyticsConsent from '../components/privacy/AnalyticsConsent.astro';
 import {
 	PWA_CLIENT_BOOTSTRAP_VERSION,
 	PWA_MIN_UPDATE_GAP_MS,
@@ -55,28 +56,24 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<title>{title}</title>
-		{gaMeasurementId && (
-			<>
-				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
-				<script is:inline define:vars={{ gaMeasurementId }}>
-					window.dataLayer = window.dataLayer || [];
-					function gtag(){dataLayer.push(arguments);}
-					gtag('js', new Date());
-					gtag('config', gaMeasurementId);
-				</script>
-			</>
-		)}
 		<slot name="head" />
 	</head>
 	<body class={pageClass}>
 		<a class="skip-link" href="#main-content">Skip to Main Content</a>
 		{!hideHeader && <SiteHeader currentPath={Astro.url.pathname} />}
 		<OfflineStatus client:idle />
+		<AnalyticsConsent measurementId={gaMeasurementId} />
 		<slot />
 		{!hideNav && <BottomNav currentPath={Astro.url.pathname} />}
 		<footer class="site-footer">
 			<p>UPPETITE uses open-data place records; availability, hours, and business status can change.</p>
-			<p><a href="/contribute">Contribute to UPPETITE</a> · <RoomTbaCreditTrigger /> · © OpenStreetMap contributors · Overture Maps</p>
+			<p>
+				<a href="/contribute">Contribute to UPPETITE</a> ·
+				<a href="/privacy">Privacy</a> ·
+				<a href="/contributor-terms">Contributor Terms</a> ·
+				<button type="button" class="privacy-choice-link" data-open-privacy-choices>Privacy choices</button> ·
+				<RoomTbaCreditTrigger /> · © OpenStreetMap contributors · Overture Maps
+			</p>
 		</footer>
 		<DeveloperContactModal />
 		<RoomTbaCreditModal />

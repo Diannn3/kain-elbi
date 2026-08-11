@@ -177,7 +177,7 @@ export async function loadCommunityPulse(): Promise<CommunityPulseResponse> {
 	return invoke<CommunityPulseResponse>('community-pulse');
 }
 
-export async function uploadCommunityPhoto(placeId: string, file: File): Promise<{ success: boolean; status: string }> {
+export async function uploadCommunityPhoto(placeId: string, file: File, termsVersion: string): Promise<{ success: boolean; status: string }> {
 	const config = communityBackendConfig();
 	if (!config.configured) throw new Error('Community backend is not configured.');
 
@@ -188,6 +188,7 @@ export async function uploadCommunityPhoto(placeId: string, file: File): Promise
 	formData.append('placeId', placeId);
 	formData.append('installId', installId);
 	formData.append('file', file);
+	formData.append('termsVersion', termsVersion);
 
 	const response = await fetch(`${config.url}/functions/v1/photo-upload`, {
 		method: 'POST',
@@ -210,18 +211,16 @@ export async function loadCommunityPhotos(placeId: string): Promise<string[]> {
 	if (!config.configured) return [];
 
 	try {
-		const response = await fetch(`${config.url}/rest/v1/uppetite_community_place_photos?place_id=eq.${encodeURIComponent(placeId)}&status=eq.approved&select=storage_path`, {
+		const response = await fetch(`${config.url}/functions/v1/community-photos?placeId=${encodeURIComponent(placeId)}`, {
 			method: 'GET',
-			headers: {
-				apikey: config.publishableKey,
-				'Authorization': `Bearer ${config.publishableKey}`, // PostgREST requires Bearer token
-			},
+			headers: { apikey: config.publishableKey },
 		});
-
 		if (!response.ok) return [];
 
-		const data = await response.json() as { storage_path: string }[];
-		return data.map(row => `${config.url}/storage/v1/object/public/place-photos/${row.storage_path}`);
+		const data = await response.json() as { urls?: unknown };
+		return Array.isArray(data.urls)
+			? data.urls.filter((value): value is string => typeof value === 'string' && value.startsWith('https://'))
+			: [];
 	} catch (error) {
 		console.error('Failed to load photos', error);
 		return [];

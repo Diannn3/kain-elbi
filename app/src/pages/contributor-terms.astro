@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CONTRIBUTOR_TERMS_VERSION } from '../lib/compliance';
+import { privacyContact } from '../lib/privacy-contact';
+---
+
+<Layout
+	title="Contributor Terms — UPPETITE"
+	description="Rules and photo-license terms for contributions submitted to UPPETITE."
+>
+	<main id="main-content" class="legal-page page-shell">
+		<header>
+			<p class="eyebrow-global">Contributor Terms</p>
+			<h1>Help Elbi without giving up your work.</h1>
+			<p>Version <code>{CONTRIBUTOR_TERMS_VERSION}</code> · effective 11 August 2026</p>
+		</header>
+
+		<section>
+			<h2>1. What these terms cover</h2>
+			<p>These terms apply to place suggestions, corrections, business updates, temporary events, problem reports, community confirmations, and native photo uploads submitted to UPPETITE.</p>
+		</section>
+
+		<section>
+			<h2>2. Accuracy and lawful submissions</h2>
+			<p>
+				Submit information you reasonably believe is accurate. Do not impersonate another person or business, submit private personal information without a valid reason and permission,
+				make knowingly false or defamatory accusations, submit unlawful material, or upload copyrighted media you do not own or have permission to provide.
+			</p>
+		</section>
+
+		<section>
+			<h2>3. Photo ownership stays with you</h2>
+			<p>
+				If you upload a photo, you confirm that you took it or otherwise have permission to submit it. You keep your copyright. You grant UPPETITE a
+				<strong>non-exclusive, royalty-free license</strong> to store, copy, resize, compress, moderate, and publicly display the submitted photo as part of operating and presenting UPPETITE.
+			</p>
+			<p>
+				The license does not transfer ownership of your copyright to UPPETITE. If an identifiable private person is prominent in the photo, do not upload it unless you have an appropriate basis to do so.
+			</p>
+		</section>
+
+		<section>
+			<h2>4. Moderation</h2>
+			<p>UPPETITE may reject, hide, edit factual text for clarity, or remove submissions that are inaccurate, unsafe, irrelevant, unlawful, duplicative, or inconsistent with these terms.</p>
+		</section>
+
+		<section>
+			<h2>5. External forms</h2>
+			<p>Some contribution workflows use Google Forms. Before opening those forms from UPPETITE, the site asks you to acknowledge these Contributor Terms. Do not submit information the form does not need.</p>
+		</section>
+
+		<section>
+			<h2>6. Removal and copyright concerns</h2>
+			<p>
+				If you own rights to a submitted photo or believe a contribution infringes your rights, contact
+				<a href={`mailto:${privacyContact.email}?subject=UPPETITE%20copyright%20or%20takedown%20request`}>{privacyContact.email}</a>
+				with the place/photo involved and enough information for the project to review the request.
+			</p>
+		</section>
+
+		<section>
+			<h2>7. Privacy</h2>
+			<p>Community submissions are also handled under the <a href="/privacy">UPPETITE Privacy & Data Notice</a>.</p>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.legal-page { max-width: 54rem; padding-top: clamp(2rem, 6vw, 4.5rem); padding-bottom: var(--space-12); }
+	header { padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+	h1 { max-width: 14ch; margin: var(--space-3) 0 0; color: var(--brand-maroon-deep); font: 820 clamp(2.5rem, 9vw, 4.6rem)/0.96 var(--font-display); letter-spacing: -0.05em; }
+	header p, section p { color: var(--color-text-muted); line-height: 1.65; }
+	section { padding-block: var(--space-6); border-bottom: 1px solid var(--color-border); }
+	h2 { margin: 0; color: var(--brand-maroon-deep); font: 760 clamp(1.3rem, 4vw, 1.7rem)/1.1 var(--font-display); }
+	a { color: var(--brand-maroon-deep); text-underline-offset: 0.2em; }
+	code { font-size: 0.9em; }
+</style>

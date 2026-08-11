@@ -8,6 +8,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{1
 const PLACE_ID = /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$/;
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
 const DAILY_UPLOAD_LIMIT = 3;
+const CONTRIBUTOR_TERMS_VERSION = '2026-08-11';
 
 async function isSafeWebp(file: File): Promise<boolean> {
 	if (file.type !== 'image/webp' || file.size < 20) return false;
@@ -52,6 +53,7 @@ Deno.serve(async (req) => {
 		const placeId = formData.get('placeId');
 		const installId = formData.get('installId');
 		const file = formData.get('file');
+		const termsVersion = formData.get('termsVersion');
 
 		if (typeof placeId !== 'string' || !PLACE_ID.test(placeId.trim())) {
 			return json(req, { error: 'invalid_place_id' }, 400);
@@ -61,6 +63,9 @@ Deno.serve(async (req) => {
 		}
 		if (!(file instanceof File) || file.size <= 0 || file.size > MAX_FILE_BYTES) {
 			return json(req, { error: file instanceof File && file.size > MAX_FILE_BYTES ? 'file_too_large' : 'invalid_file' }, 400);
+		}
+		if (termsVersion !== CONTRIBUTOR_TERMS_VERSION) {
+			return json(req, { error: 'contributor_terms_required', currentTermsVersion: CONTRIBUTOR_TERMS_VERSION }, 409);
 		}
 		// The client re-encodes selected images to WebP to strip metadata. Do
 		// not trust caller-controlled filename extensions or MIME strings alone.
@@ -122,6 +127,8 @@ Deno.serve(async (req) => {
 				storage_path: storagePath,
 				installation_id_hash: installIdHash,
 				status: 'pending',
+				contributor_terms_version: CONTRIBUTOR_TERMS_VERSION,
+				license_accepted_at: new Date().toISOString(),
 			});
 		if (dbError) {
 			console.error('DB insert error', dbError);
