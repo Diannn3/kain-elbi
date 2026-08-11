@@ -21,6 +21,7 @@
 
 	let { initialView = 'list' }: { initialView?: ResultsView } = $props();
 	let loading = $state(true);
+	let showSkeleton = $state(false);
 	let error = $state('');
 	let picks = $state<SmartPick[]>([]);
 	let context = $state<SearchContext>();
@@ -167,6 +168,7 @@
 
 	onMount(() => {
 		let active = true;
+		const skeletonTimer = window.setTimeout(() => { if (active && loading) showSkeleton = true; }, 200);
 		const url = new URL(window.location.href);
 		mobileMapQuery = window.matchMedia('(max-width: 759px)');
 		const handleMobileMapMediaChange = () => syncMobileMapShell();
@@ -216,10 +218,13 @@
 			error = cause instanceof Error ? cause.message : 'Smart Picks could not load. Refresh when you are online.';
 		}).finally(() => {
 			loading = false;
+			showSkeleton = false;
+			window.clearTimeout(skeletonTimer);
 		});
 
 		return () => {
 			active = false;
+			window.clearTimeout(skeletonTimer);
 			mobileMapQuery?.removeEventListener('change', handleMobileMapMediaChange);
 			document.documentElement.classList.remove('mobile-map-active');
 			document.body.classList.remove('mobile-map-active');
@@ -299,7 +304,7 @@
 
 	<div class="results-sheet">
 		{#if loading}
-			<div class="loading visible" role="status" aria-live="polite">
+			<div class="loading" class:visible={showSkeleton} role="status" aria-live="polite">
 				<p class="eyebrow">Checking Your Route</p>
 				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
 				<div class="skeleton-card"><span></span><span></span><span></span><span></span></div>
@@ -666,7 +671,8 @@
 	.result-list { display: grid; gap: var(--space-4); }
 	.loading,
 	.empty { padding: 2rem 0; }
-	.loading { min-height: 22rem; animation: fade-in 140ms ease; }
+	.loading { min-height: 22rem; opacity: 0; transition: opacity 140ms ease; }
+	.loading.visible { opacity: 1; }
 	@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 	.result-disclosure { display: grid; justify-items: center; gap: var(--space-2); margin-top: var(--space-5); text-align: center; }
 	.result-disclosure p { margin: 0; color: var(--color-text-muted); }
@@ -812,7 +818,7 @@
 		.picks-layout.map-active .context-bar {
 			position: relative;
 			top: auto;
-			padding: 0.38rem 0.42rem;
+			padding: var(--space-1) 0.42rem;
 			border-radius: 1rem;
 		}
 
@@ -845,9 +851,9 @@
 			display: grid;
 			grid-template-columns: 6.25rem minmax(0, 1fr) var(--tap-target);
 			align-items: center;
-			gap: 0.35rem;
-			margin-top: 0.3rem;
-			padding-top: 0.3rem;
+			gap: var(--space-1);
+			margin-top: var(--space-1);
+			padding-top: var(--space-1);
 		}
 
 		.picks-layout.map-active .view-switch {

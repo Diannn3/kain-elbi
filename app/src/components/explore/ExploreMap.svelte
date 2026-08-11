@@ -79,5 +79,5 @@
 		return () => { disposed = true; map?.remove(); };
 	});
 </script>
-<div class="map" bind:this={mapElement} aria-label="Map of food places in Explore"></div>
+<div class="map" bind:this={mapElement} role="region" aria-label="Interactive map of food places in Explore"></div>
 <style>.map{position:absolute;inset:0;width:100%;height:100%;background:var(--brand-sand)} :global(.maplibregl-ctrl-attrib){font-family:var(--font-body)}</style>

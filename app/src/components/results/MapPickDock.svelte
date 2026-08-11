@@ -32,7 +32,7 @@
 	<span class="fit-rank">#{rank}</span>
 	<span class="pick-copy">
 		<strong>{pick.place.name}</strong>
-		<small>{walkMinutes} min walk · {availableMinutes} min available · {statusLabel}</small>
+		<span class="pick-metrics"><small>{walkMinutes} min walk · {availableMinutes} min available</small><small>{statusLabel}</small></span>
 	</span>
 	<span class="summary-arrow" aria-hidden="true">→</span>
 </button>
@@ -59,7 +59,7 @@
 		padding: 0.34rem 0.48rem;
 		border-radius: 999px;
 		background: rgb(230 106 25 / 0.16);
-		font: 780 0.62rem/1 var(--font-display);
+		font: 780 0.75rem/1 var(--font-display);
 		white-space: nowrap;
 	}
 
@@ -78,7 +78,8 @@
 	}
 
 	.pick-copy strong { font: 760 0.88rem/1.05 var(--font-display); }
-	.pick-copy small { color: var(--color-text-muted); font-size: 0.64rem; line-height: 1.1; }
+	.pick-metrics { min-width: 0; display: flex; gap: var(--space-1) var(--space-2); flex-wrap: wrap; }
+	.pick-copy small { color: var(--color-text-muted); font-size: 0.75rem; line-height: 1.15; }
 
 	.summary-arrow {
 		display: grid;

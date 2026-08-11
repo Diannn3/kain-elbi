@@ -32,7 +32,7 @@
 			? undefined
 			: Math.max(0, Math.round(pick.detourSeconds / 60)),
 	);
-	const routeFitLabel = $derived(rank === 1 ? 'Best fit' : `Route fit #${rank}`);
+	const routeFitLabel = $derived(rank === 1 ? 'Top route fit' : `Route fit #${rank}`);
 	const statusLabel = $derived(
 		pick.availability === 'unknown'
 			? (pick.place.openingHours ? 'Hours need checking' : 'Hours unavailable')
@@ -262,28 +262,22 @@
 		height: 0.55rem;
 		flex: none;
 		border-radius: 50%;
-		background: #a36710;
+		background: var(--color-status-warning);
 	}
 
 	.availability[data-status='open_at_arrival'] > span {
-		background: #2f713f;
+		background: var(--color-status-success);
 	}
 
 	.availability[data-status='closes_during_stop'] > span {
-		background: #b65b0d;
+		background: var(--color-status-warning);
 	}
 
 	.availability[data-status='closed_at_arrival'] > span {
-		background: #a62f2f;
+		background: var(--color-status-error);
 	}
 
-	.explanation-block {
-		margin-top: 1rem;
-		padding: 1rem;
-		border: 1px solid rgb(92 16 22 / 0.08);
-		border-radius: 1rem;
-		background: rgb(242 232 220 / 0.58);
-	}
+	.explanation-block { margin-top: var(--space-4); padding: var(--space-1) 0 var(--space-1) var(--space-4); border-left: 3px solid var(--brand-orange); }
 
 	.explanation-block strong {
 		color: var(--brand-maroon-deep);
@@ -293,7 +287,7 @@
 	}
 
 	.explanation-block p {
-		margin: 0.5rem 0 0;
+		margin: var(--space-2) 0 0;
 		color: var(--color-text);
 		font-weight: 560;
 		line-height: 1.5;

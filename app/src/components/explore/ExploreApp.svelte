@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ExploreMap from './ExploreMap.svelte';
+	import ExploreMapResults from './ExploreMapResults.svelte';
 	import FoodEvents from './FoodEvents.svelte';
 	import ExploreMobileFilters from './ExploreMobileFilters.svelte';
 	import CommunityPulse from '../community/CommunityPulse.svelte';
@@ -22,6 +23,7 @@
 		isRecentlyAdded,
 		placeFitsBudget,
 	} from '../../lib/data/place-enrichment';
+	import { formatAddedDate, formatResearchDate } from '../../lib/date-format';
 
 	let { places, zones, collections, routablePlaceIds, events }: {
 		places: Place[];
@@ -34,7 +36,7 @@
 	const injectedCollections = $derived([
 		...collections,
 		...(appStorage.savedPlaces.size > 0
-			? [{ id: 'saved-places', title: '⭐ Saved Places', placeIds: Array.from(appStorage.savedPlaces) }]
+			? [{ id: 'saved-places', title: 'Saved places', placeIds: Array.from(appStorage.savedPlaces) }]
 			: []),
 	]);
 
@@ -65,6 +67,7 @@
 	let urlReady = $state(false);
 	let visibleCount = $state(24);
 	let surpriseAnnouncement = $state('');
+	let mapAnnouncement = $state('');
 	let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
 	let hoursById = $state<Record<string, ExploreHoursStatus>>({});
@@ -384,6 +387,7 @@
 			onCollection={(value) => { collectionId = value; commitFilters(); }}
 			onHours={(value) => void setHours(value)}
 			onBudget={setBudget}
+			onClear={clearFilters}
 		/>
 
 		{#if hoursCapableCount > 0}
@@ -466,7 +470,7 @@
 					<div class="recent-grid">
 						{#each recentPlaces as place}
 							<a href={`/place/${place.id}`}>
-								<span>Added {place.addedAt}</span>
+								<span>Added {formatAddedDate(place.addedAt ?? '')}</span>
 								<strong>{place.name}</strong>
 								{#if place.price}<small>{formatPriceRange(place.price)} online-listed meal range</small>{/if}
 								<b>View place →</b>
@@ -506,7 +510,7 @@
 				<section class="collection-section" aria-labelledby="collection-heading">
 					<div class="section-heading">
 						<div>
-							<p class="eyebrow-global">Community Curated Lists</p>
+							<p class="eyebrow-global">Research-backed lists</p>
 							<h2 id="collection-heading">Real places people are talking about, completely unranked.</h2>
 						</div>
 					</div>
@@ -517,9 +521,10 @@
 								aria-current={collectionId === collection.id ? 'page' : undefined}
 								href={`/explore?collection=${collection.id}`}
 							>
-								<span>{collection.evidenceCount} community mentions</span>
+								<span>{collection.evidenceCount} public discussion sources reviewed</span>
 								<strong>{collection.title}</strong>
 								<p>{collection.description}</p>
+								<small>Researched {formatResearchDate(collection.researchDate)}</small>
 							</a>
 						{/each}
 					</div>
@@ -556,6 +561,7 @@
 		Know a place we’re missing? <a href="/contribute#add-place">Add it to UPPETITE →</a>
 	</p>
 	<p class="sr-only" aria-live="polite">{surpriseAnnouncement}</p>
+	<p class="sr-only" aria-live="polite">{mapAnnouncement}</p>
 
 	{#if !urlReady}
 		<p class="preparing" role="status">Preparing Explore…</p>
@@ -613,15 +619,16 @@
 			</div>
 		{/if}
 	{:else}
-		<div class="map-wrap">
-			<ExploreMap
-				places={filtered}
-				{selectedId}
-				onSelect={(place) => { selectedId = place.id; surpriseId = ''; }}
-				onUnavailable={() => mapFailed = true}
-			/>
-			{#if selected}
-				<aside class="preview">
+		<div class="map-view-stack">
+			<div class="map-wrap">
+				<ExploreMap
+					places={filtered}
+					{selectedId}
+					onSelect={(place) => { selectedId = place.id; surpriseId = ''; mapAnnouncement = `${place.name} selected on the map.`; }}
+					onUnavailable={() => mapFailed = true}
+				/>
+				{#if selected}
+					<aside class="preview">
 					<span>
 						{categoryLabels[selected.category]} · {zoneForPlace.get(selected.id)?.shortName ?? 'Los Baños'}
 					</span>
@@ -629,8 +636,10 @@
 					{#if selected.price}<small>{formatPriceRange(selected.price)} online-listed meal range</small>{/if}
 					<small>{routable.has(selected.id) ? 'Campus route coverage available' : 'Explore listing'}</small>
 					<a href={`/place/${selected.id}`}>View details →</a>
-				</aside>
-			{/if}
+					</aside>
+				{/if}
+			</div>
+			<ExploreMapResults places={filtered} {selectedId} {visibleCount} {zoneForPlace} onSelect={(place, source) => { selectedId = place.id; surpriseId = ''; mapAnnouncement = `${place.name} selected from the ${source === 'keyboard' ? 'keyboard list' : 'map list'}.`; }} onShowMore={() => visibleCount += 24} />
 		</div>
 	{/if}
 </section>
@@ -689,7 +698,7 @@
 	}
 	.smart-suggestions button,
 	.hours-chips button {
-		min-height: 2.5rem;
+		min-height: var(--tap-target);
 		padding: 0 var(--space-3);
 		border: 1px solid var(--color-border);
 		border-radius: 999px;
@@ -786,8 +795,8 @@
 	}
 	.recent-grid a:nth-child(even) { background: var(--brand-sand); }
 	.recent-grid span {
-		color: var(--brand-orange);
-		font: 740 0.68rem/1 var(--font-display);
+		color: var(--color-accent-text);
+		font: 740 0.75rem/1 var(--font-display);
 		letter-spacing: 0.07em;
 		text-transform: uppercase;
 	}
@@ -876,6 +885,7 @@
 		font: 760 1.2rem/1.05 var(--font-display);
 	}
 	.collection-grid p { margin: var(--space-2) 0 0; color: var(--color-text-muted); font-size: 0.85rem; line-height: 1.45; }
+	.collection-grid small { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: 0.75rem; }
 
 	.result-bar {
 		display: flex;
@@ -911,7 +921,7 @@
 		border-radius: 999px;
 		background: var(--brand-sand);
 	}
-	.segmented button { min-height: 2.5rem; border: 0; background: transparent; }
+	.segmented button { min-height: var(--tap-target); border: 0; background: transparent; }
 
 	.grid { display: grid; min-width: 0; gap: var(--space-4); }
 	.explore-card {
@@ -920,7 +930,7 @@
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-lg);
 		background: var(--brand-cream);
-		box-shadow: 0 0.5rem 1.4rem rgb(71 12 17 / 0.04);
+		box-shadow: none;
 		content-visibility: auto;
 		contain-intrinsic-size: 14rem;
 		animation: card-enter 140ms ease-out both;
@@ -1005,12 +1015,13 @@
 	.preview strong { color: var(--brand-maroon-deep); font: 760 1.25rem/1.05 var(--font-display); }
 	.preview a {
 		justify-self: start;
-		min-height: 2.5rem;
+		min-height: var(--tap-target);
 		display: flex;
 		align-items: center;
 		color: var(--brand-maroon-deep);
 		font-weight: 760;
 	}
+	.map-view-stack { display: grid; gap: var(--space-4); min-width: 0; }
 
 	.empty {
 		grid-column: 1 / -1;
@@ -1051,6 +1062,8 @@
 		.collection-grid,
 		.recent-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 		.preview { left: auto; width: min(24rem, calc(100% - 1.6rem)); }
+		.map-view-stack { grid-template-columns: minmax(0, 2fr) minmax(17rem, 0.72fr); align-items: stretch; }
+		.map-view-stack :global(.map-results) { height: 65dvh; }
 	}
 
 	@keyframes card-enter { from { opacity: 0; transform: translateY(4px); } }

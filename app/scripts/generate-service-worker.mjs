@@ -35,7 +35,7 @@ function staticImportReferences(source, importerUrl) {
 	const references = [];
 	const pattern = /(?:import|export)(?!\s*\()\s*(?:[^'";]*?\bfrom\s*)?["'](\.[^"']+)["']/g;
 	for (const match of source.matchAll(pattern)) {
-		references.push(new URL(match[1], `https://kain-elbi.local${importerUrl}`).pathname);
+		references.push(new URL(match[1], `https://uppetite.local${importerUrl}`).pathname);
 	}
 	return references;
 }

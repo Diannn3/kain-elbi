@@ -5,6 +5,10 @@ const routeQuery = '?origin=Math%20Building&originMode=building&destination=Phys
 test('Explore exposes opening-hours filters and keeps them in the URL', async ({ page }) => {
 	await page.goto('/explore');
 	const openNow = page.getByRole('button', { name: 'Open now' });
+	if (!(await openNow.isVisible())) {
+		await page.locator('.mobile-filter-trigger > button').click();
+		await expect(page.locator('#explore-mobile-filters')).toBeVisible();
+	}
 	await expect(openNow).toBeVisible();
 	await openNow.click();
 	await expect(page).toHaveURL(/(?:\?|&)hours=open(?:&|$)/);

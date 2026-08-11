@@ -29,7 +29,7 @@ test('developer modal contains the configured public details and no decorative t
 	await expect(dialog.getByRole('link', { name: /aedrianponce1203@gmail\.com/i }))
 		.toHaveAttribute('href', 'mailto:aedrianponce1203@gmail.com');
 
-	await expect(dialog.getByText('Coming Soon')).toBeVisible();
+	await expect(dialog.getByText('Coming Soon')).toHaveCount(0);
 	await expect(dialog.locator('.dialog-accent')).toHaveCount(0);
 });
 

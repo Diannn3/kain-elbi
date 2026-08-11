@@ -15,7 +15,7 @@
 	const walkMinutes = $derived(Math.max(0, Math.round(pick.walkToPlaceSeconds / 60)));
 	const availableMinutes = $derived(Math.max(0, Math.round(pick.timeRemainingSeconds / 60)));
 	const detourMinutes = $derived(pick.detourSeconds === undefined ? undefined : Math.max(0, Math.round(pick.detourSeconds / 60)));
-	const fitLabel = $derived(rank === 1 ? 'Best fit' : `Route fit #${rank}`);
+	const fitLabel = $derived(rank === 1 ? 'Top route fit' : `Route fit #${rank}`);
 	const statusLabel = $derived(
 		pick.availability === 'unknown'
 			? (pick.place.openingHours ? 'Hours need checking' : 'Hours unavailable')
@@ -58,24 +58,24 @@
 	.preview-topline { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
 	.fit-label,
 	.category { font: 760 0.65rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
-	.fit-label { padding: 0.4rem 0.58rem; border-radius: 999px; background: var(--sun); color: var(--forest); }
-	.category { max-width: 42%; overflow: hidden; color: var(--text-accent); text-overflow: ellipsis; white-space: nowrap; }
-	h2 { margin: 0.65rem 0 0; color: var(--forest); font: 780 clamp(1.35rem, 5vw, 1.8rem)/1 var(--font-display); text-wrap: balance; }
+	.fit-label { padding: 0.4rem 0.58rem; border-radius: 999px; background: var(--color-accent-on-dark); color: var(--color-primary); }
+	.category { max-width: 42%; overflow: hidden; color: var(--color-text-accent); text-overflow: ellipsis; white-space: nowrap; }
+	h2 { margin: 0.65rem 0 0; color: var(--color-primary); font: 780 clamp(1.35rem, 5vw, 1.8rem)/1 var(--font-display); text-wrap: balance; }
 	.mobile-metrics { display: none; }
-	.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.85rem 0 0; border: 1px solid var(--border-subtle); border-radius: 0.9rem; background: var(--surface-raised); overflow: hidden; }
+	.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.85rem 0 0; border: 1px solid var(--color-border); border-radius: 0.9rem; background: var(--color-surface-raised); overflow: hidden; }
 	.metrics div { min-width: 0; padding: 0.62rem 0.4rem; text-align: center; }
-	.metrics div + div { border-left: 1px solid var(--border-subtle); }
-	.metrics dt { color: var(--text-secondary); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-	.metrics dd { margin: 0.2rem 0 0; color: var(--forest); font: 780 1.05rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
-	.metrics small { margin-left: 0.12rem; color: var(--text-secondary); font: 650 0.58rem/1 var(--font-body); text-transform: uppercase; }
+	.metrics div + div { border-left: 1px solid var(--color-border); }
+	.metrics dt { color: var(--color-text-muted); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+	.metrics dd { margin: 0.2rem 0 0; color: var(--color-primary); font: 780 1.05rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+	.metrics small { margin-left: 0.12rem; color: var(--color-text-muted); font: 650 0.58rem/1 var(--font-body); text-transform: uppercase; }
 	.preview-bottom { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 0.8rem; }
-	.availability { display: flex; min-width: 0; align-items: center; gap: 0.45rem; margin: 0; color: var(--text-secondary); font-size: 0.72rem; font-weight: 650; }
-	.availability > span { width: 0.5rem; height: 0.5rem; flex: none; border-radius: 50%; background: hsl(40 85% 45%); }
-	.availability[data-status='open_at_arrival'] > span { background: hsl(138 48% 32%); }
-	.availability[data-status='closes_during_stop'] > span { background: hsl(32 90% 46%); }
-	.availability[data-status='closed_at_arrival'] > span { background: hsl(2 68% 46%); }
-	button { min-width: 6.5rem; min-height: var(--tap-target); padding: 0 0.8rem; border: 0; border-radius: 0.8rem; background: var(--forest); color: white; font: 740 0.78rem/1 var(--font-display); }
-	button:hover { background: var(--forest-deep); }
+	.availability { display: flex; min-width: 0; align-items: center; gap: 0.45rem; margin: 0; color: var(--color-text-muted); font-size: 0.72rem; font-weight: 650; }
+	.availability > span { width: 0.5rem; height: 0.5rem; flex: none; border-radius: 50%; background: var(--color-status-warning); }
+	.availability[data-status='open_at_arrival'] > span { background: var(--color-status-success); }
+	.availability[data-status='closes_during_stop'] > span { background: var(--color-status-warning); }
+	.availability[data-status='closed_at_arrival'] > span { background: var(--color-status-error); }
+	button { min-width: 6.5rem; min-height: var(--tap-target); padding: 0 0.8rem; border: 0; border-radius: 0.8rem; background: var(--color-primary); color: white; font: 740 0.78rem/1 var(--font-display); }
+	button:hover { background: var(--color-primary-hover); }
 
 	@media (max-width: 759px) {
 		.map-preview {
@@ -101,7 +101,7 @@
 			display: block;
 			margin: 0.32rem 0 0;
 			overflow: hidden;
-			color: var(--text-secondary);
+			color: var(--color-text-muted);
 			font-size: 0.68rem;
 			line-height: 1.2;
 			text-overflow: ellipsis;

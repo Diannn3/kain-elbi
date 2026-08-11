@@ -3,7 +3,6 @@ import { developer } from '../../lib/developer';
 
 const contacts = [
 	{ key: 'facebook', ...developer.contacts.facebook },
-	{ key: 'portfolio', ...developer.contacts.portfolio },
 	{ key: 'linkedin', ...developer.contacts.linkedin },
 	{ key: 'email', ...developer.contacts.email },
 ] as const;
@@ -36,7 +35,6 @@ const contacts = [
 	</header>
 
 	<section class="developer-profile" aria-label="Developer">
-		<div class="profile-photo-placeholder" aria-label="Profile photo coming soon" role="img"></div>
 		<div class="profile-copy">
 			<h3>{developer.name}</h3>
 			<p>{developer.role}</p>
@@ -45,7 +43,6 @@ const contacts = [
 
 	<div class="contact-list" aria-label="Developer contact links">
 		{contacts.map((contact) => (
-			contact.href ? (
 				<a
 					class:list={['contact-row', `contact-row--${contact.key}`]}
 					href={contact.href}
@@ -70,20 +67,6 @@ const contacts = [
 					<span class="contact-arrow" aria-hidden="true">↗</span>
 					{contact.key !== 'email' && <span class="sr-only"> (opens in a new tab)</span>}
 				</a>
-			) : (
-				<div class:list={['contact-row', 'contact-row--disabled', `contact-row--${contact.key}`]}>
-					<span class="contact-icon" aria-hidden="true">
-						<svg viewBox="0 0 24 24">
-							<path d="M14 5h5v5M19 5l-8 8M17 13v5H6V7h5" />
-						</svg>
-					</span>
-
-					<span class="contact-text">
-						<span class="contact-label">{contact.label}</span>
-						<span class="contact-value">{contact.display}</span>
-					</span>
-				</div>
-			)
 		))}
 	</div>
 
@@ -232,23 +215,12 @@ const contacts = [
 
 	.developer-profile {
 		display: grid;
-		grid-template-columns: 4.2rem minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr);
 		align-items: center;
 		gap: 1.05rem;
 		margin: 0 2rem;
 		padding: 1.15rem 0 1.8rem;
 		border-bottom: 1px solid var(--color-border);
-	}
-
-	.profile-photo-placeholder {
-		width: 4.2rem;
-		height: 4.2rem;
-		border: 1px solid var(--color-border-strong);
-		border-radius: 50%;
-		background:
-			radial-gradient(circle at 50% 36%, rgb(92 16 22 / 0.075) 0 20%, transparent 21%),
-			radial-gradient(circle at 50% 88%, rgb(92 16 22 / 0.065) 0 35%, transparent 36%),
-			var(--brand-sand);
 	}
 
 	.profile-copy h3 {
@@ -405,15 +377,7 @@ const contacts = [
 			padding: 1.75rem 4.15rem 1.25rem 1.3rem;
 		}
 
-		.developer-profile {
-			margin-inline: 1.3rem;
-			grid-template-columns: 3.7rem minmax(0, 1fr);
-		}
-
-		.profile-photo-placeholder {
-			width: 3.7rem;
-			height: 3.7rem;
-		}
+		.developer-profile { margin-inline: 1.3rem; }
 
 		.contact-list {
 			padding-inline: 0.35rem;

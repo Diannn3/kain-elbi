@@ -40,6 +40,13 @@ export const communityFeatures: Readonly<CommunityFeaturePolicy> = Object.freeze
 	pulseMinimumReports: 5,
 });
 
+export function isPhotoFeatureAvailable(
+	readiness: CommunityFeatureReadiness,
+	backendConfigured: boolean,
+): boolean {
+	return readiness !== 'hidden' && backendConfigured;
+}
+
 export function isGoogleFormUrl(value: string): boolean {
 	if (!value || value.includes('REPLACE_WITH_')) return false;
 	try {

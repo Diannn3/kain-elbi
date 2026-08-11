@@ -6,6 +6,7 @@ import ShareButton from '../../components/common/ShareButton.svelte';
 import ListingFreshness from '../../components/place/ListingFreshness.svelte';
 import VisitReportButton from '../../components/community/VisitReportButton.svelte';
 import PhotoGallery from '../../components/place/PhotoGallery.svelte';
+import { formatAddedDate } from '../../lib/date-format';
 import { loadBuildData } from '../../lib/data/build';
 import { formatPriceRange } from '../../lib/data/place-enrichment';
 import { categoryLabel, cuisineSummary, nearestAnchorContext, routeCoverageLabel } from '../../lib/place-presentation';
@@ -108,10 +109,10 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 					{priceLabel && (
 						<div>
 							<dt>Online-listed meal</dt>
-							<dd>{priceLabel}<small>Checked {place.price?.verifiedAt}</small></dd>
+							<dd>{priceLabel}<small>Checked {formatAddedDate(place.price?.verifiedAt ?? '')}</small></dd>
 						</div>
 					)}
-					{place.addedAt && <div><dt>Added</dt><dd>{place.addedAt}</dd></div>}
+				{place.addedAt && <div><dt>Added</dt><dd>{formatAddedDate(place.addedAt)}</dd></div>}
 					{websiteUrl && <div><dt>Website</dt><dd><a href={websiteUrl} target="_blank" rel="noreferrer">Visit website ↗</a></dd></div>}
 					{phoneUrl && <div><dt>Phone</dt><dd><a href={phoneUrl}>{place.phone}</a></dd></div>}
 				</dl>
@@ -123,9 +124,9 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 					</details>
 				)}
 
-				<VisitReportButton client:load placeId={place.id} placeName={place.name} />
-				<ListingFreshness client:load place={place} showBusinessAction />
-				<PhotoGallery client:load placeId={place.id} allowUpload={true} />
+				<VisitReportButton client:idle placeId={place.id} placeName={place.name} />
+				<ListingFreshness client:idle place={place} showBusinessAction />
+				<PhotoGallery client:visible placeId={place.id} placeName={place.name} allowUpload={true} />
 			</section>
 		</div>
 

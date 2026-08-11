@@ -1,147 +1,82 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { loadCommunityPhotos } from '../../lib/community/backend';
+	import { communityBackendConfig, loadCommunityPhotos } from '../../lib/community/backend';
+	import { communityFeatures, isPhotoFeatureAvailable } from '../../lib/community/config';
 	import PhotoUploader from './PhotoUploader.svelte';
-	import { communityFeatures } from '../../lib/community/config';
 
-	export let placeId: string;
-	export let allowUpload = true;
+	let { placeId, placeName, allowUpload = true }: { placeId: string; placeName: string; allowUpload?: boolean } = $props();
+	const photosAvailable = isPhotoFeatureAvailable(communityFeatures.photos, communityBackendConfig().configured);
+	const uploadEnabled = $derived(photosAvailable && allowUpload);
+	let photos = $state<string[]>([]);
+	let loading = $state(photosAvailable);
+	let loadError = $state('');
+	let gallery = $state<HTMLDivElement>();
 
-	$: uploadEnabled = allowUpload && communityFeatures.photos !== 'hidden';
-
-	let photos: string[] = [];
-	let loading = true;
+	function scrollGallery(event: KeyboardEvent) {
+		if (!gallery || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return;
+		event.preventDefault();
+		gallery.scrollBy({ left: event.key === 'ArrowRight' ? 240 : -240, behavior: 'smooth' });
+	}
 
 	async function fetchPhotos() {
+		if (!photosAvailable) return;
 		loading = true;
+		loadError = '';
 		try {
 			photos = await loadCommunityPhotos(placeId);
+		} catch {
+			loadError = 'Community photos could not be loaded.';
 		} finally {
 			loading = false;
 		}
 	}
 
-	onMount(() => {
-		fetchPhotos();
-	});
-
-	function handleUploadSuccess() {
-		// Even if the photo is pending moderation, we don't strictly need to refetch
-		// since it won't be returned (status='pending'). But we could trigger a toast.
-		console.log('Upload success triggered');
-	}
+	onMount(() => { void fetchPhotos(); });
 </script>
 
-{#if !loading && (photos.length > 0 || uploadEnabled)}
-	<div class="photo-gallery-section">
-		<div class="header">
-			<h3>Photos</h3>
-			{#if uploadEnabled}
-				<PhotoUploader {placeId} onUploadSuccess={handleUploadSuccess} />
-			{/if}
-		</div>
+{#if photosAvailable}
+	<section class="photo-gallery-section" aria-labelledby="community-photo-heading" aria-busy={loading}>
+		<header>
+			<div>
+				<p>Community photos</p>
+				<h3 id="community-photo-heading">See {placeName}</h3>
+			</div>
+			{#if uploadEnabled}<PhotoUploader {placeId} onUploadSuccess={fetchPhotos} />{/if}
+		</header>
 
-		{#if photos.length > 0}
-			<div class="gallery">
+		{#if loading}
+			<div class="gallery-skeleton" role="status"><span></span><span></span><span class="sr-only">Loading community photos…</span></div>
+		{:else if photos.length > 0}
+			<!-- svelte-ignore a11y_no_noninteractive_tabindex (scroll region implements arrow-key browsing) -->
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions (scroll region implements arrow-key browsing) -->
+			<div class="gallery" role="region" tabindex="0" bind:this={gallery} onkeydown={scrollGallery} aria-label={`Community photos of ${placeName}. Use the left and right arrow keys to browse.`}>
 				{#each photos as photoUrl (photoUrl)}
-					<div class="photo-card">
-						<img src={photoUrl} alt="" loading="lazy" />
-					</div>
+					<figure><img src={photoUrl} alt={`Community photo of ${placeName}`} width="640" height="480" loading="lazy" decoding="async" /></figure>
 				{/each}
 			</div>
 		{:else}
 			<div class="empty-state">
-				<svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-				<p>No photos yet. Be the first to add one!</p>
+				<p>No community photos yet. Add a recent storefront or food photo—please avoid faces and private information.</p>
 			</div>
 		{/if}
-	</div>
+		{#if loadError}<p class="load-error" role="alert">{loadError}</p>{/if}
+	</section>
 {/if}
 
 <style>
-	.photo-gallery-section {
-		margin-top: 2rem;
-		border-top: 1px solid var(--color-border);
-		padding-top: 1.5rem;
-	}
-
-	.header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 1rem;
-	}
-
-	.header h3 {
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--color-text);
-		margin: 0;
-	}
-
-	.gallery {
-		display: flex;
-		overflow-x: auto;
-		gap: 1rem;
-		padding-bottom: 0.5rem;
-		scroll-snap-type: x mandatory;
-		-webkit-overflow-scrolling: touch;
-	}
-
-	.gallery::-webkit-scrollbar {
-		height: 6px;
-	}
-
-	.gallery::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	.gallery::-webkit-scrollbar-thumb {
-		background-color: var(--color-border);
-		border-radius: 9999px;
-	}
-
-	.photo-card {
-		flex: 0 0 240px;
-		height: 180px;
-		border-radius: 12px;
-		overflow: hidden;
-		scroll-snap-align: start;
-		background-color: var(--color-surface-hover);
-		position: relative;
-	}
-
-	.photo-card img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.3s ease;
-	}
-
-	.photo-card:hover img {
-		transform: scale(1.05);
-	}
-
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 2rem;
-		background-color: var(--color-surface);
-		border: 1px dashed var(--color-border);
-		border-radius: 12px;
-		text-align: center;
-		color: var(--color-text-muted);
-	}
-
-	:global(.empty-icon) {
-		margin-bottom: 0.5rem;
-		opacity: 0.5;
-	}
-
-	.empty-state p {
-		font-size: 0.875rem;
-		margin: 0;
-	}
+	.photo-gallery-section { margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--color-border); }
+	header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+	header p { margin: 0 0 var(--space-1); color: var(--color-accent-text); font: 760 0.75rem/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+	header h3 { margin: 0; color: var(--color-primary); font: 760 1.125rem/1.1 var(--font-display); }
+	.gallery, .gallery-skeleton { display: flex; gap: var(--space-4); padding-bottom: var(--space-2); overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-inline: contain; }
+	.gallery figure, .gallery-skeleton span { flex: 0 0 min(15rem, 78vw); aspect-ratio: 4 / 3; margin: 0; border-radius: var(--radius-sm); overflow: hidden; scroll-snap-align: start; background: var(--color-surface-hover); }
+	.gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform 160ms ease; }
+	.gallery figure:hover img, .gallery figure:focus-within img { transform: scale(1.025); }
+	.gallery-skeleton span { background: linear-gradient(90deg, var(--color-surface-muted), var(--color-surface-raised), var(--color-surface-muted)); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+	.empty-state { padding: var(--space-5) 0; border-block: 1px solid var(--color-border); color: var(--color-text-muted); }
+	.empty-state p, .load-error { max-width: 42rem; margin: 0; line-height: 1.55; }
+	.load-error { margin-top: var(--space-3); color: var(--color-status-error); }
+	@keyframes shimmer { to { background-position: -200% 0; } }
+	@media (max-width: 520px) { header { align-items: stretch; flex-direction: column; } }
+	@media (prefers-reduced-motion: reduce) { .gallery img, .gallery-skeleton span { transition: none; animation: none; } }
 </style>

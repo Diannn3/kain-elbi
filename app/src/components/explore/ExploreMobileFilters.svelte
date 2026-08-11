@@ -18,6 +18,7 @@
 		onCollection,
 		onHours,
 		onBudget,
+		onClear,
 	}: {
 		zones: Option[];
 		collections: Option[];
@@ -33,9 +34,11 @@
 		onCollection: (value: string) => void;
 		onHours: (value: HoursFilter) => void;
 		onBudget: (value: string) => void;
+		onClear: () => void;
 	} = $props();
 
 	let dialog = $state<HTMLDialogElement>();
+	let openState = $state(false);
 	const activeCount = $derived(
 		Number(Boolean(zoneId))
 		+ Number(Boolean(collectionId))
@@ -44,7 +47,7 @@
 	);
 
 	function open() {
-		if (!dialog?.open) dialog.showModal();
+		if (!dialog?.open) { dialog.showModal(); openState = true; }
 	}
 
 	function closeOnBackdrop(event: MouseEvent) {
@@ -53,7 +56,7 @@
 </script>
 
 <div class="mobile-filter-trigger">
-	<button type="button" onclick={open} aria-haspopup="dialog">
+	<button type="button" onclick={open} aria-haspopup="dialog" aria-controls="explore-mobile-filters" aria-expanded={openState}>
 		<svg aria-hidden="true" viewBox="0 0 24 24">
 			<path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6" />
 		</svg>
@@ -61,14 +64,17 @@
 	</button>
 </div>
 
-<dialog bind:this={dialog} class="mobile-filter-dialog" aria-labelledby="mobile-filter-title" onclick={closeOnBackdrop}>
+<dialog id="explore-mobile-filters" bind:this={dialog} class="mobile-filter-dialog" aria-labelledby="mobile-filter-title" onclick={closeOnBackdrop} onclose={() => openState = false}>
 	<div class="sheet">
 		<header>
 			<div>
 				<p>Explore</p>
 				<h2 id="mobile-filter-title">Filters</h2>
 			</div>
-			<form method="dialog"><button class="done" type="submit">Done</button></form>
+			<div class="dialog-actions">
+				{#if activeCount > 0}<button class="clear" type="button" onclick={onClear}>Clear all</button>{/if}
+				<form method="dialog"><button class="done" type="submit">Close filters</button></form>
+			</div>
 		</header>
 
 		{#if hoursCapableCount > 0}
@@ -185,6 +191,8 @@
 			justify-content: space-between;
 			gap: var(--space-4);
 		}
+		.dialog-actions { display: flex; align-items: center; gap: var(--space-2); }
+		.clear { min-height: var(--tap-target); padding: 0 var(--space-3); border: 0; background: transparent; color: var(--color-primary); font-weight: 720; }
 		header p,
 		header h2 {
 			margin: 0;

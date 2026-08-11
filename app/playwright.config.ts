@@ -5,6 +5,9 @@ const releaseGateSpecs = [/performance\.spec\.ts/, /visual\.spec\.ts/];
 export default defineConfig({
 	testDir: './tests/e2e',
 	fullyParallel: true,
+	// Map-heavy projects create multiple WebGL contexts. Keep local and CI runs
+	// below Chromium's practical context limit so failures reflect the app.
+	workers: 2,
 	forbidOnly: !!process.env.CI,
 	reporter: 'list',
 	use: {

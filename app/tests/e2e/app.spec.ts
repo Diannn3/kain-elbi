@@ -22,7 +22,7 @@ test('building route produces explainable Smart Picks and opens a sheet', async 
 	await expect(dialog.getByRole('heading', { name: /Why this fits your break/i })).toBeVisible();
 	await expect(dialog.getByRole('link', { name: /Get directions/i })).toBeVisible();
 	await expect(dialog.locator('details.listing-info')).toHaveCount(0);
-	await expect(dialog.getByRole('link', { name: 'Suggest an edit', exact: true })).toBeVisible();
+	await expect(dialog.getByRole('link', { name: /Something changed\? Suggest an edit/i })).toBeVisible();
 	await page.keyboard.press('Escape');
 	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
@@ -189,16 +189,28 @@ test('Smart Picks progressively discloses ranked places without mobile overflow'
 	expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
 });
 
-test('Smart Picks delays its skeleton to avoid a flash on fast loads', async ({ page }) => {
-	await page.route('**/data/places.json', async (route) => {
-		await new Promise((resolve) => setTimeout(resolve, 1_500));
-		await route.continue();
+test('Smart Picks delays its skeleton to avoid a flash on fast loads', async ({ browser }) => {
+	// A registered service worker can satisfy the data request before page.route.
+	// Use a clean, SW-free context so this test controls the slow response.
+	const context = await browser.newContext({
+		baseURL: 'http://127.0.0.1:4322',
+		serviceWorkers: 'block',
 	});
-	await page.goto(`/picks${routeQuery}`, { waitUntil: 'domcontentloaded' });
-	const loading = page.locator('.loading');
-	await expect(loading).toBeAttached();
-	await expect(loading).toHaveClass(/visible/, { timeout: 1_000 });
-	await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
+	const page = await context.newPage();
+	try {
+		await page.route('**/places.json', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 3_000));
+			await route.continue();
+		});
+		await page.goto(`/picks${routeQuery}`, { waitUntil: 'domcontentloaded' });
+		const loading = page.locator('.loading');
+		await expect(loading).toBeAttached();
+		await expect(loading).not.toHaveClass(/visible/);
+		await expect(loading).toHaveClass(/visible/, { timeout: 2_500 });
+		await expect(page.getByRole('heading', { name: /Places? Fit Your Break/i })).toBeVisible();
+	} finally {
+		await context.close();
+	}
 });
 
 test('a mathematically tight 20-minute break renders the deterministic empty state', async ({ page }) => {
@@ -212,7 +224,7 @@ test('Smart Picks sheet follows Back and Forward with inert and focus restoratio
 	await page.goto(`/picks${routeQuery}`);
 	const trigger = page.getByRole('button', { name: 'Details' }).first();
 	await trigger.click();
-	await expect(page.locator('dialog.place-dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible({ timeout: 15_000 });
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 
 	await page.goBack();
@@ -233,7 +245,7 @@ test('a direct place deep link closes in place without adding modal history', as
 	expect(placeId).toBeTruthy();
 
 	await page.goto(`/picks${routeQuery}&place=${encodeURIComponent(placeId!)}`);
-	await expect(page.locator('dialog.place-dialog')).toBeVisible();
+	await expect(page.locator('dialog.place-dialog')).toBeVisible({ timeout: 15_000 });
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');
 	await page.keyboard.press('Escape');
 

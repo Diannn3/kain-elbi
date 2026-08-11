@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { Place } from '../../lib/types';
+	import { formatAddedDate } from '../../lib/date-format';
 	import {
 		communityBackendConfig,
 		hasReportedActionToday,
@@ -20,26 +22,14 @@
 	const businessUrl = $derived(`/contribute?place=${encodeURIComponent(place.id)}#business-update`);
 	const backendConfigured = communityBackendConfig().configured;
 
-	let accuracyState = $state<'idle' | 'sending' | 'done' | 'error'>(
-		backendConfigured
-			&& typeof localStorage !== 'undefined'
-			&& hasReportedActionToday(place.id, 'accuracy_confirmed')
-			? 'done'
-			: 'idle',
-	);
+	let accuracyState = $state<'idle' | 'sending' | 'done' | 'error'>('idle');
 	let accuracyMessage = $state('');
 
-	function displayDate(value: string | null | undefined) {
-		if (!value) return '';
-		const date = new Date(`${value}T00:00:00Z`);
-		if (!Number.isFinite(date.getTime())) return value;
-		return new Intl.DateTimeFormat('en-PH', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric',
-			timeZone: 'Asia/Manila',
-		}).format(date);
-	}
+	onMount(() => {
+		if (backendConfigured && hasReportedActionToday(place.id, 'accuracy_confirmed')) accuracyState = 'done';
+	});
+
+	const displayDate = formatAddedDate;
 
 	async function confirmAccuracy() {
 		if (!backendConfigured || accuracyState === 'sending' || accuracyState === 'done') return;

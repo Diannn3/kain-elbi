@@ -8,11 +8,6 @@ export const developer = {
 			display: 'facebook.com/aedrian.ponce',
 			href: 'https://www.facebook.com/aedrian.ponce',
 		},
-		portfolio: {
-			label: 'Portfolio',
-			display: 'Coming Soon',
-			href: null,
-		},
 		linkedin: {
 			label: 'LinkedIn',
 			display: 'linkedin.com/in/aedrian-ponce-a602b0398/',

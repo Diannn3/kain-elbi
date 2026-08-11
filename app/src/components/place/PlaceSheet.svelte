@@ -2,6 +2,7 @@
 	import { availabilityLabel } from '../../lib/place-availability';
 	import { categoryLabel, cuisineSummary } from '../../lib/place-presentation';
 	import { formatPriceRange } from '../../lib/data/place-enrichment';
+	import { formatAddedDate } from '../../lib/date-format';
 	import type { Place, SmartPick } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 	import ShareButton from '../common/ShareButton.svelte';
@@ -66,7 +67,6 @@
 		place ? `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lon}&travelmode=walking` : '',
 	);
 	const placeUrl = $derived(place ? `/place/${encodeURIComponent(place.id)}` : '');
-	const editUrl = $derived(place ? `/contribute?place=${encodeURIComponent(place.id)}#suggest-edit` : '/contribute#suggest-edit');
 	const cuisine = $derived(place ? cuisineSummary(place) : undefined);
 	const priceLabel = $derived(place ? formatPriceRange(place.price) : undefined);
 	const walkMinutes = $derived(pick ? Math.max(0, Math.round(pick.walkToPlaceSeconds / 60)) : 0);
@@ -122,7 +122,7 @@
 						{#if priceLabel}
 							<div>
 								<dt>Online-listed meal</dt>
-								<dd>{priceLabel}<small> · checked {place.price?.verifiedAt}</small></dd>
+								<dd>{priceLabel}<small> · checked {formatAddedDate(place.price?.verifiedAt ?? '')}</small></dd>
 							</div>
 						{/if}
 					</dl>
@@ -136,7 +136,7 @@
 
 				<VisitReportButton placeId={place.id} placeName={place.name} compact />
 				<ListingFreshness {place} compact />
-				<PhotoGallery placeId={place.id} allowUpload={true} />
+				<PhotoGallery placeId={place.id} placeName={place.name} allowUpload={true} />
 
 				<div class="community-actions">
 					<ShareButton
@@ -146,7 +146,6 @@
 						path={placeUrl}
 						variant="quiet"
 					/>
-					<p class="contribute-note">Something changed? <a href={editUrl}>Suggest an edit</a></p>
 				</div>
 			</div>
 
@@ -234,9 +233,7 @@
 	.hours-detail { margin-top: var(--space-2); border-top: 1px solid var(--color-border); }
 	.hours-detail summary { display: flex; align-items: center; min-height: var(--tap-target); cursor: pointer; color: var(--brand-maroon-deep); font-weight: 720; }
 	.hours-detail code { display: block; padding: var(--space-3); border-radius: var(--radius-sm); background: var(--brand-sand); color: var(--color-text-muted); font-size: 0.74rem; white-space: normal; overflow-wrap: anywhere; }
-	.community-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin: var(--space-4) var(--space-1) 0; flex-wrap: wrap; }
-	.contribute-note { margin: 0; color: var(--color-text-muted); font-size: 0.8rem; }
-	.contribute-note a { color: var(--brand-maroon-deep); font-weight: 720; text-underline-offset: 0.2em; }
+	.community-actions { display: flex; align-items: center; gap: var(--space-4); margin: var(--space-4) var(--space-1) 0; flex-wrap: wrap; }
 	.sheet-actions { display: grid; grid-template-columns: auto minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); border-top: 1px solid var(--color-border); background: rgb(255 249 241 / 0.98); box-shadow: 0 -0.75rem 1.6rem rgb(71 12 17 / 0.08); }
 	.sheet-actions a,
 	.sheet-actions button { display: flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 3.5rem; padding: 0 var(--space-3); border-radius: var(--radius-md); font: 740 0.9rem/1 var(--font-display); text-align: center; text-decoration: none; cursor: pointer; }

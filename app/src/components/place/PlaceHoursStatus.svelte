@@ -38,7 +38,7 @@
 </p>
 
 <style>
-	.hours-status { display: flex; align-items: flex-start; gap: var(--space-2); margin: 0; color: var(--text-secondary); font-size: 0.82rem; font-weight: 650; line-height: 1.45; }
+	.hours-status { display: flex; align-items: flex-start; gap: var(--space-2); margin: 0; color: var(--color-text-muted); font-size: 0.82rem; font-weight: 650; line-height: 1.45; }
 	.hours-status > span { width: 0.55rem; height: 0.55rem; flex: none; margin-top: 0.3em; border-radius: 50%; background: hsl(40 85% 45%); }
 	.hours-status[data-tone='open'] > span { background: hsl(138 48% 32%); }
 	.hours-status[data-tone='closed'] > span { background: hsl(2 68% 46%); }

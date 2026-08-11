@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		communityBackendConfig,
 		hasReportedActionToday,
@@ -16,12 +17,12 @@
 	} = $props();
 
 	const configured = communityBackendConfig().configured;
-	let state = $state<'idle' | 'sending' | 'done' | 'error'>(
-		configured && typeof localStorage !== 'undefined' && hasReportedActionToday(placeId, 'visit_reported')
-			? 'done'
-			: 'idle',
-	);
+	let state = $state<'idle' | 'sending' | 'done' | 'error'>('idle');
 	let message = $state('');
+
+	onMount(() => {
+		if (configured && hasReportedActionToday(placeId, 'visit_reported')) state = 'done';
+	});
 
 	async function reportVisit() {
 		if (!configured || state === 'sending' || state === 'done') return;

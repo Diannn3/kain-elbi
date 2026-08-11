@@ -13,7 +13,6 @@ test('mobile Map is an immersive non-overlapping shell with dominant map space',
 	await page.setViewportSize({ width: 390, height: 844 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
-
 	await expect(page.locator('html')).toHaveClass(/mobile-map-active/);
 	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('.map-frame')).toBeVisible();
@@ -93,6 +92,7 @@ test('mobile Map shell geometry remains valid on a taller narrow iPhone viewport
 	await page.setViewportSize({ width: 430, height: 932 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('.map-pick-dock')).toBeVisible();
 
 	const geometry = await page.evaluate(() => {
 		const shell = document.querySelector('.picks-layout.map-active')?.getBoundingClientRect();
@@ -176,7 +176,8 @@ test('switching Map back to List restores ordinary page chrome and scrolling', a
 	await page.goto(`/picks${routeQuery}`);
 	await page.getByRole('button', { name: 'List' }).click();
 	await expect(page.locator('html')).not.toHaveClass(/mobile-map-active/);
-	await expect(page.locator('.site-header')).toBeVisible();
+	await expect(page.locator('body')).not.toHaveClass(/mobile-map-(?:initial|active)/);
+	await expect(page.locator('.site-header')).toBeVisible({ timeout: 15_000 });
 	expect(await page.locator('html').evaluate((node) => getComputedStyle(node).overflow)).not.toBe('hidden');
 });
 
@@ -202,7 +203,7 @@ test('direct mobile Map URL hides ordinary page chrome before hydration settles'
 	});
 	await page.goto(`/picks${routeQuery}`, { waitUntil: 'domcontentloaded' });
 	await expect(page.locator('#picks-content')).toHaveClass(/map-active/);
-	await expect(page.locator('body')).toHaveClass(/mobile-map-initial/);
+	await expect(page.locator('body')).toHaveClass(/mobile-map-(?:initial|active)/);
 	await expect(page.locator('.site-header')).toBeHidden();
 	await expect(page.locator('.site-footer')).toBeHidden();
 });

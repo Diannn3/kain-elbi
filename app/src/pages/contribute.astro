@@ -4,12 +4,16 @@ import CommunityImpact from '../components/community/CommunityImpact.astro';
 import { loadBuildData } from '../lib/data/build';
 import {
 	communityForms,
+	communityFeatures,
+	isPhotoFeatureAvailable,
 	isGoogleFormEntryKey,
 	isGoogleFormUrl,
 	isPrefillableGoogleFormUrl,
 } from '../lib/community/config';
+import { communityBackendConfig } from '../lib/community/backend';
 
 const { communityImpact } = await loadBuildData();
+const photosAvailable = isPhotoFeatureAvailable(communityFeatures.photos, communityBackendConfig().configured);
 
 const contributions = [
 	{
@@ -156,8 +160,10 @@ const businessPlaceEntryReady = isGoogleFormEntryKey(communityForms.businessUpda
 
 		<section id="add-photos" class="photo-coming" aria-labelledby="photo-coming-title">
 			<p class="eyebrow-global">Photo Contributions</p>
-			<h2 id="photo-coming-title">Photos are coming next.</h2>
-			<p>Photo contributions are coming soon with native moderated uploads. We are not collecting image files through Google Forms.</p>
+			<h2 id="photo-coming-title">{photosAvailable ? 'Community photos are in beta.' : 'Photos are coming next.'}</h2>
+			<p>{photosAvailable
+				? 'Eligible place pages accept recent storefront or food photos for moderation. Avoid faces and private information.'
+				: 'Photo contributions are coming soon with native moderated uploads. We are not collecting image files through Google Forms.'}</p>
 		</section>
 
 		<section class="privacy-note" aria-labelledby="contribute-privacy-title">
