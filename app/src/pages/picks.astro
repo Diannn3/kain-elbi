@@ -4,7 +4,7 @@ import SmartPicksApp from '../components/results/SmartPicksApp.svelte';
 const initialView = Astro.url.searchParams.get('view') === 'map' ? 'map' : 'list';
 ---
 
-<Layout title="Smart Picks — UPPETITE" pageClass="picks-page">
+<Layout title="Smart Picks — UPPETITE" pageClass={`picks-page${initialView === 'map' ? ' mobile-map-initial' : ''}`}>
 	<Fragment slot="head">
 		<link rel="preload" href="/data/route_matrix.json" as="fetch" type="application/json" crossorigin="anonymous" />
 		<link rel="preload" href="/data/places.json" as="fetch" type="application/json" crossorigin="anonymous" />

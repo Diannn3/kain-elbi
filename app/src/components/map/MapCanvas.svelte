@@ -164,7 +164,7 @@
 				center: [pick.place.lon, pick.place.lat],
 				zoom: Math.max(currentMap.getZoom(), 16.8),
 				padding: compactMobileMap
-					? { top: 56, right: 36, bottom: 138, left: 36 }
+					? { top: 52, right: 32, bottom: 88, left: 32 }
 					: { top: 72, right: 48, bottom: 210, left: 48 },
 				duration: reducedMotion ? 0 : 520,
 			});

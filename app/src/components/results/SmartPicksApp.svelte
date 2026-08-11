@@ -10,6 +10,7 @@
 	import PlaceCard from '../cards/PlaceCard.svelte';
 	import MapCanvas from '../map/MapCanvas.svelte';
 	import MapPickPreview from '../map/MapPickPreview.svelte';
+	import MapPickDock from './MapPickDock.svelte';
 	import PlaceSheet from '../place/PlaceSheet.svelte';
 	import ShareButton from '../common/ShareButton.svelte';
 	import { appStorage } from '../../lib/storage.svelte';
@@ -129,6 +130,9 @@
 			&& (mobileMapQuery?.matches ?? window.matchMedia('(max-width: 759px)').matches);
 		document.documentElement.classList.toggle('mobile-map-active', active);
 		document.body.classList.toggle('mobile-map-active', active);
+		/* SSR adds this class for direct ?view=map loads so page chrome is hidden
+		   before hydration. Once Svelte owns the state, the runtime class wins. */
+		document.body.classList.remove('mobile-map-initial');
 	}
 
 	function switchView(nextView: ResultsView, pick?: SmartPick) {
@@ -369,13 +373,21 @@
 						<p>{routingNote}</p>
 					</details>
 					{#if focusedPick && focusedRank > 0}
-						<div class="map-preview-wrap" aria-live="polite">
+						<div class="map-preview-wrap map-preview-wrap--desktop" aria-live="polite">
 							<MapPickPreview pick={focusedPick} rank={focusedRank} onDetails={(event) => openDetails(focusedPick, event)} />
+						</div>
+						<div class="map-pick-dock-wrap" aria-live="polite">
+							<MapPickDock
+								picks={picks}
+								selectedId={focusedPickId}
+								onSelect={setFocusedPick}
+								onDetails={(pick, event) => openDetails(pick, event)}
+							/>
 						</div>
 					{/if}
 				</div>
 
-				<div class="map-shortlist" aria-label="Top route-fit places">
+				<div class="map-shortlist map-shortlist--desktop" aria-label="Top route-fit places">
 					{#each picks.slice(0, 8) as pick, index}
 						<button
 							type="button"
@@ -708,6 +720,7 @@
 	.map-help-short { display: none; }
 	.map-preview-wrap { position: absolute; z-index: 5; right: 0.75rem; bottom: 0.75rem; left: 0.75rem; display: flex; justify-content: flex-start; pointer-events: none; }
 	.map-preview-wrap :global(.map-preview) { pointer-events: auto; }
+	.map-pick-dock-wrap { display: none; }
 
 	.map-shortlist { display: flex; gap: 0.55rem; margin-top: 0.75rem; padding: 0.15rem 0 0.35rem; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scroll-snap-type: x proximity; }
 	.map-shortlist button { display: grid; grid-template-columns: 2.1rem minmax(8.5rem, 1fr); grid-template-rows: auto auto; flex: 0 0 min(18rem, 78vw); min-height: 4.6rem; padding: 0.65rem; border: 1px solid var(--color-border); border-radius: 1rem; background: var(--color-surface-raised); color: var(--brand-maroon-deep); text-align: left; scroll-snap-align: start; }
@@ -782,7 +795,7 @@
 		.picks-layout.map-active {
 			position: fixed;
 			z-index: 30;
-			top: var(--mobile-header-clearance);
+			top: var(--mobile-map-top-inset);
 			right: 0.375rem;
 			bottom: var(--mobile-nav-clearance);
 			left: 0.375rem;
@@ -792,13 +805,15 @@
 			min-height: 0;
 			margin: 0;
 			overflow: hidden;
+			background: var(--color-page);
+			isolation: isolate;
 			transition: none;
 		}
 
 		.picks-layout.map-active .context-bar {
 			position: relative;
 			top: auto;
-			padding: 0.45rem;
+			padding: 0.38rem 0.42rem;
 			border-radius: 1rem;
 		}
 
@@ -832,8 +847,8 @@
 			grid-template-columns: 6.25rem minmax(0, 1fr) var(--tap-target);
 			align-items: center;
 			gap: 0.35rem;
-			margin-top: 0.4rem;
-			padding-top: 0.4rem;
+			margin-top: 0.3rem;
+			padding-top: 0.3rem;
 		}
 
 		.picks-layout.map-active .view-switch {
@@ -876,7 +891,7 @@
 
 		.picks-layout.map-active .results-sheet {
 			min-height: 0;
-			padding: 0.5rem 0 0;
+			padding: 0.32rem 0 0;
 			overflow: hidden;
 		}
 
@@ -889,22 +904,24 @@
 
 		.picks-layout.map-active .map-view {
 			display: grid;
-			grid-template-rows: auto minmax(0, 1fr) auto;
-			gap: 0.4rem;
+			grid-template-rows: auto minmax(0, 1fr);
+			gap: 0.3rem;
 			height: 100%;
 			min-height: 0;
 			overflow: hidden;
 		}
 
 		.picks-layout.map-active .map-heading {
-			display: block;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 			min-height: 0;
 			margin: 0;
 		}
 		.picks-layout.map-active .map-heading .eyebrow { display: none; }
 		.picks-layout.map-active .map-heading h1 {
 			margin: 0;
-			font-size: clamp(1.1rem, 4.8vw, 1.35rem);
+			font-size: clamp(1rem, 4.5vw, 1.22rem);
 			line-height: 1.05;
 			letter-spacing: -0.03em;
 		}
@@ -934,7 +951,7 @@
 		}
 		.picks-layout.map-active .map-route-info summary {
 			display: inline-flex;
-			min-height: 2.75rem;
+			min-height: 2.5rem;
 			align-items: center;
 			gap: 0.35rem;
 			padding: 0 0.65rem;
@@ -961,28 +978,28 @@
 			backdrop-filter: blur(14px);
 		}
 
-		.picks-layout.map-active .map-preview-wrap { right: 0.5rem; bottom: 0.5rem; left: 0.5rem; }
-		.picks-layout.map-active .map-shortlist {
-			min-height: 0;
-			margin: 0;
-			padding: 0.05rem 0 0.15rem;
-			overscroll-behavior: contain;
+		.picks-layout.map-active .map-preview-wrap--desktop,
+		.picks-layout.map-active .map-shortlist--desktop { display: none; }
+
+		.picks-layout.map-active .map-pick-dock-wrap {
+			position: absolute;
+			z-index: 6;
+			right: 0.45rem;
+			bottom: 0.45rem;
+			left: 0.45rem;
+			display: flex;
+			justify-content: center;
+			pointer-events: none;
 		}
 
-		.picks-layout.map-active .map-shortlist button {
-			flex-basis: min(17rem, 78vw);
-			min-height: 4rem;
-			padding-block: 0.5rem;
+		.picks-layout.map-active .map-pick-dock-wrap :global(.map-pick-dock) {
+			pointer-events: auto;
 		}
 	}
 
 	@media (max-width: 759px) and (max-height: 740px) {
 		.picks-layout.map-active .map-heading > p { display: none; }
-		.picks-layout.map-active .map-view { gap: 0.3rem; }
-		.picks-layout.map-active .map-shortlist button {
-			min-height: 3.6rem;
-			padding-block: 0.4rem;
-		}
+		.picks-layout.map-active .map-view { gap: 0.22rem; }
 	}
 
 	@media (max-width: 350px) {
