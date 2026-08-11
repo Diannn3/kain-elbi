@@ -7,6 +7,9 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
   integrations: [svelte()],
   vite: {
+    build: {
+      chunkSizeWarningLimit: 1024
+    },
     optimizeDeps: {
       exclude: ['maplibre-gl']
     }
