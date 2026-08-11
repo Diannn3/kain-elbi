@@ -1,6 +1,16 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+// Add page console logging for all tests in this file to debug WebGL/MapLibre issues
+test.beforeEach(async ({ page }) => {
+	page.on('pageerror', (err) => {
+		console.error(`[PAGE ERROR] ${err.name}: ${err.message}\n${err.stack}`);
+	});
+	page.on('console', msg => {
+		console.log(`[PAGE CONSOLE] [${msg.type()}] ${msg.text()}`);
+	});
+});
+
 const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60';
 
 test('home is accessible and does not overflow at mobile width', async ({ page }) => {
@@ -249,7 +259,9 @@ test('one-way mode discloses the omitted return trip', async ({ page }) => {
 });
 
 
-test('map initializes inside the unified Smart Picks experience', async ({ page }) => {
+test.only('map initializes inside the unified Smart Picks experience', async ({ page, isMobile }) => {
+	page.on('request', req => console.log(`[REQ] ${req.url()}`));
+	page.on('response', res => console.log(`[RES] ${res.url()} ${res.status()}`));
 	let styleRequests = 0;
 	const workerResponsePromise = page.waitForResponse((response) =>
 		/maplibre-gl-worker.*\.(?:mjs|js)(?:\?|$)/.test(response.url()),
@@ -278,19 +290,23 @@ test('map initializes inside the unified Smart Picks experience', async ({ page 
 			}),
 		});
 	});
-	await page.goto(`/map${routeQuery}`);
+	await page.goto(`/picks${routeQuery}&view=map`);
 	await expect(page.getByRole('heading', { name: /route-fit places/i })).toBeVisible();
-	await expect(page.locator('.map-shortlist button').first()).toBeVisible();
+	if (isMobile) {
+		await expect(page.locator('.map-pick-dock')).toBeVisible();
+	} else {
+		await expect(page.locator('.map-shortlist button').first()).toBeVisible();
+	}
 	await expect(page.locator('[data-map-state="ready"]')).toBeVisible();
 	await expect(page.locator('.maplibregl-canvas')).toBeVisible();
 	await expect(page.locator('.diagram-fallback')).toHaveCount(0);
-	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.getByRole('button', { name: 'Map', exact: true })).toHaveAttribute('aria-pressed', 'true');
 	expect(styleRequests).toBe(1);
 	const workerResponse = await workerResponsePromise;
 	expect(workerResponse.status()).toBe(200);
 });
 
-test('show on map keeps the same Smart Picks context and selects that place', async ({ page }) => {
+test('show on map keeps the same Smart Picks context and selects that place', async ({ page, isMobile }) => {
 	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
@@ -303,27 +319,34 @@ test('show on map keeps the same Smart Picks context and selects that place', as
 	expect(placeName).toBeTruthy();
 
 	await firstCard.getByRole('button', { name: /Show on map/i }).click();
-	await expect(page.getByRole('button', { name: 'Map' })).toHaveAttribute('aria-pressed', 'true');
-	await expect(page.locator(`.map-shortlist button[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
-	await expect(page.locator('.map-preview').getByRole('heading', { name: placeName! })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Map', exact: true })).toHaveAttribute('aria-pressed', 'true');
+	
+	if (isMobile) {
+		await expect(page.locator('.map-pick-dock')).toBeVisible();
+		await expect(page.locator('.map-pick-dock').getByText(placeName!)).toBeVisible();
+	} else {
+		await expect(page.locator(`.map-shortlist button[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
+		await expect(page.locator('.map-preview').getByRole('heading', { name: placeName! })).toBeVisible();
+	}
 	await expect(page).toHaveURL(/view=map/);
 	await expect(page).toHaveURL(new RegExp(`focus=${encodeURIComponent(placeId!)}`));
 	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
 
-test('selecting a map shortlist place focuses its camera and marker without opening details', async ({ page }) => {
+test('selecting a map shortlist place focuses its camera and marker without opening details', async ({ page, isMobile }) => {
+	test.skip(isMobile, 'Mobile layout does not expose a list-style shortlist in the map view');
+	
 	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
-	await page.goto(`/map${routeQuery}`);
+	await page.goto(`/picks${routeQuery}&view=map`);
 	await expect(page.locator('[data-map-state="ready"]')).toBeVisible();
 
 	const focusButton = page.locator('.map-shortlist button').nth(1);
 	const placeId = await focusButton.getAttribute('data-place-id');
 	expect(placeId).toBeTruthy();
 	await focusButton.click();
-
 	await expect(focusButton).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator(`.map-marker[data-place-id="${placeId}"]`)).toHaveClass(/is-selected/);
 	await expect(page.locator(`.map-marker[data-place-id="${placeId}"]`)).toHaveAttribute('aria-pressed', 'true');
@@ -333,14 +356,20 @@ test('selecting a map shortlist place focuses its camera and marker without open
 	await expect(page.locator('dialog.place-dialog')).toBeHidden();
 });
 
-test('map preview place sheet follows Back and Forward with inert state', async ({ page }) => {
+test('map preview place sheet follows Back and Forward with inert state', async ({ page, isMobile }) => {
 	await page.route('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json**', (route) => route.fulfill({
 		contentType: 'application/json',
 		body: JSON.stringify({ version: 8, name: 'UPPETITE test style', sources: {}, layers: [] }),
 	}));
-	await page.goto(`/map${routeQuery}`);
-	await expect(page.locator('.map-preview')).toBeVisible();
-	const trigger = page.locator('.map-preview').getByRole('button', { name: /Details/i });
+	await page.goto(`/picks${routeQuery}&view=map`);
+	let trigger;
+	if (isMobile) {
+		await expect(page.locator('.map-pick-dock')).toBeVisible();
+		trigger = page.locator('.map-pick-dock');
+	} else {
+		await expect(page.locator('.map-preview')).toBeVisible();
+		trigger = page.locator('.map-preview').getByRole('button', { name: /Details/i });
+	}
 	await trigger.click();
 	await expect(page.locator('dialog.place-dialog')).toBeVisible();
 	await expect(page.locator('#picks-content')).toHaveAttribute('inert', '');

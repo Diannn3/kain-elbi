@@ -378,10 +378,9 @@
 						</div>
 						<div class="map-pick-dock-wrap" aria-live="polite">
 							<MapPickDock
-								picks={picks}
-								selectedId={focusedPickId}
-								onSelect={setFocusedPick}
-								onDetails={(pick, event) => openDetails(pick, event)}
+								pick={focusedPick}
+								rank={focusedRank}
+								onDetails={(event) => openDetails(focusedPick, event)}
 							/>
 						</div>
 					{/if}
