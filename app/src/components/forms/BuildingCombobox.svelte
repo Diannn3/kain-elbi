@@ -227,7 +227,12 @@
 	</div>
 
 	{#if open}
-		<div class="options-popover" class:above={placement === 'above'} data-building-options>
+		<div
+			class="options-popover"
+			class:above={placement === 'above'}
+			data-building-options
+			onmousedown={(e) => e.preventDefault()}
+		>
 			<div id={listboxId} class="options" role="listbox" aria-label={`${ariaLabel} options`} style={`max-height: ${popupMaxHeight}px`}>
 				{#if matches.length > 0}
 					{#each matches as anchor, index (anchor.id)}
