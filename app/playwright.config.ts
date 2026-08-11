@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const releaseGateSpecs = [/performance\.spec\.ts/, /visual\.spec\.ts/];
+const currentLocationSpec = /current-location\.spec\.ts/;
+const standardFunctionalIgnores = [...releaseGateSpecs, currentLocationSpec];
 
 export default defineConfig({
 	testDir: './tests/e2e',
@@ -17,17 +19,23 @@ export default defineConfig({
 	projects: [
 		{
 			name: 'mobile-chromium',
-			testIgnore: releaseGateSpecs,
+			testIgnore: standardFunctionalIgnores,
 			use: { ...devices['iPhone 13'], browserName: 'chromium' },
 		},
 		{
 			name: 'desktop-chromium',
-			testIgnore: releaseGateSpecs,
+			testIgnore: standardFunctionalIgnores,
 			use: { ...devices['Desktop Chrome'], browserName: 'chromium' },
 		},
 		{
+			name: 'android-location-chromium',
+			testMatch: currentLocationSpec,
+			testIgnore: releaseGateSpecs,
+			use: { ...devices['Pixel 5'], browserName: 'chromium' },
+		},
+		{
 			name: 'mobile-webkit',
-			testMatch: /mobile-map-layout\.spec\.ts/,
+			testMatch: /(?:mobile-map-layout|current-location)\.spec\.ts/,
 			testIgnore: releaseGateSpecs,
 			use: { ...devices['iPhone 13'], browserName: 'webkit' },
 		},

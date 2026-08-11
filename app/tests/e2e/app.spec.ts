@@ -62,7 +62,7 @@ test('desktop planner aligns its search-first route fields and balanced brand ma
 
 	const originInput = page.getByLabel('Starting building');
 	const destinationInput = page.getByLabel('Next class building');
-	const currentLocation = page.getByRole('button', { name: /use my current location/i });
+	const currentLocation = page.locator('[data-current-location-control]');
 	const noNextClass = page.getByRole('button', { name: /no next class/i });
 	const [originBox, destinationBox, currentBox, noNextBox] = await Promise.all([
 		originInput.boundingBox(),
@@ -142,7 +142,7 @@ test('short desktop keeps the complete planner above the fold', async ({ page })
 	const controls = [
 		page.getByLabel('Starting building'),
 		page.getByLabel('Next class building'),
-		page.getByRole('button', { name: /use my current location/i }),
+		page.locator('[data-current-location-control]'),
 		page.getByRole('button', { name: /no next class/i }),
 		page.getByRole('button', { name: 'Find Food' }),
 	];

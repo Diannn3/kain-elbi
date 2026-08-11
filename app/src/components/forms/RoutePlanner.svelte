@@ -1,13 +1,23 @@
 <script lang="ts">
 	import BuildingCombobox from './BuildingCombobox.svelte';
+	import CurrentLocationControl from './CurrentLocationControl.svelte';
 	import { snapToNearestAnchor } from '../../lib/geo';
+	import {
+		acquireCurrentPosition,
+		classifyGeolocationErrorCode,
+		isLocationAccuracyAcceptable,
+		LocationAcquisitionError,
+		locationFailureMessage,
+		type LocationFailureReason,
+	} from '../../lib/location-service';
 	import type { Anchor, Category } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 
 	let { anchors }: { anchors: Anchor[] } = $props();
 	let breakMinutes = $state(45);
 	let showCustomBreak = $state(false);
-	let originId = $state('current');
+	let originId = $state('');
+	let originMode = $state<'building' | 'nearby'>('building');
 	let originQuery = $state('');
 	let destinationId = $state('');
 	let destinationQuery = $state('');
@@ -18,6 +28,7 @@
 	let currentLocationApproachSeconds = $state(0);
 	let originInvalid = $state(false);
 	let destinationInvalid = $state(false);
+	let locationErrorKind = $state<LocationFailureReason | null>(null);
 	let locationRequestId = 0;
 
 	const presets = [20, 30, 45, 60];
@@ -29,6 +40,7 @@
 		{ value: 'bakery_deli', label: 'Bakery' },
 	];
 	const preferenceLabel = $derived(categories.find((category) => category.value === preferredCategory)?.label ?? 'Any food');
+	const locationErrorMessage = $derived(locationErrorKind ? locationFailureMessage(locationErrorKind) : '');
 
 	function findAnchor(value: string) {
 		const normalized = value.trim().toLocaleLowerCase();
@@ -39,86 +51,85 @@
 	function clearResolvedCurrentLocation() {
 		currentLocationAnchorId = '';
 		currentLocationApproachSeconds = 0;
+		originMode = 'building';
 	}
 
-	function locationFailure(message: string, requestId: number) {
+	function beginLocationRequest() {
+		const requestId = ++locationRequestId;
+		locating = true;
+		locationErrorKind = null;
+		originInvalid = false;
+		status = 'Finding your nearest campus point…';
+		return requestId;
+	}
+
+	function locationFailure(reason: LocationFailureReason, requestId: number) {
 		if (requestId !== locationRequestId) return;
 		locating = false;
-		clearResolvedCurrentLocation();
-		originId = '';
-		originInvalid = true;
-		status = message;
+		locationErrorKind = reason;
+		status = '';
+		if (!originId) originInvalid = true;
 	}
 
-	function requestCurrentLocation(navigateWhenReady = false) {
-		originId = 'current';
-		originQuery = '';
-		originInvalid = false;
-		clearResolvedCurrentLocation();
-
-		const requestId = ++locationRequestId;
-		if (!navigator.geolocation) {
-			locationFailure(
-				'Location is unavailable. Search for a campus building instead.',
-				requestId,
-			);
+	function acceptCurrentPosition(position: GeolocationPosition, requestId: number) {
+		if (requestId !== locationRequestId) return;
+		if (!isLocationAccuracyAcceptable(position.coords.accuracy)) {
+			locationFailure('too_approximate', requestId);
 			return;
 		}
 
-		locating = true;
-		status = 'Finding your nearest campus point…';
-		navigator.geolocation.getCurrentPosition(
-			(position) => {
-				if (requestId !== locationRequestId) return;
-
-				const anchorRecord = Object.fromEntries(
-					anchors.map((anchor) => [anchor.id, anchor]),
-				);
-				const snap = snapToNearestAnchor(
-					{ lat: position.coords.latitude, lon: position.coords.longitude },
-					anchorRecord,
-				);
-
-				if (!snap) {
-					locationFailure(
-						'You are outside the supported campus area. Search for a building instead.',
-						requestId,
-					);
-					return;
-				}
-
-				locating = false;
-				currentLocationAnchorId = snap.anchor.id;
-				currentLocationApproachSeconds = snap.approachSeconds;
-				status = `Using your current location near ${snap.anchor.name}.`;
-
-				if (navigateWhenReady) {
-					window.location.assign(
-						buildUrl(snap.anchor.id, 'nearby', snap.approachSeconds),
-					);
-				}
-			},
-			(error) => {
-				const message =
-					error.code === error.PERMISSION_DENIED
-						? 'Location permission was not granted. Search for a campus building instead.'
-						: error.code === error.TIMEOUT
-							? 'Location took too long. Try again or search for a campus building instead.'
-							: 'We could not get your location. Try again or search for a campus building instead.';
-				locationFailure(message, requestId);
-			},
-			{ enableHighAccuracy: false, maximumAge: 60_000, timeout: 8_000 },
+		const anchorRecord = Object.fromEntries(
+			anchors.map((anchor) => [anchor.id, anchor]),
 		);
+		const snap = snapToNearestAnchor(
+			{ lat: position.coords.latitude, lon: position.coords.longitude },
+			anchorRecord,
+		);
+
+		if (!snap) {
+			locationFailure('outside_supported_area', requestId);
+			return;
+		}
+
+		locating = false;
+		locationErrorKind = null;
+		currentLocationAnchorId = snap.anchor.id;
+		currentLocationApproachSeconds = snap.approachSeconds;
+		originId = snap.anchor.id;
+		originMode = 'nearby';
+		originQuery = '';
+		originInvalid = false;
+		status = `Using your current location near ${snap.anchor.name}.`;
 	}
 
-	function chooseCurrentLocation() {
-		requestCurrentLocation(false);
+	async function requestCurrentLocation() {
+		const requestId = beginLocationRequest();
+		try {
+			const position = await acquireCurrentPosition();
+			acceptCurrentPosition(position, requestId);
+		} catch (error) {
+			const reason = error instanceof LocationAcquisitionError ? error.reason : 'unavailable';
+			locationFailure(reason, requestId);
+		}
+	}
+
+	function beginModernLocationRequest() {
+		return beginLocationRequest();
+	}
+
+	function handleModernPosition(position: GeolocationPosition, requestId: number) {
+		acceptCurrentPosition(position, requestId);
+	}
+
+	function handleModernError(error: GeolocationPositionError, requestId: number) {
+		locationFailure(classifyGeolocationErrorCode(error.code), requestId);
 	}
 
 	function handleOriginInput(value: string) {
 		locationRequestId += 1;
 		locating = false;
 		clearResolvedCurrentLocation();
+		locationErrorKind = null;
 		originQuery = value;
 		const match = findAnchor(value);
 		originId = match?.id ?? '';
@@ -130,6 +141,7 @@
 		locationRequestId += 1;
 		locating = false;
 		clearResolvedCurrentLocation();
+		locationErrorKind = null;
 		originQuery = anchor.name;
 		originId = anchor.id;
 		originInvalid = false;
@@ -180,7 +192,7 @@
 	}
 
 	function handleSubmit(event: SubmitEvent) {
-		if (originId !== 'current' && !originId) {
+		if (!originId) {
 			event.preventDefault();
 			originInvalid = true;
 			status = 'Choose your current location or select a campus building from the suggestions.';
@@ -192,21 +204,14 @@
 			status = 'Choose a next-class building from the suggestions, or use “No next class”.';
 			return;
 		}
-		if (originId !== 'current') return;
+		if (originMode !== 'nearby') return;
 
 		event.preventDefault();
-		if (currentLocationAnchorId) {
-			window.location.assign(
-				buildUrl(
-					currentLocationAnchorId,
-					'nearby',
-					currentLocationApproachSeconds,
-				),
-			);
-			return;
-		}
-		requestCurrentLocation(true);
+		window.location.assign(
+			buildUrl(originId, 'nearby', currentLocationApproachSeconds),
+		);
 	}
+
 </script>
 
 <form class="planner" action="/picks" method="get" onsubmit={handleSubmit}>
@@ -230,21 +235,20 @@
 				onInput={handleOriginInput}
 				onSelect={handleOriginSelect}
 			/>
-			<button
-				class="location-alternative current-location"
-				class:active={originId === 'current'}
-				type="button"
-				disabled={locating}
-				aria-pressed={originId === 'current'}
-				aria-describedby="planner-status location-note"
-				onclick={chooseCurrentLocation}
-			>
-				<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Zm0-8.5A2.5 2.5 0 1 0 12 7a2.5 2.5 0 0 0 0 5.5Z" /></svg>
-				<span>Use my current location</span>
-			</button>
+			<CurrentLocationControl
+				active={originMode === 'nearby' && Boolean(currentLocationAnchorId)}
+				{locating}
+				errorKind={locationErrorKind}
+				errorMessage={locationErrorMessage}
+				describedBy="planner-status location-note"
+				onModernIntent={beginModernLocationRequest}
+				onModernPosition={handleModernPosition}
+				onModernError={handleModernError}
+				onLegacyRequest={requestCurrentLocation}
+			/>
 		</fieldset>
 		<input type="hidden" name="origin" value={originId} />
-		<input type="hidden" name="originMode" value={originId === 'current' ? 'nearby' : 'building'} />
+		<input type="hidden" name="originMode" value={originMode} />
 
 		<fieldset class="location-field destination-field">
 			<legend>Next Class <small>Optional</small></legend>
