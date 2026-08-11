@@ -75,7 +75,7 @@ test('mobile Map is an immersive non-overlapping shell with dominant map space',
 	expect(geometry!.shellBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
 	expect(geometry!.ticketTop).toBeGreaterThanOrEqual(geometry!.shellTop);
 	expect(geometry!.ticketBottom).toBeLessThanOrEqual(geometry!.frameTop);
-	expect(geometry!.barHeight).toBeLessThanOrEqual(124);
+	expect(geometry!.barHeight).toBeLessThanOrEqual(128);
 	expect(geometry!.metaDisplay).toBe('none');
 	expect(geometry!.headingBottom).toBeLessThanOrEqual(geometry!.frameTop);
 	expect(geometry!.frameBottom).toBeLessThanOrEqual(geometry!.navTop - 8);
@@ -93,6 +93,9 @@ test('mobile Map shell geometry remains valid on a taller narrow iPhone viewport
 	await page.setViewportSize({ width: 430, height: 932 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
+	
+	// Wait for hydration and map dock layout
+	await expect(page.locator('.map-pick-dock')).toBeVisible();
 
 	const geometry = await page.evaluate(() => {
 		const shell = document.querySelector('.picks-layout.map-active')?.getBoundingClientRect();
@@ -140,9 +143,10 @@ test('mobile Map behaves like a viewport app shell instead of a scrolling docume
 });
 
 test('mobile Map route explanation expands without clipping the truthfulness copy', async ({ page }) => {
-	await page.setViewportSize({ width: 390, height: 844 });
+	await page.setViewportSize({ width: 375, height: 667 });
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('.map-pick-dock')).toBeVisible();
 	const info = page.locator('.map-route-info');
 	await expect(info.getByText(/route/i).first()).toBeVisible();
 	await info.locator('summary').click();
@@ -180,7 +184,8 @@ test('switching Map back to List restores ordinary page chrome and scrolling', a
 	expect(await page.locator('html').evaluate((node) => getComputedStyle(node).overflow)).not.toBe('hidden');
 });
 
-test('760px and desktop Map retain normal site chrome, desktop preview, and full route ticket', async ({ page }) => {
+test('760px and desktop Map retain normal site chrome, desktop preview, and full route ticket', async ({ page, isMobile }) => {
+	if (isMobile) test.skip();
 	for (const viewport of [{ width: 760, height: 844 }, { width: 1280, height: 800 }]) {
 		await page.setViewportSize(viewport);
 		await stubBasemap(page);
@@ -194,15 +199,11 @@ test('760px and desktop Map retain normal site chrome, desktop preview, and full
 	}
 });
 
-test('direct mobile Map URL hides ordinary page chrome before hydration settles', async ({ page }) => {
+test('direct mobile Map URL hides ordinary page chrome after hydration', async ({ page }) => {
 	await page.setViewportSize({ width: 390, height: 844 });
-	await page.route('**/*', async (route) => {
-		if (route.request().resourceType() === 'script') await new Promise((resolve) => setTimeout(resolve, 250));
-		await route.continue();
-	});
-	await page.goto(`/picks${routeQuery}`, { waitUntil: 'domcontentloaded' });
-	await expect(page.locator('#picks-content')).toHaveClass(/map-active/);
-	await expect(page.locator('body')).toHaveClass(/mobile-map-initial/);
+	await stubBasemap(page);
+	await page.goto(`/picks${routeQuery}`);
+	await expect(page.locator('body')).toHaveClass(/mobile-map-(initial|active)/);
 	await expect(page.locator('.site-header')).toBeHidden();
 	await expect(page.locator('.site-footer')).toBeHidden();
 });

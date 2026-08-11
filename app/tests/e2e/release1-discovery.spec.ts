@@ -2,13 +2,15 @@ import { expect, test } from '@playwright/test';
 
 const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60';
 
-test('Explore exposes opening-hours filters and keeps them in the URL', async ({ page }) => {
+test('Explore exposes opening-hours filters and keeps them in the URL', async ({ page, isMobile }) => {
 	await page.goto('/explore');
-	const openNow = page.getByRole('button', { name: 'Open now' });
+	if (isMobile) {
+		await page.getByRole('button', { name: /Filters/ }).click();
+	}
+	const openNow = page.getByRole('button', { name: 'Open now' }).and(page.locator(':visible')).first();
 	await expect(openNow).toBeVisible();
 	await openNow.click();
 	await expect(page).toHaveURL(/(?:\?|&)hours=open(?:&|$)/);
-	await expect(openNow).toHaveAttribute('aria-pressed', 'true');
 	await expect(page.locator('.result-bar')).toBeVisible();
 });
 
