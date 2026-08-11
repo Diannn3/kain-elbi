@@ -380,7 +380,7 @@
 							<MapPickDock
 								pick={focusedPick}
 								rank={focusedRank}
-								onDetails={(event) => openDetails(focusedPick, event)}
+								onDetails={openDetails}
 							/>
 						</div>
 					{/if}

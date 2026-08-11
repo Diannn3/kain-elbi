@@ -1,16 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-// Add page console logging for all tests in this file to debug WebGL/MapLibre issues
-test.beforeEach(async ({ page }) => {
-	page.on('pageerror', (err) => {
-		console.error(`[PAGE ERROR] ${err.name}: ${err.message}\n${err.stack}`);
-	});
-	page.on('console', msg => {
-		console.log(`[PAGE CONSOLE] [${msg.type()}] ${msg.text()}`);
-	});
-});
-
 const routeQuery = '?origin=Math%20Building&originMode=building&destination=Physical%20Sciences%20Building&break=60';
 
 test('home is accessible and does not overflow at mobile width', async ({ page }) => {
@@ -259,9 +249,9 @@ test('one-way mode discloses the omitted return trip', async ({ page }) => {
 });
 
 
-test.only('map initializes inside the unified Smart Picks experience', async ({ page, isMobile }) => {
-	page.on('request', req => console.log(`[REQ] ${req.url()}`));
-	page.on('response', res => console.log(`[RES] ${res.url()} ${res.status()}`));
+test('map initializes inside the unified Smart Picks experience', async ({ page, isMobile }) => {
+	const pageErrors: Error[] = [];
+	page.on('pageerror', (error) => pageErrors.push(error));
 	let styleRequests = 0;
 	const workerResponsePromise = page.waitForResponse((response) =>
 		/maplibre-gl-worker.*\.(?:mjs|js)(?:\?|$)/.test(response.url()),
@@ -304,6 +294,7 @@ test.only('map initializes inside the unified Smart Picks experience', async ({ 
 	expect(styleRequests).toBe(1);
 	const workerResponse = await workerResponsePromise;
 	expect(workerResponse.status()).toBe(200);
+	expect(pageErrors).toEqual([]);
 });
 
 test('show on map keeps the same Smart Picks context and selects that place', async ({ page, isMobile }) => {

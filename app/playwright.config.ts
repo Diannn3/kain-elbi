@@ -5,6 +5,7 @@ const releaseGateSpecs = [/performance\.spec\.ts/, /visual\.spec\.ts/];
 export default defineConfig({
 	testDir: './tests/e2e',
 	fullyParallel: true,
+	forbidOnly: !!process.env.CI,
 	reporter: 'list',
 	use: {
 		baseURL: 'http://127.0.0.1:4322',

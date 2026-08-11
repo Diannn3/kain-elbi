@@ -2,15 +2,17 @@
 	import { availabilityLabel } from '../../lib/place-availability';
 	import type { SmartPick } from '../../lib/types';
 
+	interface Props {
+		pick: SmartPick;
+		rank: number;
+		onDetails: (pick: SmartPick, event: MouseEvent) => void;
+	}
+
 	let {
 		pick,
 		rank,
 		onDetails,
-	}: {
-		pick: SmartPick;
-		rank: number;
-		onDetails: (event: MouseEvent) => void;
-	} = $props();
+	}: Props = $props();
 
 	const walkMinutes = $derived(Math.max(0, Math.round(pick.walkToPlaceSeconds / 60)));
 	const availableMinutes = $derived(Math.max(0, Math.round(pick.timeRemainingSeconds / 60)));
@@ -25,7 +27,7 @@
 	type="button"
 	class="map-pick-dock"
 	aria-label={`Details for ${pick.place.name}, route fit #${rank}`}
-	onclick={onDetails}
+	onclick={(event) => onDetails(pick, event)}
 >
 	<span class="fit-rank">#{rank}</span>
 	<span class="pick-copy">
