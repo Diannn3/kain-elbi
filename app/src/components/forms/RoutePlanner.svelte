@@ -1,7 +1,9 @@
 <script lang="ts">
+	import BuildingCombobox from './BuildingCombobox.svelte';
 	import { snapToNearestAnchor } from '../../lib/geo';
 	import type { Anchor, Category } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
+
 	let { anchors }: { anchors: Anchor[] } = $props();
 	let breakMinutes = $state(45);
 	let showCustomBreak = $state(false);
@@ -124,10 +126,27 @@
 		status = '';
 	}
 
+	function handleOriginSelect(anchor: Anchor) {
+		locationRequestId += 1;
+		locating = false;
+		clearResolvedCurrentLocation();
+		originQuery = anchor.name;
+		originId = anchor.id;
+		originInvalid = false;
+		status = '';
+	}
+
 	function handleDestinationInput(value: string) {
 		destinationQuery = value;
 		const match = findAnchor(value);
 		destinationId = match?.id ?? '';
+		destinationInvalid = false;
+		status = '';
+	}
+
+	function handleDestinationSelect(anchor: Anchor) {
+		destinationQuery = anchor.name;
+		destinationId = anchor.id;
 		destinationInvalid = false;
 		status = '';
 	}
@@ -200,24 +219,17 @@
 	<div class="planner-fields">
 		<fieldset class="location-field">
 			<legend>From</legend>
-			<label class="search-field">
-				<span class="sr-only">Starting building</span>
-				<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" /></svg>
-				<input
-					type="search"
-					list="origin-anchor-options"
-					placeholder="Choose a building"
-					autocomplete="off"
-					aria-label="Starting building"
-					aria-invalid={originInvalid}
-					aria-describedby="planner-status"
-					value={originQuery}
-					oninput={(event) => handleOriginInput(event.currentTarget.value)}
-				/>
-			</label>
-			<datalist id="origin-anchor-options">
-				{#each anchors as anchor}<option value={anchor.name}></option>{/each}
-			</datalist>
+			<BuildingCombobox
+				anchors={anchors}
+				value={originQuery}
+				placeholder="Choose a building"
+				ariaLabel="Starting building"
+				idPrefix="origin-building"
+				invalid={originInvalid}
+				describedBy="planner-status"
+				onInput={handleOriginInput}
+				onSelect={handleOriginSelect}
+			/>
 			<button
 				class="location-alternative current-location"
 				class:active={originId === 'current'}
@@ -236,24 +248,17 @@
 
 		<fieldset class="location-field destination-field">
 			<legend>Next Class <small>Optional</small></legend>
-			<label class="search-field">
-				<span class="sr-only">Next class building</span>
-				<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" /></svg>
-				<input
-					type="search"
-					list="destination-anchor-options"
-					placeholder="Your next class"
-					autocomplete="off"
-					aria-label="Next class building"
-					aria-invalid={destinationInvalid}
-					aria-describedby="planner-status"
-					value={destinationQuery}
-					oninput={(event) => handleDestinationInput(event.currentTarget.value)}
-				/>
-			</label>
-			<datalist id="destination-anchor-options">
-				{#each anchors as anchor}<option value={anchor.name}></option>{/each}
-			</datalist>
+			<BuildingCombobox
+				anchors={anchors}
+				value={destinationQuery}
+				placeholder="Your next class"
+				ariaLabel="Next class building"
+				idPrefix="destination-building"
+				invalid={destinationInvalid}
+				describedBy="planner-status"
+				onInput={handleDestinationInput}
+				onSelect={handleDestinationSelect}
+			/>
 			<button class="location-alternative no-next-class" class:active={!destinationId && !destinationQuery} type="button" aria-pressed={!destinationId && !destinationQuery} onclick={clearDestination}>
 				<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m6 6 12 12"/></svg>
 				<span>No next class</span>
@@ -359,7 +364,6 @@
 	legend { margin-bottom: 0.65rem; }
 	legend small { color: var(--color-text-muted); font: inherit; }
 	.location-field { display: grid; gap: var(--space-2); align-content: start; }
-	.search-field,
 	.location-alternative,
 	.preset-grid button,
 	.custom-stepper > button,
@@ -384,21 +388,6 @@
 	.location-alternative:hover { border-color: var(--color-border-strong); background: var(--brand-sand); color: var(--color-primary); transform: translateY(-1px); }
 	.location-alternative.active { border-color: var(--color-border-strong); background: var(--color-surface-muted); color: var(--color-primary); box-shadow: inset 0 0 0 1px var(--color-border-strong); }
 	.location-alternative svg { width: 1.1rem; height: 1.1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; }
-	.search-field { position: relative; display: flex; align-items: center; }
-	.search-field svg { position: absolute; z-index: 1; left: 0.9rem; width: 1.2rem; fill: none; stroke: var(--color-text-muted); stroke-width: 1.8; pointer-events: none; }
-	.search-field input {
-		width: 100%;
-		min-height: var(--tap-target);
-		padding: 0 1rem 0 2.8rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		background: var(--color-surface-raised);
-		color: var(--color-text);
-		font-weight: 650;
-		box-shadow: 0 0.35rem 1rem rgb(92 16 22 / 0.05);
-	}
-	.search-field input[aria-invalid='true'] { border-color: hsl(2 70% 42%); box-shadow: 0 0 0 1px hsl(2 70% 42%); }
-	.search-field input::placeholder { color: hsl(150 8% 48%); font-weight: 500; }
 	.field-note { margin: 0; color: var(--color-text-muted); font-size: 0.75rem; line-height: 1.4; }
 	.route-disclosure { grid-column: 1 / -1; padding-left: var(--space-1); }
 	.preset-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; }
@@ -486,7 +475,6 @@
 		.planner-heading { margin-bottom: var(--space-4); }
 		.planner-heading > p:last-child { margin-top: var(--space-2); font-size: 0.86rem; }
 		.planner-fields { gap: var(--space-4); column-gap: var(--space-4); }
-		.search-field input { min-height: 3rem; }
 		.field-note { font-size: 0.72rem; }
 		.preset-grid button { min-height: var(--tap-target); }
 		.find-button { max-width: none; min-height: 3.25rem; }
