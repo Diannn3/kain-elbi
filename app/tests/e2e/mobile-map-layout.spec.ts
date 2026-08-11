@@ -94,8 +94,7 @@ test('mobile Map shell geometry remains valid on a taller narrow iPhone viewport
 	await stubBasemap(page);
 	await page.goto(`/picks${routeQuery}`);
 	
-	// Trigger dock rendering by focusing first pick explicitly
-	await page.locator('.map-shortlist button').first().click();
+	// Wait for hydration and map dock layout
 	await expect(page.locator('.map-pick-dock')).toBeVisible();
 
 	const geometry = await page.evaluate(() => {
