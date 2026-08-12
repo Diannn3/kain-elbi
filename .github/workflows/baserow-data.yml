@@ -1,0 +1,155 @@
+name: Baserow Data Publisher
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Preview Baserow data or create a PR with supported enrichment changes
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - publish-enrichment
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: baserow-data-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CI: true
+      TZ: Asia/Manila
+      BASEROW_TOKEN: ${{ secrets.BASEROW_READ_TOKEN }}
+      BASEROW_API_URL: ${{ vars.BASEROW_API_URL }}
+      BASEROW_PLACES_TABLE_ID: ${{ vars.BASEROW_PLACES_TABLE_ID }}
+      BASEROW_EVIDENCE_TABLE_ID: ${{ vars.BASEROW_EVIDENCE_TABLE_ID }}
+      BASEROW_AREAS_TABLE_ID: ${{ vars.BASEROW_AREAS_TABLE_ID }}
+      BASEROW_SUBMISSIONS_TABLE_ID: ${{ vars.BASEROW_SUBMISSIONS_TABLE_ID }}
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Require main for publication
+        if: ${{ inputs.mode == 'publish-enrichment' && github.ref_name != 'main' }}
+        run: |
+          echo "publish-enrichment must be dispatched from main, not ${{ github.ref_name }}" >&2
+          exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Test Baserow publisher
+        run: python -m unittest discover -s scripts/tests -p 'test_baserow.py'
+
+      - name: Preview Baserow publication
+        run: python -m scripts.baserow.publish --preview-dir artifacts/baserow-preview
+
+      - name: Upload preview report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: baserow-publication-preview-${{ github.run_id }}
+          if-no-files-found: warn
+          path: artifacts/baserow-preview
+
+      - name: Write supported enrichment
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        run: python -m scripts.baserow.publish --write --preview-dir artifacts/baserow-preview
+
+      - name: Run Python data tests
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        run: python -m unittest discover -s scripts/tests
+
+      - name: Audit canonical routing data
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        run: python scripts/audit_data.py --release
+
+      - name: Setup Node
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install app dependencies
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm ci
+
+      - name: Editorial privacy audit
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run audit:editorial-privacy
+
+      - name: Unit tests
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run test:unit
+
+      - name: Production build
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run build
+
+      - name: Build-size gate
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run audit:build-size
+
+      - name: Install browser engines
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Functional E2E
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run test:e2e
+
+      - name: Performance gate
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        working-directory: app
+        run: npm run test:perf
+
+      - name: Visual regression gate
+        if: ${{ inputs.mode == 'publish-enrichment' && hashFiles('app/tests/e2e/visual.spec.ts-snapshots/**') != '' }}
+        working-directory: app
+        run: npm run test:visual
+
+      - name: Create publication PR
+        if: ${{ inputs.mode == 'publish-enrichment' }}
+        shell: bash
+        run: |
+          if git diff --quiet -- data/place_enrichment.json; then
+            echo "Baserow has no supported production enrichment changes. No PR needed."
+            exit 0
+          fi
+
+          branch="automation/baserow-data-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add data/place_enrichment.json
+          git commit -m "data: publish verified Baserow enrichment"
+          git push --set-upstream origin "$branch"
+
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "data: publish verified Baserow enrichment" \
+            --body $'Publishes the currently supported UPPETITE enrichment fields from verified Baserow records.\n\nThe publisher validated the full Baserow mirror and ran the repository data, app build, E2E, performance, and visual gates before creating this PR.\n\nManual places and broader place overrides remain staging-only in Phase 1-2.'

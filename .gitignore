@@ -13,6 +13,9 @@ dist/
 build/
 .astro/
 
+# Generated local data-operation artifacts
+/artifacts/
+
 # Python
 __pycache__/
 *.pyc
