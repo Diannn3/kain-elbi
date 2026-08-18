@@ -32,7 +32,6 @@
 		removeOpenNowIntent,
 	} from '../../lib/natural-food-search';
 	import { roulettePick, type RouletteMode } from '../../lib/roulette';
-	import { emptyPersonalState, readPersonalState, type PersonalState } from '../../lib/personal-state';
 	import { formatAddedDate, formatResearchDate } from '../../lib/date-format';
 
 	let { places, zones, collections, routablePlaceIds, events }: {
@@ -43,17 +42,11 @@
 		events: FoodEvent[];
 	} = $props();
 
-	let personal = $state<PersonalState>(emptyPersonalState());
 	const injectedCollections = $derived([
 		...collections,
 		...(appStorage.savedPlaces.size > 0
 			? [{ id: 'saved-places', title: 'Saved places', placeIds: Array.from(appStorage.savedPlaces) }]
 			: []),
-		...personal.recoLists.filter((list) => list.placeIds.length > 0).map((list) => ({
-			id: `personal-${list.id}`,
-			title: `My Recos · ${list.name}`,
-			placeIds: list.placeIds,
-		})),
 	]);
 
 	const categoryLabels: Record<string, string> = {
@@ -313,7 +306,6 @@
 	}
 
 	onMount(() => {
-		personal = readPersonalState();
 		const sourceUrl = new URL(location.href);
 		const parsed = parseExploreUrl(sourceUrl, urlOptions());
 		if (!sourceUrl.searchParams.has('view')) {

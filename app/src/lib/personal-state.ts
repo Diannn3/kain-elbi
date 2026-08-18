@@ -1,6 +1,8 @@
 import type { Anchor } from './types';
 
-export const PERSONAL_STORAGE_KEY = 'uppetite-personal-v1';
+export const PERSONAL_STORAGE_KEY = 'uppetite-personal-v2';
+export const LEGACY_PERSONAL_STORAGE_KEY = 'uppetite-personal-v1';
+export const LEGACY_RECOS_STORAGE_KEY = 'uppetite-legacy-recos-v1';
 
 export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -22,13 +24,6 @@ export interface QuickRoute {
   createdAt: string;
 }
 
-export interface RecoList {
-  id: string;
-  name: string;
-  placeIds: string[];
-  updatedAt: string;
-}
-
 export interface FoodJournalEntry {
   id: string;
   placeId: string;
@@ -40,18 +35,29 @@ export interface FoodJournalEntry {
 }
 
 export interface PersonalState {
-  version: 1;
+  version: 2;
   timetable: TimetableEntry[];
   quickRoutes: QuickRoute[];
-  recoLists: RecoList[];
   journal: FoodJournalEntry[];
 }
 
+interface LegacyRecoList {
+  id: string;
+  name: string;
+  placeIds: string[];
+  updatedAt: string;
+}
+
+export interface LegacyRecoArchive {
+  version: 1;
+  archivedAt: string;
+  lists: LegacyRecoList[];
+}
+
 export const emptyPersonalState = (): PersonalState => ({
-  version: 1,
+  version: 2,
   timetable: [],
   quickRoutes: [],
-  recoLists: [{ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() }],
   journal: [],
 });
 
@@ -80,14 +86,9 @@ function minutesOfDay(value: string): number {
   return hour * 60 + minute;
 }
 
-export function normalizePersonalState(value: unknown): PersonalState {
-  const fallback = emptyPersonalState();
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return fallback;
-  const raw = value as Record<string, unknown>;
-  if (raw.version !== 1) return fallback;
-
-  const timetable: TimetableEntry[] = Array.isArray(raw.timetable)
-    ? raw.timetable.flatMap((item) => {
+function normalizeTimetable(raw: unknown): TimetableEntry[] {
+  return Array.isArray(raw)
+    ? raw.flatMap((item) => {
       if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
       const row = item as Record<string, unknown>;
       const day = Number(row.day);
@@ -98,9 +99,11 @@ export function normalizePersonalState(value: unknown): PersonalState {
       return [{ id: row.id, day: day as Weekday, startTime, endTime, course, anchorId: row.anchorId }];
     })
     : [];
+}
 
-  const quickRoutes: QuickRoute[] = Array.isArray(raw.quickRoutes)
-    ? raw.quickRoutes.flatMap((item) => {
+function normalizeQuickRoutes(raw: unknown): QuickRoute[] {
+  return Array.isArray(raw)
+    ? raw.flatMap((item) => {
       if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
       const row = item as Record<string, unknown>;
       const breakMinutes = Number(row.breakMinutes);
@@ -111,9 +114,35 @@ export function normalizePersonalState(value: unknown): PersonalState {
       return [{ id: row.id, name, originId: row.originId, ...(destinationId ? { destinationId } : {}), breakMinutes: Math.round(breakMinutes / 5) * 5, createdAt }];
     })
     : [];
+}
 
-  const recoLists: RecoList[] = Array.isArray(raw.recoLists)
-    ? raw.recoLists.flatMap((item) => {
+function normalizeJournal(raw: unknown): FoodJournalEntry[] {
+  return Array.isArray(raw)
+    ? raw.flatMap((item) => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+      const row = item as Record<string, unknown>;
+      const placeName = cleanText(row.placeName, 120);
+      const eatenAt = iso(row.eatenAt);
+      if (!validId(row.id) || !validId(row.placeId) || !placeName || !eatenAt) return [];
+      const amount = Number(row.amountPhp);
+      const dish = cleanText(row.dish, 100);
+      const note = cleanText(row.note, 240);
+      return [{
+        id: row.id,
+        placeId: row.placeId,
+        placeName,
+        ...(dish ? { dish } : {}),
+        ...(Number.isFinite(amount) && amount > 0 && amount <= 10000 ? { amountPhp: Math.round(amount) } : {}),
+        ...(note ? { note } : {}),
+        eatenAt,
+      }];
+    }).slice(0, 1000)
+    : [];
+}
+
+function normalizeLegacyRecoLists(raw: unknown): LegacyRecoList[] {
+  return Array.isArray(raw)
+    ? raw.flatMap((item) => {
       if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
       const row = item as Record<string, unknown>;
       const name = cleanText(row.name, 60);
@@ -123,39 +152,55 @@ export function normalizePersonalState(value: unknown): PersonalState {
       return [{ id: row.id, name, placeIds, updatedAt }];
     })
     : [];
-
-  if (!recoLists.some((list) => list.id === 'my-recos')) {
-    recoLists.unshift({ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() });
-  }
-
-  const journal: FoodJournalEntry[] = Array.isArray(raw.journal)
-    ? raw.journal.flatMap((item) => {
-      if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
-      const row = item as Record<string, unknown>;
-      const placeName = cleanText(row.placeName, 120);
-      const eatenAt = iso(row.eatenAt);
-      if (!validId(row.id) || !validId(row.placeId) || !placeName || !eatenAt) return [];
-      const amount = Number(row.amountPhp);
-      return [{
-        id: row.id,
-        placeId: row.placeId,
-        placeName,
-        ...(cleanText(row.dish, 100) ? { dish: cleanText(row.dish, 100) } : {}),
-        ...(Number.isFinite(amount) && amount > 0 && amount <= 10000 ? { amountPhp: Math.round(amount) } : {}),
-        ...(cleanText(row.note, 240) ? { note: cleanText(row.note, 240) } : {}),
-        eatenAt,
-      }];
-    }).slice(0, 1000)
-    : [];
-
-  return { version: 1, timetable, quickRoutes, recoLists, journal };
 }
 
-export function readPersonalState(storage: Pick<Storage, 'getItem'> | undefined = typeof localStorage === 'undefined' ? undefined : localStorage): PersonalState {
+export function normalizePersonalState(value: unknown): PersonalState {
+  const fallback = emptyPersonalState();
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return fallback;
+  const raw = value as Record<string, unknown>;
+  if (raw.version !== 2) return fallback;
+  return {
+    version: 2,
+    timetable: normalizeTimetable(raw.timetable),
+    quickRoutes: normalizeQuickRoutes(raw.quickRoutes),
+    journal: normalizeJournal(raw.journal),
+  };
+}
+
+export function migrateLegacyPersonalState(value: unknown, migratedAt = new Date()): { state: PersonalState; archive?: LegacyRecoArchive } {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return { state: emptyPersonalState() };
+  const raw = value as Record<string, unknown>;
+  if (raw.version !== 1) return { state: emptyPersonalState() };
+  const lists = normalizeLegacyRecoLists(raw.recoLists);
+  return {
+    state: {
+      version: 2,
+      timetable: normalizeTimetable(raw.timetable),
+      quickRoutes: normalizeQuickRoutes(raw.quickRoutes),
+      journal: normalizeJournal(raw.journal),
+    },
+    ...(lists.length ? { archive: { version: 1, archivedAt: migratedAt.toISOString(), lists } } : {}),
+  };
+}
+
+type ReadWriteStorage = Pick<Storage, 'getItem' | 'setItem'>;
+
+export function readPersonalState(storage: ReadWriteStorage | undefined = typeof localStorage === 'undefined' ? undefined : localStorage): PersonalState {
   if (!storage) return emptyPersonalState();
   try {
-    const raw = storage.getItem(PERSONAL_STORAGE_KEY);
-    return raw ? normalizePersonalState(JSON.parse(raw)) : emptyPersonalState();
+    const current = storage.getItem(PERSONAL_STORAGE_KEY);
+    if (current) return normalizePersonalState(JSON.parse(current));
+
+    const legacy = storage.getItem(LEGACY_PERSONAL_STORAGE_KEY);
+    if (!legacy) return emptyPersonalState();
+    const migrated = migrateLegacyPersonalState(JSON.parse(legacy));
+    try {
+      storage.setItem(PERSONAL_STORAGE_KEY, JSON.stringify(migrated.state));
+      if (migrated.archive) storage.setItem(LEGACY_RECOS_STORAGE_KEY, JSON.stringify(migrated.archive));
+    } catch {
+      // Migration remains usable in memory even when storage is temporarily unavailable.
+    }
+    return migrated.state;
   } catch {
     return emptyPersonalState();
   }
@@ -198,14 +243,12 @@ function manilaClock(now: Date): { day: Weekday; minutes: number } {
 
 export function nextClass(state: PersonalState, anchors: Anchor[], now = new Date()): { entry: TimetableEntry; anchor: Anchor; startsInMinutes: number } | undefined {
   const clock = manilaClock(now);
-  const currentDay = clock.day;
-  const nowMinutes = clock.minutes;
   const anchorById = new Map(anchors.map((anchor) => [anchor.id, anchor]));
   return state.timetable
     .filter((entry) => anchorById.has(entry.anchorId))
     .map((entry) => {
-      const dayOffset = (entry.day - currentDay + 7) % 7;
-      let startsInMinutes = dayOffset * 1440 + minutesOfDay(entry.startTime) - nowMinutes;
+      const dayOffset = (entry.day - clock.day + 7) % 7;
+      let startsInMinutes = dayOffset * 1440 + minutesOfDay(entry.startTime) - clock.minutes;
       if (dayOffset === 0 && startsInMinutes < 0) startsInMinutes += 7 * 1440;
       return { entry, anchor: anchorById.get(entry.anchorId)!, startsInMinutes };
     })

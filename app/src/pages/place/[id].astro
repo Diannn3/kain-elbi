@@ -9,7 +9,6 @@ import PhotoGallery from '../../components/place/PhotoGallery.svelte';
 import VerifiedShopBadge from '../../components/place/VerifiedShopBadge.svelte';
 import DishHighlights from '../../components/place/DishHighlights.svelte';
 import QuickProblemReport from '../../components/place/QuickProblemReport.svelte';
-import RecoButton from '../../components/personal/RecoButton.svelte';
 import FoodJournalButton from '../../components/personal/FoodJournalButton.svelte';
 import { formatAddedDate } from '../../lib/date-format';
 import { loadBuildData } from '../../lib/data/build';
@@ -74,7 +73,6 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 					<a class="planner" href="/#route-planner">Plan around your class</a>
 				</div>
 				<div class="share-row">
-					<RecoButton client:load placeId={place.id} placeName={place.name} />
 					<FoodJournalButton client:load placeId={place.id} placeName={place.name} />
 					<ShareButton
 						client:load
