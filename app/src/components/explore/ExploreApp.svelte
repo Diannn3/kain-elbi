@@ -88,6 +88,7 @@
 	let hours = $state<ExploreHoursFilter>('');
 	let budget = $state<ExploreBudgetFilter>('');
 	let mealTags = $state<MealTag[]>([]);
+	let rouletteMode = $state<RouletteMode>('surprise');
 	let view = $state<'list' | 'map'>('list');
 	let selectedId = $state('');
 	let surpriseId = $state('');
@@ -278,7 +279,7 @@
 		const candidates = filtered.length > 1 && selectedId
 			? filtered.filter((place) => place.id !== selectedId)
 			: filtered;
-		const place = roulettePick(candidates, 'surprise', { saved: appStorage.savedPlaces });
+		const place = roulettePick(candidates, rouletteMode, { saved: appStorage.savedPlaces });
 		if (!place) return;
 
 		selectedId = place.id;
@@ -602,8 +603,18 @@
 			{/if}
 		</div>
 		<div class="result-actions">
+			<label class="roulette-select">
+				<span class="sr-only">Surprise mode</span>
+				<select bind:value={rouletteMode} aria-label="Surprise mode">
+					<option value="surprise">Surprise</option>
+					<option value="tipid">Tipid</option>
+					<option value="quick">Quick</option>
+					<option value="explore">Explore new</option>
+					<option value="safe">Safe data</option>
+				</select>
+			</label>
 			<button class="surprise-button" type="button" disabled={filtered.length === 0} onclick={surpriseMe}>
-				<span aria-hidden="true">↝</span> Surprise me
+				<span aria-hidden="true">↝</span> Pick one
 			</button>
 			<div class="segmented" role="group" aria-label="Explore view">
 				<button class:active={view === 'list'} aria-pressed={view === 'list'} onclick={() => setView('list')}>List</button>
@@ -1142,4 +1153,5 @@
 
 	@keyframes card-enter { from { opacity: 0; transform: translateY(4px); } }
 	@media (prefers-reduced-motion: reduce) { .explore-card { animation: none !important; } }
+	.roulette-select select { min-height: var(--tap-target); padding: 0 2rem 0 .8rem; border: 1px solid var(--color-border); border-radius: 999px; background: var(--brand-cream); color: var(--brand-maroon-deep); font-weight: 700; }
 </style>

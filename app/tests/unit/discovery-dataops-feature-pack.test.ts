@@ -163,6 +163,18 @@ describe('deterministic natural food search', () => {
 });
 
 describe('roulette and freshness', () => {
+  it('Tipid prefers places with known prices over unknown-price records', () => {
+    const cheap = place({ id: 'cheap', name: 'Cheap', price: { mealLowPhp: 80, verifiedAt: '2026-08-18' } });
+    const unknown = place({ id: 'unknown', name: 'Unknown' });
+    expect(roulettePick([unknown, cheap], 'tipid', { random: () => 0 })?.id).toBe('cheap');
+  });
+
+  it('Quick prefers explicitly quick candidates when available', () => {
+    const normal = place({ id: 'normal', name: 'Normal' });
+    const quick = place({ id: 'quick', name: 'Quick', category: 'fast_food' });
+    expect(roulettePick([normal, quick], 'quick', { random: () => 0 })?.id).toBe('quick');
+  });
+
   it('picks randomly under surprise mode', () => {
     const p1 = place({ id: 'p1', name: 'Place 1' });
     const p2 = place({ id: 'p2', name: 'Place 2' });
