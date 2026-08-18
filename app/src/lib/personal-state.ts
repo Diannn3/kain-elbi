@@ -13,14 +13,25 @@ export interface TimetableEntry {
   anchorId: string;
 }
 
+export interface QuickRoute {
+  id: string;
+  name: string;
+  originId: string;
+  destinationId?: string;
+  breakMinutes: number;
+  createdAt: string;
+}
+
 export interface PersonalState {
   version: 1;
   timetable: TimetableEntry[];
+  quickRoutes: QuickRoute[];
 }
 
 export const emptyPersonalState = (): PersonalState => ({
   version: 1,
   timetable: [],
+  quickRoutes: [],
 });
 
 function cleanText(value: unknown, max = 120): string | undefined {
@@ -35,6 +46,12 @@ function safeTime(value: unknown): string | undefined {
 
 function validId(value: unknown): value is string {
   return typeof value === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$/.test(value);
+}
+
+function iso(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const date = new Date(value);
+  return Number.isFinite(date.getTime()) ? date.toISOString() : undefined;
 }
 
 function minutesOfDay(value: string): number {
@@ -61,7 +78,20 @@ export function normalizePersonalState(value: unknown): PersonalState {
     })
     : [];
 
-  return { version: 1, timetable };
+  const quickRoutes: QuickRoute[] = Array.isArray(raw.quickRoutes)
+    ? raw.quickRoutes.flatMap((item) => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+      const row = item as Record<string, unknown>;
+      const breakMinutes = Number(row.breakMinutes);
+      const createdAt = iso(row.createdAt);
+      const name = cleanText(row.name, 80);
+      if (!validId(row.id) || !name || !validId(row.originId) || !Number.isFinite(breakMinutes) || breakMinutes < 20 || breakMinutes > 180 || !createdAt) return [];
+      const destinationId = validId(row.destinationId) ? row.destinationId : undefined;
+      return [{ id: row.id, name, originId: row.originId, ...(destinationId ? { destinationId } : {}), breakMinutes: Math.round(breakMinutes / 5) * 5, createdAt }];
+    })
+    : [];
+
+  return { version: 1, timetable, quickRoutes };
 }
 
 export function readPersonalState(storage: Pick<Storage, 'getItem'> | undefined = typeof localStorage === 'undefined' ? undefined : localStorage): PersonalState {
@@ -82,6 +112,12 @@ export function writePersonalState(state: PersonalState, storage: Pick<Storage, 
   } catch {
     return false;
   }
+}
+
+export function routeHref(route: Pick<QuickRoute, 'originId' | 'destinationId' | 'breakMinutes'>): string {
+  const params = new URLSearchParams({ origin: route.originId, originMode: 'building', break: String(route.breakMinutes) });
+  if (route.destinationId) params.set('destination', route.destinationId);
+  return `/picks?${params.toString()}`;
 }
 
 function manilaClock(now: Date): { day: Weekday; minutes: number } {

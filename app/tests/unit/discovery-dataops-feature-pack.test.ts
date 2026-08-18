@@ -4,6 +4,7 @@ import {
   emptyPersonalState,
   nextClass,
   normalizePersonalState,
+  routeHref,
 } from '../../src/lib/personal-state';
 
 const anchors: Anchor[] = [
@@ -17,6 +18,7 @@ describe('personal state', () => {
     expect(normalizePersonalState({
       version: 1,
       timetable: [{ id: 'bad', day: 1, startTime: '11:00', endTime: '10:00', course: 'Bad', anchorId: 'ics' }],
+      quickRoutes: [],
     }).timetable).toEqual([]);
   });
 
@@ -25,5 +27,22 @@ describe('personal state', () => {
     state.timetable.push({ id: 'class-a', day: 1, startTime: '10:00', endTime: '11:00', course: 'CMSC 150', anchorId: 'ics' });
     expect(nextClass(state, anchors, new Date('2026-08-17T01:30:00Z'))?.startsInMinutes).toBe(30);
     expect(nextClass(state, anchors, new Date('2026-08-17T03:30:00Z'))?.startsInMinutes).toBe(9990);
+  });
+
+  it('normalizes quick routes and rounds break minutes to 5-minute increments', () => {
+    const normalized = normalizePersonalState({
+      version: 1,
+      timetable: [],
+      quickRoutes: [{
+        id: 'route-1',
+        name: '  Quick route  ',
+        originId: 'ics',
+        destinationId: 'math',
+        breakMinutes: 44,
+        createdAt: '2026-08-18T00:00:00.000Z',
+      }],
+    });
+    expect(normalized.quickRoutes[0].breakMinutes).toBe(45);
+    expect(routeHref(normalized.quickRoutes[0])).toBe('/picks?origin=ics&originMode=building&break=45&destination=math');
   });
 });

@@ -6,6 +6,7 @@
     emptyPersonalState,
     nextClass,
     readPersonalState,
+    routeHref,
     writePersonalState,
     type PersonalState,
     type Weekday,
@@ -19,6 +20,10 @@
   let startTime = $state('10:00');
   let endTime = $state('11:00');
   let classAnchor = $state(anchors[0]?.id ?? '');
+  let routeName = $state('');
+  let routeOrigin = $state(anchors[0]?.id ?? '');
+  let routeDestination = $state('');
+  let routeBreak = $state(45);
   let status = $state('');
   let statusError = $state(false);
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -60,13 +65,18 @@
     const next = { ...state, timetable: [...state.timetable, { id: createLocalId('class'), day, startTime, endTime, course: course.trim(), anchorId: classAnchor }].sort((a,b) => a.day - b.day || a.startTime.localeCompare(b.startTime)) };
     if (save(next)) course = '';
   }
+
+  function addRoute() {
+    if (!routeName.trim() || !routeOrigin) return;
+    if (save({ ...state, quickRoutes: [{ id: createLocalId('route'), name: routeName.trim(), originId: routeOrigin, ...(routeDestination ? { destinationId: routeDestination } : {}), breakMinutes: routeBreak, createdAt: new Date().toISOString() }, ...state.quickRoutes].slice(0, 20) })) routeName = '';
+  }
 </script>
 
 <section class="personal-shell" aria-labelledby="personal-title">
   <header>
     <p class="eyebrow-global">Your UPPETITE</p>
     <h1 id="personal-title">Make Elbi food fit your routine.</h1>
-    <p>Your timetable stays on this device. No account is required.</p>
+    <p>Your timetable and routes stay on this device. No account is required.</p>
   </header>
 
   {#if upcoming}
@@ -94,6 +104,22 @@
         {#each state.timetable as item (item.id)}
           <div class="row"><div><strong>{item.course}</strong><span>{days[item.day]} · {item.startTime}–{item.endTime} · {anchorName(item.anchorId)}</span></div><button type="button" aria-label={`Delete ${item.course}`} onclick={() => save({ ...state, timetable: state.timetable.filter((entry) => entry.id !== item.id) })}>Remove</button></div>
         {:else}<p class="empty">No classes saved yet.</p>{/each}
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading"><span>02</span><div><h2>Quick routes</h2><p>Save routes you repeat so Find becomes one tap.</p></div></div>
+      <div class="form-grid">
+        <label class="wide">Name<input bind:value={routeName} placeholder="Lunch before ICS" maxlength="80" /></label>
+        <label>From<select bind:value={routeOrigin}>{#each anchors as anchor}<option value={anchor.id}>{anchor.name}</option>{/each}</select></label>
+        <label>Next class<select bind:value={routeDestination}><option value="">No next class</option>{#each anchors as anchor}<option value={anchor.id}>{anchor.name}</option>{/each}</select></label>
+        <label>Break<select bind:value={routeBreak}>{#each [20,30,45,60,90,120] as minutes}<option value={minutes}>{minutes} min</option>{/each}</select></label>
+        <button type="button" onclick={addRoute}>Save route</button>
+      </div>
+      <div class="rows">
+        {#each state.quickRoutes as route (route.id)}
+          <div class="row route-row"><div><strong>{route.name}</strong><span>{anchorName(route.originId)} → {route.destinationId ? anchorName(route.destinationId) : 'No next class'} · {route.breakMinutes} min</span></div><div class="row-actions"><a href={routeHref(route)}>Find food</a><button type="button" onclick={() => save({ ...state, quickRoutes: state.quickRoutes.filter((item) => item.id !== route.id) })}>Remove</button></div></div>
+        {:else}<p class="empty">No quick routes saved yet.</p>{/each}
       </div>
     </section>
   </div>
@@ -131,6 +157,7 @@
   .row strong { color:var(--brand-maroon-deep); }
   .row span,.row small,.empty { color:var(--color-text-muted); font-size:.78rem; line-height:1.4; }
   .row button { min-height:2.6rem; padding-inline:.8rem; background:transparent; color:var(--brand-maroon-deep); }
+  .row-actions { display:flex!important; grid-auto-flow:column; gap:var(--space-2)!important; }
   @media(min-width:900px){ .personal-grid{grid-template-columns:1fr 1fr;align-items:start}.panel{padding:var(--space-6)} }
-  @media(max-width:480px){ .form-grid{grid-template-columns:1fr}.form-grid label.wide{grid-column:auto}.row{align-items:flex-start;flex-direction:column} }
+  @media(max-width:480px){ .form-grid{grid-template-columns:1fr}.form-grid label.wide{grid-column:auto}.row{align-items:flex-start;flex-direction:column}.row-actions{width:100%;display:grid!important;grid-template-columns:1fr 1fr} }
 </style>
