@@ -21,7 +21,8 @@
     "test:visual": "node scripts/run-e2e.mjs --project=visual-chromium tests/e2e/visual.spec.ts",
     "test:visual:update": "node scripts/run-e2e.mjs --project=visual-chromium tests/e2e/visual.spec.ts --update-snapshots",
     "audit:build-size": "node scripts/report-build-size.mjs",
-    "audit:editorial-privacy": "node scripts/audit-editorial-privacy.mjs"
+    "audit:editorial-privacy": "node scripts/audit-editorial-privacy.mjs",
+    "ops:export": "node scripts/export-place-audit.mjs"
   },
   "dependencies": {
     "@astrojs/svelte": "^9.0.1",

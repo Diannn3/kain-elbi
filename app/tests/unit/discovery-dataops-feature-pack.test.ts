@@ -6,6 +6,7 @@ import {
   normalizePersonalState,
   routeHref,
 } from '../../src/lib/personal-state';
+import { validatePlaceAudit } from '../../src/lib/place-audit';
 
 const anchors: Anchor[] = [
   { id: 'ics', name: 'ICS', lat: 14.165, lon: 121.24 },
@@ -44,5 +45,15 @@ describe('personal state', () => {
     });
     expect(normalized.quickRoutes[0].breakMinutes).toBe(45);
     expect(routeHref(normalized.quickRoutes[0])).toBe('/picks?origin=ics&originMode=building&break=45&destination=math');
+  });
+});
+
+describe('Places Ops data contracts', () => {
+  it('validates audit actions and rejects duplicate event ids', () => {
+    expect(() => validatePlaceAudit({ version: 1, events: [{ id: 'x', placeId: 'p', field: 'hours', action: 'made_up', source: 'test', createdAt: '2026-08-18T00:00:00Z' }] })).toThrow();
+    expect(() => validatePlaceAudit({ version: 1, events: [
+      { id: 'x', placeId: 'p', field: 'hours', action: 'updated', source: 'test', createdAt: '2026-08-18T00:00:00Z' },
+      { id: 'x', placeId: 'p', field: 'price', action: 'updated', source: 'test', createdAt: '2026-08-18T01:00:00Z' },
+    ] })).toThrow(/duplicate/i);
   });
 });
