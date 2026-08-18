@@ -29,11 +29,22 @@ export interface RecoList {
   updatedAt: string;
 }
 
+export interface FoodJournalEntry {
+  id: string;
+  placeId: string;
+  placeName: string;
+  dish?: string;
+  amountPhp?: number;
+  note?: string;
+  eatenAt: string;
+}
+
 export interface PersonalState {
   version: 1;
   timetable: TimetableEntry[];
   quickRoutes: QuickRoute[];
   recoLists: RecoList[];
+  journal: FoodJournalEntry[];
 }
 
 export const emptyPersonalState = (): PersonalState => ({
@@ -41,6 +52,7 @@ export const emptyPersonalState = (): PersonalState => ({
   timetable: [],
   quickRoutes: [],
   recoLists: [{ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() }],
+  journal: [],
 });
 
 function cleanText(value: unknown, max = 120): string | undefined {
@@ -116,7 +128,27 @@ export function normalizePersonalState(value: unknown): PersonalState {
     recoLists.unshift({ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() });
   }
 
-  return { version: 1, timetable, quickRoutes, recoLists };
+  const journal: FoodJournalEntry[] = Array.isArray(raw.journal)
+    ? raw.journal.flatMap((item) => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+      const row = item as Record<string, unknown>;
+      const placeName = cleanText(row.placeName, 120);
+      const eatenAt = iso(row.eatenAt);
+      if (!validId(row.id) || !validId(row.placeId) || !placeName || !eatenAt) return [];
+      const amount = Number(row.amountPhp);
+      return [{
+        id: row.id,
+        placeId: row.placeId,
+        placeName,
+        ...(cleanText(row.dish, 100) ? { dish: cleanText(row.dish, 100) } : {}),
+        ...(Number.isFinite(amount) && amount > 0 && amount <= 10000 ? { amountPhp: Math.round(amount) } : {}),
+        ...(cleanText(row.note, 240) ? { note: cleanText(row.note, 240) } : {}),
+        eatenAt,
+      }];
+    }).slice(0, 1000)
+    : [];
+
+  return { version: 1, timetable, quickRoutes, recoLists, journal };
 }
 
 export function readPersonalState(storage: Pick<Storage, 'getItem'> | undefined = typeof localStorage === 'undefined' ? undefined : localStorage): PersonalState {

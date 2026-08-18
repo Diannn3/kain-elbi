@@ -82,7 +82,7 @@
   <header>
     <p class="eyebrow-global">Your UPPETITE</p>
     <h1 id="personal-title">Make Elbi food fit your routine.</h1>
-    <p>Your timetable, routes, and recos stay on this device. No account is required.</p>
+    <p>Your timetable, routes, recos, and meal log stay on this device. No account is required.</p>
   </header>
 
   {#if upcoming}
@@ -134,6 +134,15 @@
       <div class="inline-form"><input bind:value={recoName} placeholder="Coffee recos" maxlength="60" /><button type="button" onclick={addRecoList}>Create list</button></div>
       <div class="rows">
         {#each state.recoLists as list (list.id)}<div class="row"><div><strong>{list.name}</strong><span>{list.placeIds.length} place{list.placeIds.length === 1 ? '' : 's'}</span></div>{#if list.id !== 'my-recos'}<button type="button" onclick={() => save({ ...state, recoLists: state.recoLists.filter((item) => item.id !== list.id) })}>Delete</button>{/if}</div>{/each}
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading"><span>04</span><div><h2>Food journal</h2><p>A private memory of what you actually ate.</p></div></div>
+      <div class="rows">
+        {#each [...state.journal].sort((a,b) => b.eatenAt.localeCompare(a.eatenAt)).slice(0, 20) as entry (entry.id)}
+          <div class="row"><div><strong>{entry.placeName}</strong><span>{entry.dish ?? 'Meal'}{entry.amountPhp ? ` · ₱${entry.amountPhp}` : ''} · {new Date(entry.eatenAt).toLocaleDateString('en-PH')}</span>{#if entry.note}<small>{entry.note}</small>{/if}</div><button type="button" onclick={() => save({ ...state, journal: state.journal.filter((item) => item.id !== entry.id) })}>Remove</button></div>
+        {:else}<p class="empty">Your journal is empty. Log a meal from any place page.</p>{/each}
       </div>
     </section>
   </div>

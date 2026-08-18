@@ -8,6 +8,8 @@ import VisitReportButton from '../../components/community/VisitReportButton.svel
 import PhotoGallery from '../../components/place/PhotoGallery.svelte';
 import DishHighlights from '../../components/place/DishHighlights.svelte';
 import QuickProblemReport from '../../components/place/QuickProblemReport.svelte';
+import RecoButton from '../../components/personal/RecoButton.svelte';
+import FoodJournalButton from '../../components/personal/FoodJournalButton.svelte';
 import { formatAddedDate } from '../../lib/date-format';
 import { loadBuildData } from '../../lib/data/build';
 import { formatPriceRange } from '../../lib/data/place-enrichment';
@@ -70,6 +72,8 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 					<a class="planner" href="/#route-planner">Plan around your class</a>
 				</div>
 				<div class="share-row">
+					<RecoButton client:load placeId={place.id} placeName={place.name} />
+					<FoodJournalButton client:load placeId={place.id} placeName={place.name} />
 					<ShareButton
 						client:load
 						label="Share place"
@@ -160,7 +164,7 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 	.note-label { margin: 0; color: var(--brand-maroon-deep); font: 760 0.72rem/1.25 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; }
 	.intro-copy h1 { max-width: 17ch; margin: var(--space-2) 0 var(--space-4); color: var(--brand-maroon-deep); font: 790 clamp(2.7rem, 11vw, 5.5rem)/0.9 var(--font-display); letter-spacing: -0.025em; text-wrap: balance; }
 	.primary-actions { display: grid; gap: var(--space-2); margin-top: var(--space-6); }
-	.share-row { display: flex; margin-top: var(--space-3); }
+	.share-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
 	.primary-actions a,
 	.bottom-actions a { display: flex; align-items: center; justify-content: center; min-height: 3.5rem; padding: 0 var(--space-4); border-radius: var(--radius-md); font-weight: 750; text-align: center; text-decoration: none; }
 	.directions,

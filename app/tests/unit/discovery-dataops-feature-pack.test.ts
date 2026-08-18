@@ -99,6 +99,28 @@ describe('personal state', () => {
     expect(normalized.recoLists.find((list) => list.id === 'custom')?.placeIds).toEqual(['place-1']);
     expect(normalized.recoLists.some((list) => list.id === 'my-recos')).toBe(true);
   });
+
+  it('normalizes journal entries and rounds amounts', () => {
+    const normalized = normalizePersonalState({
+      version: 1,
+      timetable: [],
+      quickRoutes: [],
+      recoLists: [],
+      journal: [{
+        id: 'j1',
+        placeId: 'place-1',
+        placeName: '  Place One  ',
+        dish: '  Rice Meal  ',
+        amountPhp: 125.4,
+        note: '  Tasted great  ',
+        eatenAt: '2026-08-18T00:00:00.000Z',
+      }],
+    });
+    expect(normalized.journal[0].placeName).toBe('Place One');
+    expect(normalized.journal[0].dish).toBe('Rice Meal');
+    expect(normalized.journal[0].amountPhp).toBe(125);
+    expect(normalized.journal[0].note).toBe('Tasted great');
+  });
 });
 
 describe('deterministic natural food search', () => {
