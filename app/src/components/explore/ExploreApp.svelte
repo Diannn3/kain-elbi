@@ -23,6 +23,14 @@
 		isRecentlyAdded,
 		placeFitsBudget,
 	} from '../../lib/data/place-enrichment';
+	import {
+		matchesMealTags,
+		parseNaturalFoodQuery,
+		placeFitsNaturalBudget,
+		removeBudgetIntent,
+		removeMealTypeIntent,
+		removeOpenNowIntent,
+	} from '../../lib/natural-food-search';
 	import { formatAddedDate, formatResearchDate } from '../../lib/date-format';
 
 	let { places, zones, collections, routablePlaceIds, events }: {
@@ -88,6 +96,9 @@
 	let hoursError = $state('');
 
 	const normalizedQuery = $derived(query.trim().toLowerCase());
+	const naturalIntent = $derived(parseNaturalFoodQuery(query));
+	const requestedMealTags = $derived([...new Set<MealTag>([...mealTags, ...naturalIntent.mealTags])]);
+	const needsHours = $derived(Boolean(hours || naturalIntent.openNow));
 	const isResultsMode = $derived(Boolean(
 		normalizedQuery || zoneId || category || collectionId || hours || budget || mealTags.length
 	));
@@ -100,19 +111,22 @@
 		if (place.recordStatus === 'closed' || !place.name) return false;
 		if (zoneId && zoneForPlace.get(place.id)?.id !== zoneId) return false;
 		if (category && place.category !== category) return false;
+		if (naturalIntent.category && place.category !== naturalIntent.category) return false;
 		if (collectionId && !collectionPlaces.has(place.id)) return false;
 		if (budget && !placeFitsBudget(place, budget)) return false;
-		if (mealTags.length && !place.mealTags?.some((t) => mealTags.includes(t))) return false;
+		if (naturalIntent.maxBudget && !placeFitsNaturalBudget(place, naturalIntent)) return false;
+		if (!matchesMealTags(place, requestedMealTags)) return false;
 
-		if (hours) {
+		if (needsHours) {
 			if (!hoursReady) return false;
 			const status = hoursById[place.id] ?? 'unknown';
 			if (hours === 'open' && status !== 'open' && status !== 'closing') return false;
 			if (hours === 'closing' && status !== 'closing') return false;
+			if (naturalIntent.openNow && status !== 'open' && status !== 'closing') return false;
 		}
 
 		const zone = zoneForPlace.get(place.id)?.name ?? '';
-		return matchesPlaceQuery(place, query, zone, categoryLabels[place.category] ?? '');
+		return matchesPlaceQuery(place, naturalIntent.textQuery, zone, categoryLabels[place.category] ?? '');
 	}));
 
 	const selected = $derived(filtered.find((place) => place.id === selectedId));
@@ -188,6 +202,10 @@
 		clearTimeout(searchTimer);
 		searchTimer = setTimeout(() => syncUrl('replace'), 160);
 	}
+
+	$effect(() => {
+		if (naturalIntent.openNow && !hoursReady && !hoursLoading) void ensureHours();
+	});
 
 	async function ensureHours() {
 		if (hoursReady || hoursLoading) return;
@@ -357,6 +375,15 @@
 				placeholder="Search food, places, or Elbi terms…"
 			/>
 		</label>
+
+		{#if naturalIntent.interpreted.length}
+			<div class="intent-chips" aria-label="Interpreted search intent">
+				<span>Interpreted:</span>
+				{#each naturalIntent.interpreted as chip}
+					<b>{chip}</b>
+				{/each}
+			</div>
+		{/if}
 
 		{#if smartSuggestions.length}
 			<div class="smart-suggestions" aria-label="Suggested filters">
@@ -565,13 +592,13 @@
 
 	<div class="result-bar">
 		<div aria-live="polite">
-			{#if hours && !hoursReady}
+			{#if needsHours && !hoursReady}
 				<strong>Checking hours…</strong>
 			{:else}
 				<strong>{filtered.length}</strong> places
 				<span>
 					· {activeCollection ? 'Research-backed browse list · ' : ''}
-					{budget ? 'Known online menu prices only · ' : ''}
+					{(budget || naturalIntent.maxBudget) ? 'Known online menu prices only · ' : ''}
 					Explore helps you discover food, not rank it.
 				</span>
 			{/if}
@@ -626,11 +653,11 @@
 				</article>
 			{/each}
 
-			{#if filtered.length === 0 && !(hours && !hoursReady)}
+			{#if filtered.length === 0 && !(needsHours && !hoursReady)}
 				<div class="empty">
 					<h2>No matches yet.</h2>
 					<p>
-						{budget
+						{(budget || naturalIntent.maxBudget)
 							? 'Try a higher budget or clear another filter. Places without known price ranges are not included.'
 							: 'Try another name, category, area, or opening-hours filter.'}
 					</p>
@@ -712,6 +739,7 @@
 	.search input::placeholder { color: var(--color-text-muted); font-weight: 500; }
 
 	.smart-suggestions,
+	.intent-chips,
 	.meal-tag-rail,
 	.hours-rail,
 	.hours-chips {
@@ -720,12 +748,24 @@
 		gap: var(--space-2);
 		flex-wrap: wrap;
 	}
+	.intent-chips > span,
 	.smart-suggestions > span,
 	.hours-rail > span {
 		color: var(--color-text-muted);
 		font: 720 0.7rem/1 var(--font-display);
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
+	}
+	.intent-chips b {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.8rem;
+		padding: 0 var(--space-3);
+		border-radius: 999px;
+		background: var(--brand-sand);
+		color: var(--brand-maroon-deep);
+		font-size: 0.8rem;
+		font-weight: 760;
 	}
 	.meal-tag-rail button,
 	.smart-suggestions button,
@@ -1086,6 +1126,7 @@
 	@media (min-width: 760px) {
 		.toolbar { grid-template-columns: 1fr auto; align-items: end; padding: 1.15rem; }
 		.search,
+		.intent-chips,
 		.meal-tag-rail,
 		.smart-suggestions,
 		.hours-rail { grid-column: 1 / -1; }

@@ -6,6 +6,14 @@ import {
   normalizePersonalState,
   routeHref,
 } from '../../src/lib/personal-state';
+import {
+  matchesMealTags,
+  parseNaturalFoodQuery,
+  placeFitsNaturalBudget,
+  removeBudgetIntent,
+  removeMealTypeIntent,
+  removeOpenNowIntent,
+} from '../../src/lib/natural-food-search';
 import { ageInDays } from '../../src/lib/freshness';
 import { buildOpsDashboard } from '../../src/lib/ops-dashboard';
 import { validatePlaceAudit } from '../../src/lib/place-audit';
@@ -76,6 +84,44 @@ describe('personal state', () => {
     });
     expect(normalized.quickRoutes[0].breakMinutes).toBe(45);
     expect(routeHref(normalized.quickRoutes[0])).toBe('/picks?origin=ics&originMode=building&break=45&destination=math');
+  });
+});
+
+describe('deterministic natural food search', () => {
+  it('parses compound intent and makes plain quick an actual quick-meal constraint', () => {
+    const intent = parseNaturalFoodQuery('sisig under 120 quick open now');
+    expect(intent.textQuery).toBe('sisig');
+    expect(intent.maxBudget).toBe(120);
+    expect(intent.quick).toBe(true);
+    expect(intent.mealTags).toContain('quick-meal');
+    expect(intent.openNow).toBe(true);
+  });
+
+  it('uses word boundaries instead of substring accidents', () => {
+    expect(parseNaturalFoodQuery('breakfast').quick).toBe(false);
+    expect(parseNaturalFoodQuery('cafeteria').category).toBeUndefined();
+    expect(parseNaturalFoodQuery('pancake').mealTags).not.toContain('dessert');
+  });
+
+  it('removes one intent without erasing unrelated constraints', () => {
+    expect(removeBudgetIntent('sisig under 120 quick')).toBe('sisig quick');
+    expect(removeMealTypeIntent('sisig under 120 quick')).toBe('sisig under 120');
+    expect(removeOpenNowIntent('sisig under 120 open now')).toBe('sisig under 120');
+  });
+
+  it('applies a dish-specific natural budget when the searched dish is known', () => {
+    const expensiveSisig = place({
+      id: 'sisig', name: 'Sisig Place', price: { mealLowPhp: 90, verifiedAt: '2026-08-18' },
+      dishes: [{ name: 'Sisig', pricePhp: 180, verifiedAt: '2026-08-18' }],
+    });
+    const intent = parseNaturalFoodQuery('sisig under 120');
+    expect(placeFitsNaturalBudget(expensiveSisig, intent)).toBe(false);
+    expect(placeFitsNaturalBudget({ ...expensiveSisig, dishes: [{ name: 'Sisig', pricePhp: 110 }] }, intent)).toBe(true);
+  });
+
+  it('combines inferred and explicit meal-tag semantics', () => {
+    const cafe = place({ id: 'cafe', name: 'Cafe', category: 'cafe', mealTags: ['quick-meal'] });
+    expect(matchesMealTags(cafe, ['coffee', 'quick-meal'])).toBe(true);
   });
 });
 
