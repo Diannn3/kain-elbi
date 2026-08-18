@@ -1,5 +1,0 @@
-# Phase 3 local secrets
-app/.env
-app/.env.local
-supabase/functions/.env
-supabase/functions/.env.local
