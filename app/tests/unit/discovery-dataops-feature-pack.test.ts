@@ -1,12 +1,42 @@
 import { describe, expect, it } from 'vitest';
-import type { Anchor } from '../../src/lib/types';
+import type { Anchor, Place } from '../../src/lib/types';
 import {
   emptyPersonalState,
   nextClass,
   normalizePersonalState,
   routeHref,
 } from '../../src/lib/personal-state';
+import { ageInDays } from '../../src/lib/freshness';
+import { buildOpsDashboard } from '../../src/lib/ops-dashboard';
 import { validatePlaceAudit } from '../../src/lib/place-audit';
+
+function place(overrides: Partial<Place> & Pick<Place, 'id' | 'name'>): Place {
+  return {
+    id: overrides.id,
+    name: overrides.name,
+    lat: 14.165,
+    lon: 121.24,
+    category: 'restaurant',
+    cuisine: [],
+    phone: null,
+    website: null,
+    openingHours: null,
+    recordStatus: 'candidate',
+    sources: [],
+    independentSourceCount: 1,
+    overtureConfidence: null,
+    operatingStatus: null,
+    confidenceLabel: 'Limited place information',
+    hasParseableHours: false,
+    aliases: [],
+    addedAt: null,
+    lastReviewedAt: null,
+    price: null,
+    mealTags: [],
+    dishes: [],
+    ...overrides,
+  };
+}
 
 const anchors: Anchor[] = [
   { id: 'ics', name: 'ICS', lat: 14.165, lon: 121.24 },
@@ -48,6 +78,12 @@ describe('personal state', () => {
   });
 });
 
+describe('roulette and freshness', () => {
+  it('counts date-only freshness using Asia/Manila day boundaries', () => {
+    expect(ageInDays('2026-08-18', new Date('2026-08-18T16:30:00Z'))).toBe(1);
+  });
+});
+
 describe('Places Ops data contracts', () => {
   it('validates audit actions and rejects duplicate event ids', () => {
     expect(() => validatePlaceAudit({ version: 1, events: [{ id: 'x', placeId: 'p', field: 'hours', action: 'made_up', source: 'test', createdAt: '2026-08-18T00:00:00Z' }] })).toThrow();
@@ -55,5 +91,14 @@ describe('Places Ops data contracts', () => {
       { id: 'x', placeId: 'p', field: 'hours', action: 'updated', source: 'test', createdAt: '2026-08-18T00:00:00Z' },
       { id: 'x', placeId: 'p', field: 'price', action: 'updated', source: 'test', createdAt: '2026-08-18T01:00:00Z' },
     ] })).toThrow(/duplicate/i);
+  });
+
+  it('excludes closed records from the active health queue and scores health', () => {
+    const reported = place({ id: 'reported', name: 'Reported', openingHours: 'Mo-Su 09:00-17:00', lastReviewedAt: '2026-08-17', mealTags: ['rice-meal'], dishes: [{ name: 'Meal' }], price: { mealLowPhp: 100, verifiedAt: '2026-08-17' } });
+    const stale = place({ id: 'stale', name: 'Stale' });
+    const closed = place({ id: 'closed', name: 'Closed', recordStatus: 'closed' });
+    const dashboard = buildOpsDashboard([stale, closed, reported], new Date('2026-08-18T12:00:00Z'));
+    expect(dashboard.totals.places).toBe(2);
+    expect(dashboard.tasks[0].placeId).toBe('stale');
   });
 });
