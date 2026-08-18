@@ -9,6 +9,7 @@ import {
 import { ageInDays } from '../../src/lib/freshness';
 import { buildOpsDashboard } from '../../src/lib/ops-dashboard';
 import { validatePlaceAudit } from '../../src/lib/place-audit';
+import { validatePlaceFeedback } from '../../src/lib/place-feedback';
 
 function place(overrides: Partial<Place> & Pick<Place, 'id' | 'name'>): Place {
   return {
@@ -91,6 +92,15 @@ describe('Places Ops data contracts', () => {
       { id: 'x', placeId: 'p', field: 'hours', action: 'updated', source: 'test', createdAt: '2026-08-18T00:00:00Z' },
       { id: 'x', placeId: 'p', field: 'price', action: 'updated', source: 'test', createdAt: '2026-08-18T01:00:00Z' },
     ] })).toThrow(/duplicate/i);
+  });
+
+  it('validates privacy-safe aggregate feedback snapshots', () => {
+    const parsed = validatePlaceFeedback({
+      version: 1,
+      generatedAt: '2026-08-18T00:00:00Z',
+      rows: [{ placeId: 'p', openCount: 2, reviewingCount: 1, newestAt: '2026-08-18T01:00:00Z', categories: { hours_wrong: 2, closed: 1 } }],
+    });
+    expect(parsed.rows[0].openCount).toBe(2);
   });
 
   it('excludes closed records from the active health queue and scores health', () => {
