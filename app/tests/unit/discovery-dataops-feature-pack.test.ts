@@ -122,6 +122,10 @@ describe('personal state', () => {
     expect(normalized.journal[0].amountPhp).toBe(125);
     expect(normalized.journal[0].note).toBe('Tasted great');
   });
+
+  it('serializes quick routes without inventing a destination', () => {
+    expect(routeHref({ originId: 'math', breakMinutes: 45 })).toBe('/picks?origin=math&originMode=building&break=45');
+  });
 });
 
 describe('deterministic natural food search', () => {

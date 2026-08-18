@@ -613,7 +613,7 @@
 					<option value="safe">Safe data</option>
 				</select>
 			</label>
-			<button class="surprise-button" type="button" disabled={filtered.length === 0} onclick={surpriseMe}>
+			<button class="surprise-button" type="button" disabled={filtered.length === 0} onclick={surpriseMe} aria-label="Surprise me">
 				<span aria-hidden="true">↝</span> Pick one
 			</button>
 			<div class="segmented" role="group" aria-label="Explore view">
@@ -678,7 +678,7 @@
 						{#if naturalIntent.openNow}<button onclick={() => { query = removeOpenNowIntent(query); changeQuery(); }}>Remove “open now”</button>{/if}
 						{#if category}<button onclick={() => { category = ''; commitFilters(); }}>Any selected category</button>{/if}
 						{#if zoneId}<button onclick={() => { zoneId = ''; commitFilters(); }}>Any area</button>{/if}
-						<button class="primary" onclick={clearFilters}>Explore everything</button>
+						<button class="primary" onclick={clearFilters} aria-label="Clear filters">Explore everything</button>
 					</div>
 				</div>
 			{/if}
