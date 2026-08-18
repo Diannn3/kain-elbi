@@ -108,7 +108,7 @@ export async function hashDistContents(distDir, schemaVersion = SERVICE_WORKER_S
 	return digest.digest('hex').slice(0, 12);
 }
 
-export async function generateServiceWorker(distDir = resolve(process.cwd(), 'dist')) {
+export async function generateServiceWorker(distDir = resolve(process.cwd(), 'dist/client')) {
 	const cacheable = await buildPrecacheManifest(distDir);
 	const version = await hashDistContents(distDir);
 	const source = `const VERSION = ${JSON.stringify(version)};

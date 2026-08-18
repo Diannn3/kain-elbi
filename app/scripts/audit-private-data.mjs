@@ -2,7 +2,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import { resolve, join, relative, sep } from 'node:path';
 
 const root = resolve(process.cwd());
-const dist = resolve(root, 'dist');
+const dist = resolve(root, 'dist/client');
 const publicDir = resolve(root, 'public');
 const repoDataDir = resolve(root, '../data');
 const adapterStaticDir = resolve(root, '.vercel/output/static');

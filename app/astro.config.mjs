@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: vercel({
     // loadBuildData() reads these canonical catalog files from disk in the
     // on-demand Freshie and Places Ops functions.
-    includeFiles: ['./public/data/**'],
+    includeFiles: ['./public/data'],
   }),
   vite: {
     build: {
