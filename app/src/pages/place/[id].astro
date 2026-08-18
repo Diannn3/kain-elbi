@@ -7,6 +7,8 @@ import ListingFreshness from '../../components/place/ListingFreshness.svelte';
 import VisitReportButton from '../../components/community/VisitReportButton.svelte';
 import PhotoGallery from '../../components/place/PhotoGallery.svelte';
 import VerifiedShopBadge from '../../components/place/VerifiedShopBadge.svelte';
+import EditorPickBadge from '../../components/editorial/EditorPickBadge.svelte';
+import OwnerEditorPickTools from '../../components/editorial/OwnerEditorPickTools.svelte';
 import DishHighlights from '../../components/place/DishHighlights.svelte';
 import QuickProblemReport from '../../components/place/QuickProblemReport.svelte';
 import FoodJournalButton from '../../components/personal/FoodJournalButton.svelte';
@@ -67,6 +69,7 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 				<p class="eyebrow">{categoryLabel(place.category)}{cuisine ? ` · ${cuisine}` : ''}</p>
 				<h1 id="place-title">{place.name}</h1>
 				<VerifiedShopBadge place={place} />
+				<EditorPickBadge client:idle placeId={place.id} />
 				<PlaceHoursStatus client:load openingHours={place.openingHours} lat={place.lat} lon={place.lon} />
 				<div class="primary-actions">
 					<a class="directions" href={directionsUrl} target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">↗</span></a>
@@ -74,6 +77,7 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 				</div>
 				<div class="share-row">
 					<FoodJournalButton client:load placeId={place.id} placeName={place.name} />
+					<OwnerEditorPickTools client:idle placeId={place.id} placeName={place.name} />
 					<ShareButton
 						client:load
 						label="Share place"

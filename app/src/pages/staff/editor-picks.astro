@@ -1,0 +1,23 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import EditorPickManager from '../../components/editorial/EditorPickManager.svelte';
+import { getStaffContext } from '../../lib/auth/guards';
+import { setPrivateNoStore } from '../../lib/auth/server';
+import { mapEditorPickRow } from '../../lib/editor-picks';
+import { loadBuildData } from '../../lib/data/build';
+
+setPrivateNoStore(Astro.response.headers);
+const { supabase, identity } = await getStaffContext(Astro.request, Astro.cookies);
+if (!identity) return Astro.redirect('/staff/login?next=/staff/editor-picks', 302);
+if (identity.role !== 'owner') return new Response('Forbidden', { status:403, headers:Astro.response.headers });
+const [{ data }, { places }] = await Promise.all([
+  supabase.from('uppetite_editor_picks').select('*').order('sort_order').order('updated_at',{ascending:false}),
+  loadBuildData(),
+]);
+const picks=(data ?? []).map((row)=>mapEditorPickRow(row as Record<string,unknown>)).filter((pick):pick is NonNullable<typeof pick>=>Boolean(pick));
+const placeSummaries=places.filter((place)=>place.recordStatus==='candidate').map((place)=>({id:place.id,name:place.name,category:place.category}));
+---
+<Layout title="Editor's Picks — UPPETITE" description="Owner-only editorial recommendation management." hideNav>
+  <main id="main-content"><EditorPickManager {picks} places={placeSummaries} initialPlaceId={Astro.url.searchParams.get('place') ?? ''} initialEditId={Astro.url.searchParams.get('edit') ?? ''} client:load /></main>
+</Layout>
