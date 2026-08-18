@@ -6,6 +6,7 @@ import ShareButton from '../../components/common/ShareButton.svelte';
 import ListingFreshness from '../../components/place/ListingFreshness.svelte';
 import VisitReportButton from '../../components/community/VisitReportButton.svelte';
 import PhotoGallery from '../../components/place/PhotoGallery.svelte';
+import DishHighlights from '../../components/place/DishHighlights.svelte';
 import { formatAddedDate } from '../../lib/date-format';
 import { loadBuildData } from '../../lib/data/build';
 import { formatPriceRange } from '../../lib/data/place-enrichment';
@@ -126,6 +127,7 @@ const sharePath = `/place/${encodeURIComponent(place.id)}`;
 
 				<VisitReportButton client:idle placeId={place.id} placeName={place.name} />
 				<ListingFreshness client:idle place={place} showBusinessAction />
+				<DishHighlights place={place} />
 				<PhotoGallery client:visible placeId={place.id} placeName={place.name} allowUpload={true} />
 			</section>
 		</div>

@@ -60,6 +60,38 @@ function validatePrice(value: unknown, placeId: string): PlacePrice | undefined 
 	return { mealLowPhp, ...(mealHighPhp === undefined ? {} : { mealHighPhp }), verifiedAt };
 }
 
+function normalizeDishTags(value: unknown, placeId: string, index: number): string[] | undefined {
+	if (value === undefined) return undefined;
+	if (!Array.isArray(value)) throw new Error(`place_enrichment.json ${placeId} dish ${index} tags must be an array`);
+	const tags: string[] = [];
+	const seen = new Set<string>();
+	for (const raw of value) {
+		if (typeof raw !== 'string' || !raw.trim()) throw new Error(`place_enrichment.json ${placeId} dish ${index} contains an invalid tag`);
+		const clean = raw.trim().slice(0, 80);
+		const key = clean.toLocaleLowerCase();
+		if (!seen.has(key)) { seen.add(key); tags.push(clean); }
+	}
+	return tags;
+}
+
+function validateDishes(value: unknown, placeId: string): PlaceEnrichmentEntry['dishes'] {
+	if (value === undefined) return undefined;
+	if (!Array.isArray(value)) throw new Error(`place_enrichment.json ${placeId} dishes must be an array`);
+	const seenNames = new Set<string>();
+	return value.map((item, index) => {
+		if (!isRecord(item) || typeof item.name !== 'string' || !item.name.trim()) throw new Error(`place_enrichment.json ${placeId} dish ${index} needs a name`);
+		const name = item.name.trim().slice(0, 120);
+		const nameKey = name.toLocaleLowerCase();
+		if (seenNames.has(nameKey)) throw new Error(`place_enrichment.json ${placeId} contains duplicate dish ${name}`);
+		seenNames.add(nameKey);
+		const pricePhp = item.pricePhp === undefined ? undefined : Number(item.pricePhp);
+		if (pricePhp !== undefined && (!Number.isInteger(pricePhp) || pricePhp <= 0 || pricePhp > 10_000)) throw new Error(`place_enrichment.json ${placeId} dish ${index} has invalid pricePhp`);
+		const tags = normalizeDishTags(item.tags, placeId, index);
+		if (item.verifiedAt !== undefined && !validDate(item.verifiedAt)) throw new Error(`place_enrichment.json ${placeId} dish ${index} verifiedAt must use YYYY-MM-DD`);
+		return { name, ...(pricePhp === undefined ? {} : { pricePhp }), ...(tags?.length ? { tags } : {}), ...(item.verifiedAt === undefined ? {} : { verifiedAt: item.verifiedAt as string }) };
+	});
+}
+
 export function validatePlaceEnrichment(value: unknown): PlaceEnrichmentData {
 	if (!isRecord(value)) throw new Error('place_enrichment.json must contain an object');
 	if (value.version !== 1) throw new Error('place_enrichment.json must use version 1');
@@ -75,6 +107,7 @@ export function validatePlaceEnrichment(value: unknown): PlaceEnrichmentData {
 		const addedAt = raw.addedAt;
 		const lastReviewedAt = raw.lastReviewedAt;
 		const price = validatePrice(raw.price, placeId);
+		const dishes = validateDishes(raw.dishes, placeId);
 
 		if (addedAt !== undefined && !validDate(addedAt)) {
 			throw new Error(`place_enrichment.json ${placeId} addedAt must use YYYY-MM-DD`);
@@ -88,6 +121,7 @@ export function validatePlaceEnrichment(value: unknown): PlaceEnrichmentData {
 			...(addedAt === undefined ? {} : { addedAt }),
 			...(lastReviewedAt === undefined ? {} : { lastReviewedAt }),
 			...(price === undefined ? {} : { price }),
+			...(dishes === undefined ? {} : { dishes }),
 		};
 	}
 
@@ -121,6 +155,7 @@ export function mergePlaceEnrichment(
 			addedAt: extra?.addedAt ?? null,
 			lastReviewedAt: extra?.lastReviewedAt ?? null,
 			price: extra?.price ?? null,
+			dishes: extra?.dishes ?? [],
 		};
 	});
 }

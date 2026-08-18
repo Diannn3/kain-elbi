@@ -24,6 +24,13 @@ export interface PlacePrice {
 	verifiedAt: string;
 }
 
+export interface PlaceDish {
+	name: string;
+	pricePhp?: number;
+	tags?: string[];
+	verifiedAt?: string;
+}
+
 export interface Place {
 	id: string;
 	name: string;
@@ -50,6 +57,7 @@ export interface Place {
 	addedAt?: string | null;
 	lastReviewedAt?: string | null;
 	price?: PlacePrice | null;
+	dishes?: PlaceDish[];
 }
 
 export interface PlaceEnrichmentEntry {
@@ -57,6 +65,7 @@ export interface PlaceEnrichmentEntry {
 	addedAt?: string;
 	lastReviewedAt?: string;
 	price?: PlacePrice;
+	dishes?: PlaceDish[];
 }
 
 export interface PlaceEnrichmentData {

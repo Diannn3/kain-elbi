@@ -68,4 +68,33 @@ describe('place enrichment', () => {
 			},
 		})).toThrow(/mealHighPhp/);
 	});
+
+	it('validates dishes and rejects duplicate dish names', () => {
+		const enrichment = validatePlaceEnrichment({
+			version: 1,
+			places: {
+				one: {
+					aliases: [],
+					dishes: [
+						{ name: 'Iced Latte', pricePhp: 120, tags: ['coffee'] },
+					],
+				},
+			},
+		});
+		const merged = mergePlaceEnrichment([place], enrichment)[0];
+		expect(merged.dishes?.[0].name).toBe('Iced Latte');
+
+		expect(() => validatePlaceEnrichment({
+			version: 1,
+			places: {
+				one: {
+					aliases: [],
+					dishes: [
+						{ name: 'Iced Latte' },
+						{ name: 'iced latte' },
+					],
+				},
+			},
+		})).toThrow(/duplicate dish/);
+	});
 });

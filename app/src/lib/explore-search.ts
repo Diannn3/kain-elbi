@@ -33,6 +33,7 @@ function searchableTermsForPlace(place: Place, zoneName: string, categoryLabel: 
 		place.name,
 		...(place.aliases ?? []),
 		...place.cuisine,
+		...(place.dishes ?? []).flatMap((dish) => [dish.name, ...(dish.tags ?? [])]),
 		zoneName,
 		categoryLabel,
 	];
