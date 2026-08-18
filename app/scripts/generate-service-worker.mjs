@@ -116,6 +116,16 @@ const CLIENT_BOOTSTRAP_VERSION = ${JSON.stringify(PWA_CLIENT_BOOTSTRAP_VERSION)}
 const STATIC_CACHE = 'uppetite-static-' + VERSION;
 const DATA_CACHE = 'uppetite-data-' + VERSION;
 const PRECACHE = ${JSON.stringify(cacheable)};
+const PRIVATE_ROUTE_PREFIXES = ['/staff', '/auth', '/places-ops', '/api/auth', '/api/staff', '/api/ops', '/api/editor-picks'];
+
+function isPrivateRoute(pathname) {
+  return PRIVATE_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix + '/'));
+}
+
+function responseMayEnterCache(response) {
+  const policy = (response.headers.get('Cache-Control') || '').toLowerCase();
+  return response.ok && !/(?:^|[,\s])(?:private|no-store)(?:$|[,=\s])/.test(policy);
+}
 
 async function precacheShell() {
   const cache = await caches.open(STATIC_CACHE);
@@ -283,7 +293,7 @@ async function navigation(request) {
      * to satisfy the request according to its own revalidation rules.
      */
     const response = await fetch(request, { cache: 'no-store' });
-    if (response.ok) (await caches.open(STATIC_CACHE)).put(request, response.clone());
+    if (responseMayEnterCache(response)) (await caches.open(STATIC_CACHE)).put(request, response.clone());
     return response;
   } catch {
     const url = new URL(request.url);
@@ -333,6 +343,8 @@ async function staleData(request) {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
+  // Private/authenticated traffic is network-owned. Never serve or store it in the PWA Cache API.
+  if (isPrivateRoute(url.pathname)) return;
   if (url.pathname === '/data/runtime-manifest.json') return event.respondWith(latestDataManifest(event.request));
   if (url.pathname.startsWith('/data/releases/')) return event.respondWith(immutableData(event.request));
   if (url.pathname.startsWith('/data/')) return event.respondWith(staleData(event.request));
@@ -350,6 +362,14 @@ self.addEventListener('message', (event) => {
 `;
 
 	await writeFile(join(distDir, 'sw.js'), source, 'utf8');
+	// Mirror the generated worker into @astrojs/vercel's static Build Output tree.
+	const adapterStaticDir = resolve(process.cwd(), '.vercel', 'output', 'static');
+	try {
+		await stat(adapterStaticDir);
+		await writeFile(join(adapterStaticDir, 'sw.js'), source, 'utf8');
+	} catch {
+		// Local/static fallback: dist/sw.js above remains valid.
+	}
 	const bytes = await Promise.all(
 		cacheable.map(async (url) => (await stat(toPath(distDir, url))).size),
 	);

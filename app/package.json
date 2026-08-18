@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "prebuild": "node scripts/sync-data.mjs",
     "build": "astro build",
-    "postbuild": "node scripts/generate-service-worker.mjs",
+    "postbuild": "node scripts/generate-service-worker.mjs && node scripts/sync-vercel-output.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
@@ -22,7 +22,7 @@
     "test:visual:update": "node scripts/run-e2e.mjs --project=visual-chromium tests/e2e/visual.spec.ts --update-snapshots",
     "audit:build-size": "node scripts/report-build-size.mjs",
     "audit:editorial-privacy": "node scripts/audit-editorial-privacy.mjs",
-    "ops:export": "node scripts/export-place-audit.mjs"
+    "audit:private-data": "node scripts/audit-private-data.mjs"
   },
   "dependencies": {
     "@astrojs/svelte": "^9.0.1",
