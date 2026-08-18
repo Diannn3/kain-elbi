@@ -1,5 +1,7 @@
 ---
+export const prerender = false;
 import Layout from '../layouts/Layout.astro';
+import EditorsPicksSection from '../components/editorial/EditorsPicksSection.astro';
 import { loadBuildData } from '../lib/data/build';
 
 const { places, zones, collections, freshie } = await loadBuildData();
@@ -17,6 +19,8 @@ const starterItems = starterPlaces.filter((place): place is NonNullable<typeof p
 }));
 const sourceEntries = Object.entries(freshie.sources).filter(([, source]) => source.url);
 const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+Astro.response.headers.set('Cache-Control', 'public, max-age=0');
+Astro.response.headers.set('Vercel-CDN-Cache-Control', 'max-age=60, stale-while-revalidate=300');
 ---
 
 <Layout title="Freshie Mode — UPPETITE" description="A beginner-friendly guide to Elbi food zones and recent public student/community food mentions.">
@@ -54,6 +58,8 @@ const formatter = new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numer
 			</div>
 			<p class="fineprint">Zone names and boundaries are UPPETITE discovery labels. They are not official administrative boundaries.</p>
 		</section>
+
+		<EditorsPicksSection {places} {zones} />
 
 		{starter && starterPlaces.length > 0 && (
 			<section class="starter" aria-labelledby="starter-heading">

@@ -1,0 +1,49 @@
+---
+import type { FoodZone, Place } from '../../lib/types';
+import { createPublicSupabaseClient } from '../../lib/auth/public';
+import { EDITOR_PICK_TAG_LABELS, mapEditorPickRow, type EditorPickRecord } from '../../lib/editor-picks';
+
+interface Props { places: Place[]; zones: FoodZone[] }
+const { places, zones } = Astro.props;
+const placeById = new Map(places.map((place) => [place.id, place]));
+const zoneByPlace = new Map<string, FoodZone>();
+for (const zone of zones) for (const id of zone.placeIds) zoneByPlace.set(id, zone);
+let picks: EditorPickRecord[] = [];
+let unavailable = false;
+try {
+  const supabase = createPublicSupabaseClient();
+  if (!supabase) unavailable = true;
+  else {
+    const { data, error } = await supabase.from('uppetite_editor_picks').select('*').eq('published', true).order('sort_order').order('updated_at', { ascending:false });
+    if (error) unavailable = true;
+    else picks = (data ?? []).map((row) => mapEditorPickRow(row as Record<string,unknown>)).filter((pick): pick is EditorPickRecord => Boolean(pick) && placeById.has(pick.placeId));
+  }
+} catch { unavailable = true; }
+const items = picks.map((pick) => ({ pick, place:placeById.get(pick.placeId)!, zone:zoneByPlace.get(pick.placeId) }));
+---
+<section id="editors-picks" class="editors-picks" aria-labelledby="editors-picks-heading">
+  <div class="section-heading"><div><p class="eyebrow-global">Editor's Picks</p><h2 id="editors-picks-heading">Places I'd personally recommend around Elbi.</h2></div></div>
+  <p class="editor-note">Handpicked by UPPETITE. These are personal editorial recommendations—not rankings, paid placements, or community votes.</p>
+  {unavailable && items.length === 0 ? (
+    <div class="unavailable"><strong>Editor's Picks are temporarily unavailable.</strong><p>The rest of Freshie Mode is still available.</p></div>
+  ) : items.length ? (
+    <div class="pick-grid">
+      {items.map(({ pick, place, zone }) => (
+        <article>
+          <p class="pick-badge"><span aria-hidden="true">★</span> Editor's Pick</p>
+          <p class="place-meta">{zone?.shortName ?? 'Los Baños'} · {place.category.replace('_',' ')}</p>
+          <h3><a href={`/place/${place.id}`}>{place.name}</a></h3>
+          <strong class="tagline">{pick.tagline}</strong>
+          <p class="why">“{pick.editorNote}”</p>
+          {pick.reasonTags.length > 0 && <div class="tags" aria-label="Why it is recommended">{pick.reasonTags.map((tag) => <span>{EDITOR_PICK_TAG_LABELS[tag]}</span>)}</div>}
+          <a class="view" href={`/place/${place.id}`}>View place →</a>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div class="unavailable"><strong>Editor's Picks are coming soon.</strong><p>The editor hasn't published any picks yet.</p></div>
+  )}
+</section>
+<style>
+  .editors-picks{margin-top:clamp(3.5rem,9vw,6rem);scroll-margin-top:5rem}.editor-note{max-width:49rem;color:var(--color-text-muted);font-size:.84rem;line-height:1.5}.pick-grid{display:grid;gap:.85rem;margin-top:var(--space-5)}article{position:relative;padding:1.2rem;border:1px solid rgb(230 106 25/.3);border-radius:1.3rem;background:linear-gradient(145deg,var(--brand-cream),var(--brand-sand));overflow:hidden}article::after{content:'';position:absolute;right:-1.8rem;top:-1.8rem;width:5rem;height:5rem;border:1rem solid rgb(230 106 25/.08);border-radius:50%}.pick-badge{width:fit-content;display:inline-flex;align-items:center;gap:.4rem;margin:0;padding:.38rem .58rem;border-radius:999px;background:rgb(230 106 25/.12);color:var(--brand-maroon-deep);font:760 .66rem/1 var(--font-display);letter-spacing:.07em;text-transform:uppercase}.pick-badge span{color:var(--brand-orange)}.place-meta{margin:1.1rem 0 0;color:#4f4e18;font:720 .67rem/1 var(--font-display);letter-spacing:.06em;text-transform:uppercase}h3{margin:.45rem 0 0;color:var(--brand-maroon-deep);font:780 1.45rem/1 var(--font-display)}h3 a{color:inherit;text-decoration:none}.tagline{display:block;margin:.65rem 0 0;color:var(--brand-maroon-deep);font-size:.92rem}.why{margin:.55rem 0 0;color:var(--color-text-muted);font-size:.87rem;line-height:1.5}.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.85rem}.tags span{padding:.3rem .5rem;border:1px solid rgb(92 16 22/.18);border-radius:999px;color:var(--brand-maroon-deep);font-size:.66rem;font-weight:700}.view{display:inline-flex;margin-top:1rem;color:var(--brand-maroon-deep);font-weight:760;text-underline-offset:.2em}.unavailable{margin-top:var(--space-4);padding:var(--space-4);border:1px dashed var(--color-border);border-radius:var(--radius-md);background:var(--brand-cream)}.unavailable strong{color:var(--brand-maroon-deep)}.unavailable p{margin:.4rem 0 0;color:var(--color-text-muted)}@media(min-width:800px){.pick-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
