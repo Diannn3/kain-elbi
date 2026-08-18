@@ -9,7 +9,7 @@ const options = {
 describe('Explore URL state', () => {
 	it('parses every supported filter from a direct URL', () => {
 		expect(parseExploreUrl(
-			new URL('https://uppetite.test/explore?q=coffee&zone=raymundo&category=cafe&collection=freshie&hours=open&budget=150&view=map'),
+			new URL('https://uppetite.test/explore?q=coffee&zone=raymundo&category=cafe&collection=freshie&hours=open&budget=150&meal=coffee,quick-meal&view=map'),
 			options,
 		)).toEqual({
 			query: 'coffee',
@@ -18,6 +18,7 @@ describe('Explore URL state', () => {
 			collectionId: 'freshie',
 			hours: 'open',
 			budget: 150,
+			mealTags: ['coffee', 'quick-meal'],
 			view: 'map',
 		});
 	});
@@ -33,6 +34,7 @@ describe('Explore URL state', () => {
 			collectionId: '',
 			hours: '',
 			budget: '',
+			mealTags: [],
 			view: 'list',
 		});
 	});
@@ -45,10 +47,11 @@ describe('Explore URL state', () => {
 			collectionId: '',
 			hours: 'open',
 			budget: 150,
+			mealTags: ['coffee'],
 			view: 'list',
 		});
 		expect(url.pathname + url.search).toBe(
-			'/explore?tracking=kept&q=coffee&zone=raymundo&category=cafe&hours=open&budget=150',
+			'/explore?tracking=kept&q=coffee&zone=raymundo&category=cafe&hours=open&budget=150&meal=coffee',
 		);
 	});
 });

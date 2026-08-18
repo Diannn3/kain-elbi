@@ -31,6 +31,36 @@ export interface PlaceDish {
 	verifiedAt?: string;
 }
 
+export type MealTag =
+	| 'rice-meal'
+	| 'snack'
+	| 'coffee'
+	| 'dessert'
+	| 'heavy-meal'
+	| 'quick-meal'
+	| 'bakery'
+	| 'drinks';
+
+export interface FieldVerification {
+	verifiedAt: string;
+	source: 'community' | 'shop' | 'editorial' | 'public_source';
+}
+
+export interface PlaceVerification {
+	hours?: FieldVerification;
+	price?: FieldVerification;
+	menu?: FieldVerification;
+	payment?: FieldVerification;
+	location?: FieldVerification;
+}
+
+export interface ShopVerification {
+	status: 'verified';
+	verifiedAt: string;
+	method: 'owner_submission' | 'manual';
+	displayName?: string;
+}
+
 export interface Place {
 	id: string;
 	name: string;
@@ -57,7 +87,10 @@ export interface Place {
 	addedAt?: string | null;
 	lastReviewedAt?: string | null;
 	price?: PlacePrice | null;
+	mealTags?: MealTag[];
 	dishes?: PlaceDish[];
+	verification?: PlaceVerification;
+	shopVerification?: ShopVerification;
 }
 
 export interface PlaceEnrichmentEntry {
@@ -65,7 +98,10 @@ export interface PlaceEnrichmentEntry {
 	addedAt?: string;
 	lastReviewedAt?: string;
 	price?: PlacePrice;
+	mealTags?: MealTag[];
 	dishes?: PlaceDish[];
+	verification?: PlaceVerification;
+	shopVerification?: ShopVerification;
 }
 
 export interface PlaceEnrichmentData {

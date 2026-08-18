@@ -1,4 +1,4 @@
-import type { Category } from './types';
+import type { Category, MealTag } from './types';
 
 export type ExploreHoursFilter = '' | 'open' | 'closing';
 export type ExploreBudgetFilter = '' | 100 | 150 | 200;
@@ -10,6 +10,7 @@ export interface ExploreUrlState {
 	collectionId: string;
 	hours: ExploreHoursFilter;
 	budget: ExploreBudgetFilter;
+	mealTags: MealTag[];
 	view: 'list' | 'map';
 }
 
@@ -24,6 +25,16 @@ const categories = new Set<Category>([
 
 const hourFilters = new Set<ExploreHoursFilter>(['', 'open', 'closing']);
 const budgetFilters = new Set<number>([100, 150, 200]);
+const mealTagFilters = new Set<MealTag>([
+	'rice-meal',
+	'snack',
+	'coffee',
+	'dessert',
+	'heavy-meal',
+	'quick-meal',
+	'bakery',
+	'drinks',
+]);
 
 export function parseExploreUrl(url: URL, options: ExploreUrlOptions): ExploreUrlState {
 	const zone = url.searchParams.get('zone') ?? '';
@@ -31,6 +42,10 @@ export function parseExploreUrl(url: URL, options: ExploreUrlOptions): ExploreUr
 	const collection = url.searchParams.get('collection') ?? '';
 	const hours = url.searchParams.get('hours') ?? '';
 	const rawBudget = Number(url.searchParams.get('budget') ?? 0);
+	const mealTags = [...new Set((url.searchParams.get('meal') ?? '')
+		.split(',')
+		.map((value) => value.trim())
+		.filter((value): value is MealTag => mealTagFilters.has(value as MealTag)))];
 
 	return {
 		query: (url.searchParams.get('q') ?? '').trim(),
@@ -39,6 +54,7 @@ export function parseExploreUrl(url: URL, options: ExploreUrlOptions): ExploreUr
 		collectionId: options.collections.has(collection) ? collection : '',
 		hours: hourFilters.has(hours as ExploreHoursFilter) ? hours as ExploreHoursFilter : '',
 		budget: budgetFilters.has(rawBudget) ? rawBudget as ExploreBudgetFilter : '',
+		mealTags,
 		view: url.searchParams.get('view') === 'map' ? 'map' : 'list',
 	};
 }
@@ -51,6 +67,7 @@ export function serializeExploreUrl(url: URL, state: ExploreUrlState) {
 		['collection', state.collectionId],
 		['hours', state.hours],
 		['budget', state.budget ? String(state.budget) : ''],
+		['meal', state.mealTags.join(',')],
 		['view', state.view === 'map' ? 'map' : ''],
 	];
 	for (const [key, value] of values) {

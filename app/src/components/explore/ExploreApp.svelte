@@ -5,7 +5,7 @@
 	import FoodEvents from './FoodEvents.svelte';
 	import ExploreMobileFilters from './ExploreMobileFilters.svelte';
 	import CommunityPulse from '../community/CommunityPulse.svelte';
-	import type { Category, Collection, FoodEvent, FoodZone, Place } from '../../lib/types';
+	import type { Category, Collection, FoodEvent, FoodZone, MealTag, Place } from '../../lib/types';
 	import { appStorage } from '../../lib/storage.svelte';
 	import { STORAGE_KEYS } from '../../lib/storage-keys';
 	import {
@@ -50,6 +50,17 @@
 		other: 'Other',
 	};
 
+	const mealTagOptions: Array<{ tag: MealTag; label: string }> = [
+		{ tag: 'rice-meal', label: 'Rice meal' },
+		{ tag: 'snack', label: 'Snack' },
+		{ tag: 'coffee', label: 'Coffee' },
+		{ tag: 'dessert', label: 'Dessert' },
+		{ tag: 'heavy-meal', label: 'Heavy' },
+		{ tag: 'quick-meal', label: 'Quick' },
+		{ tag: 'bakery', label: 'Bakery' },
+		{ tag: 'drinks', label: 'Drinks' },
+	];
+
 	const routable = new Set(routablePlaceIds);
 	const zoneForPlace = new Map<string, FoodZone>();
 	for (const zone of zones) for (const id of zone.placeIds) zoneForPlace.set(id, zone);
@@ -60,6 +71,7 @@
 	let collectionId = $state('');
 	let hours = $state<ExploreHoursFilter>('');
 	let budget = $state<ExploreBudgetFilter>('');
+	let mealTags = $state<MealTag[]>([]);
 	let view = $state<'list' | 'map'>('list');
 	let selectedId = $state('');
 	let surpriseId = $state('');
@@ -77,7 +89,7 @@
 
 	const normalizedQuery = $derived(query.trim().toLowerCase());
 	const isResultsMode = $derived(Boolean(
-		normalizedQuery || zoneId || category || collectionId || hours || budget
+		normalizedQuery || zoneId || category || collectionId || hours || budget || mealTags.length
 	));
 	const activeCollection = $derived(injectedCollections.find((item) => item.id === collectionId));
 	const collectionPlaces = $derived(new Set(activeCollection?.placeIds ?? []));
@@ -90,6 +102,7 @@
 		if (category && place.category !== category) return false;
 		if (collectionId && !collectionPlaces.has(place.id)) return false;
 		if (budget && !placeFitsBudget(place, budget)) return false;
+		if (mealTags.length && !place.mealTags?.some((t) => mealTags.includes(t))) return false;
 
 		if (hours) {
 			if (!hoursReady) return false;
@@ -124,7 +137,7 @@
 	}));
 
 	function currentUrlState(): ExploreUrlState {
-		return { query, zoneId, category, collectionId, hours, budget, view };
+		return { query, zoneId, category, collectionId, hours, budget, mealTags, view };
 	}
 
 	function urlOptions() {
@@ -141,6 +154,7 @@
 		collectionId = state.collectionId;
 		hours = state.hours;
 		budget = state.budget;
+		mealTags = state.mealTags;
 		view = state.view;
 		selectedId = '';
 		surpriseId = '';
@@ -278,6 +292,7 @@
 		collectionId = '';
 		hours = '';
 		budget = '';
+		mealTags = [];
 		commitFilters();
 	}
 
@@ -371,6 +386,21 @@
 			</div>
 		</div>
 
+		<div class="meal-tag-rail" role="group" aria-label="Meal type filters">
+			{#each mealTagOptions as item (item.tag)}
+				<button
+					type="button"
+					class:active={mealTags.includes(item.tag)}
+					aria-pressed={mealTags.includes(item.tag)}
+					onclick={() => {
+						mealTags = mealTags.includes(item.tag)
+							? mealTags.filter((value) => value !== item.tag)
+							: [...mealTags, item.tag];
+						commitFilters();
+					}}
+				>{item.label}</button>
+			{/each}
+		</div>
 
 		<ExploreMobileFilters
 			{zones}
@@ -682,6 +712,7 @@
 	.search input::placeholder { color: var(--color-text-muted); font-weight: 500; }
 
 	.smart-suggestions,
+	.meal-tag-rail,
 	.hours-rail,
 	.hours-chips {
 		display: flex;
@@ -696,6 +727,7 @@
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 	}
+	.meal-tag-rail button,
 	.smart-suggestions button,
 	.hours-chips button {
 		min-height: var(--tap-target);
@@ -706,8 +738,10 @@
 		color: var(--brand-maroon-deep);
 		font-weight: 700;
 	}
+	.meal-tag-rail button:hover,
 	.smart-suggestions button:hover,
 	.hours-chips button:hover { background: var(--brand-sand); }
+	.meal-tag-rail button.active,
 	.hours-chips button.active {
 		border-color: var(--brand-maroon-deep);
 		background: var(--brand-maroon-deep);
@@ -1052,6 +1086,7 @@
 	@media (min-width: 760px) {
 		.toolbar { grid-template-columns: 1fr auto; align-items: end; padding: 1.15rem; }
 		.search,
+		.meal-tag-rail,
 		.smart-suggestions,
 		.hours-rail { grid-column: 1 / -1; }
 		.select-row { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
