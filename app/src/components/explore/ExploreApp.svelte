@@ -31,6 +31,7 @@
 		removeMealTypeIntent,
 		removeOpenNowIntent,
 	} from '../../lib/natural-food-search';
+	import { roulettePick, type RouletteMode } from '../../lib/roulette';
 	import { emptyPersonalState, readPersonalState, type PersonalState } from '../../lib/personal-state';
 	import { formatAddedDate, formatResearchDate } from '../../lib/date-format';
 
@@ -272,23 +273,12 @@
 		syncUrl('push');
 	}
 
-	function randomIndex(length: number) {
-		if (length <= 1) return 0;
-		if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
-			const values = new Uint32Array(1);
-			const ceiling = Math.floor(0x1_0000_0000 / length) * length;
-			do crypto.getRandomValues(values); while (values[0] >= ceiling);
-			return values[0] % length;
-		}
-		return Math.floor(Math.random() * length);
-	}
-
 	function surpriseMe() {
 		if (filtered.length === 0) return;
 		const candidates = filtered.length > 1 && selectedId
 			? filtered.filter((place) => place.id !== selectedId)
 			: filtered;
-		const place = candidates[randomIndex(candidates.length)];
+		const place = roulettePick(candidates, 'surprise', { saved: appStorage.savedPlaces });
 		if (!place) return;
 
 		selectedId = place.id;

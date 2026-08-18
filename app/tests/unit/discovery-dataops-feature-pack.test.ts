@@ -14,6 +14,7 @@ import {
   removeMealTypeIntent,
   removeOpenNowIntent,
 } from '../../src/lib/natural-food-search';
+import { roulettePick } from '../../src/lib/roulette';
 import { ageInDays } from '../../src/lib/freshness';
 import { buildOpsDashboard } from '../../src/lib/ops-dashboard';
 import { validatePlaceAudit } from '../../src/lib/place-audit';
@@ -162,6 +163,13 @@ describe('deterministic natural food search', () => {
 });
 
 describe('roulette and freshness', () => {
+  it('picks randomly under surprise mode', () => {
+    const p1 = place({ id: 'p1', name: 'Place 1' });
+    const p2 = place({ id: 'p2', name: 'Place 2' });
+    expect(roulettePick([p1, p2], 'surprise', { random: () => 0 })?.id).toBe('p1');
+    expect(roulettePick([p1, p2], 'surprise', { random: () => 0.99 })?.id).toBe('p2');
+  });
+
   it('counts date-only freshness using Asia/Manila day boundaries', () => {
     expect(ageInDays('2026-08-18', new Date('2026-08-18T16:30:00Z'))).toBe(1);
   });
