@@ -51,6 +51,13 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 					<p>A beginner-friendly guide to food zones and a non-ranked starter pack backed by recent public discussions.</p>
 					<b>{freshie.mentions.length} evidence records →</b>
 				</a>
+
+				<a class="mode-card personal" href="/my">
+					<span>My UPPETITE</span>
+					<strong>Remember my routine.</strong>
+					<p>Keep your timetable, repeated routes, personal recos, and food journal on this device.</p>
+					<b>No account required →</b>
+				</a>
 			</div>
 		</section>
 
@@ -258,6 +265,18 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		color: var(--brand-maroon-deep);
 	}
 
+	.mode-card.personal {
+		border: 1px solid var(--color-border);
+		background: var(--brand-cream);
+		color: var(--brand-charcoal);
+		box-shadow: 0 1rem 2.5rem rgb(92 16 22 / 0.06);
+	}
+
+	.mode-card.personal > span,
+	.mode-card.personal b,
+	.mode-card.personal strong { color: var(--brand-maroon-deep); }
+	.mode-card.personal p { color: var(--color-text-muted); }
+
 	.mode-card.freshie::after {
 		content: '';
 		position: absolute;
@@ -332,6 +351,7 @@ const namedZones = zones.filter((zone) => zone.id !== 'elsewhere-lb');
 		.mode-grid {
 			grid-template-columns: 1fr 1fr;
 		}
+		.mode-card.personal { grid-column: 1 / -1; min-height: 13rem; }
 
 		.principle-grid {
 			grid-template-columns: repeat(3, 1fr);
