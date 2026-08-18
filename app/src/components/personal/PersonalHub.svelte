@@ -70,6 +70,10 @@
   }
 
 
+  function removeSavedPlace(id: string) {
+    if (appStorage.savedPlaces.has(id)) appStorage.toggleSavedPlace(id);
+    savedPlaceIds = savedPlaceIds.filter((placeId) => placeId !== id);
+  }
 
   function addClass() {
     if (!course.trim() || !classAnchor) { statusError = true; status = 'Add a course and building first.'; return; }
@@ -132,6 +136,15 @@
         {#each state.quickRoutes as route (route.id)}
           <div class="row route-row"><div><strong>{route.name}</strong><span>{anchorName(route.originId)} → {route.destinationId ? anchorName(route.destinationId) : 'No next class'} · {route.breakMinutes} min</span></div><div class="row-actions"><a href={routeHref(route)}>Find food</a><button type="button" onclick={() => save({ ...state, quickRoutes: state.quickRoutes.filter((item) => item.id !== route.id) })}>Remove</button></div></div>
         {:else}<p class="empty">No quick routes saved yet.</p>{/each}
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading"><span>03</span><div><h2>Saved places</h2><p>Your bookmarked Elbi spots, kept on this device.</p></div></div>
+      <div class="rows">
+        {#each savedPlaces as place (place.id)}
+          <div class="row"><div><strong>{place.name}</strong><span>{categoryLabel(place.category)}</span></div><div class="row-actions"><a href={`/place/${encodeURIComponent(place.id)}`}>View place</a><button type="button" onclick={() => removeSavedPlace(place.id)}>Remove</button></div></div>
+        {:else}<p class="empty">No saved places yet. Save a place while browsing Explore or a place page.</p>{/each}
       </div>
     </section>
 

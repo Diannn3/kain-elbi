@@ -2,9 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import PersonalHub from '../components/personal/PersonalHub.svelte';
 import { loadBuildData } from '../lib/data/build';
-const { matrix } = await loadBuildData();
+const { matrix, places } = await loadBuildData();
 const anchors = Object.values(matrix.anchors);
+const placeSummaries = places
+  .filter((place) => place.recordStatus === 'candidate')
+  .map((place) => ({ id: place.id, name: place.name, category: place.category }));
 ---
-<Layout title="My UPPETITE — UPPETITE" description="Your private UPPETITE timetable, quick routes, recommendation lists, and food journal.">
-  <main id="main-content"><PersonalHub {anchors} client:load /></main>
+<Layout title="My UPPETITE — UPPETITE" description="Your private UPPETITE timetable, quick routes, saved places, and food journal.">
+  <main id="main-content"><PersonalHub {anchors} places={placeSummaries} client:load /></main>
 </Layout>
