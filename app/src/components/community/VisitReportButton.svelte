@@ -31,6 +31,7 @@
 
 		try {
 			await reportCommunityAction(placeId, 'visit_reported');
+			window.dispatchEvent(new CustomEvent('uppetite:visit-reported', { detail: { placeId } }));
 			state = 'done';
 			message = 'Visit counted for today.';
 		} catch {

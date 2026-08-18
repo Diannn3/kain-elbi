@@ -24,9 +24,19 @@
 
 	let accuracyState = $state<'idle' | 'sending' | 'done' | 'error'>('idle');
 	let accuracyMessage = $state('');
+	let visitedToday = $state(false);
 
 	onMount(() => {
-		if (backendConfigured && hasReportedActionToday(place.id, 'accuracy_confirmed')) accuracyState = 'done';
+		if (backendConfigured) {
+			if (hasReportedActionToday(place.id, 'accuracy_confirmed')) accuracyState = 'done';
+			visitedToday = hasReportedActionToday(place.id, 'visit_reported');
+		}
+		const onVisit = (event: Event) => {
+			const detail = (event as CustomEvent<{ placeId?: string }>).detail;
+			if (detail?.placeId === place.id) visitedToday = true;
+		};
+		addEventListener('uppetite:visit-reported', onVisit);
+		return () => removeEventListener('uppetite:visit-reported', onVisit);
 	});
 
 	const displayDate = formatAddedDate;
@@ -49,8 +59,10 @@
 
 <section class:compact class="freshness" aria-label={`Listing freshness for ${place.name}`}>
 	<div class="freshness-copy">
-		<strong>Still accurate?</strong>
-		{#if place.lastReviewedAt}
+		<strong>{visitedToday ? 'Since you’re here — still accurate?' : 'Still accurate?'}</strong>
+		{#if visitedToday}
+			<span>You marked a visit today. Confirm only if this listing still looks right.</span>
+		{:else if place.lastReviewedAt}
 			<span>Info checked {displayDate(place.lastReviewedAt)}.</span>
 		{:else}
 			<span>This listing has not been community-reviewed yet.</span>
