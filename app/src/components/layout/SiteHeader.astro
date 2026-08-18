@@ -8,6 +8,7 @@ const { currentPath } = Astro.props;
 const isFind = currentPath === '/' || currentPath.startsWith('/picks');
 const isExplore = currentPath.startsWith('/explore');
 const isFreshie = currentPath.startsWith('/freshie');
+const isMy = currentPath.startsWith('/my');
 const isContribute = currentPath.startsWith('/contribute');
 const isHome = currentPath === '/';
 ---
@@ -32,6 +33,7 @@ const isHome = currentPath === '/';
 				<a href="/" aria-current={isFind ? 'page' : undefined}>Find</a>
 				<a href="/explore" aria-current={isExplore ? 'page' : undefined}>Explore</a>
 				<a href="/freshie" aria-current={isFreshie ? 'page' : undefined}>Freshie</a>
+				<a href="/my" aria-current={isMy ? 'page' : undefined}>My UPPETITE</a>
 			</nav>
 
 			<DeveloperContactTrigger home={isHome} />
