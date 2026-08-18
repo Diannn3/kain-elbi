@@ -85,6 +85,20 @@ describe('personal state', () => {
     expect(normalized.quickRoutes[0].breakMinutes).toBe(45);
     expect(routeHref(normalized.quickRoutes[0])).toBe('/picks?origin=ics&originMode=building&break=45&destination=math');
   });
+
+  it('normalizes reco lists and guarantees the default my-recos list', () => {
+    const normalized = normalizePersonalState({
+      version: 1,
+      timetable: [],
+      quickRoutes: [],
+      recoLists: [
+        { id: 'custom', name: '  Study Spots  ', placeIds: ['place-1', 'place-1', 'invalid id!'], updatedAt: '2026-08-18T00:00:00.000Z' },
+      ],
+    });
+    expect(normalized.recoLists[0].id).toBe('my-recos');
+    expect(normalized.recoLists.find((list) => list.id === 'custom')?.placeIds).toEqual(['place-1']);
+    expect(normalized.recoLists.some((list) => list.id === 'my-recos')).toBe(true);
+  });
 });
 
 describe('deterministic natural food search', () => {

@@ -22,16 +22,25 @@ export interface QuickRoute {
   createdAt: string;
 }
 
+export interface RecoList {
+  id: string;
+  name: string;
+  placeIds: string[];
+  updatedAt: string;
+}
+
 export interface PersonalState {
   version: 1;
   timetable: TimetableEntry[];
   quickRoutes: QuickRoute[];
+  recoLists: RecoList[];
 }
 
 export const emptyPersonalState = (): PersonalState => ({
   version: 1,
   timetable: [],
   quickRoutes: [],
+  recoLists: [{ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() }],
 });
 
 function cleanText(value: unknown, max = 120): string | undefined {
@@ -91,7 +100,23 @@ export function normalizePersonalState(value: unknown): PersonalState {
     })
     : [];
 
-  return { version: 1, timetable, quickRoutes };
+  const recoLists: RecoList[] = Array.isArray(raw.recoLists)
+    ? raw.recoLists.flatMap((item) => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+      const row = item as Record<string, unknown>;
+      const name = cleanText(row.name, 60);
+      const updatedAt = iso(row.updatedAt);
+      if (!validId(row.id) || !name || !updatedAt || !Array.isArray(row.placeIds)) return [];
+      const placeIds = [...new Set(row.placeIds.filter(validId))].slice(0, 500);
+      return [{ id: row.id, name, placeIds, updatedAt }];
+    })
+    : [];
+
+  if (!recoLists.some((list) => list.id === 'my-recos')) {
+    recoLists.unshift({ id: 'my-recos', name: 'My Recos', placeIds: [], updatedAt: new Date(0).toISOString() });
+  }
+
+  return { version: 1, timetable, quickRoutes, recoLists };
 }
 
 export function readPersonalState(storage: Pick<Storage, 'getItem'> | undefined = typeof localStorage === 'undefined' ? undefined : localStorage): PersonalState {

@@ -24,6 +24,7 @@
   let routeOrigin = $state(anchors[0]?.id ?? '');
   let routeDestination = $state('');
   let routeBreak = $state(45);
+  let recoName = $state('');
   let status = $state('');
   let statusError = $state(false);
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -70,13 +71,18 @@
     if (!routeName.trim() || !routeOrigin) return;
     if (save({ ...state, quickRoutes: [{ id: createLocalId('route'), name: routeName.trim(), originId: routeOrigin, ...(routeDestination ? { destinationId: routeDestination } : {}), breakMinutes: routeBreak, createdAt: new Date().toISOString() }, ...state.quickRoutes].slice(0, 20) })) routeName = '';
   }
+
+  function addRecoList() {
+    if (!recoName.trim()) return;
+    if (save({ ...state, recoLists: [...state.recoLists, { id: createLocalId('reco'), name: recoName.trim(), placeIds: [], updatedAt: new Date().toISOString() }] })) recoName = '';
+  }
 </script>
 
 <section class="personal-shell" aria-labelledby="personal-title">
   <header>
     <p class="eyebrow-global">Your UPPETITE</p>
     <h1 id="personal-title">Make Elbi food fit your routine.</h1>
-    <p>Your timetable and routes stay on this device. No account is required.</p>
+    <p>Your timetable, routes, and recos stay on this device. No account is required.</p>
   </header>
 
   {#if upcoming}
@@ -122,6 +128,14 @@
         {:else}<p class="empty">No quick routes saved yet.</p>{/each}
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel-heading"><span>03</span><div><h2>My Recos</h2><p>Your own lists—not anonymous star ratings.</p></div></div>
+      <div class="inline-form"><input bind:value={recoName} placeholder="Coffee recos" maxlength="60" /><button type="button" onclick={addRecoList}>Create list</button></div>
+      <div class="rows">
+        {#each state.recoLists as list (list.id)}<div class="row"><div><strong>{list.name}</strong><span>{list.placeIds.length} place{list.placeIds.length === 1 ? '' : 's'}</span></div>{#if list.id !== 'my-recos'}<button type="button" onclick={() => save({ ...state, recoLists: state.recoLists.filter((item) => item.id !== list.id) })}>Delete</button>{/if}</div>{/each}
+      </div>
+    </section>
   </div>
 </section>
 
@@ -158,6 +172,8 @@
   .row span,.row small,.empty { color:var(--color-text-muted); font-size:.78rem; line-height:1.4; }
   .row button { min-height:2.6rem; padding-inline:.8rem; background:transparent; color:var(--brand-maroon-deep); }
   .row-actions { display:flex!important; grid-auto-flow:column; gap:var(--space-2)!important; }
+  .inline-form { display:flex; gap:var(--space-2); margin-top:var(--space-5); }
+  .inline-form input { flex:1; }
   @media(min-width:900px){ .personal-grid{grid-template-columns:1fr 1fr;align-items:start}.panel{padding:var(--space-6)} }
-  @media(max-width:480px){ .form-grid{grid-template-columns:1fr}.form-grid label.wide{grid-column:auto}.row{align-items:flex-start;flex-direction:column}.row-actions{width:100%;display:grid!important;grid-template-columns:1fr 1fr} }
+  @media(max-width:480px){ .form-grid{grid-template-columns:1fr}.form-grid label.wide{grid-column:auto}.row{align-items:flex-start;flex-direction:column}.row-actions{width:100%;display:grid!important;grid-template-columns:1fr 1fr}.inline-form{display:grid} }
 </style>
