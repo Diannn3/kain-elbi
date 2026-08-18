@@ -670,7 +670,16 @@
 							? 'Try a higher budget or clear another filter. Places without known price ranges are not included.'
 							: 'Try another name, category, area, or opening-hours filter.'}
 					</p>
-					<button onclick={clearFilters}>Clear filters</button>
+					<div class="recovery-actions">
+						{#if naturalIntent.maxBudget}<button onclick={() => { query = removeBudgetIntent(query); changeQuery(); }}>Remove ₱{naturalIntent.maxBudget} budget</button>{/if}
+						{#if mealTags.length}<button onclick={() => { mealTags = []; commitFilters(); }}>Any selected meal type</button>{/if}
+						{#if naturalIntent.mealTags.length}<button onclick={() => { query = removeMealTypeIntent(query); changeQuery(); }}>Remove interpreted meal type</button>{/if}
+						{#if hours}<button onclick={() => void setHours('')}>Any selected hours</button>{/if}
+						{#if naturalIntent.openNow}<button onclick={() => { query = removeOpenNowIntent(query); changeQuery(); }}>Remove “open now”</button>{/if}
+						{#if category}<button onclick={() => { category = ''; commitFilters(); }}>Any selected category</button>{/if}
+						{#if zoneId}<button onclick={() => { zoneId = ''; commitFilters(); }}>Any area</button>{/if}
+						<button class="primary" onclick={clearFilters}>Explore everything</button>
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -1154,4 +1163,7 @@
 	@keyframes card-enter { from { opacity: 0; transform: translateY(4px); } }
 	@media (prefers-reduced-motion: reduce) { .explore-card { animation: none !important; } }
 	.roulette-select select { min-height: var(--tap-target); padding: 0 2rem 0 .8rem; border: 1px solid var(--color-border); border-radius: 999px; background: var(--brand-cream); color: var(--brand-maroon-deep); font-weight: 700; }
+	.recovery-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); margin-top: var(--space-3); }
+	.recovery-actions button { min-height: var(--tap-target); padding: 0 var(--space-3); border: 1px solid var(--brand-maroon-deep); border-radius: 999px; background: transparent; color: var(--brand-maroon-deep); font-weight: 720; }
+	.recovery-actions button.primary { background: var(--brand-maroon-deep); color: var(--brand-cream); }
 </style>
