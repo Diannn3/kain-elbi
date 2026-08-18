@@ -1,0 +1,29 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import { createRequestSupabaseClient, isSameOriginMutation, setPrivateNoStore } from '../../lib/auth/server';
+import { getVerifiedStaffIdentity } from '../../lib/auth/authorization';
+
+setPrivateNoStore(Astro.response.headers);
+const supabase = createRequestSupabaseClient({ request: Astro.request, cookies: Astro.cookies });
+const staff = await getVerifiedStaffIdentity(supabase);
+if (!staff) return Astro.redirect('/staff/login', 302);
+let errorMessage = '';
+if (Astro.request.method === 'POST') {
+  if (!isSameOriginMutation(Astro.request)) return new Response('Forbidden', { status:403, headers:Astro.response.headers });
+  const form = await Astro.request.formData();
+  const password = String(form.get('password') ?? '');
+  const confirm = String(form.get('confirm') ?? '');
+  if (password.length < 10) errorMessage = 'Use at least 10 characters.';
+  else if (password !== confirm) errorMessage = 'Passwords do not match.';
+  else {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) errorMessage = 'Could not set your password. Ask the owner to resend your invite.';
+    else return Astro.redirect('/places-ops', 303);
+  }
+}
+---
+<Layout title="Finish Team Setup — UPPETITE" description="Finish your invitation-only UPPETITE team account." hideNav>
+  <main id="main-content" class="auth-shell page-shell"><section class="auth-card"><p class="eyebrow-global">Invitation accepted</p><h1>Set your password.</h1><p>Your role is <strong>{staff.role.replace('_',' ')}</strong>.</p>{errorMessage && <p class="error" role="alert">{errorMessage}</p>}<form method="post"><label>New password<input type="password" name="password" autocomplete="new-password" minlength="10" required /></label><label>Confirm password<input type="password" name="confirm" autocomplete="new-password" minlength="10" required /></label><button type="submit">Finish setup</button></form></section></main>
+</Layout>
+<style>.auth-shell{min-height:70vh;display:grid;place-items:center;padding-block:4rem}.auth-card{width:min(100%,31rem);padding:2rem;border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--brand-cream)}h1{color:var(--brand-maroon-deep);font:820 clamp(2.5rem,9vw,4rem)/.92 var(--font-display)}p{color:var(--color-text-muted)}.error{color:var(--brand-maroon-deep);font-weight:700}form{display:grid;gap:var(--space-3);margin-top:var(--space-5)}label{display:grid;gap:.4rem;font-size:.75rem;font-weight:720;text-transform:uppercase;letter-spacing:.05em}input,button{min-height:var(--tap-target);border-radius:var(--radius-sm);font:inherit}input{padding:0 var(--space-3);border:1px solid var(--color-border)}button{border:0;background:var(--brand-maroon-deep);color:var(--brand-cream);font-weight:760;cursor:pointer}</style>

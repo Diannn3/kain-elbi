@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import { createRequestSupabaseClient, isSameOriginMutation, safeLocalNext, setPrivateNoStore } from '../../lib/auth/server';
+import { getVerifiedStaffIdentity } from '../../lib/auth/authorization';
+
+setPrivateNoStore(Astro.response.headers);
+const next = safeLocalNext(Astro.url.searchParams.get('next'));
+const supabase = createRequestSupabaseClient({ request: Astro.request, cookies: Astro.cookies });
+const existing = await getVerifiedStaffIdentity(supabase);
+if (existing) return Astro.redirect(next, 302);
+
+let errorMessage = '';
+if (Astro.request.method === 'POST') {
+  if (!isSameOriginMutation(Astro.request)) return new Response('Forbidden', { status:403, headers:Astro.response.headers });
+  const form = await Astro.request.formData();
+  const email = String(form.get('email') ?? '').trim().toLowerCase();
+  const password = String(form.get('password') ?? '');
+  const requestedNext = safeLocalNext(String(form.get('next') ?? ''), next);
+  if (!email || !password) {
+    errorMessage = 'Enter your invited team email and password.';
+  } else {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      errorMessage = 'Sign-in failed. Check your credentials or ask the owner to confirm your access.';
+    } else {
+      const staff = await getVerifiedStaffIdentity(supabase);
+      if (!staff) {
+        await supabase.auth.signOut();
+        errorMessage = 'This account does not have active UPPETITE team access.';
+      } else {
+        return Astro.redirect(requestedNext, 303);
+      }
+    }
+  }
+}
+---
+<Layout title="Team Sign In — UPPETITE" description="Invitation-only team access for UPPETITE operations." hideNav>
+  <main id="main-content" class="auth-shell page-shell">
+    <section class="auth-card" aria-labelledby="signin-title">
+      <p class="eyebrow-global">UPPETITE Team</p>
+      <h1 id="signin-title">Team access.</h1>
+      <p class="intro">Places Ops and editorial tools are invitation-only. Regular UPPETITE visitors do not need an account.</p>
+      {errorMessage && <p class="error" role="alert">{errorMessage}</p>}
+      <form method="post">
+        <input type="hidden" name="next" value={next} />
+        <label>Email<input type="email" name="email" autocomplete="username" required /></label>
+        <label>Password<input type="password" name="password" autocomplete="current-password" required /></label>
+        <button type="submit">Sign in</button>
+      </form>
+      <a class="back" href="/">← Back to UPPETITE</a>
+    </section>
+  </main>
+</Layout>
+<style>
+  .auth-shell{min-height:70vh;display:grid;place-items:center;padding-block:clamp(3rem,9vw,7rem)}.auth-card{width:min(100%,31rem);padding:clamp(1.5rem,5vw,2.5rem);border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--brand-cream);box-shadow:0 1rem 3rem rgb(71 12 17/.08)}h1{margin:var(--space-3) 0;color:var(--brand-maroon-deep);font:820 clamp(2.7rem,10vw,4.6rem)/.9 var(--font-display);letter-spacing:-.05em}.intro{color:var(--color-text-muted);line-height:1.55}.error{padding:var(--space-3);border-radius:var(--radius-sm);background:rgb(92 16 22/.08);color:var(--brand-maroon-deep);font-weight:680}form{display:grid;gap:var(--space-3);margin-top:var(--space-5)}label{display:grid;gap:.4rem;color:var(--color-text-muted);font-size:.76rem;font-weight:740;text-transform:uppercase;letter-spacing:.06em}input{min-height:var(--tap-target);padding:0 var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-sm);background:#fff;color:var(--color-text);font:inherit;text-transform:none;letter-spacing:0}button{min-height:var(--tap-target);border:1px solid var(--brand-maroon-deep);border-radius:999px;background:var(--brand-maroon-deep);color:var(--brand-cream);font-weight:760;cursor:pointer}.back{display:inline-flex;margin-top:var(--space-4);color:var(--brand-maroon-deep);font-weight:700}
+</style>

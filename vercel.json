@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "name": "uppetite",
   "buildCommand": "cd app && npm install && npm run build",
-  "outputDirectory": "app/dist",
   "framework": "astro",
   "headers": [
     {

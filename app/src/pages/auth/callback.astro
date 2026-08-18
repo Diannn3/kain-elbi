@@ -1,0 +1,13 @@
+---
+export const prerender = false;
+import { createRequestSupabaseClient, setPrivateNoStore } from '../../lib/auth/server';
+
+setPrivateNoStore(Astro.response.headers);
+const tokenHash = Astro.url.searchParams.get('token_hash');
+const type = Astro.url.searchParams.get('type');
+if (!tokenHash || type !== 'invite') return Astro.redirect('/staff/login?error=invalid-invite', 302);
+const supabase = createRequestSupabaseClient({ request: Astro.request, cookies: Astro.cookies });
+const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
+if (error) return Astro.redirect('/staff/login?error=expired-invite', 302);
+return Astro.redirect('/staff/accept-invite', 303);
+---
