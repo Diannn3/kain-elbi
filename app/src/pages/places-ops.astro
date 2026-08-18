@@ -5,11 +5,13 @@ import PlacesOpsDashboard from '../components/ops/PlacesOpsDashboard.svelte';
 import { loadBuildData } from '../lib/data/build';
 import { buildOpsDashboard } from '../lib/ops-dashboard';
 import { validatePlaceAudit, type PlaceAuditEvent } from '../lib/place-audit';
+import { validatePlaceFeedback, type PlaceFeedbackSummary } from '../lib/place-feedback';
 
 const { places } = await loadBuildData();
 const placeNameById = new Map(places.map((place) => [place.id, place.name]));
 
 let auditEvents: PlaceAuditEvent[] = [];
+let feedbackRows: PlaceFeedbackSummary[] = [];
 
 try {
   const raw = JSON.parse(await readFile(new URL('../../../data/place_audit.json', import.meta.url), 'utf8'));
@@ -21,7 +23,14 @@ try {
   auditEvents = [];
 }
 
-const dashboard = buildOpsDashboard(places, new Date());
+try {
+  const raw = JSON.parse(await readFile(new URL('../../../data/place_feedback.json', import.meta.url), 'utf8'));
+  feedbackRows = validatePlaceFeedback(raw).rows;
+} catch {
+  feedbackRows = [];
+}
+
+const dashboard = buildOpsDashboard(places, new Date(), feedbackRows);
 ---
 
 <Layout title="Places Ops — UPPETITE" description="Privacy-safe data health and verification queue for the UPPETITE Places team.">

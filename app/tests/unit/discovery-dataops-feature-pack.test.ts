@@ -107,8 +107,10 @@ describe('Places Ops data contracts', () => {
     const reported = place({ id: 'reported', name: 'Reported', openingHours: 'Mo-Su 09:00-17:00', lastReviewedAt: '2026-08-17', mealTags: ['rice-meal'], dishes: [{ name: 'Meal' }], price: { mealLowPhp: 100, verifiedAt: '2026-08-17' } });
     const stale = place({ id: 'stale', name: 'Stale' });
     const closed = place({ id: 'closed', name: 'Closed', recordStatus: 'closed' });
-    const dashboard = buildOpsDashboard([stale, closed, reported], new Date('2026-08-18T12:00:00Z'));
+    const feedback = [{ placeId: 'reported', openCount: 3, reviewingCount: 0, newestAt: '2026-08-18T00:00:00Z', categories: { hours_wrong: 3 } }];
+    const dashboard = buildOpsDashboard([stale, closed, reported], new Date('2026-08-18T12:00:00Z'), feedback);
     expect(dashboard.totals.places).toBe(2);
-    expect(dashboard.tasks[0].placeId).toBe('stale');
+    expect(dashboard.totals.openReports).toBe(3);
+    expect(dashboard.tasks[0].placeId).toBe('reported');
   });
 });
