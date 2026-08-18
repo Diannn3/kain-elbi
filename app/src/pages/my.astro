@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PersonalHub from '../components/personal/PersonalHub.svelte';
+import StaffToolsCard from '../components/auth/StaffToolsCard.svelte';
 import { loadBuildData } from '../lib/data/build';
 const { matrix, places } = await loadBuildData();
 const anchors = Object.values(matrix.anchors);
@@ -9,5 +10,5 @@ const placeSummaries = places
   .map((place) => ({ id: place.id, name: place.name, category: place.category }));
 ---
 <Layout title="My UPPETITE — UPPETITE" description="Your private UPPETITE timetable, quick routes, saved places, and food journal.">
-  <main id="main-content"><PersonalHub {anchors} places={placeSummaries} client:load /></main>
+  <main id="main-content"><PersonalHub {anchors} places={placeSummaries} client:load /><StaffToolsCard client:idle /></main>
 </Layout>

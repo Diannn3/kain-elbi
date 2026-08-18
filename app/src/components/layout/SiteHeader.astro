@@ -1,5 +1,6 @@
 ---
 import DeveloperContactTrigger from './DeveloperContactTrigger.astro';
+import StaffToolsTrigger from '../auth/StaffToolsTrigger.svelte';
 
 interface Props { currentPath: string }
 
@@ -37,6 +38,7 @@ const isHome = currentPath === '/';
 			</nav>
 
 			<DeveloperContactTrigger home={isHome} />
+			<StaffToolsTrigger client:idle home={isHome} />
 
 			{!isContribute && (
 				<a class="contribute-action" href="/contribute">
