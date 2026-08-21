@@ -1,0 +1,4 @@
+﻿queue_id,place_id,place_name,field,current_value,proposed_value,selected_value,recommendation,risk,confidence,independent_sources,freshest,source_urls,decision,reviewer,review_notes
+eb5460f9-f56d-5dc1-a08b-55e970cd4a3e,591995e5-a878-45a4-8ba7-a87ac36ea466,Dalcielo,phone,,63495361234,63495361234,ready_for_review,normal,0.8762,1,fresh,https://www.facebook.com/Dalcielo,,,
+60ff7c04-f8e5-5ca8-88da-d0a098385325,e7291f4c-b507-4d65-b48e-fedb06d6687a,Dalcielo,phone,,63495365678,63495365678,ready_for_review,normal,0.8762,1,fresh,https://www.facebook.com/Dalcielo,,,
+633b826b-45a4-5b53-82a1-ca5cc7371e9e,53b37f43-2d99-535d-9096-4b1f6a039dce,Dash Espresso,opening_hours,,Mo-Fr 08:00-23:00; Sa-Su 09:00-23:00,Mo-Fr 08:00-23:00; Sa-Su 09:00-23:00,manual_review,normal,0.8164,1,fresh,https://www.foodpanda.ph/restaurant/DashEspresso,,,

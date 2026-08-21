@@ -151,6 +151,24 @@
         "mealHighPhp": 233,
         "verifiedAt": "2026-08-10"
       }
+    },
+    "591995e5-a878-45a4-8ba7-a87ac36ea466": {
+      "aliases": [],
+      "lastReviewedAt": "2026-08-21"
+    },
+    "e7291f4c-b507-4d65-b48e-fedb06d6687a": {
+      "aliases": [],
+      "lastReviewedAt": "2026-08-21"
+    },
+    "53b37f43-2d99-535d-9096-4b1f6a039dce": {
+      "aliases": [],
+      "lastReviewedAt": "2026-08-21",
+      "verification": {
+        "hours": {
+          "verifiedAt": "2026-08-21",
+          "source": "public_source"
+        }
+      }
     }
   }
 }

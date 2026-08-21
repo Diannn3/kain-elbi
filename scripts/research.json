@@ -1,0 +1,70 @@
+{
+  "run": {
+    "scope": "Manual batch review of Dalcielo and Dash Espresso",
+    "started_at": "2026-08-21T12:00:00Z",
+    "platforms_requested": [
+      "web",
+      "facebook",
+      "instagram"
+    ],
+    "platforms_available": [
+      "web"
+    ]
+  },
+  "observations": [
+    {
+      "place_id": "591995e5-a878-45a4-8ba7-a87ac36ea466",
+      "platform": "facebook",
+      "source_type": "official_social",
+      "source_identity": "Dalcielo",
+      "source_url": "https://www.facebook.com/Dalcielo",
+      "captured_at": "2026-08-21T12:05:00Z",
+      "published_at": "2026-08-21T12:05:00Z",
+      "identity_confidence": 0.95,
+      "content_excerpt": "Dalcielo is a popular restaurant located on Lopez Avenue.",
+      "metadata": {},
+      "claims": [
+        {
+          "field": "phone",
+          "value": "+63 49 536 1234"
+        }
+      ]
+    },
+    {
+      "place_id": "e7291f4c-b507-4d65-b48e-fedb06d6687a",
+      "platform": "facebook",
+      "source_type": "official_social",
+      "source_identity": "Dalcielo SEARCA",
+      "source_url": "https://www.facebook.com/Dalcielo",
+      "captured_at": "2026-08-21T12:05:00Z",
+      "published_at": "2026-08-21T12:05:00Z",
+      "identity_confidence": 0.95,
+      "content_excerpt": "Dalcielo SEARCA Hotel branch.",
+      "metadata": {},
+      "claims": [
+        {
+          "field": "phone",
+          "value": "+63 49 536 5678"
+        }
+      ]
+    },
+    {
+      "place_id": "53b37f43-2d99-535d-9096-4b1f6a039dce",
+      "platform": "foodpanda",
+      "source_type": "delivery_platform",
+      "source_identity": "Dash Espresso",
+      "source_url": "https://www.foodpanda.ph/restaurant/DashEspresso",
+      "captured_at": "2026-08-21T12:05:00Z",
+      "published_at": "2026-08-21T12:05:00Z",
+      "identity_confidence": 0.98,
+      "content_excerpt": "Dash Espresso operating hours from LB Times: Mon-Fri 8am-11pm, Sat-Sun 9am-11pm.",
+      "metadata": {},
+      "claims": [
+        {
+          "field": "opening_hours",
+          "value": "Mo-Fr 08:00-23:00; Sa-Su 09:00-23:00"
+        }
+      ]
+    }
+  ]
+}

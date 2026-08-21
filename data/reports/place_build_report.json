@@ -10,14 +10,19 @@
     "bootstrapped_registry_places": 0,
     "reused_stable_ids": 769,
     "new_stable_ids": 0,
-    "auto_merge_operations": 34,
+    "auto_merge_operations": 25,
     "stable_id_conflicts_blocked": 0,
-    "review_candidates": 21,
+    "contact_conflict_reviews": 5,
+    "review_candidates": 33,
     "source_mix": {
       "osm": 221,
       "osm+overture": 28,
       "overture": 520
-    }
+    },
+    "override_places": 3,
+    "override_fields": 3,
+    "coordinate_overrides": 0,
+    "derived_status_changes": 0
   },
   "review": [
     {
@@ -72,6 +77,25 @@
       "reasons": [
         "name=1.00",
         "distance=3.0m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/582442376",
+        "name": "Daniela"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "d2fee393-9624-46a5-b3ce-8dbea84bac85",
+        "name": "Daniela's"
+      },
+      "score": 0.583,
+      "distance_m": 49.4,
+      "reasons": [
+        "name=0.88",
+        "category",
+        "distance=49.4m"
       ]
     },
     {
@@ -133,6 +157,62 @@
     {
       "candidate_a": {
         "source": "osm",
+        "source_id": "node/1497254658",
+        "name": "Chowking"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "2c38b201-f13f-4ddb-b758-1017677ecece",
+        "name": "Chowking"
+      },
+      "score": 0.5816,
+      "distance_m": 12.3,
+      "reasons": [
+        "name=1.00",
+        "phone-conflict",
+        "category",
+        "distance=12.3m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/1637363254",
+        "name": "Twinkle Pop"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "66714d48-6c14-4c3c-a95e-423c1db1f9bc",
+        "name": "Twinkle Pop Restaurant"
+      },
+      "score": 0.6157,
+      "distance_m": 5.6,
+      "reasons": [
+        "category",
+        "distance=5.6m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/1660351983",
+        "name": "Siomai Co."
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "a8083448-4a9e-467f-9036-43d0a3bb9e75",
+        "name": "Siomai Busog"
+      },
+      "score": 0.6153,
+      "distance_m": 21.0,
+      "reasons": [
+        "category",
+        "distance=21.0m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
         "source_id": "node/2141102095",
         "name": "Minute Burger"
       },
@@ -164,6 +244,62 @@
       "reasons": [
         "name=0.90",
         "distance=4.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/2380792666",
+        "name": "Satya Graha Cafe"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "d70e1d73-ed7a-43fa-8c33-75354cd8c558",
+        "name": "Satya Graha Cafe and Restaurant"
+      },
+      "score": 0.6097,
+      "distance_m": 9.8,
+      "reasons": [
+        "category",
+        "distance=9.8m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/2455301614",
+        "name": "Ellen's Fried Chicken"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "877a1f82-8626-4b89-b63b-3010526c52a4",
+        "name": "Ellen's Chicken House"
+      },
+      "score": 0.6005,
+      "distance_m": 18.1,
+      "reasons": [
+        "category",
+        "distance=18.1m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/3158988522",
+        "name": "Cravery Pizza"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "bfd33dbe-3e29-4980-835c-ad384f51292e",
+        "name": "Cravery Pizza"
+      },
+      "score": 0.5345,
+      "distance_m": 27.3,
+      "reasons": [
+        "name=1.00",
+        "website-conflict",
+        "category",
+        "distance=27.3m"
       ]
     },
     {
@@ -313,6 +449,101 @@
     {
       "candidate_a": {
         "source": "osm",
+        "source_id": "node/11199228064",
+        "name": "Infinitea Vega Arcade - UPLB"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "b5f4dc8f-ace1-4dea-b066-1f20a967c192",
+        "name": "Happy Kopi Vega Arcade UPLB"
+      },
+      "score": 0.5949,
+      "distance_m": 14.3,
+      "reasons": [
+        "category",
+        "distance=14.3m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/11199235768",
+        "name": "We Deliver"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "5d14b676-3ce5-4cc2-8956-472baec9712c",
+        "name": "We Deliver"
+      },
+      "score": 0.5345,
+      "distance_m": 27.3,
+      "reasons": [
+        "name=1.00",
+        "phone-conflict",
+        "category",
+        "distance=27.3m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/11199284280",
+        "name": "Tropic Bowls"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "ab9d8c22-23e0-40e9-9f18-4490145aa148",
+        "name": "Tropic Bowls"
+      },
+      "score": 0.6919,
+      "distance_m": 9.0,
+      "reasons": [
+        "name=1.00",
+        "phone-conflict",
+        "website",
+        "category",
+        "distance=9.0m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/11688947827",
+        "name": "Black And Brew Cafe"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "a0aa600e-ca99-417a-b39c-b6d0689fe4ed",
+        "name": "Black and Brew Coffee Shop"
+      },
+      "score": 0.5966,
+      "distance_m": 33.1,
+      "reasons": [
+        "category",
+        "distance=33.1m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
+        "source_id": "node/12243050695",
+        "name": "Siento"
+      },
+      "candidate_b": {
+        "source": "overture",
+        "source_id": "6923f147-6b5e-4226-a34e-b68acd357104",
+        "name": "Siento Cafe"
+      },
+      "score": 0.6163,
+      "distance_m": 11.7,
+      "reasons": [
+        "category",
+        "distance=11.7m"
+      ]
+    },
+    {
+      "candidate_a": {
+        "source": "osm",
         "source_id": "node/13526781453",
         "name": "Angel's Burger"
       },
@@ -376,9 +607,10 @@
         "source_id": "1ee6cc37-4cac-4fce-a10e-dba0c5fbd2cf",
         "name": "One Bonitos"
       },
-      "score": 0.6567,
+      "score": 0.4767,
       "distance_m": 11.6,
       "reasons": [
+        "website-conflict",
         "category",
         "distance=11.6m"
       ]

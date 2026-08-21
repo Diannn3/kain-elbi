@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "dataset_version": "2026.08.07",
-  "generated_at": "2026-08-07T18:29:54.131748+00:00",
+  "dataset_version": "2026.08.21",
+  "generated_at": "2026-08-21T12:22:24.851023+00:00",
   "places": {
     "raw_osm": 259,
     "raw_overture": 2664,
@@ -13,14 +13,19 @@
     "bootstrapped_registry_places": 0,
     "reused_stable_ids": 769,
     "new_stable_ids": 0,
-    "auto_merge_operations": 34,
+    "auto_merge_operations": 25,
     "stable_id_conflicts_blocked": 0,
-    "review_candidates": 21,
+    "contact_conflict_reviews": 5,
+    "review_candidates": 33,
     "source_mix": {
       "osm": 221,
       "osm+overture": 28,
       "overture": 520
-    }
+    },
+    "override_places": 3,
+    "override_fields": 3,
+    "coordinate_overrides": 0,
+    "derived_status_changes": 0
   },
   "collections": {
     "published": 3
@@ -34,7 +39,7 @@
   "routing": {
     "status": "room-tba-graph",
     "schema_version": 2,
-    "generated_at": "2026-08-07T18:29:54.100504+00:00",
+    "generated_at": "2026-08-21T12:22:24.660539+00:00",
     "routing": {
       "source": "room-tba-walk-graph",
       "repository": "uplbtools/room-tba",

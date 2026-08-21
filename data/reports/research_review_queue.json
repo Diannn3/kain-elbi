@@ -1,0 +1,103 @@
+{
+  "candidates_pending": 0,
+  "counts": {
+    "manual_review": 1,
+    "ready_for_review": 2
+  },
+  "dangling_claims": [],
+  "decided_items_suppressed": 0,
+  "generated_at": "2026-08-21T12:20:40.698508Z",
+  "items": [
+    {
+      "current_value": null,
+      "field": "phone",
+      "id": "eb5460f9-f56d-5dc1-a08b-55e970cd4a3e",
+      "place_id": "591995e5-a878-45a4-8ba7-a87ac36ea466",
+      "place_name": "Dalcielo",
+      "proposals": [
+        {
+          "best_authority": "A",
+          "claim_ids": [
+            "870e9aa9-ed03-5be2-bf55-fab24275a489"
+          ],
+          "confidence": 0.8762,
+          "first_party": true,
+          "freshest": "fresh",
+          "independent_sources": 1,
+          "source_urls": [
+            "https://www.facebook.com/Dalcielo"
+          ],
+          "strong_recent_sources": 1,
+          "value": "63495361234",
+          "youngest_age_days": 0
+        }
+      ],
+      "reasons": [
+        "Evidence confidence is strong enough for human approval"
+      ],
+      "recommendation": "ready_for_review",
+      "risk": "normal"
+    },
+    {
+      "current_value": null,
+      "field": "phone",
+      "id": "60ff7c04-f8e5-5ca8-88da-d0a098385325",
+      "place_id": "e7291f4c-b507-4d65-b48e-fedb06d6687a",
+      "place_name": "Dalcielo",
+      "proposals": [
+        {
+          "best_authority": "A",
+          "claim_ids": [
+            "a9611f99-4e80-538e-ab7e-506972fd15bd"
+          ],
+          "confidence": 0.8762,
+          "first_party": true,
+          "freshest": "fresh",
+          "independent_sources": 1,
+          "source_urls": [
+            "https://www.facebook.com/Dalcielo"
+          ],
+          "strong_recent_sources": 1,
+          "value": "63495365678",
+          "youngest_age_days": 0
+        }
+      ],
+      "reasons": [
+        "Evidence confidence is strong enough for human approval"
+      ],
+      "recommendation": "ready_for_review",
+      "risk": "normal"
+    },
+    {
+      "current_value": null,
+      "field": "opening_hours",
+      "id": "633b826b-45a4-5b53-82a1-ca5cc7371e9e",
+      "place_id": "53b37f43-2d99-535d-9096-4b1f6a039dce",
+      "place_name": "Dash Espresso",
+      "proposals": [
+        {
+          "best_authority": "B",
+          "claim_ids": [
+            "e0190c31-2755-5cfb-ad5f-d8df5239f4f2"
+          ],
+          "confidence": 0.8164,
+          "first_party": false,
+          "freshest": "fresh",
+          "independent_sources": 1,
+          "source_urls": [
+            "https://www.foodpanda.ph/restaurant/DashEspresso"
+          ],
+          "strong_recent_sources": 1,
+          "value": "Mo-Fr 08:00-23:00; Sa-Su 09:00-23:00",
+          "youngest_age_days": 0
+        }
+      ],
+      "reasons": [
+        "Evidence is plausible but below the strong-review threshold"
+      ],
+      "recommendation": "manual_review",
+      "risk": "normal"
+    }
+  ],
+  "schema_version": 1
+}

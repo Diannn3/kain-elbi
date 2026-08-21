@@ -1,0 +1,519 @@
+{
+  "generated_at": "2026-08-21T12:18:14.888414Z",
+  "places_considered": 757,
+  "purpose": "Agent-Reach/manual public-source research batch. Evidence only; never a canonical write instruction.",
+  "schema_version": 1,
+  "task_count": 10,
+  "tasks": [
+    {
+      "aliases": [],
+      "category": "restaurant",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.165911399968,
+      "lon": 121.24519864179,
+      "name": "Ate Tina's Canteen",
+      "place_id": "05000abd-8ef7-5d73-846b-fa8f781b0d31",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Ate Tina's Canteen\" Los Baños",
+        "\"Ate Tina's Canteen\" UPLB"
+      ],
+      "snap_distance_m": 33.55,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "cafe",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1675787,
+      "lon": 121.2436254,
+      "name": "Black And Brew Cafe",
+      "place_id": "508e855a-97af-4a11-b97a-4f498a5d1583",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Black And Brew Cafe\" Los Baños",
+        "\"Black And Brew Cafe\" UPLB"
+      ],
+      "snap_distance_m": 16.32,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "cafe",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1681975,
+      "lon": 121.244155,
+      "name": "Bubble G Milk Tea",
+      "place_id": "8c27bb70-c27c-43e6-b12e-ee421a52df7c",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route needs review"
+      ],
+      "route_status": "review",
+      "search_hints": [
+        "\"Bubble G Milk Tea\" Los Baños",
+        "\"Bubble G Milk Tea\" UPLB"
+      ],
+      "snap_distance_m": 83.0,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "restaurant",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1645485,
+      "lon": 121.2421525,
+      "name": "Café Buchie",
+      "place_id": "bb951e83-de29-42ea-be90-b6dc3ee77fb9",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Café Buchie\" Los Baños",
+        "\"Café Buchie\" UPLB"
+      ],
+      "snap_distance_m": 24.89,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "restaurant",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.16880034,
+      "lon": 121.2412739,
+      "name": "Chikin Corner",
+      "place_id": "e664a395-4879-5293-88ca-8fe7077182f9",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route needs review"
+      ],
+      "route_status": "review",
+      "search_hints": [
+        "\"Chikin Corner\" Los Baños",
+        "\"Chikin Corner\" UPLB"
+      ],
+      "snap_distance_m": 67.99,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "restaurant",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1617113,
+      "lon": 121.2397379,
+      "name": "Dalcielo",
+      "place_id": "591995e5-a878-45a4-8ba7-a87ac36ea466",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Dalcielo\" Los Baños",
+        "\"Dalcielo\" UPLB"
+      ],
+      "snap_distance_m": 14.91,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "restaurant",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1669597,
+      "lon": 121.2438583,
+      "name": "Dalcielo",
+      "place_id": "e7291f4c-b507-4d65-b48e-fedb06d6687a",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Dalcielo\" Los Baños",
+        "\"Dalcielo\" UPLB"
+      ],
+      "snap_distance_m": 15.23,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "cafe",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.16802747,
+      "lon": 121.24358946,
+      "name": "Dash Espresso",
+      "place_id": "53b37f43-2d99-535d-9096-4b1f6a039dce",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Dash Espresso\" Los Baños",
+        "\"Dash Espresso\" UPLB"
+      ],
+      "snap_distance_m": 35.89,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "fast_food",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1677544,
+      "lon": 121.2437704,
+      "name": "Dunkin'",
+      "place_id": "277442e0-f26f-4af0-ae25-cb0eda4134d2",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route-supported"
+      ],
+      "route_status": "good",
+      "search_hints": [
+        "\"Dunkin'\" Los Baños",
+        "\"Dunkin'\" UPLB"
+      ],
+      "snap_distance_m": 26.57,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    },
+    {
+      "aliases": [],
+      "category": "bakery_deli",
+      "current": {
+        "last_reviewed_at": null,
+        "opening_hours": null,
+        "operational_status": null,
+        "phone": null,
+        "price": null,
+        "website": null
+      },
+      "desired_claims": [
+        "opening_hours",
+        "price.meal_low_php",
+        "price.meal_high_php",
+        "website",
+        "phone",
+        "operational_status",
+        "facebook_url",
+        "instagram_url"
+      ],
+      "lat": 14.1684148,
+      "lon": 121.2438722,
+      "name": "Fiorgelato",
+      "place_id": "900dc55f-6099-4dc7-8c9d-0a220fcc2bf2",
+      "priority": 118,
+      "priority_reasons": [
+        "Never UPPETITE-reviewed",
+        "Missing hours",
+        "Missing meal price range",
+        "Missing website",
+        "Missing phone",
+        "Operating status not independently known",
+        "Only one structured source",
+        "Smart Picks route needs review"
+      ],
+      "route_status": "review",
+      "search_hints": [
+        "\"Fiorgelato\" Los Baños",
+        "\"Fiorgelato\" UPLB"
+      ],
+      "snap_distance_m": 86.68,
+      "source_priority": [
+        "official_social",
+        "official_website",
+        "delivery_platform",
+        "mall_directory",
+        "osm/overture",
+        "community_social for discovery/corroboration only"
+      ]
+    }
+  ]
+}

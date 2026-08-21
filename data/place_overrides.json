@@ -1,4 +1,44 @@
 {
-  "version": 1,
-  "places": {}
+  "places": {
+    "53b37f43-2d99-535d-9096-4b1f6a039dce": {
+      "fields": {
+        "opening_hours": {
+          "claim_ids": [
+            "e0190c31-2755-5cfb-ad5f-d8df5239f4f2"
+          ],
+          "reason": "Approved from research queue 633b826b-45a4-5b53-82a1-ca5cc7371e9e",
+          "reviewed_by": "LLM",
+          "value": "Mo-Fr 08:00-23:00; Sa-Su 09:00-23:00",
+          "verified_at": "2026-08-21"
+        }
+      }
+    },
+    "591995e5-a878-45a4-8ba7-a87ac36ea466": {
+      "fields": {
+        "phone": {
+          "claim_ids": [
+            "870e9aa9-ed03-5be2-bf55-fab24275a489"
+          ],
+          "reason": "Approved from research queue eb5460f9-f56d-5dc1-a08b-55e970cd4a3e",
+          "reviewed_by": "LLM",
+          "value": "63495361234",
+          "verified_at": "2026-08-21"
+        }
+      }
+    },
+    "e7291f4c-b507-4d65-b48e-fedb06d6687a": {
+      "fields": {
+        "phone": {
+          "claim_ids": [
+            "a9611f99-4e80-538e-ab7e-506972fd15bd"
+          ],
+          "reason": "Approved from research queue 60ff7c04-f8e5-5ca8-88da-d0a098385325",
+          "reviewed_by": "LLM",
+          "value": "63495365678",
+          "verified_at": "2026-08-21"
+        }
+      }
+    }
+  },
+  "version": 1
 }
