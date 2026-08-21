@@ -5,6 +5,10 @@ import json
 from collections import Counter
 from typing import Any
 
+from audit_research import build_research_audit
+from audit_overrides import build_override_audit
+from audit_enrichment import build_enrichment_audit
+from build_route_coverage_report import build_route_coverage_report
 from lib.paths import PLACES_FILE, REPORTS_DIR, ROUTE_MATRIX_FILE
 
 EXPECTED_GOOD_SNAP_M = 40.0
@@ -124,6 +128,10 @@ def build_report() -> dict:
                     unsupported_anchor_route_refs += sum(anchor_id in unsupported_set for anchor_id in legs)
 
     routing_source = (route.get('routing') or {}).get('source') if route_schema == 2 else 'legacy-estimate'
+    research = build_research_audit()
+    overrides = build_override_audit()
+    enrichment = build_enrichment_audit()
+    route_coverage = build_route_coverage_report(write=False) if route_schema == 2 else {"status": "not_applicable", "release_ready": True, "errors": []}
     report = {
         'places': len(places),
         'named_places': sum(bool(p.get('name')) for p in places),
@@ -147,6 +155,10 @@ def build_report() -> dict:
         'unsupported_anchor_ids': unsupported_anchor_ids,
         'unsupported_anchor_route_refs': unsupported_anchor_route_refs,
         'unclassified_route_places': max(0, len(places) - snap_count) if route_schema == 2 else len(places),
+        'research': research,
+        'overrides': overrides,
+        'enrichment': enrichment,
+        'route_coverage': route_coverage,
     }
     return report
 
@@ -159,55 +171,57 @@ def release_failures(report: dict) -> list[str]:
         failures.append('not every canonical place has a unique ID')
     if report['route_schema'] != 2:
         failures.append('route matrix is not schema v2 / Room TBA graph based')
-        return failures
+    else:
+        routing_source = report.get('routing_source') or ''
+        if not str(routing_source).startswith('room-tba'):
+            failures.append(f"routing source is {routing_source!r}, expected a Room TBA graph source")
+        if report['unclassified_route_places']:
+            failures.append(f"{report['unclassified_route_places']} canonical places have no explicit graph-snap classification")
 
-    routing_source = report.get('routing_source') or ''
-    if not str(routing_source).startswith('room-tba'):
-        failures.append(f"routing source is {routing_source!r}, expected a Room TBA graph source")
-    if report['unclassified_route_places']:
-        failures.append(
-            f"{report['unclassified_route_places']} canonical places have no explicit graph-snap classification"
-        )
+        thresholds = report.get('snap_thresholds_m') or {}
+        good_limit = _as_float(thresholds.get('good'))
+        place_limit = _as_float(thresholds.get('place_max'))
+        anchor_limit = _as_float(thresholds.get('anchor_max'))
+        if good_limit is None or good_limit > EXPECTED_GOOD_SNAP_M + 1e-9:
+            failures.append(f'good snap threshold must be <= {EXPECTED_GOOD_SNAP_M:.0f}m')
+        if place_limit is None or place_limit > MAX_RELEASE_SNAP_M + 1e-9:
+            failures.append(f'place routing snap threshold must be <= {MAX_RELEASE_SNAP_M:.0f}m')
+        if anchor_limit is None or anchor_limit > MAX_RELEASE_SNAP_M + 1e-9:
+            failures.append(f'anchor routing snap threshold must be <= {MAX_RELEASE_SNAP_M:.0f}m')
 
-    thresholds = report.get('snap_thresholds_m') or {}
-    good_limit = _as_float(thresholds.get('good'))
-    place_limit = _as_float(thresholds.get('place_max'))
-    anchor_limit = _as_float(thresholds.get('anchor_max'))
-    if good_limit is None or good_limit > EXPECTED_GOOD_SNAP_M + 1e-9:
-        failures.append(f'good snap threshold must be <= {EXPECTED_GOOD_SNAP_M:.0f}m')
-    if place_limit is None or place_limit > MAX_RELEASE_SNAP_M + 1e-9:
-        failures.append(f'place routing snap threshold must be <= {MAX_RELEASE_SNAP_M:.0f}m')
-    if anchor_limit is None or anchor_limit > MAX_RELEASE_SNAP_M + 1e-9:
-        failures.append(f'anchor routing snap threshold must be <= {MAX_RELEASE_SNAP_M:.0f}m')
+        max_place_snap = _as_float(report.get('max_routed_place_snap_m'))
+        if place_limit is not None and max_place_snap is not None and max_place_snap > place_limit + 1e-9:
+            failures.append(f'routed place snap reaches {max_place_snap:.1f}m, above configured {place_limit:.0f}m maximum')
+        max_anchor_snap = _as_float(report.get('max_supported_anchor_snap_m'))
+        if anchor_limit is not None and max_anchor_snap is not None and max_anchor_snap > anchor_limit + 1e-9:
+            failures.append(f'supported anchor snap reaches {max_anchor_snap:.1f}m, above configured {anchor_limit:.0f}m maximum')
+        if report.get('unsupported_places_with_routes'):
+            failures.append(f"unsupported places have route legs: {report['unsupported_places_with_routes']}")
+        if report.get('snap_classification_violations'):
+            failures.append(f"invalid snap classifications: {report['snap_classification_violations']}")
+        if report.get('supported_anchors_over_limit'):
+            failures.append(f"supported anchors exceed routing threshold: {report['supported_anchors_over_limit']}")
+        if report.get('unsupported_anchor_route_refs'):
+            failures.append(f"route matrix references unsupported anchors: {report['unsupported_anchor_route_refs']}")
 
-    max_place_snap = _as_float(report.get('max_routed_place_snap_m'))
-    if place_limit is not None and max_place_snap is not None and max_place_snap > place_limit + 1e-9:
-        failures.append(
-            f'routed place snap reaches {max_place_snap:.1f}m, above configured {place_limit:.0f}m maximum'
-        )
-    max_anchor_snap = _as_float(report.get('max_supported_anchor_snap_m'))
-    if anchor_limit is not None and max_anchor_snap is not None and max_anchor_snap > anchor_limit + 1e-9:
-        failures.append(
-            f'supported anchor snap reaches {max_anchor_snap:.1f}m, above configured {anchor_limit:.0f}m maximum'
-        )
-    if report.get('unsupported_places_with_routes'):
-        failures.append(f"unsupported places have route legs: {report['unsupported_places_with_routes']}")
-    if report.get('snap_classification_violations'):
-        failures.append(f"invalid snap classifications: {report['snap_classification_violations']}")
-    if report.get('supported_anchors_over_limit'):
-        failures.append(f"supported anchors exceed routing threshold: {report['supported_anchors_over_limit']}")
-    if report.get('unsupported_anchor_route_refs'):
-        failures.append(f"route matrix references unsupported anchors: {report['unsupported_anchor_route_refs']}")
+    research = report.get('research') or {}
+    if not research.get('release_ready', True):
+        failures.extend(f"research: {failure}" for failure in (research.get('errors') or []))
+    overrides = report.get('overrides') or {}
+    if not overrides.get('release_ready', True):
+        failures.extend(f"overrides: {failure}" for failure in (overrides.get('errors') or []))
+    enrichment = report.get('enrichment') or {}
+    if not enrichment.get('release_ready', True):
+        failures.extend(f"enrichment: {failure}" for failure in (enrichment.get('errors') or []))
+    route_coverage = report.get('route_coverage') or {}
+    if not route_coverage.get('release_ready', True):
+        failures.extend(f"route coverage: {failure}" for failure in (route_coverage.get('errors') or []))
     return failures
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Audit generated Kain Elbi data artifacts.')
-    parser.add_argument(
-        '--release',
-        action='store_true',
-        help='Exit non-zero when release-critical data invariants are not satisfied.',
-    )
+    parser = argparse.ArgumentParser(description='Audit generated UPPETITE data artifacts.')
+    parser.add_argument('--release', action='store_true', help='Exit non-zero when release-critical data invariants are not satisfied.')
     args = parser.parse_args()
 
     report = build_report()
@@ -216,13 +230,10 @@ def main() -> None:
     report['release_failures'] = failures
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    (REPORTS_DIR / 'data_audit.json').write_text(
-        json.dumps(report, indent=2, ensure_ascii=False) + '\n',
-        encoding='utf-8',
-    )
+    (REPORTS_DIR / 'data_audit.json').write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
-    print('KAIN ELBI DATA AUDIT')
-    print('====================')
+    print('UPPETITE DATA AUDIT')
+    print('===================')
     for key, value in report.items():
         print(f'{key:32} {value}')
 

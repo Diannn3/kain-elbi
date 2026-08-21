@@ -24,6 +24,9 @@ scratch/
 .system_generated/
 *.pmtiles
 
+# Generated private staff snapshots (rebuilt by app predev/prebuild/pretest)
+app/src/generated/private/research-queue.json
+
 # Playwright artifacts
 app/test-results/
 app/playwright-report/

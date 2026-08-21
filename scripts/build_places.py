@@ -10,7 +10,8 @@ from typing import Any
 from lib.identity import IdentityRegistry, source_key, stable_uuid_for_seed
 from lib.matching import compare_candidates
 from lib.normalize import Candidate, normalize_osm_feature, normalize_overture_feature
-from lib.paths import OSM_RAW_FILE, OVERTURE_RAW_FILE, PLACES_FILE, REGISTRY_FILE, REPORTS_DIR
+from lib.overrides import apply_place_overrides, load_place_overrides
+from lib.paths import OSM_RAW_FILE, OVERTURE_RAW_FILE, PLACE_OVERRIDES_FILE, PLACES_FILE, REGISTRY_FILE, REPORTS_DIR
 
 
 class UnionFind:
@@ -106,7 +107,6 @@ def _merge_group(group: list[Candidate], place_id: str, seen_date: str) -> dict[
 
     explicit_statuses = [candidate.operating_status for candidate in group if candidate.operating_status]
     closed_statuses = {"closed", "permanently_closed", "permanently closed"}
-    # Only mark closed when every available candidate explicitly says closed.
     status = "candidate"
     if explicit_statuses and len(explicit_statuses) == len(group) and all(s.casefold() in closed_statuses for s in explicit_statuses):
         status = "closed"
@@ -141,6 +141,7 @@ def build_places(
     registry_file: Path = REGISTRY_FILE,
     osm_file: Path = OSM_RAW_FILE,
     overture_file: Path = OVERTURE_RAW_FILE,
+    overrides_file: Path = PLACE_OVERRIDES_FILE,
     report_file: Path | None = None,
 ) -> dict[str, Any]:
     candidates, raw_counts = load_candidates(osm_file, overture_file)
@@ -170,9 +171,8 @@ def build_places(
 
     auto_merges = 0
     conflict_blocks = 0
+    contact_conflict_reviews = 0
     reviews: list[dict[str, Any]] = []
-    # Dataset is small enough for a conservative pair scan. Distance is checked
-    # before name/identity logic, and same-source records require the normal strict rules.
     for i, a in enumerate(candidates):
         for j in range(i + 1, len(candidates)):
             b = candidates[j]
@@ -192,6 +192,8 @@ def build_places(
                         "reasons": [*evidence.reasons, "blocked: stable-id conflict"],
                     })
             elif evidence.review:
+                if evidence.contact_conflict:
+                    contact_conflict_reviews += 1
                 reviews.append({
                     "candidate_a": {"source": a.source, "source_id": a.source_id, "name": a.name},
                     "candidate_b": {"source": b.source, "source_id": b.source_id, "name": b.name},
@@ -222,10 +224,17 @@ def build_places(
                 seed = source_seeds[0]
             place_id = stable_uuid_for_seed(seed)
             newly_created += 1
+        output.append(_merge_group(group, place_id, seen_date))
 
-        place = _merge_group(group, place_id, seen_date)
+    # Human-reviewed overrides are intentionally applied only after source
+    # conflation and stable-ID assignment. They can correct published facts but
+    # they never participate in automatic entity matching.
+    overrides = load_place_overrides(overrides_file)
+    output, override_report = apply_place_overrides(output, overrides)
+
+    for place in output:
         registry.update_place(
-            place_id,
+            place["id"],
             name=place.get("name"),
             lat=place["lat"],
             lon=place["lon"],
@@ -233,7 +242,6 @@ def build_places(
             gers_ids=place["gers_ids"],
             seen_date=seen_date,
         )
-        output.append(place)
 
     output.sort(key=lambda place: ((place.get("name") or "~").casefold(), place["id"]))
     output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -255,8 +263,10 @@ def build_places(
         "new_stable_ids": newly_created,
         "auto_merge_operations": auto_merges,
         "stable_id_conflicts_blocked": conflict_blocks,
+        "contact_conflict_reviews": contact_conflict_reviews,
         "review_candidates": len(reviews),
         "source_mix": dict(sorted(source_mix.items())),
+        **override_report,
     }
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -267,13 +277,14 @@ def build_places(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build the canonical Kain Elbi place catalog from open-data snapshots.")
+    parser = argparse.ArgumentParser(description="Build the canonical UPPETITE place catalog from open-data snapshots plus reviewed overrides.")
     parser.add_argument("--osm", type=Path, default=OSM_RAW_FILE)
     parser.add_argument("--overture", type=Path, default=OVERTURE_RAW_FILE)
     parser.add_argument("--output", type=Path, default=PLACES_FILE)
     parser.add_argument("--registry", type=Path, default=REGISTRY_FILE)
+    parser.add_argument("--overrides", type=Path, default=PLACE_OVERRIDES_FILE)
     args = parser.parse_args()
-    report = build_places(output_file=args.output, registry_file=args.registry, osm_file=args.osm, overture_file=args.overture)
+    report = build_places(output_file=args.output, registry_file=args.registry, osm_file=args.osm, overture_file=args.overture, overrides_file=args.overrides)
     print(json.dumps(report, indent=2, ensure_ascii=False))
 
 

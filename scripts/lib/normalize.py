@@ -167,7 +167,6 @@ def _overture_category(props: dict[str, Any]) -> tuple[str | None, str | None, l
     hierarchy = [str(v) for v in (taxonomy.get("hierarchy") or []) if isinstance(v, str)]
     basic = clean_text(props.get("basic_category"))
 
-    # Temporary compatibility with pre-taxonomy releases.
     categories = props.get("categories") if isinstance(props.get("categories"), dict) else {}
     if not primary:
         primary = clean_text(categories.get("primary"))
@@ -184,8 +183,6 @@ def map_overture_food_category(primary: str | None, basic: str | None, hierarchy
     if any(item in ALCOHOL_FOCUSED_CATEGORIES for item in hierarchy_cf):
         return None
 
-    # Taxonomy hierarchy is the canonical 2026 signal. Legacy fallbacks remain only
-    # so older downloaded snapshots can still be rebuilt deterministically.
     if hierarchy_cf and "food_and_drink" not in hierarchy_cf:
         return None
 
