@@ -16,13 +16,39 @@ jobs:
     env:
       CI: true
       TZ: Asia/Manila
-    defaults:
-      run:
-        working-directory: app
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Python syntax check
+        run: python -m compileall -q scripts
+
+      - name: Python data-pipeline tests
+        run: python -m unittest discover -s scripts/tests -v
+
+      - name: Research provenance audit
+        run: python scripts/audit_research.py --release
+
+      - name: Research queue currentness
+        run: python scripts/build_research_queue.py --check-current
+
+      - name: Override provenance audit
+        run: python scripts/audit_overrides.py --release
+
+      - name: Enrichment integrity audit
+        run: python scripts/audit_enrichment.py --release
+
+      - name: Route coverage consistency
+        run: python scripts/build_route_coverage_report.py --dry-run --release
+
+      - name: Canonical data release audit
+        run: python scripts/audit_data.py --release
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -32,35 +58,49 @@ jobs:
           cache-dependency-path: app/package-lock.json
 
       - name: Install dependencies
+        working-directory: app
         run: npm ci
 
       - name: Editorial privacy audit
+        working-directory: app
         run: npm run audit:editorial-privacy
 
       - name: Unit tests
+        working-directory: app
         run: npm run test:unit
 
       - name: Production build
+        working-directory: app
         run: npm run build
 
+      - name: Private-data release audit
+        working-directory: app
+        run: npm run audit:private-data
+
       - name: Build-size gate
+        working-directory: app
         run: npm run audit:build-size
 
       - name: Install browser engines
+        working-directory: app
         run: npx playwright install --with-deps chromium webkit
 
       - name: Functional E2E
+        working-directory: app
         run: npm run test:e2e
 
       - name: Performance gate
+        working-directory: app
         run: npm run test:perf
 
       - name: Visual regression gate
         if: ${{ hashFiles('app/tests/e2e/visual.spec.ts-snapshots/**') != '' }}
+        working-directory: app
         run: npm run test:visual
 
       - name: Explain missing visual baseline
         if: ${{ hashFiles('app/tests/e2e/visual.spec.ts-snapshots/**') == '' }}
+        working-directory: app
         run: echo "Visual test spec is installed; run npm run test:visual:update on the CI-matching environment and commit the generated baselines to activate this gate."
 
       - name: Upload Playwright failure artifacts

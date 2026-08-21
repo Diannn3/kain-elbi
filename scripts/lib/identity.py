@@ -46,7 +46,6 @@ class IdentityRegistry:
         self.data = loaded
 
     def bootstrap_from_places(self, places_path: Path) -> int:
-        """Seed the registry from the currently shipped catalog so its public IDs survive migration."""
         if self.places or not places_path.exists():
             return 0
         places = json.loads(places_path.read_text(encoding="utf-8"))

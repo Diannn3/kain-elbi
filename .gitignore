@@ -24,6 +24,9 @@ scratch/
 .system_generated/
 *.pmtiles
 
+# Generated private staff snapshots (rebuilt by app predev/prebuild/pretest)
+app/src/generated/private/research-queue.json
+
 # Playwright artifacts
 app/test-results/
 app/playwright-report/
@@ -32,3 +35,6 @@ app/playwright-report/
 .DS_Store
 Thumbs.db
 .vercel
+
+# Full sanitized staff review export (server-only; rebuilt by predev/prebuild/pretest)
+app/src/generated/private/research-queue-export.json

@@ -7,16 +7,32 @@ const publicDir = resolve(root, 'public');
 const repoDataDir = resolve(root, '../data');
 const adapterStaticDir = resolve(root, '.vercel/output/static');
 const repoVercelStaticDir = resolve(root, '../.vercel/output/static');
+const publicRoots = [publicDir, dist, adapterStaticDir, repoVercelStaticDir];
 const forbiddenNames = [
   'place_audit.json',
   'place_feedback.json',
+];
+const forbiddenPublicNames = [
+  'research_review_queue.json',
+  'research-queue.json',
+  'research-queue-export.json',
+  'research_audit.json',
+  'override_audit.json',
+  'observations.jsonl',
+  'claims.jsonl',
+  'decisions.jsonl',
+  'place_overrides.json',
 ];
 const forbiddenContent = [
   /SUPABASE_SECRET_KEY/i,
   /sb_secret_[a-z0-9_-]+/i,
   /refresh_token/i,
+  /access_token/i,
+  /(?:authorization\s*:\s*)?(?:bearer|basic)\s+[a-z0-9._~+\/=-]{8,}/i,
+  /(?:api[_-]?key|password|passwd)\s*[:=]\s*[^\s,;}]{8,}/i,
   /uppetite_staff_access_audit/i,
   /dedupe_token/i,
+  /uppetite-research-ops-v1/i,
 ];
 
 async function walk(dir) {
@@ -33,6 +49,11 @@ async function walk(dir) {
   return out;
 }
 
+function within(path, parent) {
+  const rel = relative(parent, path);
+  return rel === '' || (!rel.startsWith(`..${sep}`) && rel !== '..');
+}
+
 const files = [
   ...await walk(publicDir),
   ...await walk(dist),
@@ -43,8 +64,14 @@ const files = [
 const violations = [];
 for (const path of files) {
   const rel = relative(root, path).split(sep).join('/');
-  if (forbiddenNames.some((name) => rel.endsWith('/' + name) || rel === name)) {
-    violations.push(`${rel}: private Ops snapshot must not be public`);
+  const basename = path.split(sep).at(-1) ?? '';
+  const isPublicArtifact = publicRoots.some((publicRoot) => within(path, publicRoot));
+  if (forbiddenNames.includes(basename)) {
+    violations.push(`${rel}: private Ops snapshot must not be shipped`);
+    continue;
+  }
+  if (isPublicArtifact && forbiddenPublicNames.includes(basename)) {
+    violations.push(`${rel}: research/override provenance is staff-only and must not be a public artifact`);
     continue;
   }
   const info = await stat(path);
@@ -59,4 +86,4 @@ if (violations.length) {
   console.error('Private-data audit FAILED:\n' + violations.map((v) => `- ${v}`).join('\n'));
   process.exit(1);
 }
-console.log(`Private-data audit PASS (${files.length} public/dist files inspected).`);
+console.log(`Private-data audit PASS (${files.length} public/dist/source-data files inspected).`);

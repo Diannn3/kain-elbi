@@ -7,6 +7,7 @@ import { buildOpsDashboard } from '../lib/ops-dashboard';
 import { getStaffContext } from '../lib/auth/guards';
 import { setPrivateNoStore } from '../lib/auth/server';
 import { loadLiveOpsData } from '../lib/ops-server';
+import { loadResearchOpsQueue } from '../lib/research-ops';
 
 setPrivateNoStore(Astro.response.headers);
 const { supabase, identity } = await getStaffContext(Astro.request, Astro.cookies);
@@ -19,12 +20,13 @@ try { live = await loadLiveOpsData(supabase, placeNameById); }
 catch { loadError = 'Live operational data is temporarily unavailable.'; }
 const dashboard = buildOpsDashboard(places, new Date(), live.feedbackSummary);
 const placeNames = Object.fromEntries(placeNameById);
+const researchQueue = loadResearchOpsQueue();
 ---
 <Layout title="Places Ops — UPPETITE" description="Private data health and verification queue for the UPPETITE Places team." hideNav>
   <Fragment slot="head"><meta name="robots" content="noindex,nofollow,noarchive" /></Fragment>
   <main id="main-content">
     {loadError && <p class="ops-error page-shell" role="alert">{loadError}</p>}
-    <PlacesOpsDashboard {dashboard} auditEvents={live.auditEvents} feedbackRows={live.feedbackRows} role={identity.role} {placeNames} client:load />
+    <PlacesOpsDashboard {dashboard} {researchQueue} auditEvents={live.auditEvents} feedbackRows={live.feedbackRows} role={identity.role} {placeNames} client:load />
   </main>
 </Layout>
 <style>.ops-error{margin-top:var(--space-4);padding:var(--space-3);border-radius:var(--radius-sm);background:rgb(92 16 22/.08);color:var(--brand-maroon-deep);font-weight:680}</style>

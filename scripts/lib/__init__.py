@@ -1,1 +1,1 @@
-"""Shared Kain Elbi data-pipeline utilities."""
+# UPPETITE data pipeline helpers.

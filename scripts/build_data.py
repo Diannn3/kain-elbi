@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import json
-from pathlib import Path
 from typing import Any
 
 from build_places import build_places
@@ -11,7 +10,13 @@ from generate_collections import build_collections
 from generate_zones import build_zones
 from generate_freshie import build_freshie
 from generate_route_matrix import build_route_matrix
-from lib.paths import COLLECTIONS_FILE, MANIFEST_FILE, PLACES_FILE, RAW_DIR, REPORTS_DIR, ROOM_TBA_GRAPH_FILE, ROUTE_MATRIX_FILE
+from build_route_coverage_report import build_route_coverage_report
+from lib.paths import (
+    MANIFEST_FILE,
+    RAW_DIR,
+    ROOM_TBA_GRAPH_FILE,
+    ROUTE_MATRIX_FILE,
+)
 
 
 def _route_status(canonical_place_count: int) -> dict[str, Any]:
@@ -84,7 +89,7 @@ def write_manifest(place_report: dict[str, Any], collection_count: int, zone_cou
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Build all deterministic Kain Elbi data artifacts from local snapshots.')
+    parser = argparse.ArgumentParser(description='Build all deterministic UPPETITE data artifacts from local snapshots.')
     parser.add_argument('--routes', choices=['auto', 'require', 'skip'], default='auto', help='auto builds routes when Room TBA graph is present; require fails if it is missing.')
     args = parser.parse_args()
 
@@ -100,6 +105,17 @@ def main() -> None:
             raise SystemExit('Room TBA graph is required but missing. Run: python scripts/fetch_room_tba_graph.py --ref <commit-sha>')
         else:
             print('Routing: Room TBA graph not present; preserving existing route_matrix.json as an explicitly legacy artifact.')
+
+    if ROUTE_MATRIX_FILE.exists():
+        try:
+            current_route = json.loads(ROUTE_MATRIX_FILE.read_text(encoding='utf-8'))
+        except Exception:
+            current_route = {}
+        if current_route.get('schema_version') == 2:
+            coverage_report = build_route_coverage_report()
+            if not coverage_report.get('release_ready'):
+                raise SystemExit('Route coverage report detected invalid route classifications: ' + '; '.join(coverage_report.get('errors') or []))
+            print('Route coverage:', json.dumps({k: coverage_report[k] for k in ('routable_places', 'coverage_percent', 'unsupported_gap_bands')}, ensure_ascii=False))
 
     manifest = write_manifest(place_report, len(collections), len(zones), len(freshie.get('mentions') or []))
     print(json.dumps(manifest, indent=2, ensure_ascii=False))
